@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="14D131" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Doctor" syncable="YES">
+        <attribute name="dept" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dProfessionalTitle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isAttendingPhysican" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isChiefPhysician" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isResident" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="medicalTeam" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="medicalCases" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="RecordBaseInfo" inverseName="doctors" inverseEntity="RecordBaseInfo" syncable="YES"/>
+        <relationship name="patients" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Patient" inverseName="doctor" inverseEntity="Patient" syncable="YES"/>
+    </entity>
+    <entity name="Node" syncable="YES">
+        <attribute name="hasSubNode" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="nodeContent" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nodeID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nodeIdentifier" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nodeIndex" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="nodeName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nodeType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="updatedTime" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="parentNode" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ParentNode" inverseName="nodes" inverseEntity="ParentNode" syncable="YES"/>
+        <relationship name="templates" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Template" inverseName="node" inverseEntity="Template" syncable="YES"/>
+    </entity>
+    <entity name="ParentNode" syncable="YES">
+        <attribute name="nodeName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="nodes" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Node" inverseName="parentNode" inverseEntity="Node" syncable="YES"/>
+    </entity>
+    <entity name="Patient" syncable="YES">
+        <attribute name="attendingPhysicianDoctorID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="attendingPhysicianDoctorName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chiefPhysicianDoctorID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chiefPhysicianDoctorName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pAge" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="patientState" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pBedNum" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pCity" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pCountOfHospitalized" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pDept" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pDetailAddress" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pGender" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pLinkman" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pLinkmanMobileNum" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pMaritalStatus" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pMobileNum" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pNation" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pProfession" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pProvince" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="residentDoctorID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="residentDoctorname" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="doctor" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Doctor" inverseName="patients" inverseEntity="Doctor" syncable="YES"/>
+        <relationship name="medicalCases" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RecordBaseInfo" inverseName="patient" inverseEntity="RecordBaseInfo" syncable="YES"/>
+    </entity>
+    <entity name="RecordBaseInfo" syncable="YES">
+        <attribute name="archivedTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="caseContent" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="casePresenter" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="caseState" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="caseType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createdTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isCompleted" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lastModifyTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="doctors" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Doctor" inverseName="medicalCases" inverseEntity="Doctor" syncable="YES"/>
+        <relationship name="patient" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Patient" inverseName="medicalCases" inverseEntity="Patient" syncable="YES"/>
+    </entity>
+    <entity name="Template" syncable="YES">
+        <attribute name="admittingDiagnosis" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ageHigh" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ageLow" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="cardinalSymptom" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="condition" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createDate" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createPeople" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gender" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="section" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="simultaneousPhenomenon" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sourceType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="templateID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updatedTime" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="node" optional="YES" maxCount="1" deletionRule="Nullify" ordered="YES" destinationEntity="Node" inverseName="templates" inverseEntity="Node" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Doctor" positionX="-63" positionY="-18" width="128" height="195"/>
+        <element name="Node" positionX="-54" positionY="-9" width="128" height="195"/>
+        <element name="ParentNode" positionX="-36" positionY="9" width="128" height="75"/>
+        <element name="Patient" positionX="-18" positionY="27" width="128" height="420"/>
+        <element name="RecordBaseInfo" positionX="0" positionY="45" width="128" height="255"/>
+        <element name="Template" positionX="18" positionY="63" width="128" height="300"/>
+    </elements>
+</model>

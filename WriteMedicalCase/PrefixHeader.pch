@@ -1,0 +1,54 @@
+//
+//  PrefixHeader.pch
+//  MedImageReader
+//
+//  Created by ihefe36 on 14/12/24.
+//  Copyright (c) 2014年 ihefe. All rights reserved.
+//
+
+#ifndef MedImageReader_PrefixHeader_pch
+#define MedImageReader_PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "ConstantVariable.h"
+#pragma mark - net
+//#import "AFNetworking.h"
+
+#pragma mark - common
+#import "WLKTooles.h"
+#import "WLKImport.h"
+#import "WLKMultiTableView.h"
+//#import "NetConfig.h"
+//#import "NotificationConfig.h"
+#import "SBJson.h"
+//#import "NSData+Zip.h"
+#import "CoreDataStack.h"
+
+
+#import "KeyValueObserver.h"
+
+
+#import "Constants.h"
+#import "Node.h"
+#import "ParentNode.h"
+#import "RecordBaseInfo.h"
+#import "Template.h"
+#import "Patient.h"
+#import "Doctor.h"
+//#import "updateCoreDataStack.h"
+#import "AutoHeightTextView.h"
+#import "CoreDataStack+UpdateMethods.h"
+#import "NSDate+Helper.h"
+#pragma mark - data center import
+//#import "WLKDataCenterImport.h"
+
+#pragma mark - hud
+//#import "KVNProgress.h"
+
+#endif
+
+#endif
