@@ -11,6 +11,8 @@
 #import "WriteCaseEditViewController.h"
 #import "NSDate+Helper.h"
 #import "writeCaseFirstItemViewController.h"
+#import "IHMsgSocket.h"
+#import "MessageObject+DY.h"
 
 @interface WriteCaseSaveViewController ()<NSFetchedResultsControllerDelegate,WriteCaseSaveCellDelegate,UITableViewDelegate,UITableViewDataSource,WriteCaseEditViewControllerDelegate,writeCaseFirstItemViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *saveButton;
@@ -38,11 +40,29 @@
 @property (nonatomic,strong) RecordBaseInfo *recordBaseInfo;
 //@property (nonatomic) BOOL hasContent;
 @property (nonatomic,strong) NSString *textViewContent;
+
+///
+@property (nonatomic,strong) IHMsgSocket *socket;
 @end
 
 @implementation WriteCaseSaveViewController
 ///test data
-
+-(IHMsgSocket *)socket
+{
+    if (!_socket) {
+        _socket = [IHMsgSocket sharedRequest];
+        [_socket connectToHost:@"192.168.10.106" onPort:2323];
+    }
+    return _socket;
+}
+//-(TempPatient *)tempPatient
+//{
+//    if (!_tempPatient) {
+//        NSDictionary *tempDic =@{@"pID":@"99999",@"pName":@"魍天赐",@"pGender":@"男",@"pAge":@"24",@"pName":@"魍天赐",@"pGender":@"男",@"pID":@"99999",@"pName":@"魍天赐",@"pGender":@"男",@"pID":@"99999",@"pName":@"魍天赐",@"pGender":@"男",@"pID":@"99999",@"pName":@"魍天赐",@"pGender":@"男",};
+//        _tempPatient = [TempPatient alloc] initWithPatientID:<#(NSDictionary *)#>
+//    }
+//    return _tempPatient;
+//}
 -(NSDictionary*)testData
 {
     NSString *pID = @"88888";
@@ -71,7 +91,9 @@
     UIButton *button = (UIButton*)sender;
     if ([button.titleLabel.text isEqualToString:@"保存"]) {
         
+        
     }else if([button.titleLabel.text isEqualToString:@"提交"]){
+       
         
     }
 }

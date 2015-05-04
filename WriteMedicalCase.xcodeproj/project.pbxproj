@@ -84,6 +84,9 @@
 		478858EC1AF1FD06002CD361 /* CustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EB1AF1FD06002CD361 /* CustomSegue.m */; };
 		478858EF1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EE1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m */; };
 		478858F21AF203B8002CD361 /* WriteCaseShowTemplateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858F11AF203B8002CD361 /* WriteCaseShowTemplateCell.m */; };
+		478858F51AF712E0002CD361 /* TempPatient.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858F41AF712E0002CD361 /* TempPatient.m */; };
+		478858F81AF7130D002CD361 /* TempCaseBaseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858F71AF7130D002CD361 /* TempCaseBaseInfo.m */; };
+		478859081AF71A70002CD361 /* TempDoctor.m in Sources */ = {isa = PBXBuildFile; fileRef = 478859071AF71A70002CD361 /* TempDoctor.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -251,6 +254,12 @@
 		478858EE1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WriteCaseShowTemplateViewController.m; sourceTree = "<group>"; };
 		478858F01AF203B8002CD361 /* WriteCaseShowTemplateCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WriteCaseShowTemplateCell.h; sourceTree = "<group>"; };
 		478858F11AF203B8002CD361 /* WriteCaseShowTemplateCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WriteCaseShowTemplateCell.m; sourceTree = "<group>"; };
+		478858F31AF712E0002CD361 /* TempPatient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempPatient.h; sourceTree = "<group>"; };
+		478858F41AF712E0002CD361 /* TempPatient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempPatient.m; sourceTree = "<group>"; };
+		478858F61AF7130D002CD361 /* TempCaseBaseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempCaseBaseInfo.h; sourceTree = "<group>"; };
+		478858F71AF7130D002CD361 /* TempCaseBaseInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempCaseBaseInfo.m; sourceTree = "<group>"; };
+		478859061AF71A70002CD361 /* TempDoctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempDoctor.h; sourceTree = "<group>"; };
+		478859071AF71A70002CD361 /* TempDoctor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempDoctor.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -370,6 +379,7 @@
 				4705F0D71AF1312F0050D47A /* WriteCaseEditViewController.m */,
 				4705A47A1AF4619D007FD2B9 /* WriteCaseSaveViewController.m */,
 				4705F0C81AF11B010050D47A /* WriteCaseSaveViewController.h */,
+				478859051AF7138F002CD361 /* TempModel */,
 				4705F0CB1AF11B220050D47A /* WriteCaseSaveCell.h */,
 				4705F0CC1AF11B220050D47A /* WriteCaseSaveCell.m */,
 			);
@@ -534,6 +544,19 @@
 			name = CoreData;
 			sourceTree = "<group>";
 		};
+		478859051AF7138F002CD361 /* TempModel */ = {
+			isa = PBXGroup;
+			children = (
+				478858F31AF712E0002CD361 /* TempPatient.h */,
+				478858F41AF712E0002CD361 /* TempPatient.m */,
+				478858F61AF7130D002CD361 /* TempCaseBaseInfo.h */,
+				478858F71AF7130D002CD361 /* TempCaseBaseInfo.m */,
+				478859061AF71A70002CD361 /* TempDoctor.h */,
+				478859071AF71A70002CD361 /* TempDoctor.m */,
+			);
+			name = TempModel;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -658,6 +681,7 @@
 				4705F0701AF1094C0050D47A /* SBJsonStreamParserAccumulator.m in Sources */,
 				4705F08E1AF109990050D47A /* WLKCaseNode.m in Sources */,
 				4705A4381AF31C67007FD2B9 /* RWLabel.m in Sources */,
+				478858F51AF712E0002CD361 /* TempPatient.m in Sources */,
 				4705F0741AF1094C0050D47A /* SBJsonStreamWriterAccumulator.m in Sources */,
 				4705F0A21AF10C040050D47A /* WLKTooles.m in Sources */,
 				4705F0771AF1094C0050D47A /* SBJsonUTF8Stream.m in Sources */,
@@ -666,6 +690,7 @@
 				4705F0731AF1094C0050D47A /* SBJsonStreamWriter.m in Sources */,
 				4705F0901AF109990050D47A /* WLKTemplate.m in Sources */,
 				4705F0451AF107360050D47A /* CoreDataStack.m in Sources */,
+				478859081AF71A70002CD361 /* TempDoctor.m in Sources */,
 				4705F03A1AF1062C0050D47A /* MBProgressHUD+MJ.m in Sources */,
 				4705F0C21AF10E580050D47A /* KeyValueObserver.m in Sources */,
 				4705F0331AF1062C0050D47A /* IHMsgSocket.m in Sources */,
@@ -675,6 +700,7 @@
 				4705F07F1AF109770050D47A /* WLKCaseNodeCell.m in Sources */,
 				4705F0301AF1062C0050D47A /* GCDAsyncSocket.m in Sources */,
 				4705F0B91AF10DF00050D47A /* Patient.m in Sources */,
+				478858F81AF7130D002CD361 /* TempCaseBaseInfo.m in Sources */,
 				4705F0381AF1062C0050D47A /* UIView+DY.m in Sources */,
 				4705EFF51AF1044B0050D47A /* ViewController.m in Sources */,
 				4705F06E1AF1094C0050D47A /* SBJsonParser.m in Sources */,
