@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="fAI-x7-5G4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="fAI-x7-5G4">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -443,7 +443,7 @@
                         <outlet property="autoHeightTextView" destination="8rT-Cu-Tdd" id="5aJ-zC-IzB"/>
                         <outlet property="multiTableView" destination="ev6-B4-Q5X" id="Sts-WH-xRN"/>
                         <outlet property="navButton" destination="jbU-XP-E7f" id="ob0-2L-lVK"/>
-                        <outlet property="personInfoView" destination="Mpb-JN-9k9" id="t7B-e7-oSz"/>
+                        <outlet property="personInfoView" destination="Mpb-JN-9k9" id="x2R-nD-ETR"/>
                         <outlet property="tableView" destination="kNw-ih-Phr" id="5ja-T7-4yb"/>
                         <outlet property="titleLabel" destination="inz-bC-fvr" id="NUH-4Y-tsE"/>
                         <segue destination="9BS-ZV-gYV" kind="custom" identifier="customSegue" customClass="CustomSegue" id="XgN-mO-eHf"/>
@@ -875,7 +875,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Noa-wg-zEP"/>
-        <segue reference="aDp-kT-Mhc"/>
+        <segue reference="XgN-mO-eHf"/>
+        <segue reference="MLR-AJ-rwg"/>
     </inferredMetricsTieBreakers>
 </document>

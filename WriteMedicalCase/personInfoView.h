@@ -10,5 +10,5 @@
 
 @interface personInfoView : UIView
 @property (nonatomic) BOOL isHideSubView;
-
+@property (nonatomic,strong) TempPatient *tempPatient;
 @end

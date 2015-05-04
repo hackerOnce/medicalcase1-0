@@ -7,16 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TempPatient.h"
+#import "personInfoView.h"
 
 @protocol WriteCaseEditViewControllerDelegate;
 
 @interface WriteCaseEditViewController : UIViewController
 @property (strong,nonatomic) NSString *labelString;
 @property (weak,nonatomic) id <WriteCaseEditViewControllerDelegate> Editdelegate;
+@property (weak, nonatomic) IBOutlet personInfoView *personInfoView;
 
 @property (nonatomic,strong) UIView *rightSideSlideView;
 @property (nonatomic) BOOL  rightSlideViewFlag;
 @property (nonatomic,strong) NSString *textViewContent;
+
+@property (nonatomic,strong) TempPatient *tempPatient;
 @end
 
 @protocol WriteCaseEditViewControllerDelegate <NSObject>

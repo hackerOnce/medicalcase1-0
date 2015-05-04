@@ -55,20 +55,28 @@
     }
     return _socket;
 }
-//-(TempPatient *)tempPatient
-//{
-//    if (!_tempPatient) {
-//        NSDictionary *tempDic =@{@"pID":@"99999",@"pName":@"魍天赐",@"pGender":@"男",@"pAge":@"24",@"pName":@"魍天赐",@"pGender":@"男",@"pID":@"99999",@"pName":@"魍天赐",@"pGender":@"男",@"pID":@"99999",@"pName":@"魍天赐",@"pGender":@"男",@"pID":@"99999",@"pName":@"魍天赐",@"pGender":@"男",};
-//        _tempPatient = [TempPatient alloc] initWithPatientID:<#(NSDictionary *)#>
-//    }
-//    return _tempPatient;
-//}
+-(TempPatient *)tempPatient
+{
+    if (!_tempPatient) {
+//        NSDictionary *tempDic =@{@"pID":@"99999",@"pName":@"魍天赐",@"pGender":@"男",@"pAge":@"24",@"pCity":@"上海",@"pProvince":@"上海",@"pDetailAddress":@"闸北区彭江路602号",@"pDept":@"心内科",@"pBedNum":@"02",@"pNation":@"中国"};
+        _tempPatient = [[TempPatient alloc] initWithPatientID:nil];
+    }
+    return _tempPatient;
+}
+-(TempDoctor*)tempDoctor
+{
+    if (!_tempDoctor) {
+        NSDictionary *tempDic = @{@"dID":@"88888",@"dName":@"赐天魍",@"dept":@"心内科",@"isResidentDoctor":@"1"};
+        _tempDoctor = [[TempDoctor alloc] initWithTempDoctorDic:tempDic];
+    }
+    return _tempDoctor;
+}
 -(NSDictionary*)testData
 {
-    NSString *pID = @"88888";
-    NSString *pName = @"张三";
-    NSString *dID = @"99999";
-    NSString *dName = @"涨涨我";
+    NSString *pID = self.tempPatient.pID;
+    NSString *pName = self.tempPatient.pName;
+    NSString *dID = self.tempDoctor.dID;
+    NSString *dName = self.tempDoctor.dName;
     NSString *caseType;
     if (self.caseType) {
         caseType = self.caseType;
@@ -555,8 +563,6 @@
     [self.tableView endUpdates];
 }
 
-
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"EditCaseSegue"]) {
@@ -568,6 +574,7 @@
         writeVC.labelString = self.selectedStr;
         writeVC.Editdelegate = self;
         writeVC.textViewContent = self.textViewContent;
+        writeVC.tempPatient = self.tempPatient;
     
     }else if([segue.identifier isEqualToString:@"firstSegue"]){
         self.isBeginEdit = YES;
@@ -589,7 +596,6 @@
     [self.coreDataStack saveContext];
     
     [self updateButtonState];
-
 }
 -(void)didWriteWithString:(NSString *)writeString
 {

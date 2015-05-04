@@ -13,7 +13,7 @@
 @property (nonatomic,strong) UIButton *button;
 @property (nonatomic,strong) NSLayoutConstraint *heightConstraint;
 
-@property (nonatomic,strong) NSArray *dataArray;
+@property (nonatomic,strong) NSMutableArray *dataArray;
 @end
 @implementation personInfoView
 
@@ -68,13 +68,109 @@
     }
     return _labelArray;
 }
--(NSArray *)dataArray
+//-(NSMutableArray *)dataArray
+//{
+//    if (!_dataArray) {
+////        _dataArray = @[@"马云",@"性别: 男",@"年龄: 55",@"科室: 新年恩克",@"住院号: 09999",@"床好: 98",@"mm",@"性别: 男",@"年龄: 55",@"科室: 新年恩克",@"住院号: 09999",@"床好: 98",@"mm",@"科室: 新年恩克",@"住院号: 09999",@"床好: 98",@"性别: 男",@"性别: 男"];
+//        _dataArray = [[NSMutableArray alloc] init];
+//    }
+//    return _dataArray;
+//}
+-(void)setTempPatient:(TempPatient *)tempPatient
 {
-    if (!_dataArray) {
-        _dataArray = @[@"马云",@"性别: 男",@"年龄: 55",@"科室: 新年恩克",@"住院号: 09999",@"床好: 98",@"mm",@"性别: 男",@"年龄: 55",@"科室: 新年恩克",@"住院号: 09999",@"床好: 98",@"mm",@"科室: 新年恩克",@"住院号: 09999",@"床好: 98",@"性别: 男",@"性别: 男"];
-    }
-    return _dataArray;
+    _tempPatient = tempPatient;
+    
+    self.dataArray = [[NSMutableArray alloc] init];
+    
+    NSString *nameStr = tempPatient.pName?tempPatient.pName:@"王天扎";
+    NSString *genderStr = [NSString stringWithFormat:@"性别: %@",tempPatient.pGender?tempPatient.pGender:@"男"];
+    
+    NSString *ageStr = [NSString stringWithFormat:@"年龄: %@",tempPatient.pAge?tempPatient.pAge:@"24"];
+    
+    NSString *administrative = [NSString stringWithFormat:@"科室: %@",tempPatient.pDept?tempPatient.pDept:@"心内科"];
+    NSString *pID = [NSString stringWithFormat:@"住院号: %@",tempPatient.pID?tempPatient.pID:@"078899"];
+    NSString *pBedNum = [NSString stringWithFormat:@"床号: %@",tempPatient.pBedNum?tempPatient.pBedNum:@"098"];
+
+    NSString *pNULL1 = @" ";
+
+    
+    NSString *pNation = [NSString stringWithFormat:@"民族: %@",tempPatient.pNation?tempPatient.pNation:@"汉"];
+    NSString *pProfession = [NSString stringWithFormat:@"职业: %@",tempPatient.pProfession?tempPatient.pProfession:@"法律"];
+    NSString *presenter = [NSString stringWithFormat:@"病史陈述者: %@",tempPatient.presenter?tempPatient.presenter:@"本人"];
+    NSString *pAdmissionTime = [NSString stringWithFormat:@"入院时间: %@",tempPatient.pAdmissionTime?tempPatient.pAdmissionTime:@"2015-08-09"]; //年月日
+    NSString *pAdmissionTimeSub = tempPatient.pSubAdmissionTime?tempPatient.pSubAdmissionTime:@"上午 09:00:00";//时分秒
+    
+    NSString *pNULL2 = @" ";
+    NSString *pMaritalStatus = [NSString stringWithFormat:@"婚姻: %@",tempPatient.pMaritalStatus?tempPatient.pMaritalStatus:@"未婚"];
+    NSString *pProvince = [NSString stringWithFormat:@"籍贯: %@",tempPatient.pProvince?tempPatient.pProvince:@"上海"];
+    NSString *pDetailAddress = [NSString stringWithFormat:@"现居地: %@",tempPatient.pDetailAddress?tempPatient.pDetailAddress:@"上海市闸北区彭江路602号"];
+    NSDate *date = [NSDate date];
+    NSString *pRecordTime = [self getYearAndMonthWithDateStr:date];
+    NSString *pSubRecordTime = [self getHourAndMinutesWithDateStr:date];
+    
+    [self.dataArray addObject: nameStr];
+    [self.dataArray addObject: genderStr];
+    [self.dataArray addObject: ageStr];
+    [self.dataArray addObject: administrative];
+    [self.dataArray addObject: pID];
+    [self.dataArray addObject: pBedNum];
+    [self.dataArray addObject: pNULL1];
+    
+    [self.dataArray addObject: pNation];
+    [self.dataArray addObject: pProfession];
+    [self.dataArray addObject: presenter];
+    [self.dataArray addObject: pAdmissionTime];
+    [self.dataArray addObject: pAdmissionTimeSub];
+    [self.dataArray addObject: pNULL2];
+
+    [self.dataArray addObject: pMaritalStatus];
+    [self.dataArray addObject: pProvince];
+    [self.dataArray addObject: pDetailAddress];
+    [self.dataArray addObject: pRecordTime];
+    [self.dataArray addObject: pSubRecordTime];
+    
+    [self setNeedsLayout];
+  //  [self layoutSubviews];
 }
+-(NSString*)getYearAndMonthWithDateStr:(NSDate*)date
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    
+    NSString *dateStr = [formatter stringFromDate:date];
+    
+    NSLog(@"date : %@",dateStr);
+    
+    return dateStr;
+}
+-(NSString*)getHourAndMinutesWithDateStr:(NSDate*)date
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm:ss"];
+    
+    NSString *str = @"";
+
+    NSString *dateStr = [formatter stringFromDate:date];
+    
+    NSLog(@"date : %@",dateStr);
+    
+    NSMutableArray *tempA = [[NSMutableArray alloc] initWithArray:[dateStr componentsSeparatedByString:@":"]];
+
+    if ([tempA[0] integerValue] > 12) {
+        
+        NSString *tempStr = @"下午 ";
+        tempA[0] = [NSString stringWithFormat:@"%@",@([tempA[0] integerValue] - 12)];
+        
+        str = [tempA componentsJoinedByString:@":"];
+        str = [tempStr stringByAppendingString:str];
+        
+    }else {
+        NSString *tempStr = @"上午 ";
+        str = [tempStr stringByAppendingString:dateStr];
+    }
+    return str;
+}
+
 -(void)addSubViewToCurrentView
 {
     
@@ -130,7 +226,6 @@
         }
  
     }
-    [self addLabelText];
 }
 -(void)addLabelText
 {
@@ -170,7 +265,7 @@
     [super layoutSubviews];
     
    // CGFloat firstWWidth = self.frame.size.width/10;
-    CGFloat firstWWidth = self.frame.size.width/20.0;
+    CGFloat firstWWidth = self.frame.size.width/8.0;
 
     CGFloat subWidth = (self.frame.size.width-16-firstWWidth)/5.0;
 
@@ -209,6 +304,9 @@
         }
         
     }
+    
+    [self addLabelText];
+
 }
 
 -(UIColor*)randomColor

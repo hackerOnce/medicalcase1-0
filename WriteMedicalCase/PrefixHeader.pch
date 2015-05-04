@@ -17,7 +17,7 @@
 #import "ConstantVariable.h"
 #pragma mark - net
 //#import "AFNetworking.h"
-
+#import "TempPatient.h"
 #pragma mark - common
 #import "WLKTooles.h"
 #import "WLKImport.h"

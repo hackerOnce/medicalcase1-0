@@ -25,7 +25,12 @@
 @property (nonatomic,strong) NSString *pLinkman;
 @property (nonatomic,strong) NSString *pLinkmanMobileNum;
 @property (nonatomic,strong) NSString *pCountOfHospitalized;
+@property (nonatomic,strong) NSString *presenter;//病史陈述者
+@property (nonatomic,strong) NSString *pAdmissionTime;//入院时间 //年月日
+@property (nonatomic,strong) NSString *pSubAdmissionTime; //时分秒
 
+//@property (nonatomic,strong) NSString *pRecordTime;
+//@property (nonatomic,strong) NSString *pSubRecordTime;
 -(instancetype)initWithPatientID:(NSDictionary*)patientDic;
 
 @end

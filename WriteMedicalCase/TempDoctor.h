@@ -18,4 +18,6 @@
 @property (nonatomic,strong) NSString *isChiefPhysicianDoctor;
 @property (nonatomic,strong) NSString *isAttendingPhysicianDoctor;
 
+-(instancetype)initWithTempDoctorDic:(NSDictionary*)doctorDic;
+
 @end

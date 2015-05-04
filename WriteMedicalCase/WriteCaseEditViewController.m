@@ -16,7 +16,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet AutoHeightTextView *autoHeightTextView;
 
-@property (weak, nonatomic) IBOutlet personInfoView *personInfoView;
 @property (weak, nonatomic) IBOutlet WLKMultiTableView *multiTableView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -66,7 +65,6 @@
         
     }];
 }
-
 -(NSArray *)nodeChildArray
 {
     if (!_nodeChildArray) {
@@ -236,6 +234,7 @@
     
     self.navButton.layer.cornerRadius = self.navButton.frame.size.width/2;
     self.navButton.backgroundColor = [UIColor whiteColor];
+    
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -254,6 +253,9 @@
     if (![self.textViewContent isEqualToString:@" "]) {
         self.autoHeightTextView.text = self.textViewContent;
     }
+    
+    self.personInfoView.tempPatient = self.tempPatient;
+
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -269,6 +271,7 @@
     if (self.rightSlideViewFlag) {
         [self performSegueWithIdentifier:@"customSegue" sender:nil];
     }
+    
 }
 -(void)setUpTableView
 {
