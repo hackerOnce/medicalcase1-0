@@ -22,7 +22,60 @@
 }
 
 
+///fetch patient
+-(void)fetchPatientWithDic:(NSDictionary*)dataDic successfulFetched:(void (^)(NSArray *resultArray))successfully failedToFetched:(void (^)(NSError *error,NSString * errorInfo))failure
+{
+    NSString *pID,*pName;
+    if ([dataDic.allKeys containsObject:@"pID"]) {
+        pID = dataDic[@"pID"];
+    }
+    if ([dataDic.allKeys containsObject:@"pName"]) {
+        pName = dataDic[@"pName"];
+    }
+    
+    NSPredicate *predicate;
+    if (pID != nil && pName != nil) {
+        predicate = [NSPredicate predicateWithFormat:@"pID = %@ and pName = %@",pID,pName];
+    }else {
+        abort();
+    }
+    
+    [self fetchManagedObjectInContext:self.managedObjectContext WithEntityName:[Patient entityName] withPredicate:predicate successfulFetched:^(NSArray *resultArray) {
+        if (resultArray.count == 0) {
+            [self createPatientManagedObjectWithDataDic:dataDic failedToCreated:^(NSError *error, NSString *errorInfo) {
+                
+            } successfulCreated:^{
+                [self fetchPatientWithDic:dataDic successfulFetched:^(NSArray *resultArray) {
+                    successfully(resultArray);
+                } failedToFetched:^(NSError *error, NSString *errorInfo) {
+                    failure(error,errorInfo);
+                }];
+            }];
+//            [self createMedicalCaseManagedObjectWithDataDic:dataDic failedToCreated:^(NSError *error, NSString *errorInfo) {
+//                
+//            } successfulCreated:^{
+//                [self fetchCaseInfoWithDic:dataDic successfulFetched:^(NSArray *resultArray) {
+//                    successfully(resultArray);
+//                } failedToFetched:^(NSError *error, NSString *errorInfo) {
+//                    failure(error,errorInfo);
+//                }];
+//            }];
+//        }else if (resultArray.count == 1){
+//            successfully(resultArray);
+//        }else {
+//            NSLog(@"得到了多个病历");
+//            abort();
+//        }
+        }else if (resultArray.count == 1){
+            successfully(resultArray);
+        }else {
+            abort();
+        }
+    } failedToFetched:^(NSError *error, NSString *errorInfo) {
+        failure(error,errorInfo);
+    }];
 
+}
 ///create patient NSmanagedObject
 -(void)createPatientManagedObjectWithDataDic:(NSMutableDictionary*)dataDic failedToCreated:(void (^)(NSError *error,NSString * errorInfo))failure successfulCreated:(void (^)())successfully
 {
@@ -380,7 +433,7 @@
         [self updateMedicalCaseInContext:self.managedObjectContext ManagedObjectWithDataDic:dataDic failedToUpdated:^(NSError *error, NSString *errorInfo) {
             
         } successfulUpdated:^{
-            
+            successfully();
         }];
     }
 }
@@ -448,37 +501,145 @@
     
     
     if ([dataDic.allKeys containsObject:@"caseContent"]) {
-        recordBaseInfo.caseType = [dataDic objectForKey:@"caseContent"];
+        recordBaseInfo.caseContent = [dataDic objectForKey:@"caseContent"];
     }
     if ([dataDic.allKeys containsObject:@"archivedTime"]) {
-        recordBaseInfo.caseState = [dataDic objectForKey:@"archivedTime"];
+        recordBaseInfo.archivedTime = [dataDic objectForKey:@"archivedTime"];
     }
     
     if ([dataDic.allKeys containsObject:@"casePresenter"]) {
-        recordBaseInfo.caseType = [dataDic objectForKey:@"casePresenter"];
+        recordBaseInfo.casePresenter = [dataDic objectForKey:@"casePresenter"];
     }
     if ([dataDic.allKeys containsObject:@"createdTime"]) {
-        recordBaseInfo.caseState = [dataDic objectForKey:@"createdTime"];
+        recordBaseInfo.createdTime = [dataDic objectForKey:@"createdTime"];
     }
     
     if ([dataDic.allKeys containsObject:@"isCompleted"]) {
-        recordBaseInfo.caseType = [dataDic objectForKey:@"isCompleted"];
+        recordBaseInfo.isCompleted = [dataDic objectForKey:@"isCompleted"];
     }
     if ([dataDic.allKeys containsObject:@"lastModifyTime"]) {
-        recordBaseInfo.caseState = [dataDic objectForKey:@"lastModifyTime"];
+        recordBaseInfo.lastModifyTime = [dataDic objectForKey:@"lastModifyTime"];
     }
     
     if ([dataDic.allKeys containsObject:@"dID"]) {
-        recordBaseInfo.caseType = [dataDic objectForKey:@"dID"];
+        recordBaseInfo.dID = [dataDic objectForKey:@"dID"];
     }
     if ([dataDic.allKeys containsObject:@"dName"]) {
-        recordBaseInfo.caseState = [dataDic objectForKey:@"dName"];
+        recordBaseInfo.dName = [dataDic objectForKey:@"dName"];
     }
     if ([dataDic.allKeys containsObject:@"pID"]) {
-        recordBaseInfo.caseType = [dataDic objectForKey:@"pID"];
+        recordBaseInfo.pID = [dataDic objectForKey:@"pID"];
     }    if ([dataDic.allKeys containsObject:@"pName"]) {
-        recordBaseInfo.caseState = [dataDic objectForKey:@"pName"];
+        recordBaseInfo.pName = [dataDic objectForKey:@"pName"];
     }
+}
+
+/// fetch record base info
+-(void)fetchCaseInfoWithDic:(NSDictionary*)dataDic successfulFetched:(void (^)(NSArray *resultArray))successfully failedToFetched:(void (^)(NSError *error,NSString * errorInfo))failure
+{
+    NSString *pID,*pName,*dID,*dName;
+    if ([dataDic.allKeys containsObject:@"pID"]) {
+        pID = dataDic[@"pID"];
+    }
+    if ([dataDic.allKeys containsObject:@"pName"]) {
+        pName = dataDic[@"pName"];
+    }
+    
+    if ([dataDic.allKeys containsObject:@"dID"]) {
+        dID = dataDic[@"dID"];
+    }
+    if ([dataDic.allKeys containsObject:@"dName"]) {
+        dName = dataDic[@"dName"];
+    }
+    if (dID == nil && dName == nil) {
+        abort();
+    }
+    if (pID == nil && pName == nil) {
+        abort();
+    }
+    
+    NSPredicate *predicate;
+    if (dID != nil && dName != nil && pID != nil && pName != nil) {
+        predicate = [NSPredicate predicateWithFormat:@"dName = %@ and dID = %@ and pName = %@ and pID = %@",dName,dID,pName,pID];
+    }else {
+        if (dID != nil && pID != nil) {
+            predicate = [NSPredicate predicateWithFormat:@"dID = %@ and pID = %@",dID,pID];
+        }
+        
+    }
+    
+    
+    [self fetchManagedObjectInContext:self.managedObjectContext WithEntityName:[RecordBaseInfo entityName] withPredicate:predicate successfulFetched:^(NSArray *resultArray) {
+        if (resultArray.count == 0) {
+            [self createMedicalCaseManagedObjectWithDataDic:dataDic failedToCreated:^(NSError *error, NSString *errorInfo) {
+                
+            } successfulCreated:^{
+                [self fetchCaseInfoWithDic:dataDic successfulFetched:^(NSArray *resultArray) {
+                    successfully(resultArray);
+                } failedToFetched:^(NSError *error, NSString *errorInfo) {
+                    failure(error,errorInfo);
+                }];
+            }];
+        }else if (resultArray.count == 1){
+            successfully(resultArray);
+        }else {
+            NSLog(@"得到了多个病历");
+            abort();
+        }
+
+      } failedToFetched:^(NSError *error, NSString *errorInfo) {
+        failure(error,errorInfo);
+    }];
+
+}
+
+-(void)fetchDoctorWithDic:(NSDictionary*)dataDic successfulFetched:(void (^)(NSArray *resultArray))successfully failedToFetched:(void (^)(NSError *error,NSString * errorInfo))failure
+{
+    NSPredicate *predicate;
+    NSString *doctorName;
+    NSString *doctorID;
+
+    if ([dataDic.allKeys containsObject:@"dName"]) {
+        doctorName = (NSString*)dataDic[@"dName"];
+    }
+    if ([dataDic.allKeys containsObject:@"dID"]) {
+        doctorID = (NSString*)dataDic[@"dID"];
+    }
+    
+    BOOL isAllFlag = NO;
+    if (doctorID==nil || doctorName==nil) {
+        isAllFlag = YES;
+    }else {
+        predicate =[NSPredicate predicateWithFormat:@"dID=%@ and dName=%@",doctorID,doctorName];
+    }
+    if (isAllFlag) {
+        if (doctorID == nil) {
+            abort();
+        }else {
+            predicate =[NSPredicate predicateWithFormat:@"dID=%@",doctorID];
+        }
+    }
+
+    [self fetchManagedObjectInContext:self.managedObjectContext WithEntityName:[Doctor entityName] withPredicate:predicate successfulFetched:^(NSArray *resultArray) {
+        
+        if (resultArray.count == 1) {
+            successfully(resultArray);
+        }else {
+            [self createDoctorEntityWithDataDic:dataDic inContext:self.managedObjectContext successfulCreated:^{
+                [self fetchDoctorWithDic:dataDic successfulFetched:^(NSArray *resultArray) {
+                    successfully(resultArray);
+                } failedToFetched:^(NSError *error, NSString *errorInfo) {
+                    failure(error,errorInfo);
+                }];
+                
+            } failedToCreated:^(NSError *error, NSString *errorInfo) {
+                failure(error,errorInfo);
+            }];
+        }
+    } failedToFetched:^(NSError *error, NSString *errorInfo) {
+        failure(error,errorInfo);
+    }];
+    
 }
 ///create doctor managedobject
 
@@ -577,7 +738,6 @@
     }
     
     [self fetchManagedObjectInContext:context WithEntityName:[Doctor entityName] withPredicate:predicate successfulFetched:^(NSArray *resultArray) {
-        
         NSLog(@"fetch %@,  with predicate : %@,result array count is %@",[Doctor entityName],predicate,@(resultArray.count));
         
         if (resultArray.count == 1) {
@@ -611,10 +771,50 @@
         }else {
             NSLog(@"存在多个医生对应相同的名字或ID");
         }
-        
+
     } failedToFetched:^(NSError *error, NSString *errorInfo) {
         failure(error,errorInfo);
     }];
+    
+//    [self fetchManagedObjectInContext:context WithEntityName:[Doctor entityName] withPredicate:predicate successfulFetched:^(NSArray *resultArray) {
+//        
+//        NSLog(@"fetch %@,  with predicate : %@,result array count is %@",[Doctor entityName],predicate,@(resultArray.count));
+//        
+//        if (resultArray.count == 1) {
+//            if ([[resultArray firstObject] isKindOfClass:[Doctor class]]){
+//                Doctor *doctor = (Doctor*)[resultArray firstObject];
+//                if ([dataDic.allKeys containsObject:@"dProfessionalTitle"]) {
+//                    doctor.dProfessionalTitle = (NSString*)dataDic[@"dProfessionalTitle"];
+//                }
+//                if ([dataDic.allKeys containsObject:@"dept"]) {
+//                    doctor.dept = (NSString*)dataDic[@"dept"];
+//                }
+//                if ([dataDic.allKeys containsObject:@"medicalTeam"]) {
+//                    doctor.medicalTeam = (NSString*)dataDic[@"medicalTeam"];
+//                }
+//                if ([dataDic.allKeys containsObject:@"isAttendingPhysican"]) {
+//                    doctor.dept = (NSString*)dataDic[@"isAttendingPhysican"];
+//                }
+//                if ([dataDic.allKeys containsObject:@"isChiefPhysician"]) {
+//                    doctor.medicalTeam = (NSString*)dataDic[@"isChiefPhysician"];
+//                }
+//                if ([dataDic.allKeys containsObject:@"isResident"]) {
+//                    doctor.medicalTeam = (NSString*)dataDic[@"isResident"];
+//                }
+//                
+//            }
+//            [self saveContextFailToSave:^(NSError *error, NSString *errorInfo) {
+//                failure(error,errorInfo);
+//            } successfulCreated:^{
+//                successfully();
+//            }];
+//        }else {
+//            NSLog(@"存在多个医生对应相同的名字或ID");
+//        }
+//        
+//    } failedToFetched:^(NSError *error, NSString *errorInfo) {
+//        failure(error,errorInfo);
+//    }];
 }
 
 

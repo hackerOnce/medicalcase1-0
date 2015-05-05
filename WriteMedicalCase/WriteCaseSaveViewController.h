@@ -15,7 +15,9 @@
 @property (nonatomic,strong) NSString *caseType;
 
 @property (nonatomic,strong) TempPatient *tempPatient;
-@property (nonatomic,strong) TempDoctor *tempDoctor;
-@property (nonatomic,strong) TempCaseBaseInfo *tempCaseBaseInfo;
+@property (nonatomic,strong) TempDoctor *tempResidentDoctor;
+//@property (nonatomic,strong) TempCaseBaseInfo *tempCaseBaseInfo;
+@property (nonatomic,strong) TempDoctor *tempAttendingPhysicianDoctor;
+@property (nonatomic,strong) TempDoctor *tempChiefPhysicianDoctor;
 
 @end

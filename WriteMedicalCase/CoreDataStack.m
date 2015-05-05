@@ -138,6 +138,10 @@ static NSString *momdName = @"Model";
     if ([dicData.allKeys containsObject:@"nodeName"]) {
         node.nodeName =[dicData objectForKey:@"nodeName"];
     }
+    if ([dicData.allKeys containsObject:@"nodeNameE"]) {
+        node.nodeNameE =[dicData objectForKey:@"nodeNameE"];
+    }
+
     if ([dicData.allKeys containsObject:@"nodeType"]) {
         node.nodeType = [dicData objectForKey:@"nodeType"]; //0 : from origin data ,1 : from custom data
     }else {
@@ -457,6 +461,10 @@ static NSString *momdName = @"Model";
     }
     if ([dataDic.allKeys containsObject:@"pID"]) {
         patient.pID = (NSString*)dataDic[@"pID"];
+    }
+
+    if ([dataDic.allKeys containsObject:@"presenter"]) {
+        patient.presenter = (NSString*)dataDic[@"presenter"];
     }
 
     

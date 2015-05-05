@@ -20,6 +20,8 @@
 @property (nonatomic, retain) NSString * pID;
 @property (nonatomic, retain) NSString * pName;
 
+@property (nonatomic,retain) NSString *caseID;
+
 @property (nonatomic, retain) NSDate * archivedTime;
 @property (nonatomic, retain) NSString * caseContent;
 @property (nonatomic, retain) NSString * casePresenter;
@@ -29,6 +31,7 @@
 @property (nonatomic, retain) NSDate * lastModifyTime;
 @property (nonatomic, retain) NSOrderedSet *doctors;
 @property (nonatomic, retain) Patient *patient;
+
 @end
 
 @interface RecordBaseInfo (CoreDataGeneratedAccessors)

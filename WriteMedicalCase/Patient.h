@@ -36,6 +36,8 @@
 @property (nonatomic, retain) NSString * chiefPhysicianDoctorID;
 @property (nonatomic, retain) NSString * attendingPhysicianDoctorID;
 @property (nonatomic, retain) NSString * residentDoctorID;
+
+@property (nonatomic,retain) NSString *presenter;//病史陈述者
 @property (nonatomic, retain) Doctor *doctor;
 @property (nonatomic, retain) NSOrderedSet *medicalCases;
 @end

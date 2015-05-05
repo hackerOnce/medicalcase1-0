@@ -13,6 +13,7 @@
 
 @implementation Node
 
+@dynamic nodeNameE;
 @dynamic hasSubNode;
 @dynamic nodeContent;
 @dynamic nodeIndex;

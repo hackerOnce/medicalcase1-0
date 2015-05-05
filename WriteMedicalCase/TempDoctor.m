@@ -20,7 +20,7 @@
         }
         
         if ([doctorDic.allKeys containsObject:@"dName"]) {
-            self.dID = doctorDic[@"dName"];
+            self.dName = doctorDic[@"dName"];
         }else {
             NSLog(@"医生必须包含dName");
             abort();
@@ -32,7 +32,10 @@
         if ([doctorDic.allKeys containsObject:@"dept"]) {
             self.dept = doctorDic[@"dept"];
         }
-        
+        if ([doctorDic.allKeys containsObject:@"medicalTeam"]) {
+            self.medicalTeam = doctorDic[@"medicalTeam"];
+        }
+
         if ([doctorDic.allKeys containsObject:@"isResidentDoctor"]) {
             self.isResidentDoctor = doctorDic[@"isResidentDoctor"];
         }

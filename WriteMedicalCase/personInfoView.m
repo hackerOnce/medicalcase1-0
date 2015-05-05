@@ -134,13 +134,13 @@
 }
 -(NSString*)getYearAndMonthWithDateStr:(NSDate*)date
 {
+    NSString *dateStr = @"记录日期: ";
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     
-    NSString *dateStr = [formatter stringFromDate:date];
+    dateStr = [dateStr stringByAppendingString:[formatter stringFromDate:date]];
     
     NSLog(@"date : %@",dateStr);
-    
     return dateStr;
 }
 -(NSString*)getHourAndMinutesWithDateStr:(NSDate*)date

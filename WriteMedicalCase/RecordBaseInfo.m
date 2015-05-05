@@ -18,6 +18,8 @@
 @dynamic pName;
 @dynamic isCompleted;
 
+@dynamic caseID;
+
 @dynamic archivedTime;
 @dynamic caseContent;
 @dynamic casePresenter;

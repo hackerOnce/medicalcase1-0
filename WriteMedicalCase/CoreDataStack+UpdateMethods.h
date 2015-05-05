@@ -12,6 +12,8 @@
 
 -(int)getManagedObjectEntityCountWithName:(NSString*)entityName predicate:(NSPredicate *)predicate;
 
+
+-(void)fetchPatientWithDic:(NSDictionary*)dataDic successfulFetched:(void (^)(NSArray *resultArray))successfully failedToFetched:(void (^)(NSError *error,NSString * errorInfo))failure;
 ///create patient NSmanagedObject
 -(void)createPatientManagedObjectWithDataDic:(NSMutableDictionary*)dataDic failedToCreated:(void (^)(NSError *error,NSString * errorInfo))failure successfulCreated:(void (^)())successfully;
 ///update patient info
@@ -28,9 +30,11 @@
 -(void)createMedicalCaseManagedObjectWithDataDic:(NSMutableDictionary*)dataDic failedToCreated:(void (^)(NSError *error,NSString * errorInfo))failure successfulCreated:(void (^)())successfully;
 ///update medical case
 -(void)updateMedicalCaseInContext:(NSManagedObjectContext*)context ManagedObjectWithDataDic:(NSMutableDictionary*)dataDic failedToUpdated:(void (^)(NSError *error,NSString * errorInfo))failure successfulUpdated:(void (^)())successfully;
+/// fetch record base info
+-(void)fetchCaseInfoWithDic:(NSDictionary*)dataDic successfulFetched:(void (^)(NSArray *resultArray))successfully failedToFetched:(void (^)(NSError *error,NSString * errorInfo))failure;
 
-
-
+////save
+- (void)saveContextFailToSave:(void (^)(NSError *error,NSString * errorInfo))failure  successfulCreated:(void (^)())successfully;
 
 ///create doctor managedobject
 
@@ -38,7 +42,8 @@
 
 ///update doctor info
 -(void)updateDoctorEntityWithDataDic:(NSDictionary*)dataDic inContext:(NSManagedObjectContext*)context successfulUpdated:(void (^)())successfully failedToUpdated:(void (^)(NSError *error,NSString * errorInfo))failure;
-
+///fetch doctor
+-(void)fetchDoctorWithDic:(NSDictionary*)dataDic successfulFetched:(void (^)(NSArray *resultArray))successfully failedToFetched:(void (^)(NSError *error,NSString * errorInfo))failure;
 
 
 /// fetch a managedobject

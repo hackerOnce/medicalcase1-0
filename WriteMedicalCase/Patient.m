@@ -36,6 +36,8 @@
 @dynamic chiefPhysicianDoctorID;
 @dynamic attendingPhysicianDoctorID;
 @dynamic residentDoctorID;
+@dynamic presenter;
+
 @dynamic doctor;
 @dynamic medicalCases;
 +(NSString*)entityName{

@@ -41,10 +41,18 @@
             self.pName = patientDic[@"pName"];
         }else {
             if (patientDic == nil) {
-                self.pName = @"照天机";
+                self.pName = @" ";
             }else {
                 NSLog(@"病人必须包含pName");
                 abort();
+            }
+        }
+        
+        if ([patientDic.allKeys containsObject:@"patientState"]) {
+            self.patientState = patientDic[@"patientState"];
+        }else {
+            if (patientDic == nil) {
+                self.patientState = @" ";
             }
         }
         ////
@@ -52,14 +60,14 @@
             self.pAge = patientDic[@"pAge"];
         }else {
             if (patientDic == nil) {
-                self.pAge = @"77";
+                self.pAge = @" ";
             }
         }
         if ([patientDic.allKeys containsObject:@"pCity"]) {
             self.pCity = patientDic[@"pCity"];
         }else {
             if (patientDic == nil) {
-                self.pCity = @"上海";
+                self.pCity = @" ";
             }
 
         }
@@ -68,7 +76,7 @@
         }else
         {
             if (patientDic == nil) {
-                self.pProvince = @"上海";
+                self.pProvince = @" ";
             }
 
         }
@@ -76,7 +84,7 @@
             self.pDetailAddress = patientDic[@"pDetailAddress"];
         }else {
             if (patientDic == nil) {
-                self.pDetailAddress = @"上海闸北区彭江路602号";
+                self.pDetailAddress = @"  ";
             }
 
         }
@@ -85,15 +93,24 @@
             self.pDept = patientDic[@"pDept"];
         }else {
             if (patientDic == nil) {
-                self.pDept = @"心内科";
+                self.pDept = @" ";
             }
 
         }
-        if ([patientDic.allKeys containsObject:@"pBedNum"]) {
-            self.pBedNum = patientDic[@"pBedNum"];
+        if ([patientDic.allKeys containsObject:@"pDept"]) {
+            self.pDept = patientDic[@"pDept"];
         }else {
             if (patientDic == nil) {
-                self.pBedNum = @"086";
+                self.pDept = @" ";
+            }
+            
+        }
+
+        if ([patientDic.allKeys containsObject:@"patientState"]) {
+            self.patientState = patientDic[@"patientState"];
+        }else {
+            if (patientDic == nil) {
+                self.patientState = @" ";
             }
 
         }
@@ -101,7 +118,7 @@
             self.pNation = patientDic[@"pNation"];
         }else {
             if (patientDic == nil) {
-                self.pNation = @"东突";
+                self.pNation = @" ";
             }
 
         }
@@ -110,7 +127,7 @@
             self.pProfession = patientDic[@"pProfession"];
         }else {
             if (patientDic == nil) {
-                self.pProfession = @"律师";
+                self.pProfession = @" ";
             }
 
         }
@@ -124,7 +141,7 @@
             self.pMobileNum = patientDic[@"pMobileNum"];
         }else {
             if (patientDic == nil) {
-                self.pMobileNum = @"13162267890";
+                self.pMobileNum = @" ";
             }
 
         }
@@ -141,19 +158,19 @@
             self.presenter = patientDic[@"presenter"];
         }else {
             if (patientDic == nil) {
-                self.presenter = @"本人";
+                self.presenter = @" ";
             }
 
         }
         if ([patientDic.allKeys containsObject:@"pAdmissionTime"]) {
             self.pAdmissionTime = patientDic[@"pAdmissionTime"];
         }else {
-            self.pAdmissionTime = @"2015-09-03";
+            self.pAdmissionTime = @" ";
         }
         if ([patientDic.allKeys containsObject:@"pSubAdmissionTime"]) {
             self.pSubAdmissionTime = patientDic[@"pSubAdmissionTime"];
         }else {
-            self.pSubAdmissionTime = @"上午 09:50:00";
+            self.pSubAdmissionTime = @" ";
         }
 
         if ([patientDic.allKeys containsObject:@"pCountOfHospitalized"]) {
