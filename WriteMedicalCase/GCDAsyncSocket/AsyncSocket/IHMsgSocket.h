@@ -34,8 +34,9 @@
 @property (nonatomic, strong) NSString *passwordStr;     //密码
 
 
-@property (strong,nonatomic) void (^fail)(NSError *error);
-
+@property (strong,nonatomic) void (^failConnection)(NSError *error);
+@property (strong,nonatomic) void (^sucessConnection)(IHMsgSocket *socket);
+-(void)connectServerSucess:(void (^)(IHMsgSocket *))sucess failConection:(void (^)(NSError *))fail;
 +(IHMsgSocket *)sharedRequest;
 
 -(void)sendMsg:(MessageObject *)msgObj;

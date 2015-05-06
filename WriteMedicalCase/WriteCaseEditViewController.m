@@ -12,7 +12,7 @@
 #import "RawDataProcess.h"
 #import "WriteCaseShowTemplateViewController.h"
 
-@interface WriteCaseEditViewController ()<UITableViewDelegate,UITableViewDataSource,WriteCaseShowTemplateViewControllerDelegate>
+@interface WriteCaseEditViewController ()<UITableViewDelegate,UITableViewDataSource,WriteCaseShowTemplateViewControllerDelegate,UITextViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet AutoHeightTextView *autoHeightTextView;
 
@@ -106,12 +106,8 @@
     tempRect.origin.x += rightSideSlideViewWidth - 10;
     [UIView animateWithDuration:0.4 animations:^{
         self.rightSideSlideView.frame = tempRect;
-        //[self performSegueWithIdentifier:@"MedicalCaseModel" sender:nil];
     } completion:^(BOOL finished) {
         [self performSegueWithIdentifier:@"customSegue" sender:nil];
-        //self.modelVC = nil;
-        //        [self.rightSideSlideView removeFromSuperview];
-        //        self.rightSideSlideView = nil;
     }];
     
 }
@@ -201,14 +197,12 @@
         for (NSString *temp in self.nodeChildArray) {
             NSString *tempSt = self.nodeChildDic[temp];
             if (![tempSt isEqualToString:@""]) {
-                //  NSString *returnStr = [tempSt stringByAppendingString:@"\n"];
                 tempString = [tempString stringByAppendingString:tempSt];
             }
         }
         self.autoHeightTextView.text = tempString;
         
     }
-    //self.selectedText.text = self.multiTables.selectedStr;
     
 }
 
@@ -226,7 +220,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
     self.personInfoView.isHideSubView = YES;
     self.autoHeightTextView.text = nil;
     self.title = self.labelString;
@@ -256,6 +250,7 @@
     
     self.personInfoView.tempPatient = self.tempPatient;
 
+    [self addKeyboardObserver];
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -271,7 +266,7 @@
     if (self.rightSlideViewFlag) {
         [self performSegueWithIdentifier:@"customSegue" sender:nil];
     }
-    
+    [self removeKeyboardObserver];
 }
 -(void)setUpTableView
 {
@@ -305,10 +300,51 @@
 {
     self.selectedNode = [self.sourceNode.childNodes objectAtIndex:indexPath.row];
     [self setUpMultiTableView:self.selectedNode.nodeName];
-    //[self performSegueWithIdentifier:@"customSegue" sender:nil];
 
     if (self.rightSlideViewFlag) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"didSelectedTitleLabel" object:self.selectedNode.nodeName];
+    }
+}
+///text view delegate
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+    if (!self.tableView.isHidden) {
+        [self.tableView setHidden:YES];
+        [self.multiTableView setHidden:YES];
+    }
+
+    if (self.rightSlideViewFlag) {
+        [self performSegueWithIdentifier:@"customSegue" sender:nil];
+    }
+    
+}
+-(void)textViewDidEndEditing:(UITextView *)textView
+{
+    if (self.tableView.isHidden) {
+        [self.tableView setHidden:NO];
+        [self.multiTableView setHidden:NO];
+    }
+
+}
+#pragma mask -keyboard
+-(void)addKeyboardObserver
+{
+    // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+}
+-(void)removeKeyboardObserver
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+//-(void)keyboardWillShow:(NSNotification*)notificationInfo
+//{
+//
+//}
+-(void)keyboardWillHide:(NSNotification*)notificationInfo
+{
+    if (self.tableView.isHidden) {
+        [self.tableView setHidden:NO];
+        [self.multiTableView setHidden:NO];
     }
 }
 

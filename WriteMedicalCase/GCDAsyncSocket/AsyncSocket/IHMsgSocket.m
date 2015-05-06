@@ -106,7 +106,7 @@ static IHMsgSocket *ihMsgSocket;
     sock.sn=msgObj.sync_snStr;
     sock.block=completed;
     
-    self.fail = fail;
+    self.failConnection = fail;
     [_queueLists setObject:sock forKey:msgObj.sync_snStr];
     
     [self sendMsg:msgObj];
@@ -134,13 +134,17 @@ static IHMsgSocket *ihMsgSocket;
     }
     
 }
-
+#pragma mask - 连接服务器成功
+-(void)connectServerSucess:(void (^)(IHMsgSocket *))sucess failConection:(void (^)(NSError *))fail
+{
+    self.sucessConnection = sucess;
+    self.failConnection = fail;
+}
 #pragma mark 接收回调
 -(void)ihSocket:(IHGCDSocket *)ihGcdSock didReceive:(NSData *)data
 {
     NSDictionary *dict=[self returnIdTodata:data];
  
-    
     NSString *sn=[dict objectForKey:@"sync_sn"];
     
     NSString *opt=[dict objectForKey:@"sync_opt"];
@@ -205,7 +209,7 @@ static IHMsgSocket *ihMsgSocket;
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
 {
     _error = err;
-    self.fail(err);
+    self.failConnection(err);
     [self performSelectorInBackground:@selector(createNetworkSubThread) withObject:nil];
     
 }
@@ -256,7 +260,7 @@ static IHMsgSocket *ihMsgSocket;
     {
         [self.delegate connectServerSucceed:self];
     }
-    
+    self.sucessConnection(ihMsgSocket);
     if (self.userStr && self.passwordStr)
     {
         MessageObject *msgObj = [[MessageObject alloc] init];

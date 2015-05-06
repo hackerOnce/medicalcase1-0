@@ -16,7 +16,10 @@
 @implementation MessageObject (DY)
 
 
-
++(void)messageObjectWithUsrStr:(NSString *)usrStr pwdStr:(NSString *)pwdStr iHMsgSocket:(IHMsgSocket *)socket connectServerSucess:(void (^)(IHMsgSocket *))sucess failConection:(void (^)(NSError *))fail
+{
+    [socket connectServerSucess:sucess failConection:fail];
+}
 
 
 +(void)messageObjectWithUsrStr:(NSString *)usrStr pwdStr:(NSString *)pwdStr iHMsgSocket:(IHMsgSocket *)socket optInt:(NSInteger)optInt dictionary:(NSMutableDictionary *)dicM block:(void (^)(IHSockRequest *))block failConection:(void (^)(NSError *))fail

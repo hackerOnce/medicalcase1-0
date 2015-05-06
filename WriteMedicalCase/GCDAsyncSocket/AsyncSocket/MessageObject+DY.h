@@ -11,6 +11,9 @@
 #import "UIView+DY.h"
 @interface MessageObject (DY)
 
++(void)connectServerSucess:(void (^)(IHMsgSocket *))sucess failConection:(void (^)(NSError *))fail;
+
+
 /**
  *  请求数据方法
  *

@@ -9,7 +9,7 @@
 #import "writeCaseFirstItemViewController.h"
 #import "WriteCaseShowTemplateViewController.h"
 
-@interface writeCaseFirstItemViewController ()<WriteCaseShowTemplateViewControllerDelegate>
+@interface writeCaseFirstItemViewController ()<WriteCaseShowTemplateViewControllerDelegate,UITextViewDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *navButton;
 @property (weak, nonatomic) IBOutlet AutoHeightTextView *textView;
 
@@ -50,7 +50,6 @@
     self.textView.text = self.textViewContent;
 
     self.title = self.titleString;
-  //  [self.textView becomeFirstResponder];
     [self performSegueWithIdentifier:@"firstItemCustomSegue" sender:nil];
  
     
@@ -64,6 +63,8 @@
     }
     [self removeKeyWindowButton];
 }
+
+
 -(void)removeKeyWindowButton
 
 {
@@ -91,7 +92,6 @@
         
         [_rightSideSlideView addGestureRecognizer:recoginizer];
         
-        // [self.view addSubview:_rightSideSlideView];
         UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
         [keyWindow addSubview:self.rightSideSlideView];
         
@@ -142,4 +142,12 @@
     }
 }
 
+
+#pragma mask - text view delegate
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+    if (self.rightSideSlideView) {
+        [self performSegueWithIdentifier:@"firstItemCustomSegue" sender:nil];
+    }
+}
 @end
