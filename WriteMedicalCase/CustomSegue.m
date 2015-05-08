@@ -9,6 +9,7 @@
 #import "CustomSegue.h"
 #import "WriteCaseEditViewController.h"
 #import "WriteCaseShowTemplateViewController.h"
+#import "writeCaseFirstItemViewController.h"
 
 
 static BOOL segueFlag = NO;
@@ -16,57 +17,114 @@ static BOOL segueFlag = NO;
 @implementation CustomSegue
 -(void)perform
 {
-    WriteCaseEditViewController *sourceVC = (WriteCaseEditViewController*)self.sourceViewController;
-    //UINavigationController *navigation =
-    __block  WriteCaseShowTemplateViewController *destinationVC = (WriteCaseShowTemplateViewController*) self.destinationViewController;
-    
-    
-    [destinationVC.view setFrame:sourceVC.rightSideSlideView.bounds];
-    
-    CGRect tempRect = sourceVC.rightSideSlideView.frame;
-    
-    if(tempRect.origin.x >= CGRectGetWidth(sourceVC.view.frame)){
-        tempRect.origin.x -= rightSideSlideViewWidth;
-        segueFlag = NO;
-        [sourceVC.rightSideSlideView addSubview:destinationVC.view];
-    }else {
-      //  sourceVC.maskView.alpha = 0;
-        tempRect.origin.x += rightSideSlideViewWidth;
+    if ([self.sourceViewController isKindOfClass:[WriteCaseEditViewController class]]) {
+        WriteCaseEditViewController *sourceVC = (WriteCaseEditViewController*)self.sourceViewController;
+        //UINavigationController *navigation =
+        __block  WriteCaseShowTemplateViewController *destinationVC = (WriteCaseShowTemplateViewController*) self.destinationViewController;
         
-        segueFlag = YES;
-    }
-    //[sourceVC.rightSideSlideView setTransform:CGAffineTransformMakeRotation(-M_PI/2)];
-    
-    
-    
-   // sourceVC.medicalCaseModelButton.enabled = NO;
-    [UIView animateWithDuration:0.4 animations:^{
         
-        sourceVC.rightSideSlideView.frame = tempRect;
+        [destinationVC.view setFrame:sourceVC.rightSideSlideView.bounds];
         
-    } completion:^(BOOL finished) {
+        CGRect tempRect = sourceVC.rightSideSlideView.frame;
         
-     //   sourceVC.medicalCaseModelButton.enabled = YES;
-        
-        if(segueFlag){
-            
-            [destinationVC removeFromParentViewController];
-            
-            [destinationVC.view removeFromSuperview];
-            [destinationVC didMoveToParentViewController:nil];
-            [sourceVC.rightSideSlideView removeFromSuperview];
-            sourceVC.rightSideSlideView = nil;
-            destinationVC = nil;
-            
-          //  sourceVC.maskView = nil;
-            sourceVC.rightSlideViewFlag = NO;
+        if(tempRect.origin.x >= CGRectGetWidth(sourceVC.view.frame)){
+            tempRect.origin.x -= rightSideSlideViewWidth;
+            segueFlag = NO;
+            [sourceVC.rightSideSlideView addSubview:destinationVC.view];
         }else {
-           // sourceVC.maskView.alpha = 0.5;
-            [sourceVC addChildViewController:destinationVC];
+            //  sourceVC.maskView.alpha = 0;
+            tempRect.origin.x += rightSideSlideViewWidth;
             
-            // [destinationVC didMoveToParentViewController:sourceVC];
+            segueFlag = YES;
         }
-    }];
+        //[sourceVC.rightSideSlideView setTransform:CGAffineTransformMakeRotation(-M_PI/2)];
+        
+        
+        
+        // sourceVC.medicalCaseModelButton.enabled = NO;
+        [UIView animateWithDuration:0.4 animations:^{
+            
+            sourceVC.rightSideSlideView.frame = tempRect;
+            
+        } completion:^(BOOL finished) {
+            
+            //   sourceVC.medicalCaseModelButton.enabled = YES;
+            
+            if(segueFlag){
+                
+                [destinationVC removeFromParentViewController];
+                
+                [destinationVC.view removeFromSuperview];
+                [destinationVC didMoveToParentViewController:nil];
+                [sourceVC.rightSideSlideView removeFromSuperview];
+                sourceVC.rightSideSlideView = nil;
+                destinationVC = nil;
+                
+                //  sourceVC.maskView = nil;
+                sourceVC.rightSlideViewFlag = NO;
+            }else {
+                // sourceVC.maskView.alpha = 0.5;
+                [sourceVC addChildViewController:destinationVC];
+                
+                // [destinationVC didMoveToParentViewController:sourceVC];
+            }
+        }];
+
+    }else if ([self.sourceViewController isKindOfClass:[writeCaseFirstItemViewController class]]){
+        writeCaseFirstItemViewController *sourceVC = (writeCaseFirstItemViewController*)self.sourceViewController;
+        //UINavigationController *navigation =
+        __block  WriteCaseShowTemplateViewController *destinationVC = (WriteCaseShowTemplateViewController*) self.destinationViewController;
+        
+        
+        [destinationVC.view setFrame:sourceVC.rightSideSlideView.bounds];
+        
+        CGRect tempRect = sourceVC.rightSideSlideView.frame;
+        
+        if(tempRect.origin.x >= CGRectGetWidth(sourceVC.view.frame)){
+            tempRect.origin.x -= rightSideSlideViewWidth;
+            segueFlag = NO;
+            [sourceVC.rightSideSlideView addSubview:destinationVC.view];
+        }else {
+            //  sourceVC.maskView.alpha = 0;
+            tempRect.origin.x += rightSideSlideViewWidth;
+            
+            segueFlag = YES;
+        }
+        //[sourceVC.rightSideSlideView setTransform:CGAffineTransformMakeRotation(-M_PI/2)];
+        
+        
+        
+        // sourceVC.medicalCaseModelButton.enabled = NO;
+        [UIView animateWithDuration:0.4 animations:^{
+            
+            sourceVC.rightSideSlideView.frame = tempRect;
+            
+        } completion:^(BOOL finished) {
+            
+            //   sourceVC.medicalCaseModelButton.enabled = YES;
+            
+            if(segueFlag){
+                
+                [destinationVC removeFromParentViewController];
+                
+                [destinationVC.view removeFromSuperview];
+                [destinationVC didMoveToParentViewController:nil];
+                [sourceVC.rightSideSlideView removeFromSuperview];
+                sourceVC.rightSideSlideView = nil;
+                destinationVC = nil;
+                
+                //  sourceVC.maskView = nil;
+                sourceVC.rightSlideViewFlag = NO;
+            }else {
+                // sourceVC.maskView.alpha = 0.5;
+                [sourceVC addChildViewController:destinationVC];
+                
+                // [destinationVC didMoveToParentViewController:sourceVC];
+            }
+        }];
+
+    }
+    
     
 }
 

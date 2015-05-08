@@ -260,7 +260,7 @@ static IHMsgSocket *ihMsgSocket;
     {
         [self.delegate connectServerSucceed:self];
     }
-    self.sucessConnection(ihMsgSocket);
+   // self.sucessConnection(ihMsgSocket);
     if (self.userStr && self.passwordStr)
     {
         MessageObject *msgObj = [[MessageObject alloc] init];

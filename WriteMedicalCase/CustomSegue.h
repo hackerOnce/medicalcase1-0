@@ -10,5 +10,5 @@
 
 @interface CustomSegue : UIStoryboardSegue
 
-
+@property (nonatomic) BOOL isFirstItemViewController;
 @end

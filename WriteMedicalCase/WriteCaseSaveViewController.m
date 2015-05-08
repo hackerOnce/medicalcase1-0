@@ -125,20 +125,24 @@
         NSDictionary *tempDic = [self parseCaseInfoWithDic:dic];
         
         [self.coreDataStack fetchCaseInfoWithDic:tempDic successfulFetched:^(NSArray *resultArray) {
-            
+            [self.navigationController popViewControllerAnimated:YES];
+
         } failedToFetched:^(NSError *error, NSString *errorInfo) {
-            
+            [self.navigationController popViewControllerAnimated:YES];
         }];
         
      } failConection:^(NSError *error) {
          
          NSDictionary *tempDic = [self parseCaseInfoWithDic:dic];
          [self.coreDataStack fetchCaseInfoWithDic:tempDic successfulFetched:^(NSArray *resultArray) {
-             
+             [self.navigationController popViewControllerAnimated:YES];
+
          } failedToFetched:^(NSError *error, NSString *errorInfo) {
-             
+             [self.navigationController popViewControllerAnimated:YES];
+
          }];
    }];
+    
 }
 -(NSDictionary*)getSaveCaseDoctorSocketDic
 {
