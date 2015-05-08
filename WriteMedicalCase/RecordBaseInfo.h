@@ -29,6 +29,19 @@
 @property (nonatomic, retain) NSString * caseType;
 @property (nonatomic, retain) NSDate * createdTime;
 @property (nonatomic, retain) NSDate * lastModifyTime;
+
+@property (nonatomic,retain) NSString *attendingPhysicianDoctorID;
+@property (nonatomic,retain) NSString *attendingPhysicianDoctorName;
+
+@property (nonatomic,retain) NSString *chiefPhysicianDoctorID;
+@property (nonatomic,retain) NSString *chiefPhysicianDoctorName;
+
+@property (nonatomic,retain) NSString *residentDoctorID;
+@property (nonatomic,retain) NSString *residentDoctorname;
+
+@property (nonatomic,retain) NSString *submitToDoctorID;
+@property (nonatomic,retain) NSString *submitToDoctorName;
+
 @property (nonatomic, retain) NSOrderedSet *doctors;
 @property (nonatomic, retain) Patient *patient;
 

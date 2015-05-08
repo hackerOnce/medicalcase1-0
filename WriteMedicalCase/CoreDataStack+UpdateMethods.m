@@ -329,7 +329,7 @@
     }];
 }
 ///create medical case managedObject
--(void)createMedicalCaseManagedObjectWithDataDic:(NSMutableDictionary*)dataDic failedToCreated:(void (^)(NSError *error,NSString * errorInfo))failure successfulCreated:(void (^)())successfully
+-(void)createMedicalCaseManagedObjectWithDataDic:(NSMutableDictionary*)dataDic  inContext:(NSManagedObjectContext*)context isSaveToCoreData:(BOOL)isSaveToCoreData failedToCreated:(void (^)(NSError *error,NSString * errorInfo))failure successfulCreated:(void (^)())successfully
 {
     NSString *patientName;
     NSString *patientID;
@@ -365,8 +365,11 @@
     }
     int count = [self getManagedObjectEntityCountWithName:[RecordBaseInfo   entityName] predicate:predicate];
     if (count == 0) {
-        NSEntityDescription *entityDesc = [NSEntityDescription entityForName: [RecordBaseInfo entityName]inManagedObjectContext:self.managedObjectContext];
-        RecordBaseInfo *recordBaseInfo = [[RecordBaseInfo alloc] initWithEntity:entityDesc insertIntoManagedObjectContext:self.managedObjectContext];
+        NSEntityDescription *entityDesc = [NSEntityDescription entityForName: [RecordBaseInfo entityName]inManagedObjectContext:context];
+        RecordBaseInfo *recordBaseInfo = [[RecordBaseInfo alloc] initWithEntity:entityDesc insertIntoManagedObjectContext:context];
+        
+        
+        
         
         if ([dataDic.allKeys containsObject:@"caseType"]) {
             recordBaseInfo.caseType = [dataDic objectForKey:@"caseType"];
@@ -389,13 +392,41 @@
             recordBaseInfo.createdTime = [dataDic objectForKey:@"createdTime"];
         }
         
-        if ([dataDic.allKeys containsObject:@"isCompleted"]) {
-            recordBaseInfo.isCompleted = [dataDic objectForKey:@"isCompleted"];
-        }
-        if ([dataDic.allKeys containsObject:@"lastModifyTime"]) {
-            recordBaseInfo.lastModifyTime = [dataDic objectForKey:@"lastModifyTime"];
+        if ([dataDic.allKeys containsObject:@"caseID"]) {
+            recordBaseInfo.caseID = [dataDic objectForKey:@"caseID"];
         }
         
+        if ([dataDic.allKeys containsObject:@"attendingPhysicianDoctorID"]) {
+            recordBaseInfo.attendingPhysicianDoctorID = [dataDic objectForKey:@"attendingPhysicianDoctorID"];
+        }
+        if ([dataDic.allKeys containsObject:@"attendingPhysicianDoctorName"]) {
+            recordBaseInfo.attendingPhysicianDoctorName = [dataDic objectForKey:@"attendingPhysicianDoctorName"];
+        }
+        
+        if ([dataDic.allKeys containsObject:@"chiefPhysicianDoctorID"]) {
+            recordBaseInfo.chiefPhysicianDoctorID = [dataDic objectForKey:@"chiefPhysicianDoctorID"];
+        }
+        
+        if ([dataDic.allKeys containsObject:@"chiefPhysicianDoctorName"]) {
+            recordBaseInfo.chiefPhysicianDoctorName = [dataDic objectForKey:@"chiefPhysicianDoctorName"];
+        }
+        
+        if ([dataDic.allKeys containsObject:@"residentDoctorID"]) {
+            recordBaseInfo.residentDoctorID = [dataDic objectForKey:@"residentDoctorID"];
+        }
+
+        if ([dataDic.allKeys containsObject:@"residentDoctorname"]) {
+            recordBaseInfo.residentDoctorname = [dataDic objectForKey:@"residentDoctorname"];
+        }
+
+        if ([dataDic.allKeys containsObject:@"submitToDoctorID"]) {
+            recordBaseInfo.submitToDoctorID = [dataDic objectForKey:@"submitToDoctorID"];
+        }
+        
+        if ([dataDic.allKeys containsObject:@"submitToDoctorName"]) {
+            recordBaseInfo.submitToDoctorName = [dataDic objectForKey:@"submitToDoctorName"];
+        }
+
         if ([dataDic.allKeys containsObject:@"dID"]) {
             recordBaseInfo.dID = [dataDic objectForKey:@"dID"];
         }else{
@@ -423,22 +454,25 @@
             failure(nil,@"创建病例必须要有病人姓名");
             
         }
-        [self saveContextFailToSave:^(NSError *error, NSString *errorInfo) {
-            failure(error,errorInfo);
-        } successfulCreated:^{
-            successfully();
-        }];
-
+        if (isSaveToCoreData) {
+            [self saveContextFailToSave:^(NSError *error, NSString *errorInfo) {
+                failure(error,errorInfo);
+            } successfulCreated:^{
+                successfully();
+            }];
+        }
+        
     }else {
-        [self updateMedicalCaseInContext:self.managedObjectContext ManagedObjectWithDataDic:dataDic failedToUpdated:^(NSError *error, NSString *errorInfo) {
+        [self updateMedicalCaseInContext:context isSaveToCoreData:isSaveToCoreData ManagedObjectWithDataDic:dataDic failedToUpdated:^(NSError *error, NSString *errorInfo) {
             
         } successfulUpdated:^{
-            successfully();
+            
         }];
     }
 }
--(void)updateMedicalCaseInContext:(NSManagedObjectContext*)context ManagedObjectWithDataDic:(NSMutableDictionary*)dataDic failedToUpdated:(void (^)(NSError *error,NSString * errorInfo))failure successfulUpdated:(void (^)())successfully
+-(void)updateMedicalCaseInContext:(NSManagedObjectContext*)context isSaveToCoreData:(BOOL)isSaveToCoreData ManagedObjectWithDataDic:(NSMutableDictionary*)dataDic failedToUpdated:(void (^)(NSError *error,NSString * errorInfo))failure successfulUpdated:(void (^)())successfully
 {
+    
     NSPredicate *predicate;
     
     NSString *pID,*pName,*dID,*dName;
@@ -478,13 +512,14 @@
             
                 RecordBaseInfo *recordBaseInfo = (RecordBaseInfo*)[resultArray firstObject];
                 [self updateCaseInfo:recordBaseInfo withDic:dataDic];
-                
+            
+            if (isSaveToCoreData) {
                 [self saveContextFailToSave:^(NSError *error, NSString *errorInfo) {
                     failure(error,errorInfo);
                 } successfulCreated:^{
                     successfully();
                 }];
-            
+            }
         }else {
             abort();
         }
@@ -571,7 +606,7 @@
     
     [self fetchManagedObjectInContext:self.managedObjectContext WithEntityName:[RecordBaseInfo entityName] withPredicate:predicate successfulFetched:^(NSArray *resultArray) {
         if (resultArray.count == 0) {
-            [self createMedicalCaseManagedObjectWithDataDic:dataDic failedToCreated:^(NSError *error, NSString *errorInfo) {
+            [self createMedicalCaseManagedObjectWithDataDic:dataDic inContext: self.managedObjectContext isSaveToCoreData:YES  failedToCreated:^(NSError *error, NSString *errorInfo) {
                 
             } successfulCreated:^{
                 [self fetchCaseInfoWithDic:dataDic successfulFetched:^(NSArray *resultArray) {
@@ -581,6 +616,12 @@
                 }];
             }];
         }else if (resultArray.count == 1){
+            
+            [self updateMedicalCaseInContext:self.managedObjectContext isSaveToCoreData:YES ManagedObjectWithDataDic:dataDic failedToUpdated:^(NSError *error, NSString *errorInfo) {
+                
+            } successfulUpdated:^{
+            
+            }];
             successfully(resultArray);
         }else {
             NSLog(@"得到了多个病历");
@@ -862,5 +903,37 @@
     });
     
 }
+///sync
+-(void)syncServerMedicalCaseWithDataDic:(NSDictionary*)dataDic inContext:(NSManagedObjectContext*)context failedToSync:(void (^)(NSError *error,NSString * errorInfo))failure successfulSync:(void (^)())successfully
+{
+//    [self createMedicalCaseManagedObjectWithDataDic:dataDic inContext:context isSaveToCoreData:NO failedToCreated:^(NSError *error, NSString *errorInfo) {
+//        failure(error,errorInfo);
+//    } successfulCreated:^{
+//            }];
+    [self fetchCaseInfoWithDic:dataDic successfulFetched:^(NSArray *resultArray) {
+        
+    } failedToFetched:^(NSError *error, NSString *errorInfo) {
+        
+    }];
+}
+-(void)saveContext:(NSManagedObjectContext*)context failedToSync:(void (^)(NSError *error,NSString * errorInfo))failure successfulSync:(void (^)())successfully
+{
+    NSManagedObjectContext *managedObjectContext = context;
+    if (managedObjectContext != nil) {
+        NSError *error = nil;
+        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
+            // Replace this implementation with code to handle the error appropriately.
+            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            failure(error,@"Unresolved error");
+            abort();
+            
+        }else {
+            successfully();
+        }
+    }else {
+        abort();
+    }
 
+}
 @end

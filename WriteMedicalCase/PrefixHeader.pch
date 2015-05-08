@@ -43,6 +43,8 @@
 #import "AutoHeightTextView.h"
 #import "CoreDataStack+UpdateMethods.h"
 #import "NSDate+Helper.h"
+#import "CurrentDoctor.h"
+#import "CurrentPatient.h"
 #pragma mark - data center import
 //#import "WLKDataCenterImport.h"
 

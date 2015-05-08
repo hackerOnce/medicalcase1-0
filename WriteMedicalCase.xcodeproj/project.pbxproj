@@ -80,6 +80,10 @@
 		4705F0D21AF12C320050D47A /* coreDataTestData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4705F0D11AF12C320050D47A /* coreDataTestData.plist */; };
 		4705F0D51AF130250050D47A /* personInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0D41AF130250050D47A /* personInfoView.m */; };
 		4705F0D81AF1312F0050D47A /* WriteCaseEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0D71AF1312F0050D47A /* WriteCaseEditViewController.m */; };
+		47301D011AFB2483005D42CC /* mainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D001AFB2483005D42CC /* mainViewController.m */; };
+		47301D041AFB36AB005D42CC /* CurrentDoctor.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D031AFB36AB005D42CC /* CurrentDoctor.m */; };
+		47301D071AFB4104005D42CC /* CurrentPatient.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D061AFB4104005D42CC /* CurrentPatient.m */; };
+		474D828B1AF9EBFB004A4151 /* CoreDataSyncWithServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D828A1AF9EBFB004A4151 /* CoreDataSyncWithServer.m */; };
 		478858E31AF1BC9E002CD361 /* AutoHeightTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */; };
 		478858EC1AF1FD06002CD361 /* CustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EB1AF1FD06002CD361 /* CustomSegue.m */; };
 		478858EF1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EE1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m */; };
@@ -246,6 +250,14 @@
 		4705F0D41AF130250050D47A /* personInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = personInfoView.m; sourceTree = "<group>"; };
 		4705F0D61AF1312F0050D47A /* WriteCaseEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WriteCaseEditViewController.h; sourceTree = "<group>"; };
 		4705F0D71AF1312F0050D47A /* WriteCaseEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WriteCaseEditViewController.m; sourceTree = "<group>"; };
+		47301CFF1AFB2483005D42CC /* mainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mainViewController.h; sourceTree = "<group>"; };
+		47301D001AFB2483005D42CC /* mainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mainViewController.m; sourceTree = "<group>"; };
+		47301D021AFB36AB005D42CC /* CurrentDoctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentDoctor.h; sourceTree = "<group>"; };
+		47301D031AFB36AB005D42CC /* CurrentDoctor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentDoctor.m; sourceTree = "<group>"; };
+		47301D051AFB4104005D42CC /* CurrentPatient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentPatient.h; sourceTree = "<group>"; };
+		47301D061AFB4104005D42CC /* CurrentPatient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentPatient.m; sourceTree = "<group>"; };
+		474D82891AF9EBFB004A4151 /* CoreDataSyncWithServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataSyncWithServer.h; sourceTree = "<group>"; };
+		474D828A1AF9EBFB004A4151 /* CoreDataSyncWithServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataSyncWithServer.m; sourceTree = "<group>"; };
 		478858E11AF1BC9E002CD361 /* AutoHeightTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoHeightTextView.h; sourceTree = "<group>"; };
 		478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoHeightTextView.m; sourceTree = "<group>"; };
 		478858EA1AF1FD06002CD361 /* CustomSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSegue.h; sourceTree = "<group>"; };
@@ -322,6 +334,14 @@
 				4705A47D1AF48659007FD2B9 /* NSDate+Helper.m */,
 				478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */,
 				4705EFF61AF1044B0050D47A /* Main.storyboard */,
+				47301CFF1AFB2483005D42CC /* mainViewController.h */,
+				47301D001AFB2483005D42CC /* mainViewController.m */,
+				47301D051AFB4104005D42CC /* CurrentPatient.h */,
+				47301D061AFB4104005D42CC /* CurrentPatient.m */,
+				47301D021AFB36AB005D42CC /* CurrentDoctor.h */,
+				47301D031AFB36AB005D42CC /* CurrentDoctor.m */,
+				474D82891AF9EBFB004A4151 /* CoreDataSyncWithServer.h */,
+				474D828A1AF9EBFB004A4151 /* CoreDataSyncWithServer.m */,
 				4705F0141AF104A40050D47A /* WriteCase */,
 				4705EFF91AF1044B0050D47A /* Images.xcassets */,
 				4705EFFB1AF1044B0050D47A /* LaunchScreen.xib */,
@@ -675,6 +695,7 @@
 				4705F0801AF109770050D47A /* WLKCaseNodeTableView.m in Sources */,
 				4705F0311AF1062C0050D47A /* IHGCDReconnect.m in Sources */,
 				4705F0501AF1082C0050D47A /* ParseXML.m in Sources */,
+				47301D071AFB4104005D42CC /* CurrentPatient.m in Sources */,
 				4705F0711AF1094C0050D47A /* SBJsonStreamParserAdapter.m in Sources */,
 				4705F0371AF1062C0050D47A /* Reachability.m in Sources */,
 				4705F0351AF1062C0050D47A /* MessageObject.m in Sources */,
@@ -707,11 +728,13 @@
 				4705F0981AF109C10050D47A /* WLKTableView.m in Sources */,
 				4705F04E1AF1082C0050D47A /* XMLReader.m in Sources */,
 				4705F0971AF109C10050D47A /* UIView+FrameExtends.m in Sources */,
+				474D828B1AF9EBFB004A4151 /* CoreDataSyncWithServer.m in Sources */,
 				4705A4441AF37949007FD2B9 /* CoreDataStack+UpdateMethods.m in Sources */,
 				4705EFF21AF1044B0050D47A /* AppDelegate.m in Sources */,
 				4705F0361AF1062C0050D47A /* NSData+Zip.m in Sources */,
 				4705F0A61AF10CD80050D47A /* RecordBaseInfo.m in Sources */,
 				478858E31AF1BC9E002CD361 /* AutoHeightTextView.m in Sources */,
+				47301D011AFB2483005D42CC /* mainViewController.m in Sources */,
 				4705F08F1AF109990050D47A /* WLKPatient.m in Sources */,
 				4705F0D51AF130250050D47A /* personInfoView.m in Sources */,
 				478858EC1AF1FD06002CD361 /* CustomSegue.m in Sources */,
@@ -727,6 +750,7 @@
 				4705F0721AF1094C0050D47A /* SBJsonStreamParserState.m in Sources */,
 				4705F0BB1AF10DF00050D47A /* TestNode.m in Sources */,
 				4705F0BD1AF10DF00050D47A /* ParentNode.m in Sources */,
+				47301D041AFB36AB005D42CC /* CurrentDoctor.m in Sources */,
 				4705F04D1AF1082C0050D47A /* RawDataProcess.m in Sources */,
 				4705A4811AF4B41A007FD2B9 /* writeCaseFirstItemViewController.m in Sources */,
 				4705F0841AF109870050D47A /* WLKCaseNodeTableViewConfig.m in Sources */,

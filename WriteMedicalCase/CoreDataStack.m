@@ -129,6 +129,7 @@ static NSString *momdName = @"Model";
         }
     }
 }
+
 #pragma mask - create entity or NSmanagedObject with data
 -(Node *)createManagedObjectEntityForNameNodeAndWithDicData:(NSDictionary*)dicData
 {

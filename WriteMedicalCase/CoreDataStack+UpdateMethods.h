@@ -26,10 +26,15 @@
 -(void)createTemplateManagedObjectWithDataDic:(NSMutableDictionary*)dic  successfulCreated:(void (^)())successfully failedToCreated:(void (^)(NSError *error,NSString * errorInfo))failure;
 
 
+
+///for sync
+-(void)saveContext:(NSManagedObjectContext*)context failedToSync:(void (^)(NSError *error,NSString * errorInfo))failure successfulSync:(void (^)())successfully;
+-(void)syncServerMedicalCaseWithDataDic:(NSDictionary*)dataDic inContext:(NSManagedObjectContext*)context failedToSync:(void (^)(NSError *error,NSString * errorInfo))failure successfulSync:(void (^)())successfully;
 ///create medical case managedObject
--(void)createMedicalCaseManagedObjectWithDataDic:(NSMutableDictionary*)dataDic failedToCreated:(void (^)(NSError *error,NSString * errorInfo))failure successfulCreated:(void (^)())successfully;
+-(void)createMedicalCaseManagedObjectWithDataDic:(NSMutableDictionary*)dataDic  inContext:(NSManagedObjectContext*)context isSaveToCoreData:(BOOL)isSaveToCoreData failedToCreated:(void (^)(NSError *error,NSString * errorInfo))failure successfulCreated:(void (^)())successfully;
 ///update medical case
--(void)updateMedicalCaseInContext:(NSManagedObjectContext*)context ManagedObjectWithDataDic:(NSMutableDictionary*)dataDic failedToUpdated:(void (^)(NSError *error,NSString * errorInfo))failure successfulUpdated:(void (^)())successfully;
+-(void)createMedicalCaseManagedObjectWithDataDic:(NSMutableDictionary*)dataDic  inContext:(NSManagedObjectContext*)context isSaveToCoreData:(BOOL)isSaveToCoreData failedToCreated:(void (^)(NSError *error,NSString * errorInfo))failure successfulCreated:(void (^)())successfully;
+
 /// fetch record base info
 -(void)fetchCaseInfoWithDic:(NSDictionary*)dataDic successfulFetched:(void (^)(NSArray *resultArray))successfully failedToFetched:(void (^)(NSError *error,NSString * errorInfo))failure;
 

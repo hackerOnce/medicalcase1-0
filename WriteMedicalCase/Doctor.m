@@ -23,6 +23,8 @@
 @dynamic medicalTeam;
 @dynamic medicalCases;
 @dynamic patients;
+
+@dynamic syncTime;
 +(NSString*)entityName{
     return @"Doctor";
 }

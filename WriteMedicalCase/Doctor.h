@@ -23,6 +23,8 @@
 @property (nonatomic, retain) NSString * medicalTeam;
 @property (nonatomic, retain) NSOrderedSet *medicalCases;
 @property (nonatomic, retain) NSOrderedSet *patients;
+
+@property (nonatomic,retain)  NSDate *syncTime;
 @end
 
 @interface Doctor (CoreDataGeneratedAccessors)

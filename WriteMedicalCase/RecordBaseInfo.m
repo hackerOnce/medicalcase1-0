@@ -20,6 +20,18 @@
 
 @dynamic caseID;
 
+@dynamic submitToDoctorID;
+@dynamic submitToDoctorName;
+
+@dynamic attendingPhysicianDoctorID;
+@dynamic attendingPhysicianDoctorName;
+
+@dynamic chiefPhysicianDoctorID;
+@dynamic chiefPhysicianDoctorName;
+
+@dynamic residentDoctorID;
+@dynamic residentDoctorname;
+
 @dynamic archivedTime;
 @dynamic caseContent;
 @dynamic casePresenter;

@@ -14,6 +14,9 @@
 @interface WriteCaseSaveViewController : UIViewController
 @property (nonatomic,strong) NSString *caseType;
 
+@property (nonatomic,strong) CurrentPatient *currentPatient;
+@property (nonatomic,strong) CurrentDoctor *currentDoctor;
+
 @property (nonatomic,strong) TempPatient *tempPatient;
 @property (nonatomic,strong) TempDoctor *tempResidentDoctor;
 //@property (nonatomic,strong) TempCaseBaseInfo *tempCaseBaseInfo;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="14A389" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="14A389" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Doctor" syncable="YES">
         <attribute name="dept" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dID" optional="YES" attributeType="String" syncable="YES"/>
@@ -59,11 +59,15 @@
     </entity>
     <entity name="RecordBaseInfo" syncable="YES">
         <attribute name="archivedTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="attendingPhysicianDoctorID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="attendingPhysicianDoctorName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="caseContent" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="caseID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="casePresenter" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="caseState" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="caseType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chiefPhysicianDoctorID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="chiefPhysicianDoctorName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="createdTime" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dName" optional="YES" attributeType="String" syncable="YES"/>
@@ -71,6 +75,10 @@
         <attribute name="lastModifyTime" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="residentDoctorID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="residentDoctorname" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="submitToDoctorID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="submitToDoctorName" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="doctors" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Doctor" inverseName="medicalCases" inverseEntity="Doctor" syncable="YES"/>
         <relationship name="patient" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Patient" inverseName="medicalCases" inverseEntity="Patient" syncable="YES"/>
     </entity>
@@ -98,7 +106,7 @@
         <element name="Node" positionX="-54" positionY="-9" width="128" height="210"/>
         <element name="ParentNode" positionX="-36" positionY="9" width="128" height="75"/>
         <element name="Patient" positionX="-18" positionY="27" width="128" height="435"/>
-        <element name="RecordBaseInfo" positionX="0" positionY="45" width="128" height="270"/>
+        <element name="RecordBaseInfo" positionX="0" positionY="45" width="128" height="390"/>
         <element name="Template" positionX="18" positionY="63" width="128" height="300"/>
     </elements>
 </model>

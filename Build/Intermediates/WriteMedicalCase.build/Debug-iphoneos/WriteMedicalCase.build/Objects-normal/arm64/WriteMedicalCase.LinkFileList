@@ -16,6 +16,7 @@
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/SBJsonStreamParserAccumulator.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/WLKCaseNode.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/RWLabel.o
+/Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/TempPatient.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/SBJsonStreamWriterAccumulator.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/WLKTooles.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/SBJsonUTF8Stream.o
@@ -24,6 +25,7 @@
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/SBJsonStreamWriter.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/WLKTemplate.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/CoreDataStack.o
+/Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/TempDoctor.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/MBProgressHUD+MJ.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/KeyValueObserver.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/IHMsgSocket.o
@@ -33,17 +35,20 @@
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/WLKCaseNodeCell.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/GCDAsyncSocket.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/Patient.o
+/Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/TempCaseBaseInfo.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/UIView+DY.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/ViewController.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/SBJsonParser.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/WLKTableView.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/XMLReader.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/UIView+FrameExtends.o
+/Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/CoreDataSyncWithServer.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/CoreDataStack+UpdateMethods.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/AppDelegate.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/NSData+Zip.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/RecordBaseInfo.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/AutoHeightTextView.o
+/Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/mainViewController.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/WLKPatient.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/personInfoView.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/CustomSegue.o
@@ -59,6 +64,7 @@
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/SBJsonStreamParserState.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/TestNode.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/ParentNode.o
+/Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/CurrentDoctor.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/RawDataProcess.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/writeCaseFirstItemViewController.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphoneos/WriteMedicalCase.build/Objects-normal/arm64/WLKCaseNodeTableViewConfig.o

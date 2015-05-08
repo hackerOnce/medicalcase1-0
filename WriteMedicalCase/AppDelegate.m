@@ -10,6 +10,8 @@
 #import "CoreDataStack.h"
 #import "MessageObject+DY.h"
 #import "RawDataProcess.h"
+#import "CoreDataSyncWithServer.h"
+
 @interface AppDelegate ()
 @property (nonatomic,strong) CoreDataStack *coreDataStack;
 @property (nonatomic,strong) RawDataProcess *rawDataProcess;
@@ -36,6 +38,8 @@
         self.rawDataProcess = [RawDataProcess sharedRawData];
     });
 
+   // CoreDataSyncWithServer *syncServer = [[CoreDataSyncWithServer alloc] init];
+    
     //test for 病例管理
    // [self SaveTestDataToCoreData];
     

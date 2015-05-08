@@ -52,100 +52,21 @@
 @synthesize tempResidentDoctor = _tempResidentDoctor;
 @synthesize tempPatient = _tempPatient;
 ///test data
+
 -(IHMsgSocket *)socket
 {
     if (!_socket) {
         _socket = [IHMsgSocket sharedRequest];
+        
+        //为了防止多次同步，这里加个同步标志
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"didSyncFlag"];
         [_socket connectToHost:@"192.168.10.106" onPort:2323];
     }
     return _socket;
 }
-//-(TempPatient *)tempPatient
-//{
-//    if (!_tempPatient) {
-////        NSDictionary *tempDic =@{@"pID":@"99999",@"pName":@"魍天赐",@"pGender":@"男",@"pAge":@"24",@"pCity":@"上海",@"pProvince":@"上海",@"pDetailAddress":@"闸北区彭江路602号",@"pDept":@"心内科",@"pBedNum":@"02",@"pNation":@"中国"};
-//        _tempPatient = [[TempPatient alloc] initWithPatientID:nil];
-//    }
-//    return _tempPatient;
-//}
--(void)setTempResidentDoctor:(TempDoctor *)tempResidentDoctor
-{
-    _tempResidentDoctor = tempResidentDoctor;
-    NSString *dept = _tempResidentDoctor.dept;
-    NSString *dID = _tempResidentDoctor.dID;
-    NSString *dName =  tempResidentDoctor.dName;
-    NSString *dProfessionalTitle = tempResidentDoctor.dProfessionalTitle?tempResidentDoctor.dProfessionalTitle:@" ";
-    NSString *isResident = tempResidentDoctor.isResidentDoctor?tempResidentDoctor.isResidentDoctor:@" ";
-    NSString *medicalTeam = tempResidentDoctor.medicalTeam?tempResidentDoctor.medicalTeam:@" ";
- 
-    
-    //创建住院医师
-    [self.coreDataStack fetchDoctorWithDic:NSDictionaryOfVariableBindings(dept,dID,dName,dProfessionalTitle) successfulFetched:^(NSArray *resultArray) {
-        self.doctorCreatedSucess  = YES;
 
-    } failedToFetched:^(NSError *error, NSString *errorInfo) {
-        
-    }];
+/// load data
 
-}
--(void)setTempPatient:(TempPatient *)tempPatient
-{
-    _tempPatient = tempPatient;
-    //创建病人
-    NSDictionary *tempDic = [self getSaveCasePatientSocketDic];
-    [self.coreDataStack fetchPatientWithDic:tempDic successfulFetched:^(NSArray *resultArray) {
-        self.patientCreateSucess = YES;
-    
-            NSString *dName = self.tempResidentDoctor.dName;
-            NSString *dID = self.tempResidentDoctor.dID;
-            NSString *pName = self.tempPatient.pName;
-            NSString *pID = self.tempPatient.pID;
-            NSString *caseType = self.caseType;//入院病历
-            //
-            if (self.patientCreateSucess && self.doctorCreatedSucess) {
-                [self.coreDataStack fetchCaseInfoWithDic:NSDictionaryOfVariableBindings(dName,dID,pName,pID,caseType) successfulFetched:^(NSArray *resultArray) {
-    
-                    if (resultArray.count == 1) {
-                        self.recordBaseInfo = (RecordBaseInfo*)[resultArray firstObject];
-                    }else {
-    
-                    }
-                } failedToFetched:^(NSError *error, NSString *errorInfo) {
-                    
-                }];
-            }
-
-    } failedToFetched:^(NSError *error, NSString *errorInfo) {
-        
-    }];
-
-//    [self.coreDataStack createPatientManagedObjectWithDataDic:tempDic failedToCreated:^(NSError *error, NSString *errorInfo) {
-//        
-//    } successfulCreated:^{
-//        
-//        self.patientCreateSucess = YES;
-//        
-//        NSString *dName = self.tempResidentDoctor.dName;
-//        NSString *dID = self.tempResidentDoctor.dID;
-//        NSString *pName = self.tempPatient.pName;
-//        NSString *pID = self.tempPatient.pID;
-//        NSString *caseType = self.caseType;//入院病历
-//        //
-//        if (self.patientCreateSucess && self.doctorCreatedSucess) {
-//            [self.coreDataStack fetchCaseInfoWithDic:NSDictionaryOfVariableBindings(dName,dID,pName,pID,caseType) successfulFetched:^(NSArray *resultArray) {
-//                
-//                if (resultArray.count == 1) {
-//                    self.recordBaseInfo = (RecordBaseInfo*)[resultArray firstObject];
-//                }else {
-//                    
-//                }
-//            } failedToFetched:^(NSError *error, NSString *errorInfo) {
-//                
-//            }];
-//        }
-//    }];
-        
-}
 -(NSString *)caseType
 {
     if (!_caseType) {
@@ -153,37 +74,12 @@
     }
     return _caseType;
 }
-//-(TempDoctor*)tempResidentDoctor
-//{
-//    if (!_tempResidentDoctor) {
-//        NSDictionary *tempDic = @{@"dID":@"88888",@"dName":@"住院医师",@"dept":@"心内科",@"isResidentDoctor":@"1"};
-//        _tempResidentDoctor = [[TempDoctor alloc] initWithTempDoctorDic:tempDic];
-//    }
-//    return _tempResidentDoctor;
-//}
-//-(TempDoctor *)tempChiefPhysicianDoctor
-//{
-//    if (!_tempChiefPhysicianDoctor) {
-//        NSDictionary *tempDic = @{@"dID":@"99999",@"dName":@"主任医师",@"dept":@"心内科",@"isResidentDoctor":@"0"};
-//        _tempResidentDoctor = [[TempDoctor alloc] initWithTempDoctorDic:tempDic];
-//    }
-//    return _tempChiefPhysicianDoctor;
-//}
-//-(TempDoctor *)tempAttendingPhysicianDoctor
-//{
-//    if (!_tempAttendingPhysicianDoctor) {
-//        NSDictionary *tempDic = @{@"dID":@"77777",@"dName":@"主治医师",@"dept":@"心内科",@"isResidentDoctor":@"0"};
-//        _tempResidentDoctor = [[TempDoctor alloc] initWithTempDoctorDic:tempDic];
-//
-//    }
-//    return _tempAttendingPhysicianDoctor;
-//}
 -(NSDictionary*)testData
 {
-    NSString *pID = self.tempPatient.pID;
-    NSString *pName = self.tempPatient.pName;
-    NSString *dID = self.tempResidentDoctor.dID;
-    NSString *dName = self.tempResidentDoctor.dName;
+    NSString *pID = self.currentPatient.pID;
+    NSString *pName = self.currentPatient.pName;
+    NSString *dID = self.currentDoctor.dID;
+    NSString *dName = self.currentDoctor.dName;
     NSString *caseType;
     if (self.caseType) {
         caseType = self.caseType;
@@ -197,26 +93,28 @@
     
     [self.coreDataStack saveContext];
 
-    
     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[self getContentDic]];
     
-    NSString * dID = self.tempResidentDoctor.dID;
-    NSString * dName = self.tempResidentDoctor.dName;
-    NSString * pID = self.tempPatient.pID;
-    NSString * pName = self.tempPatient.pName;
+    NSString * dID = self.currentDoctor.dID;
+    NSString * dName = self.currentDoctor.dName;
+    NSString * pID = self.currentPatient.pID;
+    NSString * pName = self.currentPatient.pName;
     
     [dic setObject:dID forKey:@"dID"];
     [dic setObject:dName forKey:@"dName"];
     [dic setObject:pID forKey:@"pID"];
     [dic setObject:pName forKey:@"pName"];
     
-   // UIButton *button = (UIButton*)sender;
+   //UIButton *button = (UIButton*)sender;
     NSDictionary *doctor = [self getSaveCaseDoctorSocketDic];
     NSDictionary *patient = [self getSaveCasePatientSocketDic];
     NSDictionary *caseBaseInfo = [self getContentDic];
     
+    [dic setObject:doctor forKey:@"doctor"];
+    [dic setObject:patient forKey:@"patient"];
+    [dic setObject:caseBaseInfo forKey:@"caseBaseInfo"];
     
-   [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:20001 dictionary:NSDictionaryOfVariableBindings(doctor,patient,caseBaseInfo) block:^(IHSockRequest *request) {
+    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:20001 dictionary:dic block:^(IHSockRequest *request) {
        
        NSDictionary *requestDic = [request.responseData firstObject];
        [dic setObject:requestDic[@"_DOF"] forKey:@"archivedTime"];
@@ -224,48 +122,56 @@
        [dic setObject:requestDic[@"_updated"] forKey:@"lastModifyTime"];
        [dic setObject:requestDic[@"_id"] forKey:@"caseID"];
        
-       [self.coreDataStack createMedicalCaseManagedObjectWithDataDic:dic failedToCreated:^(NSError *error, NSString *errorInfo) {
-           
-       } successfulCreated:^{
-           
-       }];
-      } failConection:^(NSError *error) {
-       
+        NSDictionary *tempDic = [self parseCaseInfoWithDic:dic];
+        
+        [self.coreDataStack fetchCaseInfoWithDic:tempDic successfulFetched:^(NSArray *resultArray) {
+            
+        } failedToFetched:^(NSError *error, NSString *errorInfo) {
+            
+        }];
+        
+     } failConection:^(NSError *error) {
+         
+         NSDictionary *tempDic = [self parseCaseInfoWithDic:dic];
+         [self.coreDataStack fetchCaseInfoWithDic:tempDic successfulFetched:^(NSArray *resultArray) {
+             
+         } failedToFetched:^(NSError *error, NSString *errorInfo) {
+             
+         }];
    }];
 }
 -(NSDictionary*)getSaveCaseDoctorSocketDic
 {
-    //doctor
-    NSString  *residentDoctorname = self.tempResidentDoctor.dName?self.tempResidentDoctor.dName:@" ";
-    NSString  *residentDoctorID = self.tempResidentDoctor.dID?self.tempResidentDoctor.dID:@" ";
-    NSString  *attendingPhysicianDoctorName = self.tempAttendingPhysicianDoctor.dName?self.tempAttendingPhysicianDoctor.dName:@" ";
-    NSString  *attendingPhysicianDoctorID = self.tempAttendingPhysicianDoctor.dID?self.tempAttendingPhysicianDoctor.dID:@" ";
-    NSString  *chiefPhysicianDoctorID = self.tempChiefPhysicianDoctor.dName?self.tempChiefPhysicianDoctor.dName:@" ";
-    NSString  *chiefPhysicianDoctorName = self.tempChiefPhysicianDoctor.dID?self.tempChiefPhysicianDoctor.dID:@" ";
+    ///doctor
+    NSString  *residentDoctorname = self.currentDoctor.dName?self.currentDoctor.dName:@" ";
+    NSString  *residentDoctorID = self.currentDoctor.dID?self.currentDoctor.dID:@" ";
+    NSString  *attendingPhysicianDoctorName = @" ";
+    NSString  *attendingPhysicianDoctorID = @" ";
+    NSString  *chiefPhysicianDoctorID = @" ";
+    NSString  *chiefPhysicianDoctorName = @" ";
     return NSDictionaryOfVariableBindings(residentDoctorID,residentDoctorname,attendingPhysicianDoctorID,attendingPhysicianDoctorName,chiefPhysicianDoctorID,chiefPhysicianDoctorName);
 }
 -(NSDictionary*)getSaveCasePatientSocketDic
 {
     ///patient dic
-    
-    NSString  *pAge = self.tempPatient.pAge?self.tempPatient.pAge:@" ";
-    NSString  *patientState = self.tempPatient.patientState?self.tempPatient.patientState:@" ";
-    NSString  *pBedNum = self.tempPatient.pBedNum?self.tempPatient.pBedNum:@" ";
-    NSString  *pCity = self.tempPatient.pCity?self.tempPatient.pCity:@" ";
-    NSString  *pCountOfHospitalized = self.tempPatient.pCountOfHospitalized?self.tempPatient.pCountOfHospitalized:@" ";
-    NSString  *pDept = self.tempPatient.pDept?self.tempPatient.pDept:@" ";
-    NSString  *pDetailAddress = self.tempPatient.pDetailAddress?self.tempPatient.pDetailAddress:@" ";
-    NSString  *pGender = self.tempPatient.pGender?self.tempPatient.pGender:@" " ;
-    NSString  *pID = self.tempPatient.pID?self.tempPatient.pID:@" ";
-    NSString  *pLinkman = self.tempPatient.pLinkman?self.tempPatient.pLinkman:@" ";
-    NSString  *pLinkmanMobileNum = self.tempPatient.pLinkmanMobileNum?self.tempPatient.pLinkmanMobileNum:@" ";
-    NSString  *pMaritalStatus = self.tempPatient.pMaritalStatus?self.tempPatient.pMaritalStatus:@" "; //婚姻状况
-    NSString  *pMobileNum = self.tempPatient.pMobileNum?self.tempPatient.pMobileNum:@" ";
-    NSString  *pName = self.tempPatient.pName?self.tempPatient.pName:@" ";
-    NSString  *pNation = self.tempPatient.pNation?self.tempPatient.pNation:@" ";
-    NSString  *pProfession = self.tempPatient.pProfession?self.tempPatient.pProfession:@" ";
-    NSString  *pProvince = self.tempPatient.pProvince?self.tempPatient.pProvince:@" ";
-    NSString  *presenter = self.tempPatient.presenter?self.tempPatient.presenter:@" ";//病史陈述者
+    NSString  *pAge = self.currentPatient.pAge?self.currentPatient.pAge:@" ";
+    NSString  *patientState = self.currentPatient.patientState?self.currentPatient.patientState:@" ";
+    NSString  *pBedNum = self.currentPatient.pBedNum?self.currentPatient.pBedNum:@" ";
+    NSString  *pCity = self.currentPatient.pCity?self.currentPatient.pCity:@" ";
+    NSString  *pCountOfHospitalized = self.currentPatient.pCountOfHospitalized?self.currentPatient.pCountOfHospitalized:@" ";
+    NSString  *pDept = self.currentPatient.pDept?self.currentPatient.pDept:@" ";
+    NSString  *pDetailAddress = self.currentPatient.pDetailAddress?self.currentPatient.pDetailAddress:@" ";
+    NSString  *pGender = self.currentPatient.pGender?self.currentPatient.pGender:@" " ;
+    NSString  *pID = self.currentPatient.pID?self.currentPatient.pID:@" ";
+    NSString  *pLinkman = self.currentPatient.pLinkman?self.currentPatient.pLinkman:@" ";
+    NSString  *pLinkmanMobileNum = self.currentPatient.pLinkmanMobileNum?self.currentPatient.pLinkmanMobileNum:@" ";
+    NSString  *pMaritalStatus = self.currentPatient.pMaritalStatus?self.currentPatient.pMaritalStatus:@" "; //婚姻状况
+    NSString  *pMobileNum = self.currentPatient.pMobileNum?self.currentPatient.pMobileNum:@" ";
+    NSString  *pName = self.currentPatient.pName?self.currentPatient.pName:@" ";
+    NSString  *pNation = self.currentPatient.pNation?self.currentPatient.pNation:@" ";
+    NSString  *pProfession = self.currentPatient.pProfession?self.currentPatient.pProfession:@" ";
+    NSString  *pProvince = self.currentPatient.pProvince?self.currentPatient.pProvince:@" ";
+    NSString  *presenter = self.currentPatient.presenter?self.currentPatient.presenter:@" ";//病史陈述者
     
     NSDictionary *patientDic = NSDictionaryOfVariableBindings(pAge,patientState,pBedNum,pCity,pCountOfHospitalized,pDetailAddress,pDept,pGender,pID,pCountOfHospitalized,pLinkman,pLinkmanMobileNum,pMobileNum,pName,pNation,pProfession,pProvince,presenter,pMaritalStatus);
     
@@ -276,32 +182,32 @@
     _recordBaseInfo = recordBaseInfo;
     
     NSDictionary *dic;
+    
     if (_recordBaseInfo.caseContent == nil || [_recordBaseInfo.caseContent isEqualToString:@""]) {
-        _recordBaseInfo.caseContent = @"";
-
-    }else {
-        
+     //[self setUpFetchViewController];
+        _recordBaseInfo.caseContent = @" ";
     }
-    dic =[self convertJSONDataToList:[self convertStringToJSONData:_recordBaseInfo.caseContent]];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"nodeName = %@",@"入院记录"];
-    
-    NSArray *resultA = [self.coreDataStack fetchNSManagedObjectEntityWithName:[ParentNode entityName] withNSPredicate:predicate setUpFetchRequestResultType:0 isSetUpResultType:NO setUpFetchRequestSortDescriptors:nil isSetupSortDescriptors:NO];
-    if (resultA.count == 1) {
-        ParentNode *parentNode = (ParentNode*)[resultA firstObject];
-        for (Node *node in parentNode.nodes.array) {
-            node.nodeContent = [dic objectForKey:node.nodeNameE];
-        }
-        [self.coreDataStack saveContextFailToSave:^(NSError *error, NSString *errorInfo) {
+        dic =[self convertJSONDataToList:[self convertStringToJSONData:_recordBaseInfo.caseContent]];
+        
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"nodeName = %@",@"入院记录"];
+        
+        NSArray *resultA = [self.coreDataStack fetchNSManagedObjectEntityWithName:[ParentNode entityName] withNSPredicate:predicate setUpFetchRequestResultType:0 isSetUpResultType:NO setUpFetchRequestSortDescriptors:nil isSetupSortDescriptors:NO];
+        if (resultA.count == 1) {
+            ParentNode *parentNode = (ParentNode*)[resultA firstObject];
+            for (Node *node in parentNode.nodes.array) {
+                node.nodeContent = [dic objectForKey:node.nodeNameE];
+            }
+            [self.coreDataStack saveContextFailToSave:^(NSError *error, NSString *errorInfo) {
+                
+            } successfulCreated:^{
+                [self setUpFetchViewController];
+            }];
             
-        } successfulCreated:^{
-            [self setUpFetchViewController];
-        }];
-        
-    }else {
-        abort();
-    }
-
+        }else {
+            abort();
+        }
+    
 }
 
 -(NSMutableDictionary*)getContentDic
@@ -347,7 +253,7 @@
 -(void)updateButtonState
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"nodeName = %@",@"入院记录"];
-    //NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"nodeIndex" ascending:YES];
+    
     BOOL hasContent = NO;
     NSArray *resultA = [self.coreDataStack fetchNSManagedObjectEntityWithName:[ParentNode entityName] withNSPredicate:predicate setUpFetchRequestResultType:0 isSetUpResultType:NO setUpFetchRequestSortDescriptors:nil isSetupSortDescriptors:NO];
     if (resultA.count == 1) {
@@ -363,7 +269,6 @@
             }else {
                 [self.saveButton setTitle:@"提交" forState:UIControlStateNormal];
             }
-
         });
     }
 }
@@ -386,9 +291,6 @@
     [self updateButtonState];
     
     self.caseTypeLabel.text =self.caseType?self.caseType:@"入院病历";
-//    if (!self.caseType) {
-//        abort();
-//    }
 
     self.remainTimeLabel.text =[NSString stringWithFormat:@"剩余时间:%@",[self getRemainTime]];
     self.currentTimeLabel.text  =  [self getYearAndMonthWithDateStr:[NSDate date]];
@@ -417,62 +319,61 @@
     [self addKeyboardObserver];
     
     [self setUpTableView];
+    
+    NSString *dName = self.currentDoctor.dName;
+    NSString *dID = self.currentDoctor.dID;
+    NSString *pName = self.currentPatient.pName;
+    NSString *pID = self.currentPatient.pID;
+    NSString *caseType = self.caseType;//入院病历
+
+    [self.coreDataStack fetchCaseInfoWithDic:NSDictionaryOfVariableBindings(dName,dID,pName,pID,caseType) successfulFetched:^(NSArray *resultArray) {
+        
+                            if (resultArray.count == 1) {
+                                self.recordBaseInfo = (RecordBaseInfo*)[resultArray firstObject];
+                            }else {
+        
+                            }
+                        } failedToFetched:^(NSError *error, NSString *errorInfo) {
+                            
+                        }];
+
+    
     self.isBeginEdit = NO;
     
-    NSString *dID = @"88888";
-    NSString *dName = @"医生";
-    NSString *dProfessionalTitle = @"小医生";
-    NSString *dept = @"心内科";
-    NSString *medicalTeam = @"无";
-    
-    self.tempResidentDoctor = [[TempDoctor alloc] initWithTempDoctorDic:NSDictionaryOfVariableBindings(dID,dName,dProfessionalTitle,dept,medicalTeam)];
-    
-    ///test data
-    NSString *pID = @"99999";
-    NSString *pName = @"王天找";
-    NSString *pGender = @"男";
-    NSString *pAge = @"22";
-    NSString *pCity = @"上海";
-    NSString *pProvince = @"上海";
-    NSString *pDetailAddress = @"上海闸北区彭江路";
-    NSString *pDept = @"心内科";
-    NSString *pBedNum = @"086";
-    NSString *pNation = @"东突";
-    NSString *pProfession = @"律师";
-    NSString *pMaritalStatus = @"未婚";
-    NSString *pMobileNum = @"13778126754";
-    NSString *pLinkman = @"王天华";
-    NSString *pLinkmanMobileNum = @"13787865676";
-    NSString *pCountOfHospitalized = @"1";
-    NSString *presenter = @"本人";//病史陈述者
-    NSString *pAdmissionTime = @"2015-09-09";//入院时间 //年月日
-    NSString *pSubAdmissionTime = @"上午 09:00:09"; //时分秒
-    NSString *patientState = @"0";//0：未出院 1： 已出院
-
-    self.tempPatient = [[TempPatient alloc] initWithPatientID:NSDictionaryOfVariableBindings(pID,pNation,pName,pGender,pAge,pCity,pProvince,pDetailAddress,pDept,pBedNum,pProvince,pMaritalStatus,pMobileNum,pLinkmanMobileNum,pLinkman,pCountOfHospitalized,presenter,pAdmissionTime,pSubAdmissionTime,patientState,pProfession)];
-    
-   // self.hasContent = NO;
-//    NSString *pID = @"88888";
-//    NSString *pName = @"张三";
-//    NSString *dID = @"99999";
-//    NSString *dName = @"涨涨我";
-//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"pID=%@ and pName=%@ and dID=%@ and dName=%@",pID,pName,dID,dName];
-//    [self.coreDataStack fetchManagedObjectInContext:self.managedObjectContext WithEntityName:[RecordBaseInfo entityName] withPredicate:predicate successfulFetched:^(NSArray *resultArray) {
-//        
-//        if (resultArray.count == 0) {
-//            
-//        }else {
-//            if (resultArray.count == 1) {
-//                RecordBaseInfo *recordBaseInfo = (RecordBaseInfo*)[resultArray firstObject];
-//                self.recordBaseInfo = recordBaseInfo;
-//            }
-//        }
+//    NSString *dID = @"88888";
+//    NSString *dName = @"医生";
+//    NSString *dProfessionalTitle = @"小医生";
+//    NSString *dept = @"心内科";
+//    NSString *medicalTeam = @"无";
+//    
+//    self.tempResidentDoctor = [[TempDoctor alloc] initWithTempDoctorDic:NSDictionaryOfVariableBindings(dID,dName,dProfessionalTitle,dept,medicalTeam)];
+//    
+//    ///test data
+//    NSString *pID = @"99999";
+//    NSString *pName = @"王天找";
+//    NSString *pGender = @"男";
+//    NSString *pAge = @"22";
+//    NSString *pCity = @"上海";
+//    NSString *pProvince = @"上海";
+//    NSString *pDetailAddress = @"上海闸北区彭江路";
+//    NSString *pDept = @"心内科";
+//    NSString *pBedNum = @"086";
+//    NSString *pNation = @"东突";
+//    NSString *pProfession = @"律师";
+//    NSString *pMaritalStatus = @"未婚";
+//    NSString *pMobileNum = @"13778126754";
+//    NSString *pLinkman = @"王天华";
+//    NSString *pLinkmanMobileNum = @"13787865676";
+//    NSString *pCountOfHospitalized = @"1";
+//    NSString *presenter = @"本人";//病史陈述者
+//    NSString *pAdmissionTime = @"2015-09-09";//入院时间 //年月日
+//    NSString *pSubAdmissionTime = @"上午 09:00:09"; //时分秒
+//    NSString *patientState = @"0";//0：未出院 1： 已出院
 //
-//    } failedToFetched:^(NSError *error, NSString *errorInfo) {
-//        
-//    }];
-
+//    self.tempPatient = [[TempPatient alloc] initWithPatientID:NSDictionaryOfVariableBindings(pID,pNation,pName,pGender,pAge,pCity,pProvince,pDetailAddress,pDept,pBedNum,pProvince,pMaritalStatus,pMobileNum,pLinkmanMobileNum,pLinkman,pCountOfHospitalized,presenter,pAdmissionTime,pSubAdmissionTime,patientState,pProfession)];
 }
+
+
 -(void)addKeyboardObserver
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -495,8 +396,6 @@
 
 -(void)setUpFetchViewController
 {
-    
-    
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:[Node entityName]];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"parentNode.nodeName = %@",@"入院记录"];
     
@@ -611,7 +510,6 @@
     CGRect tableFrame = tableView.frame;
     tableFrame.size.height += self.keyboardOverlap;
     
-    //  tableFrame.size = CGSizeMake(678, 497);
     if(keyboardRect.size.height)
         animationDuration = animationDuration * self.keyboardOverlap/keyboardRect.size.height;
     
@@ -675,18 +573,6 @@
     cellLabel.text = tempNode.nodeName;
     textView.text = ([tempNode.nodeContent isEqualToString:tempNode.nodeName]) ? @" ": tempNode.nodeContent;
     [textView layoutIfNeeded];
-    //    if(indexPath.row == 0) {
-    //        cellLabel.text = @"主诉";
-    //      //  textView.text = [self.dataArray objectAtIndex:indexPath.row];
-    //        textView.text = tempNode.nodeName
-    //    }else {
-    //        cellLabel.text = @"现病史";
-    //        textView.text = [self.dataArray objectAtIndex:indexPath.row];
-    //    }
-}
--(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
 }
 #pragma mask - WriteCaseSaveCell  delegate
 -(void)textViewCell:(WriteCaseSaveCell *)cell didChangeText:(NSString *)text
@@ -856,5 +742,134 @@
     return nil;
 }
 
-
+-(NSDictionary*)parseCaseInfoWithDic:(NSDictionary*)dataDic
+{
+    NSMutableDictionary *tempDic = [[NSMutableDictionary alloc] init];
+    
+    if ([dataDic.allKeys containsObject:@"_DOF"]) {
+        [tempDic setObject:dataDic[@"_DOF"] forKey:@"archivedTime"];
+    }
+    if ([dataDic.allKeys containsObject:@"_created"]) {
+        [tempDic setObject:dataDic[@"_created"] forKey:@"createdTime"];
+    }
+    if ([dataDic.allKeys containsObject:@"_id"]) {
+        [tempDic setObject:dataDic[@"_id"] forKey:@"caseID"];
+    }
+    
+    if ([dataDic.allKeys containsObject:@"_updated"]) {
+        [tempDic setObject:dataDic[@"_updated"] forKey:@"updatedTime"];
+    }
+    if ([dataDic.allKeys containsObject:@"caseBaseInfo"]) {
+        
+        NSDictionary *dic = dataDic[@"caseBaseInfo"];
+        
+        if ([dic.allKeys containsObject:@"caseContent"]) {
+            [tempDic setObject:dic[@"caseContent"]forKey:@"caseContent"];
+        }
+    }
+    if ([dataDic.allKeys containsObject:@"caseState"]) {
+        [tempDic setObject:dataDic[@"caseState"] forKey:@"caseState"];
+    }
+    if ([dataDic.allKeys containsObject:@"caseType"]) {
+        [tempDic setObject:dataDic[@"caseType"] forKey:@"caseType"];
+    }
+    
+    if ([dataDic.allKeys containsObject:@"doctor"]) {
+        NSDictionary *doctor = dataDic[@"doctor"];
+        if ([doctor.allKeys containsObject:@"attendingPhysicianDoctorID"]) {
+            [tempDic setObject:doctor[@"attendingPhysicianDoctorID"] forKey:@"attendingPhysicianDoctorID"];
+        }
+        if ([doctor.allKeys containsObject:@"attendingPhysicianDoctorName"]) {
+            [tempDic setObject:doctor[@"attendingPhysicianDoctorName"] forKey:@"attendingPhysicianDoctorName"];
+        }
+        
+        if ([doctor.allKeys containsObject:@"chiefPhysicianDoctorID"]) {
+            [tempDic setObject:doctor[@"chiefPhysicianDoctorID"] forKey:@"chiefPhysicianDoctorID"];
+        }
+        if ([doctor.allKeys containsObject:@"chiefPhysicianDoctorName"]) {
+            [tempDic setObject:doctor[@"chiefPhysicianDoctorName"] forKey:@"chiefPhysicianDoctorName"];
+        }
+        
+        if ([doctor.allKeys containsObject:@"residentDoctorID"]) {
+            [tempDic setObject:doctor[@"residentDoctorID"] forKey:@"residentDoctorID"];
+            [tempDic setObject:doctor[@"residentDoctorID"] forKey:@"dID"];
+        }
+        if ([doctor.allKeys containsObject:@"residentDoctorname"]) {
+            [tempDic setObject:doctor[@"residentDoctorname"] forKey:@"residentDoctorname"];
+            [tempDic setObject:doctor[@"residentDoctorname"] forKey:@"dName"];
+        }
+        
+        if ([dataDic.allKeys containsObject:@"submitToDoctorName"]) {
+            [tempDic setObject:doctor[@"submitToDoctorName"] forKey:@"submitToDoctorName"];
+        }
+        
+        
+    }
+    if ([dataDic.allKeys containsObject:@"patient"]) {
+        NSDictionary *patient = dataDic[@"patient"];
+        
+        if ([patient.allKeys containsObject:@"pAge"]) {
+            [tempDic setObject:patient[@"pAge"] forKey:@"pAge"];
+        }
+        if ([patient.allKeys containsObject:@"pBedNum"]) {
+            [tempDic setObject:patient[@"pBedNum"] forKey:@"pBedNum"];
+        }
+        if ([patient.allKeys containsObject:@"pCity"]) {
+            [tempDic setObject:patient[@"pCity"] forKey:@"pCity"];
+        }
+        if ([patient.allKeys containsObject:@"pCountOfHospitalized"]) {
+            [tempDic setObject:patient[@"pCountOfHospitalized"] forKey:@"pCountOfHospitalized"];
+        }
+        
+        if ([patient.allKeys containsObject:@"pDept"]) {
+            [tempDic setObject:patient[@"pDept"] forKey:@"pDept"];
+        }
+        if ([patient.allKeys containsObject:@"pDetailAddress"]) {
+            [tempDic setObject:patient[@"pDetailAddress"] forKey:@"pDetailAddress"];
+        }
+        if ([patient.allKeys containsObject:@"pGender"]) {
+            [tempDic setObject:patient[@"pGender"] forKey:@"pGender"];
+        }
+        if ([patient.allKeys containsObject:@"pID"]) {
+            [tempDic setObject:patient[@"pID"] forKey:@"pID"];
+        }
+        
+        if ([patient.allKeys containsObject:@"pLinkman"]) {
+            [tempDic setObject:patient[@"pLinkman"] forKey:@"pLinkman"];
+        }
+        if ([patient.allKeys containsObject:@"pLinkmanMobileNum"]) {
+            [tempDic setObject:patient[@"pLinkmanMobileNum"] forKey:@"pLinkmanMobileNum"];
+        }
+        if ([patient.allKeys containsObject:@"pMaritalStatus"]) {
+            [tempDic setObject:patient[@"pMaritalStatus"] forKey:@"pMaritalStatus"];
+        }
+        
+        if ([patient.allKeys containsObject:@"pMobileNum"]) {
+            [tempDic setObject:patient[@"pMobileNum"] forKey:@"pMobileNum"];
+        }
+        if ([patient.allKeys containsObject:@"pName"]) {
+            [tempDic setObject:patient[@"pName"] forKey:@"pName"];
+        }
+        if ([patient.allKeys containsObject:@"pNation"]) {
+            [tempDic setObject:patient[@"pNation"] forKey:@"pNation"];
+        }
+        
+        if ([patient.allKeys containsObject:@"pProfession"]) {
+            [tempDic setObject:patient[@"pProfession"] forKey:@"pProfession"];
+        }
+        if ([patient.allKeys containsObject:@"pProvince"]) {
+            [tempDic setObject:patient[@"pProvince"] forKey:@"pProvince"];
+        }
+        if ([patient.allKeys containsObject:@"patientState"]) {
+            [tempDic setObject:patient[@"patientState"] forKey:@"patientState"];
+        }
+        
+        if ([patient.allKeys containsObject:@"presenter"]) {
+            [tempDic setObject:patient[@"presenter"] forKey:@"presenter"];
+        }
+        
+    }
+    
+    return tempDic;
+}
 @end

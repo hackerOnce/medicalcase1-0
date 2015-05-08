@@ -1,0 +1,26 @@
+-x
+objective-c
+-arch
+arm64
+-std=gnu99
+-fobjc-arc
+-fmodules
+-fmodules-cache-path=/Users/gk/Library/Developer/Xcode/DerivedData/ModuleCache
+-fpascal-strings
+-O0
+-fno-common
+-DDEBUG=1
+-DOBJC_OLD_DISPATCH_PROTOTYPES=0
+-isysroot
+/Applications/Xcode 2.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk
+-g
+-miphoneos-version-min=8.0
+-iquote
+-iquote
+-I/Users/gk/Documents/病历/medical/Build/Products/Debug-iphoneos/include
+-I/Applications/Xcode 2.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include
+-F/Users/gk/Documents/病历/medical/Build/Products/Debug-iphoneos
+arm64-apple-darwin14.0.0
+"4.2.1 Compatible Apple LLVM 6.0 (clang-600.0.56)"
+SDK_PRODUCT_BUILD_VERSION=12B411
+12B411
