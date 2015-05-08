@@ -215,8 +215,8 @@
     NSString *content = [self.dataDic objectForKey:@"添加内容"];
     
     NSString *ageSegment = [self.conditionDicData objectForKey:@"年龄段"];
-    NSNumber *ageLow = [NSNumber numberWithInt:0];
-    NSNumber *ageHigh = [NSNumber numberWithInt:0];
+    NSString *ageLow = @"0";
+    NSString *ageHigh = @"0";
     if (ageSegment) {
         if(![ageSegment isEqualToString:@"请选择"]){
             
@@ -226,8 +226,8 @@
                 NSArray *a = [ageStr componentsSeparatedByString:@"岁"];
                 [tep addObject:a[0]];
             }
-            ageLow =[NSNumber numberWithInt:[(NSString*)tep[0] intValue]];
-            ageHigh = [NSNumber numberWithInt:[(NSString*)tep[1] intValue]];
+            ageLow = (NSString*)tep[0];
+            ageHigh = (NSString*)tep[1];
             
         }
         
@@ -239,7 +239,7 @@
     
     ///save to server
     NSDictionary *param = @{@"tID" :self.currentNode.nodeIdentifier ,
-                            @"tArgs" : @{@"highAge" : ageHigh,
+                            @"tArgs" : @{@"highAge" :ageHigh,
                                          @"lowAge" : ageLow,
                                          @"gender" :StringValue([gender isEqualToString:@"男"] ? @(1):@(0)), //1为男，0为女
                                          @"diagnose" : admittingDiagnosis,

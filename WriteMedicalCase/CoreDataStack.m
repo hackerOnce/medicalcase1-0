@@ -224,7 +224,7 @@ static NSString *momdName = @"Model";
         template.nodeID = dic[@"nodeID"];
     }
     if ([dic.allKeys containsObject:@"updatedTime"]) {
-        template.nodeID = dic[@"updatedTime"];
+        template.updatedTime = dic[@"updatedTime"];
     }
     NSDate *newDate = [NSDate date];
 //    NSTimeZone *zone = [NSTimeZone systemTimeZone];

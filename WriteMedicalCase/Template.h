@@ -25,7 +25,7 @@
 @property (nonatomic, retain) NSString * simultaneousPhenomenon;
 @property (nonatomic, retain) NSNumber * ageLow;
 @property (nonatomic, retain) NSString * cardinalSymptom;
-@property (nonatomic, retain) NSString * createDate;
+@property (nonatomic, retain) NSDate  * createDate;
 @property (nonatomic, retain) NSString * section;
 @property (nonatomic, retain) Node *node;
 @property (nonatomic, retain) NSString  * updatedTime;
