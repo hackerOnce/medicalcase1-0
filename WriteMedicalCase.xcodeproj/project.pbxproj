@@ -83,6 +83,12 @@
 		47301D011AFB2483005D42CC /* mainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D001AFB2483005D42CC /* mainViewController.m */; };
 		47301D041AFB36AB005D42CC /* CurrentDoctor.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D031AFB36AB005D42CC /* CurrentDoctor.m */; };
 		47301D071AFB4104005D42CC /* CurrentPatient.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D061AFB4104005D42CC /* CurrentPatient.m */; };
+		47301D091AFC6548005D42CC /* CaseManagement.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47301D081AFC6548005D42CC /* CaseManagement.storyboard */; };
+		47301D131AFC67EA005D42CC /* HeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D0C1AFC67EA005D42CC /* HeadView.m */; };
+		47301D141AFC67EA005D42CC /* RecordNavagationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D0E1AFC67EA005D42CC /* RecordNavagationViewController.m */; };
+		47301D151AFC67EA005D42CC /* RecordManagedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D101AFC67EA005D42CC /* RecordManagedViewController.m */; };
+		47301D161AFC67EA005D42CC /* RecordManagedCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D121AFC67EA005D42CC /* RecordManagedCellTableViewCell.m */; };
+		47301D191AFC686E005D42CC /* CaseManagementSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D181AFC686E005D42CC /* CaseManagementSplitViewController.m */; };
 		474D828B1AF9EBFB004A4151 /* CoreDataSyncWithServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D828A1AF9EBFB004A4151 /* CoreDataSyncWithServer.m */; };
 		478858E31AF1BC9E002CD361 /* AutoHeightTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */; };
 		478858EC1AF1FD06002CD361 /* CustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EB1AF1FD06002CD361 /* CustomSegue.m */; };
@@ -256,6 +262,17 @@
 		47301D031AFB36AB005D42CC /* CurrentDoctor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentDoctor.m; sourceTree = "<group>"; };
 		47301D051AFB4104005D42CC /* CurrentPatient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentPatient.h; sourceTree = "<group>"; };
 		47301D061AFB4104005D42CC /* CurrentPatient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentPatient.m; sourceTree = "<group>"; };
+		47301D081AFC6548005D42CC /* CaseManagement.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CaseManagement.storyboard; sourceTree = "<group>"; };
+		47301D0B1AFC67EA005D42CC /* HeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeadView.h; sourceTree = "<group>"; };
+		47301D0C1AFC67EA005D42CC /* HeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeadView.m; sourceTree = "<group>"; };
+		47301D0D1AFC67EA005D42CC /* RecordNavagationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordNavagationViewController.h; sourceTree = "<group>"; };
+		47301D0E1AFC67EA005D42CC /* RecordNavagationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordNavagationViewController.m; sourceTree = "<group>"; };
+		47301D0F1AFC67EA005D42CC /* RecordManagedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordManagedViewController.h; sourceTree = "<group>"; };
+		47301D101AFC67EA005D42CC /* RecordManagedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordManagedViewController.m; sourceTree = "<group>"; };
+		47301D111AFC67EA005D42CC /* RecordManagedCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordManagedCellTableViewCell.h; sourceTree = "<group>"; };
+		47301D121AFC67EA005D42CC /* RecordManagedCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordManagedCellTableViewCell.m; sourceTree = "<group>"; };
+		47301D171AFC686E005D42CC /* CaseManagementSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaseManagementSplitViewController.h; sourceTree = "<group>"; };
+		47301D181AFC686E005D42CC /* CaseManagementSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaseManagementSplitViewController.m; sourceTree = "<group>"; };
 		474D82891AF9EBFB004A4151 /* CoreDataSyncWithServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataSyncWithServer.h; sourceTree = "<group>"; };
 		474D828A1AF9EBFB004A4151 /* CoreDataSyncWithServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataSyncWithServer.m; sourceTree = "<group>"; };
 		478858E11AF1BC9E002CD361 /* AutoHeightTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoHeightTextView.h; sourceTree = "<group>"; };
@@ -342,6 +359,7 @@
 				47301D031AFB36AB005D42CC /* CurrentDoctor.m */,
 				474D82891AF9EBFB004A4151 /* CoreDataSyncWithServer.h */,
 				474D828A1AF9EBFB004A4151 /* CoreDataSyncWithServer.m */,
+				47301D0A1AFC657A005D42CC /* caseManagement */,
 				4705F0141AF104A40050D47A /* WriteCase */,
 				4705EFF91AF1044B0050D47A /* Images.xcassets */,
 				4705EFFB1AF1044B0050D47A /* LaunchScreen.xib */,
@@ -564,6 +582,24 @@
 			name = CoreData;
 			sourceTree = "<group>";
 		};
+		47301D0A1AFC657A005D42CC /* caseManagement */ = {
+			isa = PBXGroup;
+			children = (
+				47301D0B1AFC67EA005D42CC /* HeadView.h */,
+				47301D0C1AFC67EA005D42CC /* HeadView.m */,
+				47301D0D1AFC67EA005D42CC /* RecordNavagationViewController.h */,
+				47301D0E1AFC67EA005D42CC /* RecordNavagationViewController.m */,
+				47301D0F1AFC67EA005D42CC /* RecordManagedViewController.h */,
+				47301D101AFC67EA005D42CC /* RecordManagedViewController.m */,
+				47301D111AFC67EA005D42CC /* RecordManagedCellTableViewCell.h */,
+				47301D121AFC67EA005D42CC /* RecordManagedCellTableViewCell.m */,
+				47301D081AFC6548005D42CC /* CaseManagement.storyboard */,
+				47301D171AFC686E005D42CC /* CaseManagementSplitViewController.h */,
+				47301D181AFC686E005D42CC /* CaseManagementSplitViewController.m */,
+			);
+			name = caseManagement;
+			sourceTree = "<group>";
+		};
 		478859051AF7138F002CD361 /* TempModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -661,6 +697,7 @@
 				4705EFF81AF1044B0050D47A /* Main.storyboard in Resources */,
 				4705F0131AF1049E0050D47A /* WriteCaseStoryboard.storyboard in Resources */,
 				4705EFFD1AF1044B0050D47A /* LaunchScreen.xib in Resources */,
+				47301D091AFC6548005D42CC /* CaseManagement.storyboard in Resources */,
 				4705EFFA1AF1044B0050D47A /* Images.xcassets in Resources */,
 				4705F0D21AF12C320050D47A /* coreDataTestData.plist in Resources */,
 				4705F03B1AF1062C0050D47A /* MBProgressHUD.bundle in Resources */,
@@ -684,6 +721,7 @@
 			files = (
 				4705F0751AF1094C0050D47A /* SBJsonStreamWriterState.m in Sources */,
 				4705A43B1AF32BD7007FD2B9 /* TemplateDetailViewController.m in Sources */,
+				47301D141AFC67EA005D42CC /* RecordNavagationViewController.m in Sources */,
 				4705F0781AF1094C0050D47A /* SBJsonWriter.m in Sources */,
 				4705F0321AF1062C0050D47A /* IHGCDSocket.m in Sources */,
 				4705F0D01AF124C90050D47A /* Model.xcdatamodeld in Sources */,
@@ -721,8 +759,10 @@
 				4705F07F1AF109770050D47A /* WLKCaseNodeCell.m in Sources */,
 				4705F0301AF1062C0050D47A /* GCDAsyncSocket.m in Sources */,
 				4705F0B91AF10DF00050D47A /* Patient.m in Sources */,
+				47301D161AFC67EA005D42CC /* RecordManagedCellTableViewCell.m in Sources */,
 				478858F81AF7130D002CD361 /* TempCaseBaseInfo.m in Sources */,
 				4705F0381AF1062C0050D47A /* UIView+DY.m in Sources */,
+				47301D191AFC686E005D42CC /* CaseManagementSplitViewController.m in Sources */,
 				4705EFF51AF1044B0050D47A /* ViewController.m in Sources */,
 				4705F06E1AF1094C0050D47A /* SBJsonParser.m in Sources */,
 				4705F0981AF109C10050D47A /* WLKTableView.m in Sources */,
@@ -753,7 +793,9 @@
 				47301D041AFB36AB005D42CC /* CurrentDoctor.m in Sources */,
 				4705F04D1AF1082C0050D47A /* RawDataProcess.m in Sources */,
 				4705A4811AF4B41A007FD2B9 /* writeCaseFirstItemViewController.m in Sources */,
+				47301D131AFC67EA005D42CC /* HeadView.m in Sources */,
 				4705F0841AF109870050D47A /* WLKCaseNodeTableViewConfig.m in Sources */,
+				47301D151AFC67EA005D42CC /* RecordManagedViewController.m in Sources */,
 				4705F0BA1AF10DF00050D47A /* Doctor.m in Sources */,
 				4705F03C1AF1062C0050D47A /* MBProgressHUD.m in Sources */,
 			);

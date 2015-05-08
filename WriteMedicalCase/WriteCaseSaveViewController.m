@@ -230,12 +230,13 @@
         for (Node *node in parentNode.nodes.array) {
             
           node.nodeContent = [node.nodeContent stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-            if (node.nodeContent == nil ||[node.nodeContent isEqualToString:node.nodeName] || [node.nodeContent isEqualToString:@""]) {
+            if (node.nodeContent == nil ||[node.nodeContent isEqualToString:node.nodeName]) {
+                node.nodeContent = @"";
                 caseState  = @"未完整创建";
                 hasContent = YES;
-            }else {
-                [dic setObject:node.nodeContent forKey:node.nodeNameE];
             }
+            [dic setObject:node.nodeContent forKey:node.nodeNameE];
+
         }
         caseContent = [self convertJSONDataToString:[self convertToJSONDataFromList:dic]];
 

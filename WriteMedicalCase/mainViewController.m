@@ -8,6 +8,7 @@
 
 #import "mainViewController.h"
 #import "WriteCaseSaveViewController.h"
+#import "CaseManagementSplitViewController.h"
 
 @interface mainViewController ()
 
@@ -30,7 +31,12 @@
 }
 - (IBAction)managedCase:(UIButton *)sender
 {
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"CaseManagement" bundle:nil];
+    CaseManagementSplitViewController *caseVC = [storyBoard instantiateViewControllerWithIdentifier:@"splitVC"];
     
+    [self presentViewController:caseVC animated:YES completion:^{
+        
+    }];
 }
 
 - (void)viewDidLoad {
