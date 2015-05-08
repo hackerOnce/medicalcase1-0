@@ -24,7 +24,9 @@
     saveVC.currentDoctor = [CurrentDoctor currentDoctor];
     saveVC.currentPatient = [[CurrentPatient alloc] init];
     
-    [self.navigationController pushViewController:saveVC animated:YES];
+    [self presentViewController:saveVC animated:YES completion:^{
+        
+    }];
 }
 - (IBAction)modelButton:(UIButton *)sender
 {UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"CreateTemplateStoryboard" bundle:nil];
