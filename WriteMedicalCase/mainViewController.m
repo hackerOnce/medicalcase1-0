@@ -9,6 +9,7 @@
 #import "mainViewController.h"
 #import "WriteCaseSaveViewController.h"
 #import "CaseManagementSplitViewController.h"
+#import "SplitViewController.h"
 
 @interface mainViewController ()
 
@@ -26,7 +27,11 @@
     [self.navigationController pushViewController:saveVC animated:YES];
 }
 - (IBAction)modelButton:(UIButton *)sender
-{
+{UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"CreateTemplateStoryboard" bundle:nil];
+    SplitViewController *caseVC = [storyBoard instantiateViewControllerWithIdentifier:@"createTemplate"];
+    [self presentViewController:caseVC animated:YES completion:^{
+        
+    }];
     
 }
 - (IBAction)managedCase:(UIButton *)sender

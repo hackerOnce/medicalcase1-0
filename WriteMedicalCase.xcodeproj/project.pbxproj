@@ -89,7 +89,26 @@
 		47301D151AFC67EA005D42CC /* RecordManagedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D101AFC67EA005D42CC /* RecordManagedViewController.m */; };
 		47301D161AFC67EA005D42CC /* RecordManagedCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D121AFC67EA005D42CC /* RecordManagedCellTableViewCell.m */; };
 		47301D191AFC686E005D42CC /* CaseManagementSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D181AFC686E005D42CC /* CaseManagementSplitViewController.m */; };
+		47301D1B1AFC8C1F005D42CC /* CreateTemplateStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47301D1A1AFC8C1F005D42CC /* CreateTemplateStoryboard.storyboard */; };
+		473C91231AFCA6D30069ECE4 /* ModelPlateConditionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 473C91221AFCA6D30069ECE4 /* ModelPlateConditionsViewController.m */; };
+		473C91261AFCA6E20069ECE4 /* AgePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 473C91251AFCA6E20069ECE4 /* AgePickerViewController.m */; };
+		473C91291AFCA8FF0069ECE4 /* CreateTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 473C91281AFCA8FF0069ECE4 /* CreateTemplateViewController.m */; };
 		474D828B1AF9EBFB004A4151 /* CoreDataSyncWithServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D828A1AF9EBFB004A4151 /* CoreDataSyncWithServer.m */; };
+		474D82A71AFC90FA004A4151 /* ConditionTemplateVCTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D828E1AFC90FA004A4151 /* ConditionTemplateVCTableViewCell.m */; };
+		474D82A81AFC90FA004A4151 /* ConditionTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82901AFC90FA004A4151 /* ConditionTemplateViewController.m */; };
+		474D82A91AFC90FA004A4151 /* CreateTemplateDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82921AFC90FA004A4151 /* CreateTemplateDetailViewController.m */; };
+		474D82AB1AFC90FA004A4151 /* ShowAllTemplateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82961AFC90FA004A4151 /* ShowAllTemplateCell.m */; };
+		474D82AC1AFC90FA004A4151 /* ShowTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82981AFC90FA004A4151 /* ShowTemplateViewController.m */; };
+		474D82AD1AFC90FA004A4151 /* ShowTemplateViewControllerTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D829A1AFC90FA004A4151 /* ShowTemplateViewControllerTwo.m */; };
+		474D82AE1AFC90FA004A4151 /* TemplateConditionSelectedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D829C1AFC90FA004A4151 /* TemplateConditionSelectedViewController.m */; };
+		474D82B01AFC90FA004A4151 /* TemplateLeftDetailFirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82A01AFC90FA004A4151 /* TemplateLeftDetailFirstViewController.m */; };
+		474D82B11AFC90FA004A4151 /* TemplateLeftDetailSecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82A21AFC90FA004A4151 /* TemplateLeftDetailSecondViewController.m */; };
+		474D82B21AFC90FA004A4151 /* TemplateLeftDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82A41AFC90FA004A4151 /* TemplateLeftDetailViewController.m */; };
+		474D82B31AFC90FA004A4151 /* TemplateManagementViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82A61AFC90FA004A4151 /* TemplateManagementViewController.m */; };
+		474D82B61AFC918A004A4151 /* SplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82B51AFC918A004A4151 /* SplitViewController.m */; };
+		474D82B91AFC923E004A4151 /* HUDSubViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82B81AFC923E004A4151 /* HUDSubViewController.m */; };
+		474D82BC1AFC9381004A4151 /* ModelPlateConditionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82BB1AFC9381004A4151 /* ModelPlateConditionViewController.m */; };
+		474D82BF1AFC999A004A4151 /* TemplateDetailViewControllerOne.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82BE1AFC999A004A4151 /* TemplateDetailViewControllerOne.m */; };
 		478858E31AF1BC9E002CD361 /* AutoHeightTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */; };
 		478858EC1AF1FD06002CD361 /* CustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EB1AF1FD06002CD361 /* CustomSegue.m */; };
 		478858EF1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EE1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m */; };
@@ -273,8 +292,45 @@
 		47301D121AFC67EA005D42CC /* RecordManagedCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordManagedCellTableViewCell.m; sourceTree = "<group>"; };
 		47301D171AFC686E005D42CC /* CaseManagementSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaseManagementSplitViewController.h; sourceTree = "<group>"; };
 		47301D181AFC686E005D42CC /* CaseManagementSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaseManagementSplitViewController.m; sourceTree = "<group>"; };
+		47301D1A1AFC8C1F005D42CC /* CreateTemplateStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = CreateTemplateStoryboard.storyboard; sourceTree = "<group>"; };
+		473C91211AFCA6D30069ECE4 /* ModelPlateConditionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelPlateConditionsViewController.h; sourceTree = "<group>"; };
+		473C91221AFCA6D30069ECE4 /* ModelPlateConditionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelPlateConditionsViewController.m; sourceTree = "<group>"; };
+		473C91241AFCA6E20069ECE4 /* AgePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AgePickerViewController.h; sourceTree = "<group>"; };
+		473C91251AFCA6E20069ECE4 /* AgePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AgePickerViewController.m; sourceTree = "<group>"; };
+		473C91271AFCA8FF0069ECE4 /* CreateTemplateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateTemplateViewController.h; sourceTree = "<group>"; };
+		473C91281AFCA8FF0069ECE4 /* CreateTemplateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateTemplateViewController.m; sourceTree = "<group>"; };
 		474D82891AF9EBFB004A4151 /* CoreDataSyncWithServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataSyncWithServer.h; sourceTree = "<group>"; };
 		474D828A1AF9EBFB004A4151 /* CoreDataSyncWithServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataSyncWithServer.m; sourceTree = "<group>"; };
+		474D828D1AFC90FA004A4151 /* ConditionTemplateVCTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConditionTemplateVCTableViewCell.h; sourceTree = "<group>"; };
+		474D828E1AFC90FA004A4151 /* ConditionTemplateVCTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConditionTemplateVCTableViewCell.m; sourceTree = "<group>"; };
+		474D828F1AFC90FA004A4151 /* ConditionTemplateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConditionTemplateViewController.h; sourceTree = "<group>"; };
+		474D82901AFC90FA004A4151 /* ConditionTemplateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConditionTemplateViewController.m; sourceTree = "<group>"; };
+		474D82911AFC90FA004A4151 /* CreateTemplateDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateTemplateDetailViewController.h; sourceTree = "<group>"; };
+		474D82921AFC90FA004A4151 /* CreateTemplateDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateTemplateDetailViewController.m; sourceTree = "<group>"; };
+		474D82951AFC90FA004A4151 /* ShowAllTemplateCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowAllTemplateCell.h; sourceTree = "<group>"; };
+		474D82961AFC90FA004A4151 /* ShowAllTemplateCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowAllTemplateCell.m; sourceTree = "<group>"; };
+		474D82971AFC90FA004A4151 /* ShowTemplateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowTemplateViewController.h; sourceTree = "<group>"; };
+		474D82981AFC90FA004A4151 /* ShowTemplateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowTemplateViewController.m; sourceTree = "<group>"; };
+		474D82991AFC90FA004A4151 /* ShowTemplateViewControllerTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowTemplateViewControllerTwo.h; sourceTree = "<group>"; };
+		474D829A1AFC90FA004A4151 /* ShowTemplateViewControllerTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowTemplateViewControllerTwo.m; sourceTree = "<group>"; };
+		474D829B1AFC90FA004A4151 /* TemplateConditionSelectedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateConditionSelectedViewController.h; sourceTree = "<group>"; };
+		474D829C1AFC90FA004A4151 /* TemplateConditionSelectedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemplateConditionSelectedViewController.m; sourceTree = "<group>"; };
+		474D829F1AFC90FA004A4151 /* TemplateLeftDetailFirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateLeftDetailFirstViewController.h; sourceTree = "<group>"; };
+		474D82A01AFC90FA004A4151 /* TemplateLeftDetailFirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemplateLeftDetailFirstViewController.m; sourceTree = "<group>"; };
+		474D82A11AFC90FA004A4151 /* TemplateLeftDetailSecondViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateLeftDetailSecondViewController.h; sourceTree = "<group>"; };
+		474D82A21AFC90FA004A4151 /* TemplateLeftDetailSecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemplateLeftDetailSecondViewController.m; sourceTree = "<group>"; };
+		474D82A31AFC90FA004A4151 /* TemplateLeftDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateLeftDetailViewController.h; sourceTree = "<group>"; };
+		474D82A41AFC90FA004A4151 /* TemplateLeftDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemplateLeftDetailViewController.m; sourceTree = "<group>"; };
+		474D82A51AFC90FA004A4151 /* TemplateManagementViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateManagementViewController.h; sourceTree = "<group>"; };
+		474D82A61AFC90FA004A4151 /* TemplateManagementViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemplateManagementViewController.m; sourceTree = "<group>"; };
+		474D82B41AFC918A004A4151 /* SplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplitViewController.h; sourceTree = "<group>"; };
+		474D82B51AFC918A004A4151 /* SplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplitViewController.m; sourceTree = "<group>"; };
+		474D82B71AFC923E004A4151 /* HUDSubViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDSubViewController.h; sourceTree = "<group>"; };
+		474D82B81AFC923E004A4151 /* HUDSubViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDSubViewController.m; sourceTree = "<group>"; };
+		474D82BA1AFC9381004A4151 /* ModelPlateConditionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelPlateConditionViewController.h; sourceTree = "<group>"; };
+		474D82BB1AFC9381004A4151 /* ModelPlateConditionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelPlateConditionViewController.m; sourceTree = "<group>"; };
+		474D82BD1AFC999A004A4151 /* TemplateDetailViewControllerOne.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateDetailViewControllerOne.h; sourceTree = "<group>"; };
+		474D82BE1AFC999A004A4151 /* TemplateDetailViewControllerOne.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemplateDetailViewControllerOne.m; sourceTree = "<group>"; };
 		478858E11AF1BC9E002CD361 /* AutoHeightTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoHeightTextView.h; sourceTree = "<group>"; };
 		478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoHeightTextView.m; sourceTree = "<group>"; };
 		478858EA1AF1FD06002CD361 /* CustomSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSegue.h; sourceTree = "<group>"; };
@@ -359,6 +415,7 @@
 				47301D031AFB36AB005D42CC /* CurrentDoctor.m */,
 				474D82891AF9EBFB004A4151 /* CoreDataSyncWithServer.h */,
 				474D828A1AF9EBFB004A4151 /* CoreDataSyncWithServer.m */,
+				47301D1C1AFC8C2E005D42CC /* createTemplate */,
 				47301D0A1AFC657A005D42CC /* caseManagement */,
 				4705F0141AF104A40050D47A /* WriteCase */,
 				4705EFF91AF1044B0050D47A /* Images.xcassets */,
@@ -600,6 +657,58 @@
 			name = caseManagement;
 			sourceTree = "<group>";
 		};
+		47301D1C1AFC8C2E005D42CC /* createTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				47301D1A1AFC8C1F005D42CC /* CreateTemplateStoryboard.storyboard */,
+				474D828C1AFC90FA004A4151 /* CreateTemplate */,
+			);
+			name = createTemplate;
+			sourceTree = "<group>";
+		};
+		474D828C1AFC90FA004A4151 /* CreateTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				474D82BD1AFC999A004A4151 /* TemplateDetailViewControllerOne.h */,
+				474D82BE1AFC999A004A4151 /* TemplateDetailViewControllerOne.m */,
+				474D82B71AFC923E004A4151 /* HUDSubViewController.h */,
+				474D82B81AFC923E004A4151 /* HUDSubViewController.m */,
+				474D82B41AFC918A004A4151 /* SplitViewController.h */,
+				474D82B51AFC918A004A4151 /* SplitViewController.m */,
+				474D828D1AFC90FA004A4151 /* ConditionTemplateVCTableViewCell.h */,
+				474D828E1AFC90FA004A4151 /* ConditionTemplateVCTableViewCell.m */,
+				474D828F1AFC90FA004A4151 /* ConditionTemplateViewController.h */,
+				474D82901AFC90FA004A4151 /* ConditionTemplateViewController.m */,
+				474D82911AFC90FA004A4151 /* CreateTemplateDetailViewController.h */,
+				474D82921AFC90FA004A4151 /* CreateTemplateDetailViewController.m */,
+				474D82951AFC90FA004A4151 /* ShowAllTemplateCell.h */,
+				474D82961AFC90FA004A4151 /* ShowAllTemplateCell.m */,
+				473C91271AFCA8FF0069ECE4 /* CreateTemplateViewController.h */,
+				473C91281AFCA8FF0069ECE4 /* CreateTemplateViewController.m */,
+				474D82971AFC90FA004A4151 /* ShowTemplateViewController.h */,
+				474D82981AFC90FA004A4151 /* ShowTemplateViewController.m */,
+				474D82991AFC90FA004A4151 /* ShowTemplateViewControllerTwo.h */,
+				474D829A1AFC90FA004A4151 /* ShowTemplateViewControllerTwo.m */,
+				474D829B1AFC90FA004A4151 /* TemplateConditionSelectedViewController.h */,
+				474D829C1AFC90FA004A4151 /* TemplateConditionSelectedViewController.m */,
+				474D829F1AFC90FA004A4151 /* TemplateLeftDetailFirstViewController.h */,
+				474D82A01AFC90FA004A4151 /* TemplateLeftDetailFirstViewController.m */,
+				474D82A11AFC90FA004A4151 /* TemplateLeftDetailSecondViewController.h */,
+				474D82A21AFC90FA004A4151 /* TemplateLeftDetailSecondViewController.m */,
+				474D82A31AFC90FA004A4151 /* TemplateLeftDetailViewController.h */,
+				474D82A41AFC90FA004A4151 /* TemplateLeftDetailViewController.m */,
+				474D82BA1AFC9381004A4151 /* ModelPlateConditionViewController.h */,
+				474D82BB1AFC9381004A4151 /* ModelPlateConditionViewController.m */,
+				474D82A51AFC90FA004A4151 /* TemplateManagementViewController.h */,
+				474D82A61AFC90FA004A4151 /* TemplateManagementViewController.m */,
+				473C91211AFCA6D30069ECE4 /* ModelPlateConditionsViewController.h */,
+				473C91221AFCA6D30069ECE4 /* ModelPlateConditionsViewController.m */,
+				473C91241AFCA6E20069ECE4 /* AgePickerViewController.h */,
+				473C91251AFCA6E20069ECE4 /* AgePickerViewController.m */,
+			);
+			path = CreateTemplate;
+			sourceTree = "<group>";
+		};
 		478859051AF7138F002CD361 /* TempModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -694,6 +803,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4705F0391AF1062C0050D47A /* AsyncSocket使用说明.pages in Resources */,
+				47301D1B1AFC8C1F005D42CC /* CreateTemplateStoryboard.storyboard in Resources */,
 				4705EFF81AF1044B0050D47A /* Main.storyboard in Resources */,
 				4705F0131AF1049E0050D47A /* WriteCaseStoryboard.storyboard in Resources */,
 				4705EFFD1AF1044B0050D47A /* LaunchScreen.xib in Resources */,
@@ -720,6 +830,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4705F0751AF1094C0050D47A /* SBJsonStreamWriterState.m in Sources */,
+				474D82B31AFC90FA004A4151 /* TemplateManagementViewController.m in Sources */,
 				4705A43B1AF32BD7007FD2B9 /* TemplateDetailViewController.m in Sources */,
 				47301D141AFC67EA005D42CC /* RecordNavagationViewController.m in Sources */,
 				4705F0781AF1094C0050D47A /* SBJsonWriter.m in Sources */,
@@ -730,7 +841,10 @@
 				4705F0D81AF1312F0050D47A /* WriteCaseEditViewController.m in Sources */,
 				4705F0341AF1062C0050D47A /* MessageObject+DY.m in Sources */,
 				478858EF1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m in Sources */,
+				474D82A91AFC90FA004A4151 /* CreateTemplateDetailViewController.m in Sources */,
+				473C91261AFCA6E20069ECE4 /* AgePickerViewController.m in Sources */,
 				4705F0801AF109770050D47A /* WLKCaseNodeTableView.m in Sources */,
+				474D82A71AFC90FA004A4151 /* ConditionTemplateVCTableViewCell.m in Sources */,
 				4705F0311AF1062C0050D47A /* IHGCDReconnect.m in Sources */,
 				4705F0501AF1082C0050D47A /* ParseXML.m in Sources */,
 				47301D071AFB4104005D42CC /* CurrentPatient.m in Sources */,
@@ -739,6 +853,7 @@
 				4705F0351AF1062C0050D47A /* MessageObject.m in Sources */,
 				4705F0701AF1094C0050D47A /* SBJsonStreamParserAccumulator.m in Sources */,
 				4705F08E1AF109990050D47A /* WLKCaseNode.m in Sources */,
+				474D82AC1AFC90FA004A4151 /* ShowTemplateViewController.m in Sources */,
 				4705A4381AF31C67007FD2B9 /* RWLabel.m in Sources */,
 				478858F51AF712E0002CD361 /* TempPatient.m in Sources */,
 				4705F0741AF1094C0050D47A /* SBJsonStreamWriterAccumulator.m in Sources */,
@@ -747,8 +862,10 @@
 				4705F0BE1AF10DF00050D47A /* Template.m in Sources */,
 				4705A47B1AF4619D007FD2B9 /* WriteCaseSaveViewController.m in Sources */,
 				4705F0731AF1094C0050D47A /* SBJsonStreamWriter.m in Sources */,
+				474D82A81AFC90FA004A4151 /* ConditionTemplateViewController.m in Sources */,
 				4705F0901AF109990050D47A /* WLKTemplate.m in Sources */,
 				4705F0451AF107360050D47A /* CoreDataStack.m in Sources */,
+				474D82B01AFC90FA004A4151 /* TemplateLeftDetailFirstViewController.m in Sources */,
 				478859081AF71A70002CD361 /* TempDoctor.m in Sources */,
 				4705F03A1AF1062C0050D47A /* MBProgressHUD+MJ.m in Sources */,
 				4705F0C21AF10E580050D47A /* KeyValueObserver.m in Sources */,
@@ -759,9 +876,14 @@
 				4705F07F1AF109770050D47A /* WLKCaseNodeCell.m in Sources */,
 				4705F0301AF1062C0050D47A /* GCDAsyncSocket.m in Sources */,
 				4705F0B91AF10DF00050D47A /* Patient.m in Sources */,
+				474D82BC1AFC9381004A4151 /* ModelPlateConditionViewController.m in Sources */,
+				474D82B91AFC923E004A4151 /* HUDSubViewController.m in Sources */,
+				474D82AD1AFC90FA004A4151 /* ShowTemplateViewControllerTwo.m in Sources */,
 				47301D161AFC67EA005D42CC /* RecordManagedCellTableViewCell.m in Sources */,
 				478858F81AF7130D002CD361 /* TempCaseBaseInfo.m in Sources */,
+				474D82B21AFC90FA004A4151 /* TemplateLeftDetailViewController.m in Sources */,
 				4705F0381AF1062C0050D47A /* UIView+DY.m in Sources */,
+				474D82B11AFC90FA004A4151 /* TemplateLeftDetailSecondViewController.m in Sources */,
 				47301D191AFC686E005D42CC /* CaseManagementSplitViewController.m in Sources */,
 				4705EFF51AF1044B0050D47A /* ViewController.m in Sources */,
 				4705F06E1AF1094C0050D47A /* SBJsonParser.m in Sources */,
@@ -769,14 +891,17 @@
 				4705F04E1AF1082C0050D47A /* XMLReader.m in Sources */,
 				4705F0971AF109C10050D47A /* UIView+FrameExtends.m in Sources */,
 				474D828B1AF9EBFB004A4151 /* CoreDataSyncWithServer.m in Sources */,
+				474D82BF1AFC999A004A4151 /* TemplateDetailViewControllerOne.m in Sources */,
 				4705A4441AF37949007FD2B9 /* CoreDataStack+UpdateMethods.m in Sources */,
 				4705EFF21AF1044B0050D47A /* AppDelegate.m in Sources */,
 				4705F0361AF1062C0050D47A /* NSData+Zip.m in Sources */,
 				4705F0A61AF10CD80050D47A /* RecordBaseInfo.m in Sources */,
 				478858E31AF1BC9E002CD361 /* AutoHeightTextView.m in Sources */,
 				47301D011AFB2483005D42CC /* mainViewController.m in Sources */,
+				473C91291AFCA8FF0069ECE4 /* CreateTemplateViewController.m in Sources */,
 				4705F08F1AF109990050D47A /* WLKPatient.m in Sources */,
 				4705F0D51AF130250050D47A /* personInfoView.m in Sources */,
+				474D82AB1AFC90FA004A4151 /* ShowAllTemplateCell.m in Sources */,
 				478858EC1AF1FD06002CD361 /* CustomSegue.m in Sources */,
 				4705F0BC1AF10DF00050D47A /* TestParentNode.m in Sources */,
 				4705F0BF1AF10DF00050D47A /* Node.m in Sources */,
@@ -784,8 +909,10 @@
 				4705A4861AF5B53B007FD2B9 /* PreviewViewController.m in Sources */,
 				4705F0811AF109770050D47A /* WLKMultiTableView.m in Sources */,
 				4705F0761AF1094C0050D47A /* SBJsonTokeniser.m in Sources */,
+				473C91231AFCA6D30069ECE4 /* ModelPlateConditionsViewController.m in Sources */,
 				4705F06F1AF1094C0050D47A /* SBJsonStreamParser.m in Sources */,
 				4705F09C1AF109CE0050D47A /* WLKObject.m in Sources */,
+				474D82B61AFC918A004A4151 /* SplitViewController.m in Sources */,
 				478858F21AF203B8002CD361 /* WriteCaseShowTemplateCell.m in Sources */,
 				4705F0721AF1094C0050D47A /* SBJsonStreamParserState.m in Sources */,
 				4705F0BB1AF10DF00050D47A /* TestNode.m in Sources */,
@@ -794,6 +921,7 @@
 				4705F04D1AF1082C0050D47A /* RawDataProcess.m in Sources */,
 				4705A4811AF4B41A007FD2B9 /* writeCaseFirstItemViewController.m in Sources */,
 				47301D131AFC67EA005D42CC /* HeadView.m in Sources */,
+				474D82AE1AFC90FA004A4151 /* TemplateConditionSelectedViewController.m in Sources */,
 				4705F0841AF109870050D47A /* WLKCaseNodeTableViewConfig.m in Sources */,
 				47301D151AFC67EA005D42CC /* RecordManagedViewController.m in Sources */,
 				4705F0BA1AF10DF00050D47A /* Doctor.m in Sources */,

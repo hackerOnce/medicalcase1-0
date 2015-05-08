@@ -10,31 +10,31 @@
 	<string>WriteMedicalCase</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>510029CABA2348741BB6D0A0640380A49D5F5F3E</key>
-		<string>github.com:hackerOnce/project.git</string>
+		<key>D4C67E21507A41F4C7DA296575FFFD8055D0F6BE</key>
+		<string>http://192.168.10.120/qiuhongyang/medicalcase1-0.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>medicalCase_v3/WriteMedicalCase.xcodeproj</string>
+	<string>WriteMedicalCase.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>510029CABA2348741BB6D0A0640380A49D5F5F3E</key>
-		<string>../../..</string>
+		<key>D4C67E21507A41F4C7DA296575FFFD8055D0F6BE</key>
+		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>github.com:hackerOnce/project.git</string>
+	<string>http://192.168.10.120/qiuhongyang/medicalcase1-0.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>510029CABA2348741BB6D0A0640380A49D5F5F3E</string>
+	<string>D4C67E21507A41F4C7DA296575FFFD8055D0F6BE</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>510029CABA2348741BB6D0A0640380A49D5F5F3E</string>
+			<string>D4C67E21507A41F4C7DA296575FFFD8055D0F6BE</string>
 			<key>IDESourceControlWCCName</key>
-			<string>project</string>
+			<string>medical</string>
 		</dict>
 	</array>
 </dict>

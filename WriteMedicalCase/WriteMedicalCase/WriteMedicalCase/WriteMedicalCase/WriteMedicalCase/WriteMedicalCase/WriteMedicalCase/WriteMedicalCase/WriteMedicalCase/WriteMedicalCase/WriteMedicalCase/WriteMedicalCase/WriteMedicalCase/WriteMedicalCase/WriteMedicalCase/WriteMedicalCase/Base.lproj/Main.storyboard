@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="616-9s-Wo7">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+    </dependencies>
+    <scenes>
+        <!--Main View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="mainViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="67N-jK-FLq">
+                                <rect key="frame" x="283" y="285" width="34" height="33"/>
+                                <color key="backgroundColor" red="0.90980392160000001" green="0.92156862750000001" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="模板">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="modelButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8ys-qI-jXD"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DKC-Z3-ceE">
+                                <rect key="frame" x="266" y="342" width="68" height="33"/>
+                                <color key="backgroundColor" red="0.90980392160000001" green="0.92156862750000001" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="病历管理">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="managedCase:" destination="BYZ-38-t0r" eventType="touchUpInside" id="puK-ql-n9Z"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oUT-YK-eDM">
+                                <rect key="frame" x="275" y="224" width="51" height="33"/>
+                                <color key="backgroundColor" red="0.90980392160000001" green="0.92156862750000001" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="写病历">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="writeCaseButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ZMQ-ma-ctv"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="oUT-YK-eDM" secondAttribute="centerX" id="9sm-Zd-2jX"/>
+                            <constraint firstItem="67N-jK-FLq" firstAttribute="top" secondItem="oUT-YK-eDM" secondAttribute="bottom" constant="28" id="HYb-PQ-XNf"/>
+                            <constraint firstAttribute="centerY" secondItem="67N-jK-FLq" secondAttribute="centerY" constant="-1.5" id="LLF-Da-qmM"/>
+                            <constraint firstAttribute="centerX" secondItem="DKC-Z3-ceE" secondAttribute="centerX" id="OhV-7M-vqg"/>
+                            <constraint firstItem="DKC-Z3-ceE" firstAttribute="top" secondItem="67N-jK-FLq" secondAttribute="bottom" constant="24" id="RhP-um-uWk"/>
+                            <constraint firstAttribute="centerX" secondItem="67N-jK-FLq" secondAttribute="centerX" id="fYe-Cm-UBC"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="SHo-85-2uW"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="951" y="206"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="IZE-X3-DV4">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="616-9s-Wo7" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="eNQ-Q2-GW0">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="Xqj-xf-foP"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8kb-7G-bFt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-11" y="-438"/>
+        </scene>
+    </scenes>
+</document>
