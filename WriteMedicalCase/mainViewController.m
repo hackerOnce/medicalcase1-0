@@ -19,12 +19,15 @@
 - (IBAction)writeCaseButton:(UIButton *)sender
 {
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"WriteCaseStoryboard" bundle:nil];
-    WriteCaseSaveViewController *saveVC = [storyBoard instantiateViewControllerWithIdentifier:@"saveCaseVC"];
+    UINavigationController *nav = [storyBoard instantiateViewControllerWithIdentifier:@"writeNav"];
+    
+    //WriteCaseSaveViewController *saveVC = [storyBoard instantiateViewControllerWithIdentifier:@"saveCaseVC"];
+    WriteCaseSaveViewController *saveVC = (WriteCaseSaveViewController*)[nav.viewControllers firstObject];
     
     saveVC.currentDoctor = [CurrentDoctor currentDoctor];
     saveVC.currentPatient = [[CurrentPatient alloc] init];
     
-    [self presentViewController:saveVC animated:YES completion:^{
+    [self presentViewController:nav animated:YES completion:^{
         
     }];
 }

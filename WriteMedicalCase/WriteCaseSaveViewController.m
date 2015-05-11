@@ -89,6 +89,10 @@
 
     return NSDictionaryOfVariableBindings(pID,pName,dID,dName);
 }
+- (IBAction)commitButtonClicked:(UIButton *)sender {
+}
+- (IBAction)saveButtonClicked:(UIButton *)sender {
+}
 - (IBAction)saveOrCommit:(UIButton *)sender {
     
     [self.coreDataStack saveContext];
@@ -197,7 +201,7 @@
     
     if (_recordBaseInfo.caseContent == nil || [_recordBaseInfo.caseContent isEqualToString:@""]) {
      //[self setUpFetchViewController];
-        _recordBaseInfo.caseContent = @" ";
+        _recordBaseInfo.caseContent = @"";
     }
     
         dic =[self convertJSONDataToList:[self convertStringToJSONData:_recordBaseInfo.caseContent]];
@@ -263,28 +267,28 @@
     
     return returnDic;
 }
--(void)updateButtonState
-{
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"nodeName = %@",@"入院记录"];
-    
-    BOOL hasContent = NO;
-    NSArray *resultA = [self.coreDataStack fetchNSManagedObjectEntityWithName:[ParentNode entityName] withNSPredicate:predicate setUpFetchRequestResultType:0 isSetUpResultType:NO setUpFetchRequestSortDescriptors:nil isSetupSortDescriptors:NO];
-    if (resultA.count == 1) {
-        ParentNode *parentNode = (ParentNode*)[resultA firstObject];
-        for (Node *node in parentNode.nodes.array) {
-            if (node.nodeContent == nil ||[node.nodeContent isEqualToString:node.nodeName] || [node.nodeContent isEqualToString:@" "]) {
-                hasContent = YES;
-            }
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (hasContent) {
-                [self.saveButton setTitle:@"保存" forState:UIControlStateNormal];
-            }else {
-                [self.saveButton setTitle:@"提交" forState:UIControlStateNormal];
-            }
-        });
-    }
-}
+//-(void)updateButtonState
+//{
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"nodeName = %@",@"入院记录"];
+//    
+//    BOOL hasContent = NO;
+//    NSArray *resultA = [self.coreDataStack fetchNSManagedObjectEntityWithName:[ParentNode entityName] withNSPredicate:predicate setUpFetchRequestResultType:0 isSetUpResultType:NO setUpFetchRequestSortDescriptors:nil isSetupSortDescriptors:NO];
+//    if (resultA.count == 1) {
+//        ParentNode *parentNode = (ParentNode*)[resultA firstObject];
+//        for (Node *node in parentNode.nodes.array) {
+//            if (node.nodeContent == nil ||[node.nodeContent isEqualToString:node.nodeName] || [node.nodeContent isEqualToString:@" "]) {
+//                hasContent = YES;
+//            }
+//        }
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            if (hasContent) {
+//                [self.saveButton setTitle:@"保存" forState:UIControlStateNormal];
+//            }else {
+//                [self.saveButton setTitle:@"提交" forState:UIControlStateNormal];
+//            }
+//        });
+//    }
+//}
 
 ///core data
 -(NSManagedObjectContext *)managedObjectContext
@@ -301,7 +305,7 @@
 {
     [super viewWillAppear:animated];
     
-    [self updateButtonState];
+   // [self updateButtonState];
     
     self.caseTypeLabel.text =self.caseType?self.caseType:@"入院病历";
 
@@ -598,7 +602,7 @@
 }
 -(void)textViewDidBeginEditing:(UITextView *)textView withCellIndexPath:(NSIndexPath *)indexPath
 {
-    [self updateButtonState];
+    //[self updateButtonState];
     self.isBeginEdit = NO;
 
     self.currentIndexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section];
@@ -704,7 +708,7 @@
     tempNode.nodeContent = writeString;
     [self.coreDataStack saveContext];
     
-    [self updateButtonState];
+   // [self updateButtonState];
 }
 -(void)didWriteWithString:(NSString *)writeString
 {
@@ -713,7 +717,7 @@
     tempNode.nodeContent = writeString;
     [self.coreDataStack saveContext];
 
-    [self updateButtonState];
+   // [self updateButtonState];
 
 }
 -(void)dealloc

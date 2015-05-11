@@ -101,7 +101,6 @@
 }
 -(void)hideRightSildeView:(UISwipeGestureRecognizer *)swipGesture
 {
-    
     CGRect tempRect = self.rightSideSlideView.frame;
     tempRect.origin.x += rightSideSlideViewWidth - 10;
     [UIView animateWithDuration:0.4 animations:^{
@@ -109,7 +108,6 @@
     } completion:^(BOOL finished) {
         [self performSegueWithIdentifier:@"customSegue" sender:nil];
     }];
-    
 }
 -(void)addSideButttonToWindow
 {
@@ -237,6 +235,7 @@
     
     UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
     id windowView = [keyWindow viewWithTag:20001];
+    
     if (windowView) {
         
     }else {
