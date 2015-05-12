@@ -93,6 +93,8 @@
 		473C91231AFCA6D30069ECE4 /* ModelPlateConditionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 473C91221AFCA6D30069ECE4 /* ModelPlateConditionsViewController.m */; };
 		473C91261AFCA6E20069ECE4 /* AgePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 473C91251AFCA6E20069ECE4 /* AgePickerViewController.m */; };
 		473C91291AFCA8FF0069ECE4 /* CreateTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 473C91281AFCA8FF0069ECE4 /* CreateTemplateViewController.m */; };
+		473C912C1B004ED90069ECE4 /* TemplateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 473C912B1B004ED90069ECE4 /* TemplateModel.m */; };
+		473C912F1B0191740069ECE4 /* ShowTemplateDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 473C912E1B0191740069ECE4 /* ShowTemplateDetailViewController.m */; };
 		474D828B1AF9EBFB004A4151 /* CoreDataSyncWithServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D828A1AF9EBFB004A4151 /* CoreDataSyncWithServer.m */; };
 		474D82A71AFC90FA004A4151 /* ConditionTemplateVCTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D828E1AFC90FA004A4151 /* ConditionTemplateVCTableViewCell.m */; };
 		474D82A81AFC90FA004A4151 /* ConditionTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82901AFC90FA004A4151 /* ConditionTemplateViewController.m */; };
@@ -299,6 +301,10 @@
 		473C91251AFCA6E20069ECE4 /* AgePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AgePickerViewController.m; sourceTree = "<group>"; };
 		473C91271AFCA8FF0069ECE4 /* CreateTemplateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateTemplateViewController.h; sourceTree = "<group>"; };
 		473C91281AFCA8FF0069ECE4 /* CreateTemplateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateTemplateViewController.m; sourceTree = "<group>"; };
+		473C912A1B004ED90069ECE4 /* TemplateModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateModel.h; sourceTree = "<group>"; };
+		473C912B1B004ED90069ECE4 /* TemplateModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemplateModel.m; sourceTree = "<group>"; };
+		473C912D1B0191740069ECE4 /* ShowTemplateDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowTemplateDetailViewController.h; sourceTree = "<group>"; };
+		473C912E1B0191740069ECE4 /* ShowTemplateDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowTemplateDetailViewController.m; sourceTree = "<group>"; };
 		474D82891AF9EBFB004A4151 /* CoreDataSyncWithServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataSyncWithServer.h; sourceTree = "<group>"; };
 		474D828A1AF9EBFB004A4151 /* CoreDataSyncWithServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataSyncWithServer.m; sourceTree = "<group>"; };
 		474D828D1AFC90FA004A4151 /* ConditionTemplateVCTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConditionTemplateVCTableViewCell.h; sourceTree = "<group>"; };
@@ -685,6 +691,8 @@
 				474D82961AFC90FA004A4151 /* ShowAllTemplateCell.m */,
 				473C91271AFCA8FF0069ECE4 /* CreateTemplateViewController.h */,
 				473C91281AFCA8FF0069ECE4 /* CreateTemplateViewController.m */,
+				473C912D1B0191740069ECE4 /* ShowTemplateDetailViewController.h */,
+				473C912E1B0191740069ECE4 /* ShowTemplateDetailViewController.m */,
 				474D82971AFC90FA004A4151 /* ShowTemplateViewController.h */,
 				474D82981AFC90FA004A4151 /* ShowTemplateViewController.m */,
 				474D82991AFC90FA004A4151 /* ShowTemplateViewControllerTwo.h */,
@@ -718,6 +726,8 @@
 				478858F71AF7130D002CD361 /* TempCaseBaseInfo.m */,
 				478859061AF71A70002CD361 /* TempDoctor.h */,
 				478859071AF71A70002CD361 /* TempDoctor.m */,
+				473C912A1B004ED90069ECE4 /* TemplateModel.h */,
+				473C912B1B004ED90069ECE4 /* TemplateModel.m */,
 			);
 			name = TempModel;
 			sourceTree = "<group>";
@@ -893,11 +903,13 @@
 				474D828B1AF9EBFB004A4151 /* CoreDataSyncWithServer.m in Sources */,
 				474D82BF1AFC999A004A4151 /* TemplateDetailViewControllerOne.m in Sources */,
 				4705A4441AF37949007FD2B9 /* CoreDataStack+UpdateMethods.m in Sources */,
+				473C912F1B0191740069ECE4 /* ShowTemplateDetailViewController.m in Sources */,
 				4705EFF21AF1044B0050D47A /* AppDelegate.m in Sources */,
 				4705F0361AF1062C0050D47A /* NSData+Zip.m in Sources */,
 				4705F0A61AF10CD80050D47A /* RecordBaseInfo.m in Sources */,
 				478858E31AF1BC9E002CD361 /* AutoHeightTextView.m in Sources */,
 				47301D011AFB2483005D42CC /* mainViewController.m in Sources */,
+				473C912C1B004ED90069ECE4 /* TemplateModel.m in Sources */,
 				473C91291AFCA8FF0069ECE4 /* CreateTemplateViewController.m in Sources */,
 				4705F08F1AF109990050D47A /* WLKPatient.m in Sources */,
 				4705F0D51AF130250050D47A /* personInfoView.m in Sources */,

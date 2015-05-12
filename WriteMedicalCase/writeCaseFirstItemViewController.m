@@ -127,7 +127,7 @@
 {
     [self performSegueWithIdentifier:@"firstItemCustomSegue" sender:nil];
 }
--(void)didSelectedTemplateWithNode:(Template *)templated withTitleStr:(NSString *)titleStr
+-(void)didSelectedTemplateWithNode:(TemplateModel *)templated withTitleStr:(NSString *)titleStr
 {
     self.textView.text = templated.content;
     [self performSegueWithIdentifier:@"firstItemCustomSegue" sender:nil];

@@ -9,12 +9,15 @@
 #import <UIKit/UIKit.h>
 
 @protocol WriteCaseShowTemplateViewControllerDelegate <NSObject>
--(void)didSelectedTemplateWithNode:(Template*)templated withTitleStr:(NSString*)titleStr;
+-(void)didSelectedTemplateWithNode:(TemplateModel*)templated withTitleStr:(NSString*)titleStr;
 
 @end
 
 @interface WriteCaseShowTemplateViewController : UIViewController
+
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+
 @property (nonatomic,strong) NSString *templateName;
+
 @property (nonatomic) id <WriteCaseShowTemplateViewControllerDelegate> showTemplateDelegate;
 @end

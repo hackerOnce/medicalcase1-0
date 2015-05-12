@@ -13,6 +13,7 @@
 #import "Node.h"
 #import "Template.h"
 #import "ShowAllTemplateCell.h"
+#import "ShowTemplateDetailViewController.h"
 
 @interface ShowTemplateViewController ()<UITableViewDataSource,UITableViewDelegate,NSFetchedResultsControllerDelegate,ShowAllTemplateCellDelegate>
 @property (nonatomic,strong) CoreDataStack *coreDataStack;
@@ -120,7 +121,7 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    [self performSegueWithIdentifier:@"templateDetail" sender:nil];
 }
 
 ///table view delete
@@ -146,15 +147,24 @@
     NSLog(@"template content : %@",template.content);
     NSLog(@"template create date : %@",template.createDate);
     
-    UILabel *dayLabel = (UILabel*)[cell viewWithTag:1001];
-    UILabel *monthLabel = (UILabel*)[cell viewWithTag:1002];
+    // UILabel *dayLabel = (UILabel*)[cell viewWithTag:1001];
+   // UILabel *monthLabel = (UILabel*)[cell viewWithTag:1002];
     UITextView *conditionLabel = (UITextView*)[cell viewWithTag:1003];
     UITextView *contentLanel = (UITextView*)[cell viewWithTag:1004];
     
-    monthLabel.text = [self getMonthWithDateStr:template.createDate];
-    dayLabel.text = [self getDayWithDateStr:template.createDate];
+//    monthLabel.text = [self getMonthWithDateStr:template.createDate];
+//    dayLabel.text = [self getDayWithDateStr:template.createDate];
     conditionLabel.text = template.condition;
-    contentLanel.text = template.content;
+    
+    NSString *content;
+    if (template.content.length > 100) {
+        content = [NSString stringWithFormat:@"%@...", [template.content substringToIndex:100]];
+    }else {
+        content = template.content;
+    }
+    
+    contentLanel.text = content;
+
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
@@ -405,5 +415,11 @@
     return monthStr;
 }
 
-
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"templateDetail"]) {
+        ShowTemplateDetailViewController *templateDetailVC = (ShowTemplateDetailViewController*)segue.destinationViewController;
+        //
+    }
+}
 @end

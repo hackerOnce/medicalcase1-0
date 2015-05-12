@@ -28,9 +28,9 @@
 {
     [super viewWillAppear:animated];
     
-    self.createPeopleLabel.text = self.template.createPeople;
-    self.sourceLabel.text = self.template.sourceType;
-    self.conditionLabel.text = self.template.condition;
-    self.contentLabel.text  = self.template.content;
+    self.createPeopleLabel.text = self.templateModel.createPeople;
+    self.sourceLabel.text = self.templateModel.sourceType;
+    self.conditionLabel.text = self.templateModel.condition;
+    self.contentLabel.text  = self.templateModel.content;
 }
 @end

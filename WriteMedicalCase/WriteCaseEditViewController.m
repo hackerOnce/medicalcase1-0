@@ -328,17 +328,12 @@
 #pragma mask -keyboard
 -(void)addKeyboardObserver
 {
-    // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 -(void)removeKeyboardObserver
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-//-(void)keyboardWillShow:(NSNotification*)notificationInfo
-//{
-//
-//}
 -(void)keyboardWillHide:(NSNotification*)notificationInfo
 {
     if (self.tableView.isHidden) {
@@ -348,9 +343,8 @@
 }
 
 ///did selected template
--(void)didSelectedTemplateWithNode:(Template *)templated withTitleStr:(NSString *)titleStr
+-(void)didSelectedTemplateWithNode:(TemplateModel *)templated withTitleStr:(NSString *)titleStr
 {
-    
     NSString *nodeName = titleStr;
     NSString *nodesString = templated.content;
     

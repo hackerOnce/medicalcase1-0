@@ -17,6 +17,7 @@
 @property (nonatomic, retain) NSString * dID;
 @property (nonatomic, retain) NSString * templateID;
 
+
 @property (nonatomic, retain) NSString * condition;
 @property (nonatomic, retain) NSString * content;
 @property (nonatomic, retain) NSString * gender;

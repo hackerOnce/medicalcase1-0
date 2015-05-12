@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TemplateModel.h"
 
 @interface TemplateDetailViewController : UIViewController
-@property (nonatomic,strong) Template *template;
+
+@property (nonatomic,strong) TemplateModel *templateModel;
+
+
 @end

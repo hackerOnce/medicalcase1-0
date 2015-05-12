@@ -22,7 +22,7 @@
 }
 
 
-+(void)messageObjectWithUsrStr:(NSString *)usrStr pwdStr:(NSString *)pwdStr iHMsgSocket:(IHMsgSocket *)socket optInt:(NSInteger)optInt dictionary:(NSMutableDictionary *)dicM block:(void (^)(IHSockRequest *))block failConection:(void (^)(NSError *))fail
++(void)messageObjectWithUsrStr:(NSString *)usrStr pwdStr:(NSString *)pwdStr iHMsgSocket:(IHMsgSocket *)socket optInt:(NSInteger)optInt dictionary:(NSDictionary *)dicM block:(void (^)(IHSockRequest *))block failConection:(void (^)(NSError *))fail
 {
     if ([self isConnectionAvailable]) {
         MessageObject *messageObject = [[MessageObject alloc]init];

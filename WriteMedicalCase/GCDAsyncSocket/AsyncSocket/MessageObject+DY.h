@@ -24,7 +24,7 @@
  *  @param dicM   发送给服务器的数据
  *  @param block  返回数据
  */
-+(void)messageObjectWithUsrStr:(NSString *)usrStr pwdStr:(NSString *)pwdStr iHMsgSocket:(IHMsgSocket *)socket  optInt:(NSInteger)optInt dictionary:(NSMutableDictionary *)dicM block:(void(^)(IHSockRequest *request))block failConection:(void (^)(NSError *))fail;
++(void)messageObjectWithUsrStr:(NSString *)usrStr pwdStr:(NSString *)pwdStr iHMsgSocket:(IHMsgSocket *)socket  optInt:(NSInteger)optInt dictionary:(NSDictionary *)dicM block:(void(^)(IHSockRequest *request))block failConection:(void (^)(NSError *))fail;
 
 /**
  *  请求数据方法
