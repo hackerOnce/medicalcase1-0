@@ -204,8 +204,6 @@
     return UITableViewAutomaticDimension;
 }
 
-
-
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
     id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchResultController.sections[section];
@@ -235,11 +233,6 @@
 -(void)buttonShareActionClicked:(UIButton *)sender
 {
     
-}
--(void)removeKeyboardObserver
-{
-    // [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:UIKeyboardWillShowNotification];
-   // [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:UIKeyboardWillHideNotification];
 }
 
 -(void)dealloc
