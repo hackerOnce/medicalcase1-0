@@ -14,10 +14,12 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentViewLeftConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentViewRightConstraint;
 @property (weak, nonatomic) IBOutlet UIView *myContainerView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *templateTitleHeightConstraints;
 
 @property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
 @property (nonatomic, assign) CGPoint panStartPoint;
 @property (nonatomic, assign) CGFloat startingRightLayoutConstraintConstant;
+@property (weak, nonatomic) IBOutlet UILabel *templateTitleLabel;
 
 @end
 
@@ -41,6 +43,9 @@ static CGFloat const kBounceValue = 20.0f;
     self.panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panThisCell:)];
     self.panRecognizer.delegate = self;
     [self.myContainerView addGestureRecognizer:self.panRecognizer];
+    
+   // self.templateTitleLabel.hidden = YES;
+   // self.templateTitleHeightConstraints.constant = -self.templateTitleHeightConstraints.constant;
 }
 
 - (void)prepareForReuse
