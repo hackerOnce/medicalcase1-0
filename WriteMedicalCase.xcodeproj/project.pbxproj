@@ -111,6 +111,8 @@
 		474D82BC1AFC9381004A4151 /* ModelPlateConditionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82BB1AFC9381004A4151 /* ModelPlateConditionViewController.m */; };
 		474D82BF1AFC999A004A4151 /* TemplateDetailViewControllerOne.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82BE1AFC999A004A4151 /* TemplateDetailViewControllerOne.m */; };
 		476474241B0202F1004AFDF1 /* ShowTemplateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 476474231B0202F1004AFDF1 /* ShowTemplateTableViewCell.m */; };
+		476474291B034B2B004AFDF1 /* SelectASharedTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 476474281B034B2B004AFDF1 /* SelectASharedTemplateViewController.m */; };
+		4764742F1B03593A004AFDF1 /* SelectedASharedTemplateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4764742E1B03593A004AFDF1 /* SelectedASharedTemplateTableViewCell.m */; };
 		478858E31AF1BC9E002CD361 /* AutoHeightTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */; };
 		478858EC1AF1FD06002CD361 /* CustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EB1AF1FD06002CD361 /* CustomSegue.m */; };
 		478858EF1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EE1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m */; };
@@ -337,6 +339,10 @@
 		474D82BE1AFC999A004A4151 /* TemplateDetailViewControllerOne.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemplateDetailViewControllerOne.m; sourceTree = "<group>"; };
 		476474221B0202F1004AFDF1 /* ShowTemplateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShowTemplateTableViewCell.h; path = ../ShowTemplateTableViewCell.h; sourceTree = "<group>"; };
 		476474231B0202F1004AFDF1 /* ShowTemplateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShowTemplateTableViewCell.m; path = ../ShowTemplateTableViewCell.m; sourceTree = "<group>"; };
+		476474271B034B2B004AFDF1 /* SelectASharedTemplateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectASharedTemplateViewController.h; sourceTree = "<group>"; };
+		476474281B034B2B004AFDF1 /* SelectASharedTemplateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectASharedTemplateViewController.m; sourceTree = "<group>"; };
+		4764742D1B03593A004AFDF1 /* SelectedASharedTemplateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedASharedTemplateTableViewCell.h; sourceTree = "<group>"; };
+		4764742E1B03593A004AFDF1 /* SelectedASharedTemplateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectedASharedTemplateTableViewCell.m; sourceTree = "<group>"; };
 		478858E11AF1BC9E002CD361 /* AutoHeightTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoHeightTextView.h; sourceTree = "<group>"; };
 		478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoHeightTextView.m; sourceTree = "<group>"; };
 		478858EA1AF1FD06002CD361 /* CustomSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSegue.h; sourceTree = "<group>"; };
@@ -713,6 +719,10 @@
 				473C91221AFCA6D30069ECE4 /* ModelPlateConditionsViewController.m */,
 				473C91241AFCA6E20069ECE4 /* AgePickerViewController.h */,
 				473C91251AFCA6E20069ECE4 /* AgePickerViewController.m */,
+				476474271B034B2B004AFDF1 /* SelectASharedTemplateViewController.h */,
+				476474281B034B2B004AFDF1 /* SelectASharedTemplateViewController.m */,
+				4764742D1B03593A004AFDF1 /* SelectedASharedTemplateTableViewCell.h */,
+				4764742E1B03593A004AFDF1 /* SelectedASharedTemplateTableViewCell.m */,
 			);
 			path = CreateTemplate;
 			sourceTree = "<group>";
@@ -867,6 +877,7 @@
 				474D82AC1AFC90FA004A4151 /* ShowTemplateViewController.m in Sources */,
 				4705A4381AF31C67007FD2B9 /* RWLabel.m in Sources */,
 				478858F51AF712E0002CD361 /* TempPatient.m in Sources */,
+				4764742F1B03593A004AFDF1 /* SelectedASharedTemplateTableViewCell.m in Sources */,
 				4705F0741AF1094C0050D47A /* SBJsonStreamWriterAccumulator.m in Sources */,
 				4705F0A21AF10C040050D47A /* WLKTooles.m in Sources */,
 				4705F0771AF1094C0050D47A /* SBJsonUTF8Stream.m in Sources */,
@@ -882,6 +893,7 @@
 				4705F0C21AF10E580050D47A /* KeyValueObserver.m in Sources */,
 				4705F0331AF1062C0050D47A /* IHMsgSocket.m in Sources */,
 				4705F06D1AF1094C0050D47A /* NSObject+SBJson.m in Sources */,
+				476474291B034B2B004AFDF1 /* SelectASharedTemplateViewController.m in Sources */,
 				4705F0CD1AF11B220050D47A /* WriteCaseSaveCell.m in Sources */,
 				4705F0991AF109C10050D47A /* WLKView.m in Sources */,
 				4705F07F1AF109770050D47A /* WLKCaseNodeCell.m in Sources */,
