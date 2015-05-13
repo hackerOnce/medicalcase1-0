@@ -99,7 +99,6 @@
 		474D82A71AFC90FA004A4151 /* ConditionTemplateVCTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D828E1AFC90FA004A4151 /* ConditionTemplateVCTableViewCell.m */; };
 		474D82A81AFC90FA004A4151 /* ConditionTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82901AFC90FA004A4151 /* ConditionTemplateViewController.m */; };
 		474D82A91AFC90FA004A4151 /* CreateTemplateDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82921AFC90FA004A4151 /* CreateTemplateDetailViewController.m */; };
-		474D82AB1AFC90FA004A4151 /* ShowAllTemplateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82961AFC90FA004A4151 /* ShowAllTemplateCell.m */; };
 		474D82AC1AFC90FA004A4151 /* ShowTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82981AFC90FA004A4151 /* ShowTemplateViewController.m */; };
 		474D82AD1AFC90FA004A4151 /* ShowTemplateViewControllerTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D829A1AFC90FA004A4151 /* ShowTemplateViewControllerTwo.m */; };
 		474D82AE1AFC90FA004A4151 /* TemplateConditionSelectedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D829C1AFC90FA004A4151 /* TemplateConditionSelectedViewController.m */; };
@@ -314,8 +313,6 @@
 		474D82901AFC90FA004A4151 /* ConditionTemplateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConditionTemplateViewController.m; sourceTree = "<group>"; };
 		474D82911AFC90FA004A4151 /* CreateTemplateDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateTemplateDetailViewController.h; sourceTree = "<group>"; };
 		474D82921AFC90FA004A4151 /* CreateTemplateDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateTemplateDetailViewController.m; sourceTree = "<group>"; };
-		474D82951AFC90FA004A4151 /* ShowAllTemplateCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowAllTemplateCell.h; sourceTree = "<group>"; };
-		474D82961AFC90FA004A4151 /* ShowAllTemplateCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowAllTemplateCell.m; sourceTree = "<group>"; };
 		474D82971AFC90FA004A4151 /* ShowTemplateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowTemplateViewController.h; sourceTree = "<group>"; };
 		474D82981AFC90FA004A4151 /* ShowTemplateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowTemplateViewController.m; sourceTree = "<group>"; };
 		474D82991AFC90FA004A4151 /* ShowTemplateViewControllerTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowTemplateViewControllerTwo.h; sourceTree = "<group>"; };
@@ -694,8 +691,6 @@
 				473C91281AFCA8FF0069ECE4 /* CreateTemplateViewController.m */,
 				473C912D1B0191740069ECE4 /* ShowTemplateDetailViewController.h */,
 				473C912E1B0191740069ECE4 /* ShowTemplateDetailViewController.m */,
-				474D82951AFC90FA004A4151 /* ShowAllTemplateCell.h */,
-				474D82961AFC90FA004A4151 /* ShowAllTemplateCell.m */,
 				476474221B0202F1004AFDF1 /* ShowTemplateTableViewCell.h */,
 				476474231B0202F1004AFDF1 /* ShowTemplateTableViewCell.m */,
 				474D82971AFC90FA004A4151 /* ShowTemplateViewController.h */,
@@ -919,7 +914,6 @@
 				473C91291AFCA8FF0069ECE4 /* CreateTemplateViewController.m in Sources */,
 				4705F08F1AF109990050D47A /* WLKPatient.m in Sources */,
 				4705F0D51AF130250050D47A /* personInfoView.m in Sources */,
-				474D82AB1AFC90FA004A4151 /* ShowAllTemplateCell.m in Sources */,
 				478858EC1AF1FD06002CD361 /* CustomSegue.m in Sources */,
 				4705F0BC1AF10DF00050D47A /* TestParentNode.m in Sources */,
 				4705F0BF1AF10DF00050D47A /* Node.m in Sources */,

@@ -8,15 +8,22 @@
 
 #import <UIKit/UIKit.h>
 
+@class ShowTemplateTableViewCell;
+
 @protocol ShowTemplateTableViewCellDelegate <NSObject>
 
 -(void)buttonMoreActionClicked:(UIButton*)sender;
 -(void)buttonShareActionClicked:(UIButton*)sender;
 -(void)buttonDeleteActionClicked:(UIButton*)sender;
 
+- (void)cellDidOpen:(UITableViewCell *)cell;
+- (void)cellDidClose:(UITableViewCell *)cell;
+
 
 @end
 @interface ShowTemplateTableViewCell : UITableViewCell
+
+- (void)openCell;
 
 @property (nonatomic,weak) id<ShowTemplateTableViewCellDelegate> delegate;
 

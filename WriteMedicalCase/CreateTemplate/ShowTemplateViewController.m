@@ -12,22 +12,18 @@
 #import "ParentNode.h"
 #import "Node.h"
 #import "Template.h"
-#import "ShowAllTemplateCell.h"
+
 #import "ShowTemplateDetailViewController.h"
 
 #import "ShowTemplateTableViewCell.h"
 
-@interface ShowTemplateViewController ()<UITableViewDataSource,UITableViewDelegate,NSFetchedResultsControllerDelegate,ShowAllTemplateCellDelegate,ShowTemplateTableViewCellDelegate>
+@interface ShowTemplateViewController ()<UITableViewDataSource,UITableViewDelegate,NSFetchedResultsControllerDelegate,ShowTemplateTableViewCellDelegate>
 @property (nonatomic,strong) CoreDataStack *coreDataStack;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic,strong) NSMutableArray *dataArray;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic) CGFloat keyboardOverlap;
-@property (nonatomic,strong) NSIndexPath *currentIndexPath;
-@property (nonatomic,strong) UITextView *currentTextView;
-
-@property (nonatomic) BOOL keyboardShow;
 
 @property (nonatomic,strong) NSFetchedResultsController *fetchResultController;
 
@@ -79,7 +75,6 @@
 -(void)addKVOObserver
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTableView:) name:kDidSelectedFinalTemplate object:nil];
-    [self addKeyboardObserver];
 }
 
 -(void)updateTableView:(NSNotification*)info
@@ -118,29 +113,22 @@
 {
    // return self.dataArray.count;
     id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchResultController.sections[section];
-    self.test = [sectionInfo numberOfObjects] + 1;
-    return [sectionInfo numberOfObjects] + 1;
+    return [sectionInfo numberOfObjects] ;
     
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == self.test-1) {
-        ShowTemplateTableViewCell *cellS = (ShowTemplateTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"swipeCell"];
-        cellS.delegate = self;
-        return cellS;
+   // if (indexPath.row == self.test-1) {
+        ShowTemplateTableViewCell *cell = (ShowTemplateTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"swipeCell"];
+        cell.delegate = self;
         
-    }else {
-        ShowAllTemplateCell *cell =(ShowAllTemplateCell*) [tableView dequeueReusableCellWithIdentifier:@"ShowAllTemplateCell"];
-        cell.showAllTemplateDelegate = self;
         [self configCell:cell withIndexPath:indexPath];
         
         if ([self.cellsCurrentlyEditing containsObject:indexPath]) {
             [cell openCell];
         }
-        
-        return cell;
 
-    }
+        return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -160,7 +148,7 @@
         [self.coreDataStack saveContext];
     }
 }
--(void)configCell:(ShowAllTemplateCell*)cell withIndexPath:(NSIndexPath*)indexPath
+-(void)configCell:(ShowTemplateTableViewCell*)cell withIndexPath:(NSIndexPath*)indexPath
 {
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
@@ -170,13 +158,10 @@
     NSLog(@"template content : %@",template.content);
     NSLog(@"template create date : %@",template.createDate);
     
-    // UILabel *dayLabel = (UILabel*)[cell viewWithTag:1001];
-   // UILabel *monthLabel = (UILabel*)[cell viewWithTag:1002];
-    UITextView *conditionLabel = (UITextView*)[cell viewWithTag:1003];
-    UITextView *contentLanel = (UITextView*)[cell viewWithTag:1004];
     
-//    monthLabel.text = [self getMonthWithDateStr:template.createDate];
-//    dayLabel.text = [self getDayWithDateStr:template.createDate];
+    UILabel *conditionLabel = (UILabel*)[cell viewWithTag:1001];
+    UILabel *contentLabel = (UILabel*)[cell viewWithTag:1003];
+    
     conditionLabel.text = template.condition;
     
     NSString *content;
@@ -186,9 +171,40 @@
         content = template.content;
     }
     
-    contentLanel.text = content;
+    contentLabel.text = content;
 
 }
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [self heightForBasicCellAtIndexPath:indexPath];
+}
+- (CGFloat)heightForBasicCellAtIndexPath:(NSIndexPath *)indexPath {
+    static ShowTemplateTableViewCell *sizingCell = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sizingCell = [self.tableView dequeueReusableCellWithIdentifier:@"swipeCell"];
+    });
+    [self configCell:sizingCell withIndexPath:indexPath];
+    return [self calculateHeightForConfiguredSizingCell:sizingCell];
+}
+
+- (CGFloat)calculateHeightForConfiguredSizingCell:(UITableViewCell *)sizingCell {
+    
+    sizingCell.bounds = CGRectMake(0.0f, 0.0f, CGRectGetWidth(self.tableView.frame), CGRectGetHeight(sizingCell.bounds));
+    
+    [sizingCell setNeedsLayout];
+    [sizingCell layoutIfNeeded];
+    
+    CGSize size = [sizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+    return size.height + 1.0f; // Add 1.0f for the cell separator height
+}
+-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewAutomaticDimension;
+}
+
+
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -197,202 +213,6 @@
 }
 
 
-/// fetch result controller delegate
--(void)controllerWillChangeContent:(NSFetchedResultsController *)controller
-{
-    [self.tableView beginUpdates];
-}
--(void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
-{
-    switch (type) {
-        case NSFetchedResultsChangeInsert:{
-            [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-            break;
-        }
-        case NSFetchedResultsChangeDelete:{
-            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-            break;
-        }
-        case NSFetchedResultsChangeUpdate:{
-           // ShowAllTemplateCell *cell = (ShowAllTemplateCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-           // [self configCell:cell withIndexPath:indexPath];
-        }
-            
-        default:
-            break;
-    }
-}
--(void)controller:(NSFetchedResultsController *)controller didChangeSection:(id<NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
-{
-    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:sectionIndex];
-    switch (type) {
-        case NSFetchedResultsChangeInsert:
-            [self.tableView insertSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
-            break;
-        case NSFetchedResultsChangeDelete:
-            [self.tableView deleteSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
-            break;
-        default:
-            break;
-    }
-}
--(void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
-    [self.tableView endUpdates];
-}
-#pragma showTemplate delegate
--(void)showAllTemplateCell:(ShowAllTemplateCell *)cell didChangeText:(NSString *)text withTextView:(UITextView *)textVIew
-{
-    UITextView *conditionTextView = (UITextView*)[cell viewWithTag:1003];
-    UITextView *contentTextView = (UITextView*)[cell viewWithTag:1004];
-    
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-
-    Template *template =(Template*) [self.fetchResultController objectAtIndexPath:indexPath];
-
-    if (textVIew == conditionTextView) {
-        template.condition = text;
-        
-    }else if (textVIew == contentTextView){
-        template.content = text;
-    }
-    [self.coreDataStack saveContext];
-
-  //  [self.tableView scrollToRowAtIndexPath:self.currentIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-//    NSMutableArray *data = [self.dataArray mutableCopy];
-//    data[indexPath.row] = text;
-//    self.dataArray = [data copy];
-}
-
--(void)addKeyboardObserver
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-}
--(void)keyboardWillShow:(NSNotification*)notificationInfo
-{
-    
-    if (self.keyboardShow) {
-        return;
-    }
-    self.keyboardShow = YES;
-    // Get the keyboard size
-    UIScrollView *tableView;
-    if([self.tableView.superview isKindOfClass:[UIScrollView class]])
-        tableView = (UIScrollView *)self.tableView.superview;
-    else
-        tableView = self.tableView;
-    
-    NSDictionary *userInfo = [notificationInfo userInfo];
-    NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-    
-    //[self.delegate keyboardShow:[aValue CGRectValue].size.height];
-    CGRect keyboardRect = [tableView.superview convertRect:[aValue CGRectValue] fromView:nil];
-    
-    
-    // [self.delegate keyboardShow:keyboardRect.size.height];
-    // Get the keyboard's animation details
-    NSTimeInterval animationDuration;
-    [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] getValue:&animationDuration];
-    UIViewAnimationCurve animationCurve;
-    [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] getValue:&animationCurve];
-    
-    // Determine how much overlap exists between tableView and the keyboard
-    CGRect tableFrame = tableView.frame;
-    CGFloat tableLowerYCoord = tableFrame.origin.y + tableFrame.size.height;
-    self.keyboardOverlap = tableLowerYCoord - keyboardRect.origin.y;
-    if(self.currentTextView && self.keyboardOverlap>0)
-    {
-        CGFloat accessoryHeight = self.currentTextView.frame.size.height;
-        self.keyboardOverlap -= accessoryHeight;
-        
-        tableView.contentInset = UIEdgeInsetsMake(0, 0, accessoryHeight, 0);
-        tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, accessoryHeight, 0);
-    }
-    
-    if(self.keyboardOverlap < 0)
-        self.keyboardOverlap = 0;
-    
-    if(self.keyboardOverlap != 0)
-    {
-        tableFrame.size.height -= self.keyboardOverlap;
-        
-        NSTimeInterval delay = 0;
-        if(keyboardRect.size.height)
-        {
-            delay = (1 - self.keyboardOverlap/keyboardRect.size.height)*animationDuration;
-            animationDuration = animationDuration * self.keyboardOverlap/keyboardRect.size.height;
-        }
-        
-        [UIView animateWithDuration:animationDuration delay:delay
-                            options:UIViewAnimationOptionBeginFromCurrentState
-                         animations:^{ tableView.frame = tableFrame; }
-                         completion:^(BOOL finished){ [self tableAnimationEnded:nil finished:nil contextInfo:nil]; }];
-    }
-    
-}
--(void)keyboardWillHide:(NSNotification*)notificationInfo
-{
-    
-    [self.coreDataStack saveContext];
-    
-    self.keyboardShow = NO;
-    
-    UIScrollView *tableView;
-    if([self.tableView.superview isKindOfClass:[UIScrollView class]])
-        tableView = (UIScrollView *)self.tableView.superview;
-    else
-        tableView = self.tableView;
-    if(self.currentTextView)
-    {
-        tableView.contentInset = UIEdgeInsetsZero;
-        tableView.scrollIndicatorInsets = UIEdgeInsetsZero;
-    }
-    
-    if(self.keyboardOverlap == 0)
-        return;
-    
-    // Get the size & animation details of the keyboard
-    NSDictionary *userInfo = [notificationInfo userInfo];
-    NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-    CGRect keyboardRect = [tableView.superview convertRect:[aValue CGRectValue] fromView:nil];
-    
-    NSTimeInterval animationDuration;
-    [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] getValue:&animationDuration];
-    UIViewAnimationCurve animationCurve;
-    [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] getValue:&animationCurve];
-    
-    CGRect tableFrame = tableView.frame;
-    tableFrame.size.height += self.keyboardOverlap;
-    
-    //  tableFrame.size = CGSizeMake(678, 497);
-    if(keyboardRect.size.height)
-        animationDuration = animationDuration * self.keyboardOverlap/keyboardRect.size.height;
-    
-    [UIView animateWithDuration:animationDuration delay:0
-                        options:UIViewAnimationOptionBeginFromCurrentState
-                     animations:^{ tableView.frame = tableFrame; }
-                     completion:^(BOOL finished){ [self tableAnimationEnded:nil finished:nil contextInfo:nil]; }];
-    
-    
-}
-- (void) tableAnimationEnded:(NSString*)animationID finished:(NSNumber *)finished contextInfo:(void *)context
-{
-    // Scroll to the active cell
-    UITableView *tableView = self.tableView;
-    if(self.currentIndexPath)
-    {
-        [tableView scrollToRowAtIndexPath:self.currentIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-        [tableView selectRowAtIndexPath:self.currentIndexPath animated:NO scrollPosition:UITableViewScrollPositionBottom];
-    }
-}
-
-///cell delegate
--(void)textViewDidBeginEditing:(UITextView *)textView withCellIndexPath:(NSIndexPath *)indexPath
-{
-    self.currentIndexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section];
-    self.currentTextView = textView;
-}
 - (void)cellDidOpen:(UITableViewCell *)cell
 {
     NSIndexPath *currentEditingIndexPath = [self.tableView indexPathForCell:cell];
@@ -424,8 +244,7 @@
 
 -(void)dealloc
 {
-   // [self removeKeyboardObserver];
-   // [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:kDidSelectedFinalTemplate];
+   
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
