@@ -18,6 +18,7 @@
 
 -(void)buttonIgnoreActionClicked:(UIButton*)sender withCell:(ShowTemplateTableViewCell*)cell;
 -(void)buttonAcceptActionClicked:(UIButton*)sender withCell:(ShowTemplateTableViewCell*)cell;
+-(void)buttonCancellationOfShareActionClicked:(UIButton*)sender withCell:(ShowTemplateTableViewCell*)cell;
 
 - (void)cellDidOpen:(UITableViewCell *)cell;
 - (void)cellDidClose:(UITableViewCell *)cell;
@@ -30,6 +31,6 @@
 
 @property (nonatomic,weak) id<ShowTemplateTableViewCellDelegate> delegate;
 @property (nonatomic) BOOL isNewsPage;
-
+@property (nonatomic) BOOL isShareTemplate;
 @property (nonatomic,strong) TemplateModel *templateModel;
 @end

@@ -251,6 +251,10 @@
 {
     
 }
+-(void)buttonCancellationOfShareActionClicked:(UIButton *)sender withCell:(ShowTemplateTableViewCell *)cell
+{
+    
+}
 -(void)dealloc
 {
    

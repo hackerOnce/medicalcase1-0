@@ -41,6 +41,8 @@ static CGFloat const kBounceValue = 20.0f;
             [self.delegate buttonShareActionClicked:sender withCell:self];
         }else if([sender.titleLabel.text isEqualToString:@"忽略"]) {
             [self.delegate buttonIgnoreActionClicked:sender withCell:self];
+        }else if([sender.titleLabel.text isEqualToString:@"撤销分享"]){
+            [self.delegate buttonCancellationOfShareActionClicked:sender withCell:self];
         }
     }
 }
@@ -92,9 +94,12 @@ static CGFloat const kBounceValue = 20.0f;
         [self.moreButton setTitle:@" " forState:UIControlStateNormal];
         self.moreButton.backgroundColor = [UIColor clearColor];
         return CGRectGetWidth(self.frame) - CGRectGetMinX(self.shareButton.frame);
-
     }else {
-        [self.shareButton setTitle:@"分享" forState:UIControlStateNormal];
+        if (self.isShareTemplate) {
+            [self.shareButton setTitle:@"撤销分享" forState:UIControlStateNormal];
+        }else {
+            [self.shareButton setTitle:@"分享" forState:UIControlStateNormal];
+        }
         [self.deleteButton setTitle:@"删除" forState:UIControlStateNormal];
         [self.moreButton setTitle:@"更多" forState:UIControlStateNormal];
         self.moreButton.backgroundColor = [UIColor darkGrayColor];
