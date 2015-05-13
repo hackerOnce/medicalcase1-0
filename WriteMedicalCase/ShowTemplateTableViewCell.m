@@ -29,11 +29,19 @@ static CGFloat const kBounceValue = 20.0f;
 - (IBAction)buttonsClicked:(UIButton *)sender
 {
     if (sender == self.moreButton) {
-        [self.delegate buttonDeleteActionClicked:sender];
+        [self.delegate buttonDeleteActionClicked:sender withCell:self];
     }else if(sender == self.deleteButton){
-        [self.delegate buttonDeleteActionClicked:sender];
+        if ([sender.titleLabel.text isEqualToString:@"删除"]) {
+            [self.delegate buttonDeleteActionClicked:sender withCell:self];
+        }else if([sender.titleLabel.text isEqualToString:@"接收"]) {
+            [self.delegate buttonAcceptActionClicked:sender withCell:self];
+        }
     }else if (sender == self.shareButton){
-        [self.delegate buttonShareActionClicked:sender];
+        if ([sender.titleLabel.text isEqualToString:@"分享"]) {
+            [self.delegate buttonShareActionClicked:sender withCell:self];
+        }else if([sender.titleLabel.text isEqualToString:@"忽略"]) {
+            [self.delegate buttonIgnoreActionClicked:sender withCell:self];
+        }
     }
 }
 
@@ -64,8 +72,6 @@ static CGFloat const kBounceValue = 20.0f;
         
         self.templateTitleHeightConstraints.constant = 0;
     }
-//    [self setNeedsLayout];
-//    [self layoutIfNeeded];
 }
 - (void)prepareForReuse
 {
@@ -81,11 +87,18 @@ static CGFloat const kBounceValue = 20.0f;
 - (CGFloat)buttonTotalWidth
 {
     if (self.isNewsPage) {
+        [self.shareButton setTitle:@"忽略" forState:UIControlStateNormal];
+        [self.deleteButton setTitle:@"接收" forState:UIControlStateNormal];
+        [self.moreButton setTitle:@" " forState:UIControlStateNormal];
+        self.moreButton.backgroundColor = [UIColor clearColor];
         return CGRectGetWidth(self.frame) - CGRectGetMinX(self.shareButton.frame);
 
     }else {
+        [self.shareButton setTitle:@"分享" forState:UIControlStateNormal];
+        [self.deleteButton setTitle:@"删除" forState:UIControlStateNormal];
+        [self.moreButton setTitle:@"更多" forState:UIControlStateNormal];
+        self.moreButton.backgroundColor = [UIColor darkGrayColor];
         return CGRectGetWidth(self.frame) - CGRectGetMinX(self.moreButton.frame);
-
     }
 }
 

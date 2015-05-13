@@ -12,9 +12,12 @@
 
 @protocol ShowTemplateTableViewCellDelegate <NSObject>
 
--(void)buttonMoreActionClicked:(UIButton*)sender;
--(void)buttonShareActionClicked:(UIButton*)sender;
--(void)buttonDeleteActionClicked:(UIButton*)sender;
+-(void)buttonMoreActionClicked:(UIButton*)sender withCell:(ShowTemplateTableViewCell*)cell;
+-(void)buttonShareActionClicked:(UIButton*)sender withCell:(ShowTemplateTableViewCell*)cell ;
+-(void)buttonDeleteActionClicked:(UIButton*)sender withCell:(ShowTemplateTableViewCell*)cell;
+
+-(void)buttonIgnoreActionClicked:(UIButton*)sender withCell:(ShowTemplateTableViewCell*)cell;
+-(void)buttonAcceptActionClicked:(UIButton*)sender withCell:(ShowTemplateTableViewCell*)cell;
 
 - (void)cellDidOpen:(UITableViewCell *)cell;
 - (void)cellDidClose:(UITableViewCell *)cell;
@@ -27,4 +30,6 @@
 
 @property (nonatomic,weak) id<ShowTemplateTableViewCellDelegate> delegate;
 @property (nonatomic) BOOL isNewsPage;
+
+@property (nonatomic,strong) TemplateModel *templateModel;
 @end

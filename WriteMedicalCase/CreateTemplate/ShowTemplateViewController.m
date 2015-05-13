@@ -231,19 +231,26 @@
     [self.cellsCurrentlyEditing removeObject:[self.tableView indexPathForCell:cell]];
 }
 
--(void)buttonDeleteActionClicked:(UIButton *)sender
+-(void)buttonDeleteActionClicked:(UIButton *)sender withCell:(ShowTemplateTableViewCell *)cell
 {
     
 }
--(void)buttonMoreActionClicked:(UIButton *)sender
+-(void)buttonMoreActionClicked:(UIButton *)sender withCell:(ShowTemplateTableViewCell *)cell
 {
     
 }
--(void)buttonShareActionClicked:(UIButton *)sender
+-(void)buttonShareActionClicked:(UIButton *)sender withCell:(ShowTemplateTableViewCell *)cell
 {
     
 }
-
+-(void)buttonIgnoreActionClicked:(UIButton *)sender withCell:(ShowTemplateTableViewCell *)cell
+{
+    
+}
+-(void)buttonAcceptActionClicked:(UIButton *)sender withCell:(ShowTemplateTableViewCell *)cell
+{
+    
+}
 -(void)dealloc
 {
    
