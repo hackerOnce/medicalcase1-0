@@ -29,6 +29,7 @@
 
 @property (nonatomic, strong) NSMutableArray *cellsCurrentlyEditing;
 
+@property (nonatomic) BOOL isNewsPage;
 
 @property (nonatomic) NSInteger test;
 @end
@@ -83,7 +84,13 @@
     NSString *tempStr = (NSString*)[info object];
 //    NSString *tempStr = [info.userInfo objectForKey:selectedTemplateClassification];
     NSLog(@"%@",tempStr);
-    
+    if ([tempStr isEqualToString:@"消息"]) {
+        tempStr = @"主诉";
+        self.isNewsPage = YES;
+    }else {
+        self.isNewsPage = NO;
+
+    }
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:[Template entityName]];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"node.nodeName = %@",tempStr];
     
@@ -121,7 +128,8 @@
    // if (indexPath.row == self.test-1) {
         ShowTemplateTableViewCell *cell = (ShowTemplateTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"swipeCell"];
         cell.delegate = self;
-        
+        cell.isNewsPage = self.isNewsPage;
+
         [self configCell:cell withIndexPath:indexPath];
         
         if ([self.cellsCurrentlyEditing containsObject:indexPath]) {
@@ -185,6 +193,7 @@
     dispatch_once(&onceToken, ^{
         sizingCell = [self.tableView dequeueReusableCellWithIdentifier:@"swipeCell"];
     });
+    sizingCell.isNewsPage = self.isNewsPage;
     [self configCell:sizingCell withIndexPath:indexPath];
     return [self calculateHeightForConfiguredSizingCell:sizingCell];
 }

@@ -43,11 +43,30 @@ static CGFloat const kBounceValue = 20.0f;
     self.panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panThisCell:)];
     self.panRecognizer.delegate = self;
     [self.myContainerView addGestureRecognizer:self.panRecognizer];
+   
     
+   //接受到消息时 需设置
    // self.templateTitleLabel.hidden = YES;
    // self.templateTitleHeightConstraints.constant = -self.templateTitleHeightConstraints.constant;
+    
 }
-
+-(void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    if (self.isNewsPage) {
+        self.templateTitleLabel.hidden = NO;
+        if (self.templateTitleHeightConstraints.constant <= 0) {
+            self.templateTitleHeightConstraints.constant = 21;
+        }
+    }else {
+        self.templateTitleLabel.hidden = YES;
+        
+        self.templateTitleHeightConstraints.constant = 0;
+    }
+//    [self setNeedsLayout];
+//    [self layoutIfNeeded];
+}
 - (void)prepareForReuse
 {
     [super prepareForReuse];
@@ -59,14 +78,15 @@ static CGFloat const kBounceValue = 20.0f;
     [self setConstraintsToShowAllButtons:NO notifyDelegateDidOpen:NO];
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
 - (CGFloat)buttonTotalWidth
 {
-    return CGRectGetWidth(self.frame) - CGRectGetMinX(self.moreButton.frame);
+    if (self.isNewsPage) {
+        return CGRectGetWidth(self.frame) - CGRectGetMinX(self.shareButton.frame);
+
+    }else {
+        return CGRectGetWidth(self.frame) - CGRectGetMinX(self.moreButton.frame);
+
+    }
 }
 
 - (void)panThisCell:(UIPanGestureRecognizer *)recognizer
@@ -75,6 +95,7 @@ static CGFloat const kBounceValue = 20.0f;
         case UIGestureRecognizerStateBegan:
             self.panStartPoint = [recognizer translationInView:self.myContainerView];
             self.startingRightLayoutConstraintConstant = self.contentViewRightConstraint.constant;
+            
             break;
             
         case UIGestureRecognizerStateChanged: {
@@ -141,6 +162,7 @@ static CGFloat const kBounceValue = 20.0f;
             } else {
                 //We were closing
                 CGFloat buttonOnePlusHalfOfButton2 = CGRectGetWidth(self.deleteButton.frame) + (CGRectGetWidth(self.shareButton.frame) / 2); //4
+                
                 if (self.contentViewRightConstraint.constant >= buttonOnePlusHalfOfButton2) { //5
                     //Re-open all the way
                     [self setConstraintsToShowAllButtons:YES notifyDelegateDidOpen:YES];

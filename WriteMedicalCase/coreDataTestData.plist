@@ -326,6 +326,12 @@
 			<key>childNode</key>
 			<array/>
 		</dict>
+		<dict>
+			<key>nodeName</key>
+			<string>消息</string>
+			<key>childNode</key>
+			<array/>
+		</dict>
 	</array>
 </dict>
 </plist>

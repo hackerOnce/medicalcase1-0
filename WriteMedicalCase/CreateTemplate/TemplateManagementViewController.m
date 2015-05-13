@@ -97,6 +97,8 @@
 
     if (tempNode.hasSubNode) {
         [self performSegueWithIdentifier:@"showDetail" sender:nil];
+    }else {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDidSelectedFinalTemplate object:celllabel.text];
     }
 
 //    UITableViewCell *cell x= [tableView cellForRowAtIndexPath:indexPath];

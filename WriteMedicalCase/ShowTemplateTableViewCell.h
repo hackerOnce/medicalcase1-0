@@ -26,5 +26,5 @@
 - (void)openCell;
 
 @property (nonatomic,weak) id<ShowTemplateTableViewCellDelegate> delegate;
-
+@property (nonatomic) BOOL isNewsPage;
 @end
