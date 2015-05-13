@@ -10,6 +10,7 @@
 #import "SelectedASharedTemplateTableViewCell.h"
 
 @interface SelectASharedTemplateViewController ()<UITableViewDataSource,UITableViewDelegate>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -17,9 +18,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    [self setUpTableView];
 }
-
+-(void)setUpTableView
+{
+    [self.tableView setEditing:YES animated:NO];
+    
+}
 
 #pragma mask - tableView delegate
 
@@ -35,19 +41,70 @@
 {
     SelectedASharedTemplateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SelectASharedTemplateCell"];
     
-    
+//    cell.accessoryType = UITableViewCellAccessoryDetailButton;
     
     [self configureCell:cell atIndexPath:indexPath];
     return cell;
 }
 -(void)configureCell:(SelectedASharedTemplateTableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath
 {
-    cell.contentLabel.text = @"我是一个放暑假我是一个放暑假我是一个放暑假我是一个放暑假我是一个放暑假我是一个放暑假我是一个放暑假我是一个放暑假";
+    NSString *contentStr = @"我是一个放暑假我是一个放暑假我是一个放暑假我是一个放暑假我是一个放暑我是一个放暑假我是一个放暑假我是一个放暑假我是一个放暑假我是一个放暑假假我是一个放暑假我是一个放暑假我是一个放暑假";
+    NSString *content;
+    if (contentStr.length > 100) {
+        content = [NSString stringWithFormat:@"%@...", [contentStr substringToIndex:100]];
+    }else {
+        content = contentStr;
+    }
+    cell.conditionLabel.text = @"性别男我是一个放暑假我是一个放暑假我是一个放暑假我是一个放暑假我是一个放暑我是一个放暑假性别男性别男性别男性别男性别男";
+    cell.contentLabel.text = content;
     
+   // [cell setEditing:YES animated:NO];
+    [cell setEditingAccessoryType:UITableViewCellAccessoryDetailButton];
 }
--(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete | UITableViewCellEditingStyleInsert ;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [self heightForBasicCellAtIndexPath:indexPath];
+}
+- (CGFloat)heightForBasicCellAtIndexPath:(NSIndexPath *)indexPath {
+    static SelectedASharedTemplateTableViewCell *sizingCell = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sizingCell = [self.tableView dequeueReusableCellWithIdentifier:@"SelectASharedTemplateCell"];
+    });
+    
+    [self configureCell:sizingCell atIndexPath:indexPath];
+    return [self calculateHeightForConfiguredSizingCell:sizingCell];
+}
+
+- (CGFloat)calculateHeightForConfiguredSizingCell:(UITableViewCell *)sizingCell {
+    
+    sizingCell.bounds = CGRectMake(0.0f, 0.0f, CGRectGetWidth(self.tableView.frame), CGRectGetHeight(sizingCell.bounds));
+    
+    [sizingCell setNeedsLayout];
+    [sizingCell layoutIfNeeded];
+    
+    CGSize size = [sizingCell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+    return size.height + 1.0f; // Add 1.0f for the cell separator height
+}
+-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewAutomaticDimension;
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
+
+
+}
+
+-(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    [self performSegueWithIdentifier:@"shareDetailSegue" sender:nil];
 }
 
 

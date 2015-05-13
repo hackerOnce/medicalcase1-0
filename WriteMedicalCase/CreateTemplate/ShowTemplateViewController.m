@@ -70,8 +70,7 @@
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     self.title = @"病历模板展示";
     
-    self.tableView.estimatedRowHeight = 300;
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    
 }
 -(void)addKVOObserver
 {
