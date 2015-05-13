@@ -111,6 +111,7 @@
 		474D82B91AFC923E004A4151 /* HUDSubViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82B81AFC923E004A4151 /* HUDSubViewController.m */; };
 		474D82BC1AFC9381004A4151 /* ModelPlateConditionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82BB1AFC9381004A4151 /* ModelPlateConditionViewController.m */; };
 		474D82BF1AFC999A004A4151 /* TemplateDetailViewControllerOne.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82BE1AFC999A004A4151 /* TemplateDetailViewControllerOne.m */; };
+		476474241B0202F1004AFDF1 /* ShowTemplateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 476474231B0202F1004AFDF1 /* ShowTemplateTableViewCell.m */; };
 		478858E31AF1BC9E002CD361 /* AutoHeightTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */; };
 		478858EC1AF1FD06002CD361 /* CustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EB1AF1FD06002CD361 /* CustomSegue.m */; };
 		478858EF1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EE1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m */; };
@@ -337,6 +338,8 @@
 		474D82BB1AFC9381004A4151 /* ModelPlateConditionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelPlateConditionViewController.m; sourceTree = "<group>"; };
 		474D82BD1AFC999A004A4151 /* TemplateDetailViewControllerOne.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateDetailViewControllerOne.h; sourceTree = "<group>"; };
 		474D82BE1AFC999A004A4151 /* TemplateDetailViewControllerOne.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemplateDetailViewControllerOne.m; sourceTree = "<group>"; };
+		476474221B0202F1004AFDF1 /* ShowTemplateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShowTemplateTableViewCell.h; path = ../ShowTemplateTableViewCell.h; sourceTree = "<group>"; };
+		476474231B0202F1004AFDF1 /* ShowTemplateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShowTemplateTableViewCell.m; path = ../ShowTemplateTableViewCell.m; sourceTree = "<group>"; };
 		478858E11AF1BC9E002CD361 /* AutoHeightTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoHeightTextView.h; sourceTree = "<group>"; };
 		478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoHeightTextView.m; sourceTree = "<group>"; };
 		478858EA1AF1FD06002CD361 /* CustomSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSegue.h; sourceTree = "<group>"; };
@@ -687,12 +690,14 @@
 				474D82901AFC90FA004A4151 /* ConditionTemplateViewController.m */,
 				474D82911AFC90FA004A4151 /* CreateTemplateDetailViewController.h */,
 				474D82921AFC90FA004A4151 /* CreateTemplateDetailViewController.m */,
-				474D82951AFC90FA004A4151 /* ShowAllTemplateCell.h */,
-				474D82961AFC90FA004A4151 /* ShowAllTemplateCell.m */,
 				473C91271AFCA8FF0069ECE4 /* CreateTemplateViewController.h */,
 				473C91281AFCA8FF0069ECE4 /* CreateTemplateViewController.m */,
 				473C912D1B0191740069ECE4 /* ShowTemplateDetailViewController.h */,
 				473C912E1B0191740069ECE4 /* ShowTemplateDetailViewController.m */,
+				474D82951AFC90FA004A4151 /* ShowAllTemplateCell.h */,
+				474D82961AFC90FA004A4151 /* ShowAllTemplateCell.m */,
+				476474221B0202F1004AFDF1 /* ShowTemplateTableViewCell.h */,
+				476474231B0202F1004AFDF1 /* ShowTemplateTableViewCell.m */,
 				474D82971AFC90FA004A4151 /* ShowTemplateViewController.h */,
 				474D82981AFC90FA004A4151 /* ShowTemplateViewController.m */,
 				474D82991AFC90FA004A4151 /* ShowTemplateViewControllerTwo.h */,
@@ -853,6 +858,7 @@
 				478858EF1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m in Sources */,
 				474D82A91AFC90FA004A4151 /* CreateTemplateDetailViewController.m in Sources */,
 				473C91261AFCA6E20069ECE4 /* AgePickerViewController.m in Sources */,
+				476474241B0202F1004AFDF1 /* ShowTemplateTableViewCell.m in Sources */,
 				4705F0801AF109770050D47A /* WLKCaseNodeTableView.m in Sources */,
 				474D82A71AFC90FA004A4151 /* ConditionTemplateVCTableViewCell.m in Sources */,
 				4705F0311AF1062C0050D47A /* IHGCDReconnect.m in Sources */,

@@ -15,7 +15,9 @@
 #import "ShowAllTemplateCell.h"
 #import "ShowTemplateDetailViewController.h"
 
-@interface ShowTemplateViewController ()<UITableViewDataSource,UITableViewDelegate,NSFetchedResultsControllerDelegate,ShowAllTemplateCellDelegate>
+#import "ShowTemplateTableViewCell.h"
+
+@interface ShowTemplateViewController ()<UITableViewDataSource,UITableViewDelegate,NSFetchedResultsControllerDelegate,ShowAllTemplateCellDelegate,ShowTemplateTableViewCellDelegate>
 @property (nonatomic,strong) CoreDataStack *coreDataStack;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic,strong) NSMutableArray *dataArray;
@@ -28,6 +30,11 @@
 @property (nonatomic) BOOL keyboardShow;
 
 @property (nonatomic,strong) NSFetchedResultsController *fetchResultController;
+
+@property (nonatomic, strong) NSMutableArray *cellsCurrentlyEditing;
+
+
+@property (nonatomic) NSInteger test;
 @end
 @implementation ShowTemplateViewController
 
@@ -55,6 +62,9 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.cellsCurrentlyEditing = [NSMutableArray array];
+
     [self setUpTableView];
     [self addKVOObserver];
 }
@@ -108,16 +118,29 @@
 {
    // return self.dataArray.count;
     id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchResultController.sections[section];
-    
-    return [sectionInfo numberOfObjects];
+    self.test = [sectionInfo numberOfObjects] + 1;
+    return [sectionInfo numberOfObjects] + 1;
     
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ShowAllTemplateCell *cell =(ShowAllTemplateCell*) [tableView dequeueReusableCellWithIdentifier:@"ShowAllTemplateCell"];
-    cell.showAllTemplateDelegate = self;
-    [self configCell:cell withIndexPath:indexPath];
-    return cell;
+    if (indexPath.row == self.test-1) {
+        ShowTemplateTableViewCell *cellS = (ShowTemplateTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"swipeCell"];
+        cellS.delegate = self;
+        return cellS;
+        
+    }else {
+        ShowAllTemplateCell *cell =(ShowAllTemplateCell*) [tableView dequeueReusableCellWithIdentifier:@"ShowAllTemplateCell"];
+        cell.showAllTemplateDelegate = self;
+        [self configCell:cell withIndexPath:indexPath];
+        
+        if ([self.cellsCurrentlyEditing containsObject:indexPath]) {
+            [cell openCell];
+        }
+        
+        return cell;
+
+    }
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -127,7 +150,7 @@
 ///table view delete
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return YES;
+    return NO;
 }
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -364,12 +387,35 @@
     }
 }
 
+///cell delegate
 -(void)textViewDidBeginEditing:(UITextView *)textView withCellIndexPath:(NSIndexPath *)indexPath
 {
     self.currentIndexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section];
     self.currentTextView = textView;
 }
+- (void)cellDidOpen:(UITableViewCell *)cell
+{
+    NSIndexPath *currentEditingIndexPath = [self.tableView indexPathForCell:cell];
+    [self.cellsCurrentlyEditing addObject:currentEditingIndexPath];
+}
 
+- (void)cellDidClose:(UITableViewCell *)cell
+{
+    [self.cellsCurrentlyEditing removeObject:[self.tableView indexPathForCell:cell]];
+}
+
+-(void)buttonDeleteActionClicked:(UIButton *)sender
+{
+    
+}
+-(void)buttonMoreActionClicked:(UIButton *)sender
+{
+    
+}
+-(void)buttonShareActionClicked:(UIButton *)sender
+{
+    
+}
 -(void)removeKeyboardObserver
 {
     // [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:UIKeyboardWillShowNotification];
