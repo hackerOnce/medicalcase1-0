@@ -9,12 +9,19 @@
 #import "SelectASharedTemplateViewController.h"
 #import "SelectedASharedTemplateTableViewCell.h"
 
-@interface SelectASharedTemplateViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface SelectASharedTemplateViewController ()<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end
 
 @implementation SelectASharedTemplateViewController
+- (IBAction)cancelButtonClicked:(UIBarButtonItem *)sender
+{
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -107,6 +114,29 @@
     [self performSegueWithIdentifier:@"shareDetailSegue" sender:nil];
 }
 
+
+#pragma mask - search bar 
+
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    if ([searchBar isFirstResponder]) {
+        [searchBar resignFirstResponder];
+    }
+    searchBar.text = @"";
+    //self.searchText = @"";
+    [self.searchBar setShowsCancelButton:NO animated:YES];
+}
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    if ([searchBar isFirstResponder]) {
+        [searchBar resignFirstResponder];
+    }
+
+}
+-(BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
+    [self.searchBar setShowsCancelButton:YES animated:YES];
+    return YES;
+}
 
 /*
 #pragma mark - Navigation
