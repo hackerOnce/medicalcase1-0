@@ -31,7 +31,6 @@
 -(void)setUpTableView
 {
     [self.tableView setEditing:YES animated:NO];
-    
 }
 
 #pragma mask - tableView delegate
