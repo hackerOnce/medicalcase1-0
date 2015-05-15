@@ -463,18 +463,18 @@
                         <outlet property="tableView" destination="7hS-XP-WKb" id="ph0-c0-B3n"/>
                         <segue destination="2zM-hc-hxD" kind="show" identifier="conditionAgeSegue" id="7AE-SS-NdG"/>
                         <segue destination="Ru4-Ax-xYt" kind="show" identifier="selecteConditionSegue" id="ofp-0S-p5C"/>
-                        <segue destination="WFK-eC-5fP" kind="show" identifier="conditionDetailSegue" id="ISH-nN-vHy"/>
+                        <segue destination="PZ8-eE-Gdi" kind="presentation" identifier="conditionDetailSegue" modalPresentationStyle="pageSheet" modalTransitionStyle="coverVertical" id="PyX-pn-H6j"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cm8-pL-SBU" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="dfj-jv-twO" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="7091" y="1990"/>
+            <point key="canvasLocation" x="6904" y="1977"/>
         </scene>
         <!--Model Plate Condition Detail View Controller-->
         <scene sceneID="xTs-pY-m5C">
             <objects>
-                <viewController id="WFK-eC-5fP" customClass="ModelPlateConditionDetailViewController" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="pageSheet" id="WFK-eC-5fP" customClass="ModelPlateConditionDetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="TXb-r9-RCk"/>
                         <viewControllerLayoutGuide type="bottom" id="xqE-hl-IC1"/>
@@ -484,15 +484,32 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="dXU-0Z-Gc6">
-                                <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="44" width="600" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="5D1-hk-ABa"/>
                                 </constraints>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="VVR-Eb-vxa">
-                                <rect key="frame" x="0.0" y="108" width="600" height="492"/>
+                                <rect key="frame" x="0.0" y="88" width="600" height="512"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="conditionsCell" textLabel="1XF-vU-tA6" style="IBUITableViewCellStyleDefault" id="Hyb-A6-1Os">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="1002" contentMode="center" tableViewCell="Hyb-A6-1Os" id="8n1-7D-MmN">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1XF-vU-tA6">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="WFK-eC-5fP" id="fAh-O8-mtc"/>
                                     <outlet property="delegate" destination="WFK-eC-5fP" id="BmD-KR-Bde"/>
@@ -510,13 +527,25 @@
                             <constraint firstItem="VVR-Eb-vxa" firstAttribute="leading" secondItem="dJR-GG-GwK" secondAttribute="leading" id="gcZ-z2-8ya"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="n3x-Le-18i">
+                        <barButtonItem key="leftBarButtonItem" title="取消" id="IU6-gb-1jn">
+                            <connections>
+                                <action selector="canceClicked:" destination="WFK-eC-5fP" id="i02-FS-axe"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="确定" id="WgV-Xu-UkM">
+                            <connections>
+                                <action selector="saveClicked:" destination="WFK-eC-5fP" id="CS3-U0-WYE"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="searchBarHeightConstraints" destination="5D1-hk-ABa" id="1Lu-Fe-u5c"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0US-71-tJY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7814" y="1340"/>
+            <point key="canvasLocation" x="8475" y="1378"/>
         </scene>
         <!--Model Plate Condition View Controller-->
         <scene sceneID="zrA-Ct-JIZ">
@@ -610,7 +639,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mmV-gw-jkg" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="bXw-jw-LlQ" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="8028" y="1990"/>
+            <point key="canvasLocation" x="8840" y="1990"/>
         </scene>
         <!--Age Picker View Controller-->
         <scene sceneID="nUt-JZ-Etq">
@@ -1741,6 +1770,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5PI-yQ-JrE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4663" y="2769"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="KyJ-Kj-vLo">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PZ8-eE-Gdi" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="1fb-2O-mbx">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="WFK-eC-5fP" kind="relationship" relationship="rootViewController" id="Y8W-xB-TwE"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yvb-xr-Pyx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="7663" y="1378"/>
         </scene>
     </scenes>
     <resources>

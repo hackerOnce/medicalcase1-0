@@ -14,7 +14,9 @@
 @property (nonatomic) BOOL isHideSearchBar;
 @property (nonatomic,strong) IHMsgSocket *socket;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchBarHeightConstraints;
-
+@property (nonatomic,strong) CoreDataStack *coreDataStack;
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic,strong) NSArray *dataArray;
 @end
 
 @implementation ModelPlateConditionDetailViewController
@@ -27,15 +29,63 @@
     }
     return _socket;
 }
+- (IBAction)canceClicked:(UIBarButtonItem *)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+- (IBAction)saveClicked:(UIBarButtonItem *)sender
+{
+    
+}
+-(NSArray *)dataArray
+{
+    if ([self.selectedNode.nodeEnglish isEqualToString:@"gender"]) {
+        _dataArray = @[@"男",@"女"];
+        self.searchBarHeightConstraints.constant = 0;
+    }
+    return _dataArray;
+}
 
+-(NSManagedObjectContext *)managedObjectContext
+{
+    return self.coreDataStack.managedObjectContext;
+}
+-(CoreDataStack *)coreDataStack
+{
+    _coreDataStack = [[CoreDataStack alloc] init];
+    return _coreDataStack;
+}
 #pragma mask - view life cycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.preferredContentSize = CGSizeMake(300, 300);
+    
 }
-
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.title = [NSString stringWithFormat:@"选择%@",self.selectedNode.nodeName];
+}
 #pragma mask -table view data source
-
-
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+   return self.dataArray.count;
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"conditionsCell"];
+    
+    cell.textLabel.text = [self.dataArray objectAtIndex:indexPath.row];
+    return cell;
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *selectedItem = [self.dataArray objectAtIndex:indexPath.row];
+    self.selectedNode.nodeContent = selectedItem;
+    
+    [self.coreDataStack saveContext];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 @end

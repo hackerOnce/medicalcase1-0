@@ -12,7 +12,9 @@
 #import "CreateTemplateViewController.h"
 #import "ModelPlateConditionDetailViewController.h"
 
-@interface ModelPlateConditionsViewController ()<UITableViewDelegate,UITableViewDataSource,ModelPlateConditionViewControllerDelegate,AgePickerViewControllerDelegate>
+@interface ModelPlateConditionsViewController ()<UITableViewDelegate,UITableViewDataSource,
+    NSFetchedResultsControllerDelegate,
+   ModelPlateConditionViewControllerDelegate,AgePickerViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic,strong) NSMutableArray *dataArray;
@@ -64,7 +66,7 @@
         
         fetchRequest.predicate = predicate;
         _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
-        
+        _fetchedResultsController.delegate = self;
         NSError *error;
         
         if (![_fetchedResultsController performFetch:&error]) {
@@ -146,6 +148,7 @@
 {
     UITableViewCell *cell;
     cell = [tableView dequeueReusableCellWithIdentifier:@"ModelPlateConditionsCell"];
+    
     [self configCell:cell withIndexPath:indexPath];
     return cell;
 }
@@ -153,7 +156,6 @@
 {
     self.selectedNode = [self.fetchedResultsController objectAtIndexPath:indexPath];
     [self performSegueWithIdentifier:@"conditionDetailSegue" sender:nil];
-    
     
 //    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
 //    UILabel *cellLabel = (UILabel*)[cell viewWithTag:1001];
@@ -188,7 +190,8 @@
 {
     
     if ([segue.identifier isEqualToString:@"conditionDetailSegue"]) {
-        ModelPlateConditionDetailViewController *detailVC = (ModelPlateConditionDetailViewController*)segue.destinationViewController;
+        UINavigationController *nav = (UINavigationController*)segue.destinationViewController;
+        ModelPlateConditionDetailViewController *detailVC = (ModelPlateConditionDetailViewController*)[nav.viewControllers firstObject];
         detailVC.selectedNode = self.selectedNode;
     }
 //    if ([segue.identifier isEqualToString:@"selecteConditionSegue"]) {
