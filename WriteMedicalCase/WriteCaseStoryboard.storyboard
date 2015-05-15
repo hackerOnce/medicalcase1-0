@@ -92,53 +92,14 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="FLe-Cx-0Hg">
-                            <view key="customView" contentMode="scaleToFill" id="dmV-r1-XDb">
-                                <rect key="frame" x="451" y="5" width="100" height="33"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bIZ-bR-xoj">
-                                        <rect key="frame" x="60" y="0.0" width="40" height="34"/>
-                                        <color key="backgroundColor" red="0.95118016819999995" green="0.25202370429999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="40" id="eod-Od-6ya"/>
-                                        </constraints>
-                                        <state key="normal" title="提交">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="commitButtonClicked:" destination="fAI-x7-5G4" eventType="touchUpInside" id="kcJ-LP-Fff"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CJe-k9-BkW">
-                                        <rect key="frame" x="0.0" y="0.0" width="40" height="34"/>
-                                        <color key="backgroundColor" red="0.40062061560000001" green="1" blue="0.61810924119999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="40" id="SWA-fT-a0G"/>
-                                        </constraints>
-                                        <state key="normal" title="保存">
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="saveButtonClicked:" destination="fAI-x7-5G4" eventType="touchUpInside" id="slS-oK-ZMD"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="bIZ-bR-xoj" secondAttribute="trailing" id="1hm-0j-hGw"/>
-                                    <constraint firstItem="CJe-k9-BkW" firstAttribute="top" secondItem="dmV-r1-XDb" secondAttribute="top" id="BMs-ly-c8v"/>
-                                    <constraint firstAttribute="bottom" secondItem="bIZ-bR-xoj" secondAttribute="bottom" constant="-1" id="EqS-MN-f6B"/>
-                                    <constraint firstItem="CJe-k9-BkW" firstAttribute="leading" secondItem="dmV-r1-XDb" secondAttribute="leading" id="b0U-uu-w9E"/>
-                                    <constraint firstAttribute="bottom" secondItem="CJe-k9-BkW" secondAttribute="bottom" constant="-1" id="bc1-z5-IjC"/>
-                                    <constraint firstItem="bIZ-bR-xoj" firstAttribute="top" secondItem="dmV-r1-XDb" secondAttribute="top" id="dQQ-eY-YtK"/>
-                                </constraints>
-                            </view>
+                        <barButtonItem key="rightBarButtonItem" title="保存" id="pAk-WC-upo">
+                            <connections>
+                                <action selector="saveButton:" destination="fAI-x7-5G4" id="qhg-IK-EY5"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="remainTimeLabel" destination="9Am-xA-jOy" id="Z0T-UT-emH"/>
-                        <outlet property="saveButton" destination="CJe-k9-BkW" id="75C-AR-aQa"/>
                         <outlet property="tableView" destination="ezX-CJ-NxF" id="8om-ND-V0V"/>
                         <segue destination="K2v-tp-jw9" kind="presentation" identifier="EditCaseSegue" modalTransitionStyle="coverVertical" id="Ajc-LH-Lyi"/>
                         <segue destination="X6r-Fa-Ax8" kind="presentation" identifier="firstSegue" modalTransitionStyle="crossDissolve" id="q3L-3g-p3S"/>

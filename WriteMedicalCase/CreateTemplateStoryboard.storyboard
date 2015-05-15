@@ -127,7 +127,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4cl-rz-SiB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4678" y="1997"/>
+            <point key="canvasLocation" x="4663" y="2010"/>
         </scene>
         <!--Show Template Detail View Controller-->
         <scene sceneID="4QD-Yn-HXx">
@@ -1249,7 +1249,7 @@
         <!--Selected Share Range View Controller-->
         <scene sceneID="mRL-0w-b6v">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="FMh-Nc-i5m" customClass="SelectedShareRangeViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SelectedShareRange" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="FMh-Nc-i5m" customClass="SelectedShareRangeViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xXs-L6-D1u"/>
                         <viewControllerLayoutGuide type="bottom" id="J8r-oJ-gng"/>
@@ -1300,7 +1300,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QAR-h7-xKP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5490" y="2793"/>
+            <point key="canvasLocation" x="5484" y="2769"/>
         </scene>
         <!--Selected Doctor View Controller-->
         <scene sceneID="djG-JP-wod">
@@ -1679,7 +1679,7 @@
         <!--Navigation Controller-->
         <scene sceneID="OhZ-qI-Nfa">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="abf-Z8-hMb" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="SelectedShareRangeNav" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="abf-Z8-hMb" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="3Do-Ca-Bpl">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1692,14 +1692,14 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5PI-yQ-JrE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4678" y="2793"/>
+            <point key="canvasLocation" x="4663" y="2769"/>
         </scene>
     </scenes>
     <resources>
         <image name="delete" width="16" height="16"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="G9U-kH-lTV"/>
         <segue reference="lai-zV-M89"/>
+        <segue reference="G9U-kH-lTV"/>
     </inferredMetricsTieBreakers>
 </document>

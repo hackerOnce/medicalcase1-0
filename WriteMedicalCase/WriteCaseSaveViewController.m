@@ -93,6 +93,11 @@
 }
 - (IBAction)saveButtonClicked:(UIButton *)sender {
 }
+- (IBAction)saveButton:(UIBarButtonItem *)sender {
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
 - (IBAction)saveOrCommit:(UIButton *)sender {
     
     [self.coreDataStack saveContext];

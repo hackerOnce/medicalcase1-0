@@ -12,8 +12,8 @@
 #import "ParentNode.h"
 #import "Node.h"
 #import "Template.h"
-
 #import "ShowTemplateDetailViewController.h"
+#import "SelectedShareRangeViewController.h"
 
 #import "ShowTemplateTableViewCell.h"
 
@@ -240,6 +240,10 @@
 }
 -(void)buttonShareActionClicked:(UIButton *)sender withCell:(ShowTemplateTableViewCell *)cell
 {
+    UIStoryboard *myStoryBoard = self.storyboard;
+    UINavigationController *shareRangeVC = [myStoryBoard instantiateViewControllerWithIdentifier:@"SelectedShareRangeNav"];
+    UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:shareRangeVC];
+    [popover presentPopoverFromRect:sender.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     
 }
 -(void)buttonIgnoreActionClicked:(UIButton *)sender withCell:(ShowTemplateTableViewCell *)cell
