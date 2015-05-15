@@ -1,29 +1,28 @@
 //
 //  Node.m
-//  MedicalCase
+//  WriteMedicalCase
 //
-//  Created by ihefe-JF on 15/4/8.
-//  Copyright (c) 2015年 ihefe. All rights reserved.
+//  Created by ihefe-JF on 15/5/15.
+//  Copyright (c) 2015年 GK. All rights reserved.
 //
 
 #import "Node.h"
 #import "ParentNode.h"
-#import "Template.h"
 
 
 @implementation Node
 
-@dynamic nodeNameE;
 @dynamic hasSubNode;
 @dynamic nodeContent;
-@dynamic nodeIndex;
 @dynamic nodeName;
-@dynamic nodeType;
+@dynamic nodeEnglish;
 @dynamic parentNode;
 @dynamic templates;
-@dynamic nodeIdentifier;
-+(NSString*)entityName
-{
+@dynamic nodeSection;
+@dynamic nodeRow;
+@dynamic nodeIndex;
+
++(NSString*)entityName {
     return @"Node";
 }
 

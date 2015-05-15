@@ -19,8 +19,9 @@
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property (nonatomic,strong) NSMutableArray *dataArray;
 @property (nonatomic,strong) NSString *selectedString;
+
+@property (nonatomic,strong) ParentNode *parentNode;
 
 @end
 
@@ -28,13 +29,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
-
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    self.title = self.fetchNodeName;
     
     BOOL didPop = [[NSUserDefaults standardUserDefaults] boolForKey:didExcutePopoverConditionSegue];
     if (!didPop) {
@@ -54,32 +55,17 @@
     _coreDataStack = [[CoreDataStack alloc] init];
     return _coreDataStack;
 }
-//-(NSString *)fetchNodeName
-//{
-//    if (_fetchNodeName == nil) {
-//        _fetchNodeName = @"入院病历";
-//    }
-//    return _fetchNodeName;
-//}
--(NSMutableArray *)dataArray
+-(ParentNode *)parentNode
 {
-    if (!_dataArray) {
-        
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"nodeName = %@",self.fetchNodeName];
-        NSArray *tempArray = [self.coreDataStack fetchNSManagedObjectEntityWithName:[ParentNode entityName] withNSPredicate:predicate setUpFetchRequestResultType:NSCountResultType isSetUpResultType:NO setUpFetchRequestSortDescriptors:nil isSetupSortDescriptors:NO];
-        ParentNode *tempNode = (ParentNode*)[tempArray firstObject];
-        
-        NSArray *array = tempNode.nodes.array;
-        
-        _dataArray = [NSMutableArray arrayWithArray:array];
+    if (!_parentNode) {
+        _parentNode = [self.coreDataStack fetchParentNodeWithNodeEntityName:self.fetchNodeName];
     }
-    return _dataArray;
+    return _parentNode;
 }
-
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.dataArray.count;
+    return self.parentNode.nodes.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -94,8 +80,8 @@
     UITableViewCell *cell = (UITableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
 
     UILabel *cellLabel = (UILabel*)[cell viewWithTag:1002];
-   //[[NSNotificationCenter defaultCenter] postNotificationName:kDidSelectedFinalTemplate object:nil userInfo:@{selectedTemplateClassification:cellLabel.text}];
-    Node *tempNode = (Node*)[self.dataArray objectAtIndex:indexPath.row];
+   
+    Node *tempNode = (Node*)[self.parentNode.nodes objectAtIndex:indexPath.row];
     BOOL didPop = [[NSUserDefaults standardUserDefaults] boolForKey:didExcutePopoverConditionSegue];
     if (didPop) {
         [[NSNotificationCenter defaultCenter] postNotificationName:selectedModelResultString object:tempNode];
@@ -107,7 +93,7 @@
 }
 -(void)configCell:(UITableViewCell*)cell withIndexPath:(NSIndexPath*)indexPath
 {
-    Node *tempNode = [self.dataArray objectAtIndex:indexPath.row];
+    Node *tempNode = [self.parentNode.nodes objectAtIndex:indexPath.row];
     
     UILabel *celllabel =(UILabel*) [cell viewWithTag:1002];
     if(tempNode.hasSubNode){
@@ -134,15 +120,11 @@
 
 
 #pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+   
     if([segue.identifier isEqualToString:@"detail1"]){
         TemplateLeftDetailFirstViewController *leftDetail = (TemplateLeftDetailFirstViewController*)segue.destinationViewController;
         leftDetail.fetchNodeName = self.selectedString;
-        leftDetail.title = self.selectedString;
     }
 }
 

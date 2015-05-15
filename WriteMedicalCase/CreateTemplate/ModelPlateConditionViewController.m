@@ -49,10 +49,6 @@
 @end
 
 @implementation ModelPlateConditionViewController
-- (IBAction)conditionSaveBtn:(UIBarButtonItem *)sender {
-    
-    
-}
 -(int)numberOfPage
 {
     if (!_numberOfPage) {
@@ -60,7 +56,6 @@
     }
     return _numberOfPage;
 }
-
 
 -(IHMsgSocket *)socket
 {
@@ -71,7 +66,6 @@
     return _socket;
 }
 
-
 -(NSMutableArray *)filterArray
 {
     if (!_filterArray) {
@@ -81,18 +75,14 @@
 }
 -(NSString *)loadURLStrNextPage
 {
-   // if (!_loadURLStrNextPage) {
-   // _loadURLStrNextPage = [self.loadURLStr stringByAppendingString:[NSString stringWithFormat:@"?page=%@",@(self.numberOfPage)]];
-   // }
     _loadURLStrNextPage = [self.loadURLStr stringByAppendingString:[NSString stringWithFormat:@"%@",@(self.numberOfPage)]];
 
     return _loadURLStrNextPage;
 }
 -(NSDictionary *)searchKeyDic
 {
-   // if (!_searchKeyDic) {
-        _searchKeyDic = @{@"diseases":@"key",@"symptoms": self.isSearchEnabled?@"name":@"ks",@"sub_symptoms":@"name"};
-   // }
+   
+    _searchKeyDic = @{@"diseases":@"key",@"symptoms": self.isSearchEnabled?@"name":@"ks",@"sub_symptoms":@"name"};
     return _searchKeyDic;
 }
 
@@ -124,28 +114,11 @@
         [self loadDataFromServer];
 
     }
-//    NSMutableDictionary *tempDic = [[NSMutableDictionary alloc] init];
-//    ;
-//   // if (self.willSelecteSubSymptom) {
-//        [tempDic setObject:searchText forKey:[self.searchKeyDic objectForKey:self.loadURLStr]];
-//  //  }else {
-//   //     [tempDic setObject:searchText forKey:[self.searchKeyDic objectForKey:self.subSymptom]];
-//   // }
-//    NSData *json = [NSJSONSerialization dataWithJSONObject:tempDic options:NSJSONWritingPrettyPrinted error:nil];
-//        NSString *jsonStr = [[NSString alloc] initWithData:json encoding:NSUTF8StringEncoding];
-//    [self.searchParameter setObject:jsonStr forKey:@"where"];
 }
 -(NSMutableDictionary *)searchParameter
 {
     if (!_searchParameter) {
         _searchParameter = [[NSMutableDictionary alloc] init];
-        
-        
-//        if (self.willSelecteSubSymptom) {
-//            //only for 伴随症状
-//            [_searchParameter setObject:self.symptomName forKey:self.subSymptom];
-//        }
-
     }
     if (!self.isSearchEnabled){
         if (self.willSelecteSubSymptom) {
@@ -273,67 +246,11 @@
          NSLog(@"error");
     }];
     
-//    [self.httpClient GET:self.isSearchEnabled?self.loadURLStr : self.loadURLStrNextPage parameters:(self.isSearchEnabled || self.willSelecteSubSymptom) ? self.searchParameter: nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        
-//        if ([responseObject isKindOfClass:[NSDictionary class]]) {
-//            NSDictionary *tempDic = (NSDictionary*)responseObject[@"_items"];
-//            
-//            if (tempDic.count == 0) {
-//              self.searchResultCountIsZero = NO;
-//            }
-//            for (id tempID in tempDic) {
-//                if ([tempID isKindOfClass:[NSDictionary class]]) {
-//                    NSDictionary *tempDic = (NSDictionary*)tempID;
-//                    NSString *keyStr;
-//                    if (self.willSelecteSubSymptom) {
-//                        keyStr = [self.keyDic objectForKey:self.subSymptom];
-//                    }else {
-//                       keyStr = [self.keyDic objectForKey:self.loadURLStr];
-//                    }
-//                    
-//                    if ([tempDic.allKeys containsObject:keyStr]) {
-//                        [self.resultOrderSet addObject:tempDic[keyStr]];
-//                    }
-//                }
-//            }
-//        }
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            if (self.isSearchEnabled) {
-//                self.filterArray = [self.resultOrderSet.array mutableCopy];
-//                [self.searchDisplayController.searchResultsTableView reloadData];
-//            }else {
-////                if (self.searchBar.hidden) {
-////                    self.searchBar.hidden = NO;
-////                }
-//                self.dataSource = [self.resultOrderSet.array mutableCopy];
-//                if ([self.refreshControl isRefreshing]) {
-//                    [self.refreshControl endRefreshing];
-//                }
-//
-//                [self.tableView reloadData];
-//                
-//            }
-//        });
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        if ([self.refreshControl isRefreshing]) {
-//            [self.refreshControl endRefreshing];
-//        }
-// 
-//        if ([self.searchIndicatorView isAnimating]) {
-//            [self.searchIndicatorView  stopAnimating];
-//        }
-//        
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:nil message:@"服务器出错，请联系申" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//        [alert show];
-//
-//    }];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     if (self.loadURLStr) {
         [self setSearchDisplayController];
-        // [self setSearchBarBackground];
         [self setUpRefreshControl];
     }
     self.numberOfPage = 1;
@@ -368,7 +285,6 @@
 }
 -(void)handData
 {
-//    self.searchBar.hidden = YES;
     self.loadMoreFlag = NO;
     self.isSearchEnabled = NO;
     self.numberOfPage = 1;
@@ -399,7 +315,6 @@
             break;
         }
         if([searchBarSubView isKindOfClass:NSClassFromString(@"UISearchBarTextField")]){
-            //  searchBarSubView.backgroundColor = [UIColor colorWithRed:234.0/255 green:234.0/255 blue:234.0/255 alpha:1];
             searchBarSubView.backgroundColor = [UIColor clearColor];
         }
     }
@@ -521,8 +436,6 @@
     self.strongSearchDisplayController.searchResultsTableView.alpha = 1;
     [self.filterArray removeAllObjects];
     self.searchText = searchText;
-    //NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.patientString contains[c] %@",searchText];
-    // self.filterArray = [NSMutableArray arrayWithArray:[self.modelsArray filteredArrayUsingPredicate:predicate]];
 }
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
@@ -547,18 +460,6 @@
 {
     self.strongSearchDisplayController.searchResultsTableView.alpha = 0;
     
-    // self.viewForSearchBar.alpha = 0;
 }
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

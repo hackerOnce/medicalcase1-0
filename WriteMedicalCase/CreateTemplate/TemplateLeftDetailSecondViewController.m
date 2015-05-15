@@ -16,9 +16,10 @@
 @interface TemplateLeftDetailSecondViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,strong) CoreDataStack *coreDataStack;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic,strong) NSMutableArray *dataArray;
 @property (nonatomic,strong) NSString *selectedString;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@property (nonatomic,strong) ParentNode *parentNode;
 
 @end
 
@@ -33,10 +34,17 @@
     _coreDataStack = [[CoreDataStack alloc] init];
     return _coreDataStack;
 }
+-(ParentNode *)parentNode
+{
+    if (!_parentNode) {
+        _parentNode = [self.coreDataStack fetchParentNodeWithNodeEntityName:self.fetchNodeName];
+    }
+    return _parentNode;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -51,31 +59,15 @@
     }
 }
 
--(NSMutableArray *)dataArray
-{
-    if (!_dataArray) {
-        
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"nodeName = %@",self.fetchNodeName];
-        NSArray *tempArray = [self.coreDataStack fetchNSManagedObjectEntityWithName:[ParentNode entityName] withNSPredicate:predicate setUpFetchRequestResultType:NSCountResultType isSetUpResultType:NO setUpFetchRequestSortDescriptors:nil isSetupSortDescriptors:NO];
-        ParentNode *tempNode = (ParentNode*)[tempArray firstObject];
-        
-        NSArray *array = tempNode.nodes.array;
-        
-        _dataArray = [NSMutableArray arrayWithArray:array];
-    }
-    return _dataArray;
-}
-
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.dataArray.count;
+    return self.parentNode.nodes.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TemplateDetailLeftSecondCell"];
     [self configCell:cell withIndexPath:indexPath];
-    
-    
+
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -85,12 +77,8 @@
 
     UITableViewCell *cell = (UITableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
        UILabel *cellLabel = (UILabel*)[cell viewWithTag:1002];
-    //    if(cell.accessoryType == UITableViewCellAccessoryNone){
-    //        [[NSNotificationCenter defaultCenter] postNotificationName:kDidSelectedFinalTemplate object:nil userInfo:@{selectedTemplateClassification:cellLabel.text}];
-    //    }else {
-    //        [self performSegueWithIdentifier:@"Detail" sender:nil];
-    //    }
-    Node *tempNode = (Node*)[self.dataArray objectAtIndex:indexPath.row];
+  
+    Node *tempNode = (Node*)[self.parentNode.nodes objectAtIndex:indexPath.row];
     BOOL didPop = [[NSUserDefaults standardUserDefaults] boolForKey:didExcutePopoverConditionSegue];
     if (didPop) {
         [[NSNotificationCenter defaultCenter] postNotificationName:selectedModelResultString object:tempNode];
@@ -103,7 +91,7 @@
 }
 -(void)configCell:(UITableViewCell*)cell withIndexPath:(NSIndexPath*)indexPath
 {
-    Node *tempNode = [self.dataArray objectAtIndex:indexPath.row];
+    Node *tempNode = [self.parentNode.nodes objectAtIndex:indexPath.row];
     
     UILabel *celllabel =(UILabel*) [cell viewWithTag:1002];
     if(tempNode.hasSubNode){
@@ -128,17 +116,8 @@
 //}
 
 #pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-//    if([segue.identifier isEqualToString:@"detail2"]){
-//        TemplateLeftDetailViewController *leftDetail = (TemplateLeftDetailViewController*)segue.destinationViewController;
-//        leftDetail.fetchNodeName = self.selectedString;
-//        
-//    }
-    
+ 
 }
 
 @end

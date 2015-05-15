@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #import "RecordBaseInfo.h"
+#import "ParentNode.h"
 
 @interface CoreDataStack : NSObject
 
@@ -17,7 +18,20 @@
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (nonatomic,strong) NSManagedObjectContext *privateContext;
 
+@property (nonatomic) NSInteger nodeRow;
+@property (nonatomic) NSInteger nodeSection;
+
 - (void)saveContext;
+
+- (NSURL *)applicationDocumentsDirectory;
+
+-(ParentNode*)fetchParentNodeWithNodeEntityName:(NSString*)parentName;
+
+-(void)saveFieldNodeListToCoreData;
+
+
+
+
 
 -(void)updatePatient:(Patient*)patient WithDictionary:(NSDictionary*)dataDic;
 

@@ -34,9 +34,16 @@
     
     self.coreDataStack = [[CoreDataStack alloc] init];
 
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        self.rawDataProcess = [RawDataProcess sharedRawData];
-    });
+//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//        self.rawDataProcess = [RawDataProcess sharedRawData];
+//    });
+
+    
+    [self.coreDataStack saveFieldNodeListToCoreData];
+    
+    
+    //for test
+    [self.coreDataStack fetchParentNodeWithNodeEntityName:@"模板"];
 
    // CoreDataSyncWithServer *syncServer = [[CoreDataSyncWithServer alloc] init];
     
@@ -45,11 +52,17 @@
     
      return YES;
 }
+
+
+
+
+
+
 -(void)SaveTestDataToCoreData
 {
     NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"personInfo" ofType:@"plist"];
     NSMutableDictionary *data  =[[NSMutableDictionary alloc] initWithContentsOfFile:plistPath];
-    [self.coreDataStack entityInitDoctorManagementWithDoctorDic:data];
+    //[self.coreDataStack entityInitDoctorManagementWithDoctorDic:data];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

@@ -32,8 +32,6 @@ static NSString *momdName = @"Model";
     
     dispatch_once(&token,^{
         coreDataStack = [[CoreDataStack alloc] initSingle];
-        //load data from plist
-        [coreDataStack createManagedObjectFromPlistData];
         
     });
     return coreDataStack;
@@ -42,8 +40,8 @@ static NSString *momdName = @"Model";
 {
     if(self = [super init])
     {
-        //load data from plist to core data
-    
+        _nodeRow = 0;
+        _nodeSection = 0;
     }
     return self;
 
@@ -126,6 +124,132 @@ static NSString *momdName = @"Model";
     }
 }
 
+#pragma mask - save node field to core data
+-(void)saveFieldNodeListToCoreData
+{
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"FieldNodeList" ofType:@"plist"];
+    NSArray *tempArray = [[NSMutableArray alloc] initWithContentsOfFile:plistPath];
+    
+    
+    NSDictionary *tempDict = [tempArray firstObject];
+    
+    NSInteger count = [self fetchCountNSManagedObjectEntity:[Node entityName] WithNSPredicate:nil];
+    if (count == 0) {
+        
+        [self createNodeManagedObjectWithDictData:tempDict];
+        
+        [self saveContext];
+    }
+    
+}
+
+-(Node*)createNodeManagedObjectWithDictData:(NSDictionary*)dictData
+{
+    NSEntityDescription *entityDesc = [NSEntityDescription entityForName: [Node entityName]inManagedObjectContext:self.managedObjectContext];
+    Node *node = [[Node alloc] initWithEntity:entityDesc insertIntoManagedObjectContext:self.managedObjectContext];
+    
+    if ([dictData.allKeys containsObject:@"nodeName"]) {
+        node.nodeName =[dictData objectForKey:@"nodeName"];
+    }
+    if ([dictData.allKeys containsObject:@"nodeEnglish"]) {
+        node.nodeEnglish =[dictData objectForKey:@"nodeEnglish"];
+    }
+    if ([dictData.allKeys containsObject:@"nodeContent"]) {
+        node.nodeContent =[dictData objectForKey:@"nodeContent"];
+    }
+    if ([dictData.allKeys containsObject:@"nodeEnglish"]) {
+        node.nodeEnglish =[dictData objectForKey:@"nodeEnglish"];
+    }
+    if ([dictData.allKeys containsObject:@"nodeIndex"]) {
+        node.nodeIndex = @([[dictData objectForKey:@"nodeIndex"] integerValue]);
+    }
+
+    if ([node.nodeName isEqualToString:@"rootField"]) {
+        node.nodeSection = @(0);
+        node.nodeRow = @(0);
+    }
+    if ([dictData.allKeys containsObject:@"nodeChilds"]) {
+        
+        NSArray *childArray = [dictData objectForKey:@"nodeChilds"];
+        NSEntityDescription *parentDesc = [NSEntityDescription entityForName: [ParentNode entityName]inManagedObjectContext:self.managedObjectContext];
+        ParentNode *nodeP = [[ParentNode alloc] initWithEntity:parentDesc insertIntoManagedObjectContext:self.managedObjectContext];
+        nodeP.nodeName = node.nodeName;
+        
+        NSMutableOrderedSet *childNodes = [[NSMutableOrderedSet alloc] initWithOrderedSet:nodeP.nodes];
+        
+        for (NSDictionary *subNodeDict in childArray) {
+            
+            node.hasSubNode = [NSNumber numberWithBool:YES] ;
+            Node *subNode = [self createNodeManagedObjectWithDictData:subNodeDict];
+            [childNodes addObject:subNode];
+        }
+        nodeP.nodes = [[NSOrderedSet alloc] initWithOrderedSet:childNodes];
+    }
+    
+    return node;
+}
+
+///fetch managed object count
+-(NSInteger)fetchCountNSManagedObjectEntity:(NSString*)entityName WithNSPredicate:(NSPredicate*)predicate
+{
+    NSInteger count = 0;
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:entityName];
+    if (predicate == nil) {
+        
+    }else {
+        fetchRequest.predicate = predicate;
+    }
+    NSError *error;
+    NSArray *tempArray = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+    if(error){
+        NSLog(@"fetch entity %@ error %@",entityName,error.description);
+        abort();
+    }
+    count = tempArray.count;
+    return count;
+}
+
+-(ParentNode*)fetchParentNodeWithNodeEntityName:(NSString*)parentName
+{
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"nodeName = %@",parentName];
+    
+    //NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createDate" ascending:YES];
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:[ParentNode entityName]];
+    
+    fetchRequest.predicate = predicate;
+    
+    NSError *error;
+    
+    NSArray *tempArray = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+    if(error){
+        NSLog(@"fetch nodeName= %@ error %@",parentName,error.description);
+        abort();
+        
+    }
+    
+    NSMutableArray *array = [[NSMutableArray alloc] initWithArray:tempArray];
+    
+    if (array.count == 1) {
+        ParentNode *parentNode = (ParentNode*)[array firstObject];
+        
+        for (Node *node in parentNode.nodes) {
+            NSLog(@"node name %@",node.nodeName);
+        }
+        return parentNode;
+    }else {
+        abort();
+        return nil;
+    }
+    
+}
+
+
+
 #pragma mask - create entity or NSmanagedObject with data
 -(Node *)createManagedObjectEntityForNameNodeAndWithDicData:(NSDictionary*)dicData
 {
@@ -136,28 +260,28 @@ static NSString *momdName = @"Model";
         node.nodeName =[dicData objectForKey:@"nodeName"];
     }
     if ([dicData.allKeys containsObject:@"nodeNameE"]) {
-        node.nodeNameE =[dicData objectForKey:@"nodeNameE"];
+        node.nodeEnglish =[dicData objectForKey:@"nodeNameE"];
     }
 
-    if ([dicData.allKeys containsObject:@"nodeType"]) {
-        node.nodeType = [dicData objectForKey:@"nodeType"]; //0 : from origin data ,1 : from custom data
-    }else {
-        node.nodeType = [NSNumber numberWithInt:0];
-    }
+//    if ([dicData.allKeys containsObject:@"nodeType"]) {
+//        node.nodeType = [dicData objectForKey:@"nodeType"]; //0 : from origin data ,1 : from custom data
+//    }else {
+//        node.nodeType = [NSNumber numberWithInt:0];
+//    }
     if ([dicData.allKeys containsObject:@"nodeContent"]) {
         node.nodeContent = [dicData objectForKey:@"nodeContent"];
     }else {
         node.nodeContent = node.nodeName;
     }
-    if([dicData.allKeys containsObject:@"nodeIndex"]){
-        node.nodeIndex = [dicData objectForKey:@"nodeIndex"];
-    }else {
-        node.nodeIndex = [NSNumber numberWithInt:0];
-    }
+//    if([dicData.allKeys containsObject:@"nodeIndex"]){
+//        node.nodeIndex = [dicData objectForKey:@"nodeIndex"];
+//    }else {
+//        node.nodeIndex = [NSNumber numberWithInt:0];
+//    }
     
-    if ([node.nodeName isEqualToString:@"入院记录"]) {
-        node.nodeIdentifier =  @"ihefe101";
-    }
+//    if ([node.nodeName isEqualToString:@"入院记录"]) {
+//        node.nodeIdentifier =  @"ihefe101";
+//    }
     if ([dicData.allKeys containsObject:@"childNode"]) {
         NSArray *childArray = [dicData objectForKey:@"childNode"];
         
@@ -172,8 +296,8 @@ static NSString *momdName = @"Model";
             node.hasSubNode = [NSNumber numberWithBool:YES] ;
             Node *subNode = [self createManagedObjectEntityForNameNodeAndWithDicData:subNodeDic];
         
-            subNode.nodeIdentifier = [node.nodeIdentifier stringByAppendingString:[NSString stringWithFormat:@"%@",index > 10 ? @(index) : [NSString stringWithFormat:@"0%@",@(index)]]];
-            [childNodes addObject:subNode];
+//            subNode.nodeIdentifier = [node.nodeIdentifier stringByAppendingString:[NSString stringWithFormat:@"%@",index > 10 ? @(index) : [NSString stringWithFormat:@"0%@",@(index)]]];
+//            [childNodes addObject:subNode];
             
             index += 1;
 
@@ -797,8 +921,8 @@ static NSString *momdName = @"Model";
             Node *tempNode = (Node*)idObj;
             NSLog(@"nodeName is %@",tempNode.nodeName);
             NSLog(@"nodeContent is %@",tempNode.nodeContent);
-            NSLog(@"nodeIndex is %@",tempNode.nodeIndex);
-            NSLog(@"nodeType is %@",tempNode.nodeType);
+//            NSLog(@"nodeIndex is %@",tempNode.nodeIndex);
+//            NSLog(@"nodeType is %@",tempNode.nodeType);
            // NSLog(@"node childs count is %@",[[NSNumber alloc] initWithLong:tempNode.nodes.count ]);
         }
     }

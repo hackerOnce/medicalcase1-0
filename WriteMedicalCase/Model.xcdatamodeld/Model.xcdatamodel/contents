@@ -12,20 +12,18 @@
         <relationship name="medicalCases" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="RecordBaseInfo" inverseName="doctors" inverseEntity="RecordBaseInfo" syncable="YES"/>
         <relationship name="patients" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Patient" inverseName="doctor" inverseEntity="Patient" syncable="YES"/>
     </entity>
-    <entity name="Node" syncable="YES">
+    <entity name="Node" representedClassName="Node" syncable="YES">
         <attribute name="hasSubNode" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="nodeContent" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="nodeID" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="nodeIdentifier" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nodeEnglish" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="nodeIndex" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="nodeName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="nodeNameE" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="nodeType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="updatedTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nodeRow" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="nodeSection" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="parentNode" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ParentNode" inverseName="nodes" inverseEntity="ParentNode" syncable="YES"/>
         <relationship name="templates" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Template" inverseName="node" inverseEntity="Template" syncable="YES"/>
     </entity>
-    <entity name="ParentNode" syncable="YES">
+    <entity name="ParentNode" representedClassName="ParentNode" syncable="YES">
         <attribute name="nodeName" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="nodes" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Node" inverseName="parentNode" inverseEntity="Node" syncable="YES"/>
     </entity>
@@ -103,7 +101,7 @@
     </entity>
     <elements>
         <element name="Doctor" positionX="-63" positionY="-18" width="128" height="195"/>
-        <element name="Node" positionX="-54" positionY="-9" width="128" height="210"/>
+        <element name="Node" positionX="-54" positionY="-9" width="128" height="180"/>
         <element name="ParentNode" positionX="-36" positionY="9" width="128" height="75"/>
         <element name="Patient" positionX="-18" positionY="27" width="128" height="435"/>
         <element name="RecordBaseInfo" positionX="0" positionY="45" width="128" height="390"/>

@@ -1,9 +1,9 @@
 //
 //  ParentNode.h
-//  MedicalCase
+//  WriteMedicalCase
 //
-//  Created by ihefe-JF on 15/4/8.
-//  Copyright (c) 2015年 ihefe. All rights reserved.
+//  Created by ihefe-JF on 15/5/15.
+//  Copyright (c) 2015年 GK. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -18,7 +18,9 @@
 @end
 
 @interface ParentNode (CoreDataGeneratedAccessors)
+
 +(NSString*)entityName;
+
 
 - (void)insertObject:(Node *)value inNodesAtIndex:(NSUInteger)idx;
 - (void)removeObjectFromNodesAtIndex:(NSUInteger)idx;

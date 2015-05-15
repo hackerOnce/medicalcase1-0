@@ -217,7 +217,7 @@
         if (resultA.count == 1) {
             ParentNode *parentNode = (ParentNode*)[resultA firstObject];
             for (Node *node in parentNode.nodes.array) {
-                node.nodeContent = [dic objectForKey:node.nodeNameE];
+                node.nodeContent = [dic objectForKey:node.nodeName];
             }
             [self.coreDataStack saveContextFailToSave:^(NSError *error, NSString *errorInfo) {
                 
@@ -252,7 +252,7 @@
                 caseState  = @"未完整创建";
                 hasContent = YES;
             }
-            [dic setObject:node.nodeContent forKey:node.nodeNameE];
+            [dic setObject:node.nodeContent forKey:node.nodeName];
 
         }
         caseContent = [self convertJSONDataToString:[self convertToJSONDataFromList:dic]];

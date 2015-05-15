@@ -68,9 +68,7 @@
 -(void)setUpTableView
 {
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    self.title = @"病历模板展示";
-    
-    
+   // self.title = @"病历模板展示";
 }
 -(void)addKVOObserver
 {
@@ -79,9 +77,7 @@
 
 -(void)updateTableView:(NSNotification*)info
 {
-    
     NSString *tempStr = (NSString*)[info object];
-//    NSString *tempStr = [info.userInfo objectForKey:selectedTemplateClassification];
     NSLog(@"%@",tempStr);
     if ([tempStr isEqualToString:@"消息"]) {
         tempStr = @"主诉";
@@ -124,7 +120,6 @@
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-   // if (indexPath.row == self.test-1) {
         ShowTemplateTableViewCell *cell = (ShowTemplateTableViewCell*)[tableView dequeueReusableCellWithIdentifier:@"swipeCell"];
         cell.delegate = self;
         cell.isNewsPage = self.isNewsPage;

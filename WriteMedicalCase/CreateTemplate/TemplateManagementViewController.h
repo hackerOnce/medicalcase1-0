@@ -11,6 +11,4 @@
 
 @interface TemplateManagementViewController : UIViewController
 
-@property (nonatomic,strong) NSMutableDictionary *dataDic;
-
 @end

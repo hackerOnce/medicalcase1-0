@@ -68,11 +68,7 @@
 		4705F0A61AF10CD80050D47A /* RecordBaseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0A51AF10CD80050D47A /* RecordBaseInfo.m */; };
 		4705F0B91AF10DF00050D47A /* Patient.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0AC1AF10DF00050D47A /* Patient.m */; };
 		4705F0BA1AF10DF00050D47A /* Doctor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0AE1AF10DF00050D47A /* Doctor.m */; };
-		4705F0BB1AF10DF00050D47A /* TestNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0B01AF10DF00050D47A /* TestNode.m */; };
-		4705F0BC1AF10DF00050D47A /* TestParentNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0B21AF10DF00050D47A /* TestParentNode.m */; };
-		4705F0BD1AF10DF00050D47A /* ParentNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0B41AF10DF00050D47A /* ParentNode.m */; };
 		4705F0BE1AF10DF00050D47A /* Template.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0B61AF10DF00050D47A /* Template.m */; };
-		4705F0BF1AF10DF00050D47A /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0B81AF10DF00050D47A /* Node.m */; };
 		4705F0C21AF10E580050D47A /* KeyValueObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0C11AF10E580050D47A /* KeyValueObserver.m */; };
 		4705F0C41AF10EE80050D47A /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4705F0C31AF10EE80050D47A /* libz.1.2.5.dylib */; };
 		4705F0CD1AF11B220050D47A /* WriteCaseSaveCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0CC1AF11B220050D47A /* WriteCaseSaveCell.m */; };
@@ -115,6 +111,10 @@
 		4764742F1B03593A004AFDF1 /* SelectedASharedTemplateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4764742E1B03593A004AFDF1 /* SelectedASharedTemplateTableViewCell.m */; };
 		476474321B0437C7004AFDF1 /* SelectedDoctorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 476474311B0437C7004AFDF1 /* SelectedDoctorViewController.m */; };
 		476474351B0444E8004AFDF1 /* SelectedShareRangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 476474341B0444E8004AFDF1 /* SelectedShareRangeViewController.m */; };
+		476475161B059AEC004AFDF1 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = 476475151B059AEC004AFDF1 /* Node.m */; };
+		476475191B059AED004AFDF1 /* ParentNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 476475181B059AED004AFDF1 /* ParentNode.m */; };
+		4764751B1B059CB7004AFDF1 /* FieldNodeList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4764751A1B059CB7004AFDF1 /* FieldNodeList.plist */; };
+		476475211B05F1A5004AFDF1 /* ModelPlateConditionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 476475201B05F1A5004AFDF1 /* ModelPlateConditionDetailViewController.m */; };
 		478858E31AF1BC9E002CD361 /* AutoHeightTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */; };
 		478858EC1AF1FD06002CD361 /* CustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EB1AF1FD06002CD361 /* CustomSegue.m */; };
 		478858EF1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EE1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m */; };
@@ -259,16 +259,8 @@
 		4705F0AC1AF10DF00050D47A /* Patient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Patient.m; sourceTree = "<group>"; };
 		4705F0AD1AF10DF00050D47A /* Doctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Doctor.h; sourceTree = "<group>"; };
 		4705F0AE1AF10DF00050D47A /* Doctor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Doctor.m; sourceTree = "<group>"; };
-		4705F0AF1AF10DF00050D47A /* TestNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestNode.h; sourceTree = "<group>"; };
-		4705F0B01AF10DF00050D47A /* TestNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestNode.m; sourceTree = "<group>"; };
-		4705F0B11AF10DF00050D47A /* TestParentNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestParentNode.h; sourceTree = "<group>"; };
-		4705F0B21AF10DF00050D47A /* TestParentNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestParentNode.m; sourceTree = "<group>"; };
-		4705F0B31AF10DF00050D47A /* ParentNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParentNode.h; sourceTree = "<group>"; };
-		4705F0B41AF10DF00050D47A /* ParentNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParentNode.m; sourceTree = "<group>"; };
 		4705F0B51AF10DF00050D47A /* Template.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Template.h; sourceTree = "<group>"; };
 		4705F0B61AF10DF00050D47A /* Template.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Template.m; sourceTree = "<group>"; };
-		4705F0B71AF10DF00050D47A /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
-		4705F0B81AF10DF00050D47A /* Node.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Node.m; sourceTree = "<group>"; };
 		4705F0C01AF10E580050D47A /* KeyValueObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyValueObserver.h; sourceTree = "<group>"; };
 		4705F0C11AF10E580050D47A /* KeyValueObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyValueObserver.m; sourceTree = "<group>"; };
 		4705F0C31AF10EE80050D47A /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
@@ -349,6 +341,13 @@
 		476474311B0437C7004AFDF1 /* SelectedDoctorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectedDoctorViewController.m; sourceTree = "<group>"; };
 		476474331B0444E8004AFDF1 /* SelectedShareRangeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedShareRangeViewController.h; sourceTree = "<group>"; };
 		476474341B0444E8004AFDF1 /* SelectedShareRangeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectedShareRangeViewController.m; sourceTree = "<group>"; };
+		476475141B059AEC004AFDF1 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
+		476475151B059AEC004AFDF1 /* Node.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Node.m; sourceTree = "<group>"; };
+		476475171B059AED004AFDF1 /* ParentNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParentNode.h; sourceTree = "<group>"; };
+		476475181B059AED004AFDF1 /* ParentNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParentNode.m; sourceTree = "<group>"; };
+		4764751A1B059CB7004AFDF1 /* FieldNodeList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FieldNodeList.plist; sourceTree = "<group>"; };
+		4764751F1B05F1A5004AFDF1 /* ModelPlateConditionDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModelPlateConditionDetailViewController.h; path = ../ModelPlateConditionDetailViewController.h; sourceTree = "<group>"; };
+		476475201B05F1A5004AFDF1 /* ModelPlateConditionDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelPlateConditionDetailViewController.m; path = ../ModelPlateConditionDetailViewController.m; sourceTree = "<group>"; };
 		478858E11AF1BC9E002CD361 /* AutoHeightTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoHeightTextView.h; sourceTree = "<group>"; };
 		478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoHeightTextView.m; sourceTree = "<group>"; };
 		478858EA1AF1FD06002CD361 /* CustomSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSegue.h; sourceTree = "<group>"; };
@@ -632,25 +631,22 @@
 		4705F0A81AF10DBC0050D47A /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				476475171B059AED004AFDF1 /* ParentNode.h */,
+				476475181B059AED004AFDF1 /* ParentNode.m */,
+				476475141B059AEC004AFDF1 /* Node.h */,
+				476475151B059AEC004AFDF1 /* Node.m */,
 				4705F0A41AF10CD80050D47A /* RecordBaseInfo.h */,
 				4705F0A51AF10CD80050D47A /* RecordBaseInfo.m */,
 				4705F0AB1AF10DF00050D47A /* Patient.h */,
 				4705F0AC1AF10DF00050D47A /* Patient.m */,
 				4705F0AD1AF10DF00050D47A /* Doctor.h */,
 				4705F0AE1AF10DF00050D47A /* Doctor.m */,
-				4705F0AF1AF10DF00050D47A /* TestNode.h */,
-				4705F0B01AF10DF00050D47A /* TestNode.m */,
-				4705F0B11AF10DF00050D47A /* TestParentNode.h */,
-				4705F0B21AF10DF00050D47A /* TestParentNode.m */,
-				4705F0B31AF10DF00050D47A /* ParentNode.h */,
-				4705F0B41AF10DF00050D47A /* ParentNode.m */,
 				4705F0B51AF10DF00050D47A /* Template.h */,
 				4705F0B61AF10DF00050D47A /* Template.m */,
-				4705F0B71AF10DF00050D47A /* Node.h */,
-				4705F0B81AF10DF00050D47A /* Node.m */,
 				4705F0CE1AF124C90050D47A /* Model.xcdatamodeld */,
 				4705A4421AF37949007FD2B9 /* CoreDataStack+UpdateMethods.h */,
 				4705A4431AF37949007FD2B9 /* CoreDataStack+UpdateMethods.m */,
+				4764751A1B059CB7004AFDF1 /* FieldNodeList.plist */,
 				4705F0441AF107360050D47A /* CoreDataStack.m */,
 				4705F0431AF107360050D47A /* CoreDataStack.h */,
 			);
@@ -687,8 +683,9 @@
 		474D828C1AFC90FA004A4151 /* CreateTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				474D82BD1AFC999A004A4151 /* TemplateDetailViewControllerOne.h */,
-				474D82BE1AFC999A004A4151 /* TemplateDetailViewControllerOne.m */,
+				4764751C1B05C570004AFDF1 /* LeftNav */,
+				4764751D1B05C6D5004AFDF1 /* RightShowTemplate */,
+				4764751E1B05CA20004AFDF1 /* ConditionVC */,
 				474D82B71AFC923E004A4151 /* HUDSubViewController.h */,
 				474D82B81AFC923E004A4151 /* HUDSubViewController.m */,
 				474D82B41AFC918A004A4151 /* SplitViewController.h */,
@@ -701,28 +698,10 @@
 				474D82921AFC90FA004A4151 /* CreateTemplateDetailViewController.m */,
 				473C91271AFCA8FF0069ECE4 /* CreateTemplateViewController.h */,
 				473C91281AFCA8FF0069ECE4 /* CreateTemplateViewController.m */,
-				473C912D1B0191740069ECE4 /* ShowTemplateDetailViewController.h */,
-				473C912E1B0191740069ECE4 /* ShowTemplateDetailViewController.m */,
-				476474221B0202F1004AFDF1 /* ShowTemplateTableViewCell.h */,
-				476474231B0202F1004AFDF1 /* ShowTemplateTableViewCell.m */,
-				474D82971AFC90FA004A4151 /* ShowTemplateViewController.h */,
-				474D82981AFC90FA004A4151 /* ShowTemplateViewController.m */,
 				474D82991AFC90FA004A4151 /* ShowTemplateViewControllerTwo.h */,
 				474D829A1AFC90FA004A4151 /* ShowTemplateViewControllerTwo.m */,
 				474D829B1AFC90FA004A4151 /* TemplateConditionSelectedViewController.h */,
 				474D829C1AFC90FA004A4151 /* TemplateConditionSelectedViewController.m */,
-				474D829F1AFC90FA004A4151 /* TemplateLeftDetailFirstViewController.h */,
-				474D82A01AFC90FA004A4151 /* TemplateLeftDetailFirstViewController.m */,
-				474D82A11AFC90FA004A4151 /* TemplateLeftDetailSecondViewController.h */,
-				474D82A21AFC90FA004A4151 /* TemplateLeftDetailSecondViewController.m */,
-				474D82A31AFC90FA004A4151 /* TemplateLeftDetailViewController.h */,
-				474D82A41AFC90FA004A4151 /* TemplateLeftDetailViewController.m */,
-				474D82BA1AFC9381004A4151 /* ModelPlateConditionViewController.h */,
-				474D82BB1AFC9381004A4151 /* ModelPlateConditionViewController.m */,
-				474D82A51AFC90FA004A4151 /* TemplateManagementViewController.h */,
-				474D82A61AFC90FA004A4151 /* TemplateManagementViewController.m */,
-				473C91211AFCA6D30069ECE4 /* ModelPlateConditionsViewController.h */,
-				473C91221AFCA6D30069ECE4 /* ModelPlateConditionsViewController.m */,
 				473C91241AFCA6E20069ECE4 /* AgePickerViewController.h */,
 				473C91251AFCA6E20069ECE4 /* AgePickerViewController.m */,
 				476474271B034B2B004AFDF1 /* SelectASharedTemplateViewController.h */,
@@ -735,6 +714,49 @@
 				4764742E1B03593A004AFDF1 /* SelectedASharedTemplateTableViewCell.m */,
 			);
 			path = CreateTemplate;
+			sourceTree = "<group>";
+		};
+		4764751C1B05C570004AFDF1 /* LeftNav */ = {
+			isa = PBXGroup;
+			children = (
+				474D82A51AFC90FA004A4151 /* TemplateManagementViewController.h */,
+				474D82A61AFC90FA004A4151 /* TemplateManagementViewController.m */,
+				474D82BD1AFC999A004A4151 /* TemplateDetailViewControllerOne.h */,
+				474D82BE1AFC999A004A4151 /* TemplateDetailViewControllerOne.m */,
+				474D82A31AFC90FA004A4151 /* TemplateLeftDetailViewController.h */,
+				474D82A41AFC90FA004A4151 /* TemplateLeftDetailViewController.m */,
+				474D829F1AFC90FA004A4151 /* TemplateLeftDetailFirstViewController.h */,
+				474D82A01AFC90FA004A4151 /* TemplateLeftDetailFirstViewController.m */,
+				474D82A11AFC90FA004A4151 /* TemplateLeftDetailSecondViewController.h */,
+				474D82A21AFC90FA004A4151 /* TemplateLeftDetailSecondViewController.m */,
+			);
+			name = LeftNav;
+			sourceTree = "<group>";
+		};
+		4764751D1B05C6D5004AFDF1 /* RightShowTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				473C912D1B0191740069ECE4 /* ShowTemplateDetailViewController.h */,
+				473C912E1B0191740069ECE4 /* ShowTemplateDetailViewController.m */,
+				476474221B0202F1004AFDF1 /* ShowTemplateTableViewCell.h */,
+				476474231B0202F1004AFDF1 /* ShowTemplateTableViewCell.m */,
+				474D82971AFC90FA004A4151 /* ShowTemplateViewController.h */,
+				474D82981AFC90FA004A4151 /* ShowTemplateViewController.m */,
+			);
+			name = RightShowTemplate;
+			sourceTree = "<group>";
+		};
+		4764751E1B05CA20004AFDF1 /* ConditionVC */ = {
+			isa = PBXGroup;
+			children = (
+				473C91211AFCA6D30069ECE4 /* ModelPlateConditionsViewController.h */,
+				473C91221AFCA6D30069ECE4 /* ModelPlateConditionsViewController.m */,
+				474D82BA1AFC9381004A4151 /* ModelPlateConditionViewController.h */,
+				474D82BB1AFC9381004A4151 /* ModelPlateConditionViewController.m */,
+				4764751F1B05F1A5004AFDF1 /* ModelPlateConditionDetailViewController.h */,
+				476475201B05F1A5004AFDF1 /* ModelPlateConditionDetailViewController.m */,
+			);
+			name = ConditionVC;
 			sourceTree = "<group>";
 		};
 		478859051AF7138F002CD361 /* TempModel */ = {
@@ -839,6 +861,7 @@
 				4705EFFD1AF1044B0050D47A /* LaunchScreen.xib in Resources */,
 				47301D091AFC6548005D42CC /* CaseManagement.storyboard in Resources */,
 				4705EFFA1AF1044B0050D47A /* Images.xcassets in Resources */,
+				4764751B1B059CB7004AFDF1 /* FieldNodeList.plist in Resources */,
 				4705F0D21AF12C320050D47A /* coreDataTestData.plist in Resources */,
 				4705F03B1AF1062C0050D47A /* MBProgressHUD.bundle in Resources */,
 				4705F04F1AF1082C0050D47A /* 病历.opml in Resources */,
@@ -887,7 +910,9 @@
 				474D82AC1AFC90FA004A4151 /* ShowTemplateViewController.m in Sources */,
 				4705A4381AF31C67007FD2B9 /* RWLabel.m in Sources */,
 				478858F51AF712E0002CD361 /* TempPatient.m in Sources */,
+				476475211B05F1A5004AFDF1 /* ModelPlateConditionDetailViewController.m in Sources */,
 				4764742F1B03593A004AFDF1 /* SelectedASharedTemplateTableViewCell.m in Sources */,
+				476475191B059AED004AFDF1 /* ParentNode.m in Sources */,
 				4705F0741AF1094C0050D47A /* SBJsonStreamWriterAccumulator.m in Sources */,
 				4705F0A21AF10C040050D47A /* WLKTooles.m in Sources */,
 				4705F0771AF1094C0050D47A /* SBJsonUTF8Stream.m in Sources */,
@@ -914,6 +939,7 @@
 				474D82AD1AFC90FA004A4151 /* ShowTemplateViewControllerTwo.m in Sources */,
 				47301D161AFC67EA005D42CC /* RecordManagedCellTableViewCell.m in Sources */,
 				478858F81AF7130D002CD361 /* TempCaseBaseInfo.m in Sources */,
+				476475161B059AEC004AFDF1 /* Node.m in Sources */,
 				474D82B21AFC90FA004A4151 /* TemplateLeftDetailViewController.m in Sources */,
 				4705F0381AF1062C0050D47A /* UIView+DY.m in Sources */,
 				474D82B11AFC90FA004A4151 /* TemplateLeftDetailSecondViewController.m in Sources */,
@@ -939,8 +965,6 @@
 				476474321B0437C7004AFDF1 /* SelectedDoctorViewController.m in Sources */,
 				4705F0D51AF130250050D47A /* personInfoView.m in Sources */,
 				478858EC1AF1FD06002CD361 /* CustomSegue.m in Sources */,
-				4705F0BC1AF10DF00050D47A /* TestParentNode.m in Sources */,
-				4705F0BF1AF10DF00050D47A /* Node.m in Sources */,
 				4705EFEF1AF1044B0050D47A /* main.m in Sources */,
 				4705A4861AF5B53B007FD2B9 /* PreviewViewController.m in Sources */,
 				4705F0811AF109770050D47A /* WLKMultiTableView.m in Sources */,
@@ -951,8 +975,6 @@
 				474D82B61AFC918A004A4151 /* SplitViewController.m in Sources */,
 				478858F21AF203B8002CD361 /* WriteCaseShowTemplateCell.m in Sources */,
 				4705F0721AF1094C0050D47A /* SBJsonStreamParserState.m in Sources */,
-				4705F0BB1AF10DF00050D47A /* TestNode.m in Sources */,
-				4705F0BD1AF10DF00050D47A /* ParentNode.m in Sources */,
 				47301D041AFB36AB005D42CC /* CurrentDoctor.m in Sources */,
 				4705F04D1AF1082C0050D47A /* RawDataProcess.m in Sources */,
 				4705A4811AF4B41A007FD2B9 /* writeCaseFirstItemViewController.m in Sources */,

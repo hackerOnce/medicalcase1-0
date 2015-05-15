@@ -19,7 +19,7 @@
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic,strong) NSString *selectedString;
 
-
+@property (nonatomic,strong) ParentNode *parentNode;
 @end
 
 @implementation TemplateManagementViewController
@@ -38,44 +38,21 @@
     return _coreDataStack;
 }
 
--(NSMutableDictionary *)dataDic
+-(ParentNode *)parentNode
 {
-    if(!_dataDic){
-        _dataDic = [[NSMutableDictionary alloc] init];
-        
-        for (NSString *str in self.dataArray) {
-            [_dataDic setObject:@"没数据" forKey:str];
-        }
-        //[_dataDic setObject:self.dataArray forKey:@"现病史"];
+    if (!_parentNode) {
+       _parentNode = [self.coreDataStack fetchParentNodeWithNodeEntityName:@"模板"];
     }
-    return _dataDic;
+    return _parentNode;
 }
--(NSMutableArray *)dataArray
-{
-    if (!_dataArray) {
-        
-        NSString *fetchName = @"模板";
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"nodeName = %@",fetchName];
-        NSArray *tempArray = [self.coreDataStack fetchNSManagedObjectEntityWithName:[ParentNode entityName] withNSPredicate:predicate setUpFetchRequestResultType:NSCountResultType isSetUpResultType:NO setUpFetchRequestSortDescriptors:nil isSetupSortDescriptors:NO];
-//        if ([[tempArray firstObject] isKindOfClass:[ParentNode class]]) {
-            ParentNode *tempNode = (ParentNode*)[tempArray firstObject];
-            
-            NSArray *array = tempNode.nodes.array;
-            
-            _dataArray = [NSMutableArray arrayWithArray:array];
-       // }
-    }
-    return _dataArray;
-}
-
-- (void)viewDidLoad {
+-(void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.dataArray.count;
+    return self.parentNode.nodes.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -92,77 +69,43 @@
     UILabel *celllabel =(UILabel*) [cell viewWithTag:1002];
     
     self.selectedString = celllabel.text;
-
-    Node *tempNode = [self.dataArray objectAtIndex:indexPath.row];
-
-    if (tempNode.hasSubNode) {
-        [self performSegueWithIdentifier:@"showDetail" sender:nil];
-    }else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDidSelectedFinalTemplate object:celllabel.text];
-    }
-
-//    UITableViewCell *cell x= [tableView cellForRowAtIndexPath:indexPath];
-//    if(cell.accessoryType == UITableViewCellAccessoryNone){
-//        [[NSNotificationCenter defaultCenter] postNotificationName:kDidSelectedFinalTemplate object:self.title];
-//    }else {
-//        [self performSegueWithIdentifier:@"showDetail" sender:nil];
-//    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDidSelectedFinalTemplate object:celllabel.text];
     
 }
 -(void)configCell:(UITableViewCell*)cell withIndexPath:(NSIndexPath*)indexPath
 {
-    Node *tempNode = [self.dataArray objectAtIndex:indexPath.row];
+    Node *tempNode = [self.parentNode.nodes objectAtIndex:indexPath.row];
     
-//    if(tempNode.hasSubNode){
-//        cell.accessoryType = UITableViewCellAccessoryDetailButton;
-//    }else {
-//        cell.accessoryType = UITableViewCellAccessoryNone;
-//    }
     if (tempNode.hasSubNode) {
-        cell.accessoryType  = UITableViewCellAccessoryDisclosureIndicator;
+        cell.accessoryType  = UITableViewCellAccessoryDetailButton;
 
     }else {
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
     UILabel *celllabel =(UILabel*) [cell viewWithTag:1002];
     
-    celllabel.text = tempNode.nodeContent;
+    celllabel.text = tempNode.nodeName;
 }
 
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
-//    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-//    
-//    UILabel *celllabel =(UILabel*) [cell viewWithTag:1002];
-//    
-//    self.selectedString = celllabel.text;
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
+    UILabel *celllabel =(UILabel*) [cell viewWithTag:1002];
     
-  //  [self performSegueWithIdentifier:@"showDetail" sender:nil];
+    self.selectedString = celllabel.text;
+    [self performSegueWithIdentifier:@"showDetail" sender:nil];
 }
-
 
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    
     if ([segue.identifier isEqualToString:@"showDetail"]) {
         TemplateDetailViewControllerOne *tempDetail = (TemplateDetailViewControllerOne*)segue.destinationViewController;
         tempDetail.fetchNodeName = self.selectedString;
-        tempDetail.title = self.selectedString;
     }
 }
-
-//- (IBAction)unwindSegueFromCreateTemplateVCToSplitViewController:(UIStoryboardSegue *)segue
-//{
-//    
-//}
-//
-//- (IBAction)unwindSegueCancelCreateTemplateToSplitViewController:(UIStoryboardSegue *)segue
-//{
-//    
-//}
-
 
 @end

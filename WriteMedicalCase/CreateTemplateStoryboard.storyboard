@@ -463,12 +463,60 @@
                         <outlet property="tableView" destination="7hS-XP-WKb" id="ph0-c0-B3n"/>
                         <segue destination="2zM-hc-hxD" kind="show" identifier="conditionAgeSegue" id="7AE-SS-NdG"/>
                         <segue destination="Ru4-Ax-xYt" kind="show" identifier="selecteConditionSegue" id="ofp-0S-p5C"/>
+                        <segue destination="WFK-eC-5fP" kind="show" identifier="conditionDetailSegue" id="ISH-nN-vHy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cm8-pL-SBU" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="dfj-jv-twO" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="7091" y="1990"/>
+        </scene>
+        <!--Model Plate Condition Detail View Controller-->
+        <scene sceneID="xTs-pY-m5C">
+            <objects>
+                <viewController id="WFK-eC-5fP" customClass="ModelPlateConditionDetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="TXb-r9-RCk"/>
+                        <viewControllerLayoutGuide type="bottom" id="xqE-hl-IC1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="dJR-GG-GwK">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="dXU-0Z-Gc6">
+                                <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="5D1-hk-ABa"/>
+                                </constraints>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="VVR-Eb-vxa">
+                                <rect key="frame" x="0.0" y="108" width="600" height="492"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="WFK-eC-5fP" id="fAh-O8-mtc"/>
+                                    <outlet property="delegate" destination="WFK-eC-5fP" id="BmD-KR-Bde"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="dXU-0Z-Gc6" secondAttribute="trailing" id="0HL-zw-QUT"/>
+                            <constraint firstAttribute="trailing" secondItem="VVR-Eb-vxa" secondAttribute="trailing" id="4YQ-lu-BFm"/>
+                            <constraint firstItem="VVR-Eb-vxa" firstAttribute="top" secondItem="dXU-0Z-Gc6" secondAttribute="bottom" id="6dl-Vd-nEN"/>
+                            <constraint firstItem="dXU-0Z-Gc6" firstAttribute="top" secondItem="TXb-r9-RCk" secondAttribute="bottom" id="GMg-NI-jad"/>
+                            <constraint firstItem="xqE-hl-IC1" firstAttribute="top" secondItem="VVR-Eb-vxa" secondAttribute="bottom" id="HQS-Ss-0gN"/>
+                            <constraint firstItem="dXU-0Z-Gc6" firstAttribute="leading" secondItem="dJR-GG-GwK" secondAttribute="leading" id="gMy-k5-dTw"/>
+                            <constraint firstItem="VVR-Eb-vxa" firstAttribute="leading" secondItem="dJR-GG-GwK" secondAttribute="leading" id="gcZ-z2-8ya"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="searchBarHeightConstraints" destination="5D1-hk-ABa" id="1Lu-Fe-u5c"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0US-71-tJY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="7814" y="1340"/>
         </scene>
         <!--Model Plate Condition View Controller-->
         <scene sceneID="zrA-Ct-JIZ">
@@ -1375,7 +1423,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Se-xv-0Mx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5490" y="3520"/>
+            <point key="canvasLocation" x="5484" y="3521"/>
         </scene>
         <!--Sub View Controller-->
         <scene sceneID="poO-M5-mSI">
@@ -1482,7 +1530,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sh5-hY-1gF" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="vDE-d3-zPf" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="6198" y="2732"/>
+            <point key="canvasLocation" x="6149" y="2759"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="NRu-95-THY">

@@ -238,7 +238,7 @@
     NSString *cardinalSymptom = [self.conditionDicData objectForKey:@"主要症状"];
     
     ///save to server
-    NSDictionary *param = @{@"tID" :self.currentNode.nodeIdentifier ,
+    NSDictionary *param = @{@"tID" :self.currentNode.nodeEnglish ,
                             @"tArgs" : @{@"highAge" :ageHigh,
                                          @"lowAge" : ageLow,
                                          @"gender" :StringValue([gender isEqualToString:@"男"] ? @(1):@(0)), //1为男，0为女

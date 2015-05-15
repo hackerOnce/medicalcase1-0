@@ -22,6 +22,8 @@
 
 @property (nonatomic,strong) NSMutableDictionary *dataDic;
 
+@property (nonatomic,strong) NSMutableArray *selectedArray;
+@property (nonatomic,strong) NSMutableOrderedSet *orderSet;
 @end
 
 @implementation SelectedDoctorViewController
@@ -63,8 +65,20 @@
     }
     return _dataDic;
 }
-
-
+-(NSMutableArray *)selectedArray
+{
+    if (!_selectedArray) {
+        _selectedArray = [[NSMutableArray alloc] init];
+    }
+    return _selectedArray;
+}
+-(NSMutableOrderedSet *)orderSet
+{
+    if (!_orderSet) {
+        _orderSet = [[NSMutableOrderedSet alloc] init];
+    }
+    return _orderSet;
+}
 -(void)loadModel
 {
     _currentRow = -1;
@@ -82,7 +96,6 @@
         }
         [self.headViewArray addObject:headview];
     }
-    
 }
 
 #pragma mark - TableViewdelegate&&TableViewdataSource
@@ -120,7 +133,6 @@
     
     NSArray *tempA = self.dataDic[headView.backBtn.titleLabel.text];
     
-    
     return headView.open?tempA.count:0;
 }
 
@@ -157,7 +169,12 @@
     
     return cell;
 }
-
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([self.orderSet containsObject:indexPath]) {
+        [cell setSelected:YES];
+    }
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -174,13 +191,9 @@
 #pragma mark - HeadViewdelegate
 -(void)selectedWith:(HeadView *)view{
     self.currentRow = -1;
+    [self.orderSet addObjectsFromArray:[self.tableView indexPathsForSelectedRows]];
+    
     if (view.open) {
-        //        for(int i = 0;i<[self.headViewArray count];i++)
-        //        {
-        //            HeadView *head = [self.headViewArray objectAtIndex:i];
-        //            head.open = NO;
-        //            //[head.backBtn setBackgroundImage:[UIImage imageNamed:@"btn_momal"] forState:UIControlStateNormal];
-        //        }
         view.open = NO;
         [_tableView reloadData];
         return;
