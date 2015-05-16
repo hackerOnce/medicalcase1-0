@@ -187,10 +187,24 @@
 
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.orderSet addObjectsFromArray:[self.tableView indexPathsForSelectedRows]];
+    if ([self.orderSet containsObject:indexPath]) {
+        [self.orderSet removeObject:indexPath];
+
+    }else {
+    }
     [self setLabelColor];
 
 }
+-(void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([self.orderSet containsObject:indexPath]) {
+        [self.orderSet removeObject:indexPath];
+        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    [self setLabelColor];
+
+}
+
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([self.orderSet containsObject:indexPath]) {
@@ -201,8 +215,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([self.orderSet containsObject:indexPath]) {
-        [self.orderSet removeObject:indexPath];
+        
+    }else {
+        [self.orderSet addObject:indexPath];
     }
+    
     [self setLabelColor];
     
 }
