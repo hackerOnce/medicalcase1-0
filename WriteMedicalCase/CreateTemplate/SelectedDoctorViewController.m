@@ -14,6 +14,9 @@
 
 @property (nonatomic) NSInteger currentRow;
 @property (nonatomic) NSInteger currentSection;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftLabelWidthConstraints;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightLabelWidthConstraints;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *countLabelWidthCOnstraints;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
@@ -21,12 +24,24 @@
 @property (nonatomic,strong) NSMutableArray *classficationArray;
 
 @property (nonatomic,strong) NSMutableDictionary *dataDic;
+@property (weak, nonatomic) IBOutlet UIButton *confirmButton;
+@property (weak, nonatomic) IBOutlet UILabel *leftLabel;
+@property (weak, nonatomic) IBOutlet UILabel *rightLabel;
+@property (weak, nonatomic) IBOutlet UILabel *countLabel;
+@property (weak, nonatomic) IBOutlet UIView *subContainerView;
 
 @property (nonatomic,strong) NSMutableArray *selectedArray;
 @property (nonatomic,strong) NSMutableOrderedSet *orderSet;
 @end
 
 @implementation SelectedDoctorViewController
+- (IBAction)confirm:(UIButton *)sender
+{
+    for (NSIndexPath *inde in [self.tableView indexPathsForSelectedRows]) {
+        NSLog(@" %@ - %@",@(inde.section),@(inde.row));
+    }
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -77,6 +92,7 @@
     if (!_orderSet) {
         _orderSet = [[NSMutableOrderedSet alloc] init];
     }
+    
     return _orderSet;
 }
 -(void)loadModel
@@ -162,10 +178,6 @@
             
         }
     }
-   
-   
-
-    
     NSArray *tempA = self.dataDic[view.backBtn.titleLabel.text];
     NSString *doctorName = (NSString*)tempA[indexPath.row];
     cell.textLabel.text = doctorName;
@@ -173,12 +185,11 @@
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([self.orderSet containsObject:indexPath]) {
-        [self.orderSet removeObject:indexPath];
-        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    }
+    [self.orderSet addObjectsFromArray:[self.tableView indexPathsForSelectedRows]];
+    [self setLabelColor];
+
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -187,19 +198,48 @@
     }
     
 }
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([self.orderSet containsObject:indexPath]) {
+        [self.orderSet removeObject:indexPath];
+    }
+    [self setLabelColor];
     
-    
-//    HeadView* view = [self.headViewArray objectAtIndex:indexPath.section];
-//    
-//    if (view.open) {
-//        _currentRow = indexPath.row;
-//        [_tableView reloadData];
-//    }
-//    NSArray *tempA = self.dataDic[view.backBtn.titleLabel.text];
 }
+-(void)setLabelColor
+{
+    NSInteger count = self.orderSet.count;
+    UIColor *selectedColor = [UIColor greenColor];
+    UIColor *defaultColor = [UIColor darkGrayColor];
+    if (count == 0) {
+        
+        [self.confirmButton setTitleColor:defaultColor forState:UIControlStateNormal];
+        self.rightLabel.textColor = defaultColor;
+        self.leftLabel.textColor = defaultColor;
+        self.countLabel.textColor = defaultColor;
+        
 
+        self.rightLabelWidthConstraints.constant = 0;
+        self.leftLabelWidthConstraints.constant  = 6;
+        self.countLabelWidthCOnstraints.constant = 0;
+        self.countLabel.hidden = YES;
+        [self.subContainerView setNeedsUpdateConstraints];
+    }else {
+        [self.confirmButton setTitleColor:selectedColor forState:UIControlStateNormal];
+        self.rightLabel.textColor = selectedColor;
+        self.leftLabel.textColor = selectedColor;
+        self.countLabel.textColor = selectedColor;
+        self.countLabel.text =[NSString stringWithFormat:@"%@",@(count)];
+        self.countLabel.hidden = NO;
+        self.rightLabelWidthConstraints.constant = 17;
+        self.leftLabelWidthConstraints.constant  = 17;
+        self.countLabelWidthCOnstraints.constant = 10;
 
+        [self.subContainerView setNeedsUpdateConstraints];
+
+    }
+
+}
 #pragma mark - HeadViewdelegate
 -(void)selectedWith:(HeadView *)view{
     self.currentRow = -1;
