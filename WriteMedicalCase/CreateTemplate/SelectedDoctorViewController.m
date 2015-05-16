@@ -41,6 +41,11 @@
         NSLog(@" %@ - %@",@(inde.section),@(inde.row));
     }
 }
+- (IBAction)cancelButton:(UIBarButtonItem *)sender {
+    
+    self.orderSet = nil;
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 
 - (void)viewDidLoad {
@@ -51,6 +56,13 @@
     [self.tableView setEditing:YES animated:NO];
     
     [self loadModel];
+
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+     self.orderSet = nil;
 
 }
 -(void)setUpTableView
@@ -227,14 +239,14 @@
 {
     NSInteger count = self.orderSet.count;
     UIColor *selectedColor = [UIColor greenColor];
-    UIColor *defaultColor = [UIColor darkGrayColor];
+    UIColor *defaultColor = [UIColor colorWithRed:74/255.0 green:171.0/255 blue:247.0/255 alpha:1];
     if (count == 0) {
         
         [self.confirmButton setTitleColor:defaultColor forState:UIControlStateNormal];
-        self.rightLabel.textColor = defaultColor;
-        self.leftLabel.textColor = defaultColor;
-        self.countLabel.textColor = defaultColor;
-        
+//        self.rightLabel.textColor = defaultColor;
+//        self.leftLabel.textColor = defaultColor;
+//        self.countLabel.textColor = defaultColor;
+//        
 
         self.rightLabelWidthConstraints.constant = 0;
         self.leftLabelWidthConstraints.constant  = 6;
