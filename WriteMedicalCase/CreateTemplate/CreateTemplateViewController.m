@@ -12,19 +12,15 @@
 #import "HUDSubViewController.h"
 #import "TemplateLeftDetailViewController.h"
 #import "CoreDataStack.h"
-#import "ParentNode.h"
-#import "Node.h"
 #import "Template.h"
+
+#import "ModelPlateConditionsViewController.h"
 
 #import "RawDataProcess.h"
 #import "WLKCaseNode.h"
 
-//#import "CKHttpClient.h"
-#import "IHMsgSocket.h"
-#import "MessageObject+DY.h"
 
 @interface CreateTemplateViewController () <UITableViewDataSource,UITableViewDelegate>
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *saveBtn;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,strong) NSArray *dataArray;
 
@@ -83,8 +79,7 @@
 }
 - (IBAction)save:(UIBarButtonItem *)sender {
     
-    [self performSegueWithIdentifier:@"unwindSegueFromCreateTemplateVCToSplitViewController" sender:nil];
-   // [self.navigationController popViewControllerAnimated:YES];
+    [self saveTemplateToCoreData];
 }
 -(void)setUpTableView
 {
@@ -101,40 +96,24 @@
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:didExcutePopoverConditionSegue];
     }];
     
-
-    
     id strId = [info object];
-//    if ([strId isKindOfClass:[NSString class]]){
-//        NSString *str =(NSString*) strId;
-//        self.title = str;
-//    }
-            self.currentNode = (ParentNode*)strId;
-        self.title = self.currentNode.nodeName;
+    self.currentNode = (Node*)strId;
+    self.title = self.currentNode.nodeName;
     
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
     self.conditionLabel = (UILabel*)[self.view viewWithTag:1001];
     [self setUpTableView];
-    self.title = @"";
+    //self.title = @"";
     [self addNotificationObserver];
     
-    self.saveBtn.enabled = NO;
     
     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:didExcutePopoverConditionSegue];
 
 }
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    if(self.conditionLabelStr && self.currentIndexPath) {
-        
-    }else {
-        
-    }
-}
+
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -177,23 +156,11 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if([segue.identifier isEqualToString:@"unwindSegueFromCreateTemplateVCToSplitViewController"]){
-        NSString *condition = [self.dataDic objectForKey:@"添加条件"];
-        NSString *content = [self.dataDic objectForKey:@"添加内容"];
-        
-//        if ([condition isEqualToString:@"添加条件"] || [content isEqualToString:@"添加内容"] ) {
-//        }else {
-//            [self saveTemplateToCoreData];
-//        }
-        [self saveTemplateToCoreData];
-
-        
-    }else if([segue.identifier isEqualToString:@"contentSegue"]){
+    if([segue.identifier isEqualToString:@"contentSegue"]){
         HUDSubViewController *hubVC = (HUDSubViewController*)segue.destinationViewController;
         hubVC.detailCaseNode = [self getSelectedNode];
         hubVC.title = @"选择内容";
         hubVC.progectName = self.title;
-       // hubVC.detailCaseNode =
     }else if([segue.identifier isEqualToString:@"popoverConditionSegue"]){
         UINavigationController *nagVC = (UINavigationController*)segue.destinationViewController;
         nagVC.preferredContentSize = CGSizeMake(600, 400);
@@ -202,10 +169,7 @@
         leftDetailVC.fetchNodeName = @"住院病历";
         leftDetailVC.title = @"选择项目";
         
-
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:didExcutePopoverConditionSegue];
-    }else if([segue.identifier isEqualToString:@"ToAdmiss"]){
-            
     }
 }
 
@@ -252,26 +216,8 @@
                             };
     
     NSDictionary *tempDD = NSDictionaryOfVariableBindings(condition,content,ageLow,ageHigh,gender,admittingDiagnosis,simultaneousPhenomenon,cardinalSymptom);
-   // tempD = [NSDictionary dictionaryWithDictionary:tempDD];
     
     [self.coreDataStack createManagedObjectTemplateWithDic:tempDD ForNodeWithNodeName:self.title];
-    
-   // __block NSDictionary *tempD = [[NSDictionary alloc] init];
-    
-//    CKHttpClient *http = [CKHttpClient getInstance];
-//    [http postTemplateToServerWithDicParam:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        NSLog(@"test %@", responseObject);
-//        ///save to core data
-//        NSString *nodeID =(NSString*) responseObject[@"_id"];
-//        NSString *createDateStr = (NSString*)responseObject[@"_updated"];
-//
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        NSString *str = [[NSString alloc] initWithData:operation.request.HTTPBody encoding:NSUTF8StringEncoding];
-//        NSLog(@"fucj%@", str);
-//        
-//        
-//    }];
-//
     [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:20002 dictionary:param block:^(IHSockRequest *request) {
         
         NSLog(@"sucess");
@@ -281,31 +227,41 @@
         NSLog(@"fail");
     }];
 }
-- (IBAction)unwindSegueFromModelPCSToCurrentViewController:(UIStoryboardSegue *)segue {
+
+- (IBAction)setConditions:(UIStoryboardSegue *)segue {
+    ///得到条件
+    ParentNode *parentNode = [self.coreDataStack fetchParentNodeWithNodeEntityName:@"条件"];
+    NSString *conditionString = @"";
+    for (Node *tempNode in parentNode.nodes) {
+        if ([tempNode.nodeEnglish isEqualToString:@"lowAge"]) {
+            
+        }else {
+            conditionString = [conditionString stringByAppendingString:tempNode.nodeContent];
+        }
+    }
+    NSString *removeSpace = [conditionString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
     NSString *tempStr = [self.dataArray objectAtIndex:self.currentIndexPath.row];
-    self.conditionLabelStr  = [self.conditionLabelStr stringByReplacingOccurrencesOfString:@" " withString:@""];
-    if(![self.conditionLabelStr isEqualToString:@""]){
-        [self.dataDic setObject:self.conditionLabelStr forKey:tempStr];
-        [self.tableView reloadData];
+    if ([removeSpace isEqualToString:@""]) {
         
-        self.saveBtn.enabled = YES;
+    }else {
+        [self.dataDic setObject:self.conditionLabelStr forKey:tempStr];
+        [self.tableView reloadRowsAtIndexPaths:@[self.currentIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
+
 }
 
 - (IBAction)unwindSegueFromSubContentVCToCurrentViewController:(UIStoryboardSegue *)segue {
     
+    ///得到内容
     NSString *tempStr = [self.dataArray objectAtIndex:self.currentIndexPath.row];
-    self.contentStr  = [self.contentStr stringByReplacingOccurrencesOfString:@" " withString:@""];
-    if(![self.contentStr isEqualToString:@""]){
+    self.contentStr  =  [self.contentStr stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if([self.contentStr isEqualToString:@""]){
+        
+    }else {
         [self.dataDic setObject:self.contentStr forKey:tempStr];
-        [self.tableView reloadData];
-        
-       // self.saveBtn.enabled = YES;
-        
+        [self.tableView reloadRowsAtIndexPaths:@[self.currentIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
-    
-    
 }
 /// selected condition save and cancel unwind segue
 - (IBAction)unwindSegueToCreateViewController:(UIStoryboardSegue *)segue {

@@ -13,12 +13,10 @@
 #import "ModelPlateConditionDetailViewController.h"
 
 @interface ModelPlateConditionsViewController ()<UITableViewDelegate,UITableViewDataSource,
-    NSFetchedResultsControllerDelegate,
-   ModelPlateConditionViewControllerDelegate>
+    NSFetchedResultsControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic,strong) NSMutableArray *dataArray;
-@property (nonatomic,strong) NSMutableDictionary *dataDic;
 @property (weak, nonatomic) IBOutlet UILabel *selectedConditionResultStr;
 
 @property (nonatomic,strong) NSMutableDictionary *dataDicWithValueArray;
@@ -59,11 +57,14 @@
     }
     return _parentNode;
 }
+- (IBAction)conditionsSave:(UIBarButtonItem *)sender {
+    
+    [self.navigationController popViewControllerAnimated:YES];
+
+}
 - (IBAction)cancelButtonClicked:(UIBarButtonItem *)sender
 {
-    [self setDefaultValueForEntutyNameCondition];
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)setDefaultValueForEntutyNameCondition
 {
@@ -113,7 +114,14 @@
     [super viewDidLoad];
     
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self setDefaultValueForEntutyNameCondition];
 
+    
+}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
@@ -184,20 +192,15 @@
         CGRect popoverSourceRect = [self convertToPopoverSourceRectangeUseView:label];
         ppc.sourceRect = popoverSourceRect ;
         detailVC.selectedNode = self.selectedNode;
-       // CGSize minimumSize = [detailVC.view systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
         detailVC.preferredContentSize = CGSizeMake(320, 45 * 2);
     }else if([segue.identifier isEqualToString:@"conditionAgeSegue"]){
         
-      //  UINavigationController *nav  =(UINavigationController*)segue.destinationViewController;
-       // AgePickerViewController *ageVC = (AgePickerViewController*)[nav.viewControllers firstObject];
         AgePickerViewController *ageVC = (AgePickerViewController*)segue.destinationViewController;
-        self.ppc =(UIPopoverPresentationController*)ageVC.popoverPresentationController;
-        self.ppc.delegate = self;
+        UIPopoverPresentationController *ppc =(UIPopoverPresentationController*)ageVC.popoverPresentationController;
         UILabel *label = (UILabel*)sender;
         
         CGRect popoverSourceRect = [self convertToPopoverSourceRectangeUseView:label];
-        self.ppc.sourceRect = popoverSourceRect;
-        self.ppc.delegate = self;
+        ppc.sourceRect = popoverSourceRect;
         ageVC.preferredContentSize = CGSizeMake(320, 320);
         ageVC.selectedLowNode = self.selectedNode;
         
@@ -240,11 +243,12 @@
 //            self.selectedCellContentStr = @"0岁 - 0岁";
 //        }
 //        ageVC.defaultString = self.selectedCellContentStr;
-//    } else if([segue.identifier isEqualToString:@"unwindToCreateTemplateVC"]){
-//        CreateTemplateViewController *createVC =(CreateTemplateViewController*) segue.destinationViewController;
-//        createVC.conditionLabelStr = self.selectedConditionResultStr.text != nil ? self.selectedConditionResultStr.text : @"I am default";
-//        createVC.conditionDicData = [[NSMutableDictionary alloc] initWithDictionary:self.dataDic];
-//    }
+//    } else
+    if([segue.identifier isEqualToString:@"setConditionsResultString"]){
+        CreateTemplateViewController *createVC =(CreateTemplateViewController*) segue.destinationViewController;
+        createVC.conditionLabelStr = self.selectedConditionResultStr.text;
+
+    }
 }
 
 /// fetch result controller delegate
@@ -290,32 +294,27 @@
 -(void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
     [self.tableView endUpdates];
-}
-
-
-
-#pragma -mask ModelPlateConditionViewControllerDelegate
--(void)didSelectedStr:(NSString *)str
-{
-    self.tempResultSet = nil;
     
-    NSString *tempStr = [self.dataDic objectForKey:self.selectedCellStr];
-    if (![tempStr isEqualToString:str]) {
-        [self.dataDic setValue:str forKey:self.selectedCellStr];
-        if ([self.selectedCellStr isEqualToString:@"主要症状"]) {
-            [self.dataDic setValue:@"请选择" forKey:@"伴随症状"];
+    ParentNode *parentNode = [self.coreDataStack fetchParentNodeWithNodeEntityName:@"条件"];
+    
+    NSString *conditionString = @"";
+    for (Node *tempNode in parentNode.nodes) {
+        if ([tempNode.nodeEnglish isEqualToString:@"lowAge"]) {
+            
+        }else {
+            
+            if ([tempNode.nodeContent isEqualToString:@""]) {
+                
+            }else {
+                NSString *contentStr = [NSString stringWithFormat:@"%@是%@ ;",tempNode.nodeName,tempNode.nodeContent];
+                conditionString = [conditionString stringByAppendingString:contentStr];
+            }
         }
     }
-      //  [self.tempResultArray addObject:str];
-    for (NSString *str in self.dataArray) {
-        if (![[self.dataDic objectForKey:str] isEqualToString:@"请选择"]) {
-            [self.tempResultSet addObject:[self.dataDic objectForKey:str]];
-        }
-    }
-    self.selectedConditionResultStr.text = [self.tempResultSet.array componentsJoinedByString:@","];
-    
-    [self.tableView reloadData];
+
+    self.selectedConditionResultStr.text = conditionString;
 }
+
 
 #pragma mask - helper
 -(CGRect) convertToPopoverSourceRectangeUseView:(UIView*)view

@@ -372,13 +372,11 @@
         if ([[cellabel.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length] == 0) {
             
         }else {
-            [self.conditionDelegate didSelectedStr:cellabel.text];
             [self.navigationController popViewControllerAnimated:NO];
         }
  
     }else {
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        [self.conditionDelegate didSelectedStr:cell.textLabel.text];
         [self.navigationController popViewControllerAnimated:NO];
     }
 }

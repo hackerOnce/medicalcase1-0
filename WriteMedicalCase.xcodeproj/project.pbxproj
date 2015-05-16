@@ -653,6 +653,15 @@
 			name = CoreData;
 			sourceTree = "<group>";
 		};
+		4720C5161B072062001B9F0B /* CreateTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				473C91281AFCA8FF0069ECE4 /* CreateTemplateViewController.m */,
+				473C91271AFCA8FF0069ECE4 /* CreateTemplateViewController.h */,
+			);
+			name = CreateTemplate;
+			sourceTree = "<group>";
+		};
 		47301D0A1AFC657A005D42CC /* caseManagement */ = {
 			isa = PBXGroup;
 			children = (
@@ -683,21 +692,18 @@
 		474D828C1AFC90FA004A4151 /* CreateTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				474D82B41AFC918A004A4151 /* SplitViewController.h */,
+				474D82B51AFC918A004A4151 /* SplitViewController.m */,
 				4764751C1B05C570004AFDF1 /* LeftNav */,
 				4764751D1B05C6D5004AFDF1 /* RightShowTemplate */,
 				4764751E1B05CA20004AFDF1 /* ConditionVC */,
-				474D82B71AFC923E004A4151 /* HUDSubViewController.h */,
-				474D82B81AFC923E004A4151 /* HUDSubViewController.m */,
-				474D82B41AFC918A004A4151 /* SplitViewController.h */,
-				474D82B51AFC918A004A4151 /* SplitViewController.m */,
+				4720C5161B072062001B9F0B /* CreateTemplate */,
 				474D828D1AFC90FA004A4151 /* ConditionTemplateVCTableViewCell.h */,
 				474D828E1AFC90FA004A4151 /* ConditionTemplateVCTableViewCell.m */,
 				474D828F1AFC90FA004A4151 /* ConditionTemplateViewController.h */,
 				474D82901AFC90FA004A4151 /* ConditionTemplateViewController.m */,
 				474D82911AFC90FA004A4151 /* CreateTemplateDetailViewController.h */,
 				474D82921AFC90FA004A4151 /* CreateTemplateDetailViewController.m */,
-				473C91271AFCA8FF0069ECE4 /* CreateTemplateViewController.h */,
-				473C91281AFCA8FF0069ECE4 /* CreateTemplateViewController.m */,
 				474D82991AFC90FA004A4151 /* ShowTemplateViewControllerTwo.h */,
 				474D829A1AFC90FA004A4151 /* ShowTemplateViewControllerTwo.m */,
 				474D829B1AFC90FA004A4151 /* TemplateConditionSelectedViewController.h */,
@@ -755,6 +761,8 @@
 				476475201B05F1A5004AFDF1 /* ModelPlateConditionDetailViewController.m */,
 				473C91241AFCA6E20069ECE4 /* AgePickerViewController.h */,
 				473C91251AFCA6E20069ECE4 /* AgePickerViewController.m */,
+				474D82B71AFC923E004A4151 /* HUDSubViewController.h */,
+				474D82B81AFC923E004A4151 /* HUDSubViewController.m */,
 			);
 			name = ConditionVC;
 			sourceTree = "<group>";

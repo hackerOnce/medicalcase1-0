@@ -8,11 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol ModelPlateConditionViewControllerDelegate <NSObject>
-
--(void)didSelectedStr:(NSString*)str;
-
-@end
 @interface ModelPlateConditionViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (nonatomic) BOOL hideSearchBar;
@@ -20,5 +15,5 @@
 @property (nonatomic,strong) NSString *loadURLStr;
 @property (nonatomic,strong) NSString *symptomName;
 @property (nonatomic,strong) NSString *subSymptom;
-@property (nonatomic,weak) id <ModelPlateConditionViewControllerDelegate> conditionDelegate;
+
 @end
