@@ -11,7 +11,7 @@
 
 
 @implementation Node
-
+@dynamic nodeAge;
 @dynamic hasSubNode;
 @dynamic nodeContent;
 @dynamic nodeName;

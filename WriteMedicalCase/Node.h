@@ -13,6 +13,7 @@
 
 @interface Node : NSManagedObject
 
+@property (nonatomic, retain) NSString * nodeAge;
 @property (nonatomic, retain) NSNumber * hasSubNode;
 @property (nonatomic, retain) NSString * nodeContent;
 @property (nonatomic, retain) NSString * nodeName;

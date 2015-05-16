@@ -702,8 +702,6 @@
 				474D829A1AFC90FA004A4151 /* ShowTemplateViewControllerTwo.m */,
 				474D829B1AFC90FA004A4151 /* TemplateConditionSelectedViewController.h */,
 				474D829C1AFC90FA004A4151 /* TemplateConditionSelectedViewController.m */,
-				473C91241AFCA6E20069ECE4 /* AgePickerViewController.h */,
-				473C91251AFCA6E20069ECE4 /* AgePickerViewController.m */,
 				476474271B034B2B004AFDF1 /* SelectASharedTemplateViewController.h */,
 				476474281B034B2B004AFDF1 /* SelectASharedTemplateViewController.m */,
 				476474301B0437C7004AFDF1 /* SelectedDoctorViewController.h */,
@@ -755,6 +753,8 @@
 				474D82BB1AFC9381004A4151 /* ModelPlateConditionViewController.m */,
 				4764751F1B05F1A5004AFDF1 /* ModelPlateConditionDetailViewController.h */,
 				476475201B05F1A5004AFDF1 /* ModelPlateConditionDetailViewController.m */,
+				473C91241AFCA6E20069ECE4 /* AgePickerViewController.h */,
+				473C91251AFCA6E20069ECE4 /* AgePickerViewController.m */,
 			);
 			name = ConditionVC;
 			sourceTree = "<group>";

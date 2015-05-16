@@ -18,6 +18,7 @@
 
 @property (nonatomic,strong) NSString *startAgeString;
 @property (nonatomic,strong) NSString *endAgeString;
+@property (nonatomic,strong) CoreDataStack *coreDataStack;
 
 @end
 
@@ -25,39 +26,50 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    //self.title = @"新建年龄段";
     
+    
+}
+-(CoreDataStack *)coreDataStack
+{
+    _coreDataStack = [[CoreDataStack alloc] init];
+    return _coreDataStack;
+}
+- (IBAction)cancelButton:(UIBarButtonItem *)sender {
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (IBAction)ageSaveBtn:(UIBarButtonItem *)sender {
     
     self.startAgeString =[NSString stringWithFormat:@"%@岁",@([self.pickerView selectedRowInComponent:0])];
     self.endAgeString =[NSString stringWithFormat:@"%@岁",@([self.endPickerView selectedRowInComponent:0])];
-    [self.ageDelegate selectedAgeRangeIs:[NSString stringWithFormat:@"%@ - %@",self.startAgeString,self.endAgeString]];
-    [self.navigationController popViewControllerAnimated:NO];
+    
+    self.selectedHightNode.nodeAge = self.endAgeString;
+    self.selectedLowNode.nodeAge = self.startAgeString;
+    
+    self.selectedHightNode.nodeContent = [NSString stringWithFormat:@"%@ - %@",self.startAgeString,self.endAgeString];
+    self.selectedLowNode.nodeContent = self.selectedHightNode.nodeContent;
+    
+    [self.coreDataStack saveContext];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+//    [self.ageDelegate selectedAgeRangeIs:[NSString stringWithFormat:@"%@ - %@",self.startAgeString,self.endAgeString]];
+//    [self.navigationController popViewControllerAnimated:NO];
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    if(self.defaultString){
-        NSArray *tempArray =  [self.defaultString componentsSeparatedByString:@"岁"];
-        self.startAgeString = tempArray[0];
-        
-        NSString *tempStr = tempArray[1];
+    NSString *defaultAgeString = [self.selectedHightNode.nodeContent isEqualToString:@""]?@"0岁-0岁":self.selectedHightNode.nodeContent;
+    
+    NSArray *tempArray =  [defaultAgeString componentsSeparatedByString:@"-"];
+    self.startAgeString = tempArray[0];
 
-        self.endAgeString = [[tempStr componentsSeparatedByString:@" "] objectAtIndex:2];
-        
-        [self.endPickerView selectRow:[self.endAgeString integerValue] inComponent:0 animated:NO];
-        [self.pickerView selectRow:[self.startAgeString integerValue] inComponent:0 animated:NO];
-    }
+    self.endAgeString = tempArray[1];
+    [self.endPickerView selectRow:[self.endAgeString integerValue] inComponent:0 animated:NO];
+    [self.pickerView selectRow:[self.startAgeString integerValue] inComponent:0 animated:NO];
+
 }
--(void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    
-    
-}
+
 #pragma mask - picker view delegate
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
@@ -78,8 +90,6 @@
 }
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    
-    
     self.startAgeString =[NSString stringWithFormat:@"%@岁",@([self.pickerView selectedRowInComponent:0])];
     self.endAgeString =[NSString stringWithFormat:@"%@岁",@([self.endPickerView selectedRowInComponent:0])];
     
@@ -93,29 +103,10 @@
     }
     
 }
-/*
--(CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component
-{
-    if(component == 0){
-        return  200;
-    }else {
-        return 200;
-
-}
-*/
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 
 #pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    if ([segue.identifier isEqualToString:@"unwindSegueAgeCancel"]) {
+        if ([segue.identifier isEqualToString:@"unwindSegueAgeCancel"]) {
         
     }
 }

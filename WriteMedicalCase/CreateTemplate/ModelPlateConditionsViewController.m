@@ -14,7 +14,7 @@
 
 @interface ModelPlateConditionsViewController ()<UITableViewDelegate,UITableViewDataSource,
     NSFetchedResultsControllerDelegate,
-   ModelPlateConditionViewControllerDelegate,AgePickerViewControllerDelegate>
+   ModelPlateConditionViewControllerDelegate,AgePickerViewControllerDelegate,UIPopoverPresentationControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic,strong) NSMutableArray *dataArray;
@@ -35,6 +35,10 @@
 
 @property (nonatomic,strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic,strong) Node *selectedNode;
+
+@property (nonatomic,strong) NSIndexPath *selectedIndexPath;
+
+@property (nonatomic,strong) UIPopoverPresentationController *ppc;
 @end
 
 @implementation ModelPlateConditionsViewController
@@ -60,7 +64,8 @@
     if (!_fetchedResultsController) {
         
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:[Node entityName]];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"parentNode.nodeName = %@ AND nodeIndex != 2",@"条件"];
+       // NSPredicate *predicate = [NSPredicate predicateWithFormat:@"parentNode.nodeName = %@ AND nodeIndex != 2",@"条件"];
+         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"parentNode.nodeName = %@",@"条件"];
         NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"nodeIndex" ascending:YES];
         fetchRequest.sortDescriptors = @[sortDescriptor];
         
@@ -152,10 +157,32 @@
     [self configCell:cell withIndexPath:indexPath];
     return cell;
 }
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat height = 45;
+
+    if (indexPath.row == 2) {
+        height = 0;
+    }
+    
+    return height;
+}
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+}
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     self.selectedNode = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    [self performSegueWithIdentifier:@"conditionDetailSegue" sender:nil];
+    self.selectedIndexPath = indexPath;
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    UILabel *cellLabelContent = (UILabel*)[cell viewWithTag:1002];
+
+    if ([self.selectedNode.nodeName isEqualToString:@"年龄段"]) {
+        [self performSegueWithIdentifier:@"conditionAgeSegue" sender:cellLabelContent];
+    }else {
+      [self performSegueWithIdentifier:@"conditionDetailSegue" sender:cellLabelContent];
+    }
+    
     
 //    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
 //    UILabel *cellLabel = (UILabel*)[cell viewWithTag:1001];
@@ -177,6 +204,9 @@
     UILabel *cellLabelClass = (UILabel*)[cell viewWithTag:1001];
     UILabel *cellLabelContent = (UILabel*)[cell viewWithTag:1002];
     
+    if (indexPath.row == 2) {
+        cell.hidden  = YES;
+    }
     Node *node = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     cellLabelClass.text = node.nodeName;
@@ -190,9 +220,41 @@
 {
     
     if ([segue.identifier isEqualToString:@"conditionDetailSegue"]) {
-        UINavigationController *nav = (UINavigationController*)segue.destinationViewController;
-        ModelPlateConditionDetailViewController *detailVC = (ModelPlateConditionDetailViewController*)[nav.viewControllers firstObject];
+    
+        ModelPlateConditionDetailViewController *detailVC = (ModelPlateConditionDetailViewController*)(segue.destinationViewController);
+        UIPopoverPresentationController *ppc =(UIPopoverPresentationController*) detailVC.popoverPresentationController;
+        
+        UILabel *label = (UILabel*)sender;
+
+        CGRect popoverSourceRect = [self convertToPopoverSourceRectangeUseView:label];
+        ppc.sourceRect = popoverSourceRect ;
         detailVC.selectedNode = self.selectedNode;
+       // CGSize minimumSize = [detailVC.view systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+        detailVC.preferredContentSize = CGSizeMake(320, 45 * 2);
+    }else if([segue.identifier isEqualToString:@"conditionAgeSegue"]){
+        
+      //  UINavigationController *nav  =(UINavigationController*)segue.destinationViewController;
+       // AgePickerViewController *ageVC = (AgePickerViewController*)[nav.viewControllers firstObject];
+        AgePickerViewController *ageVC = (AgePickerViewController*)segue.destinationViewController;
+        self.ppc =(UIPopoverPresentationController*)ageVC.popoverPresentationController;
+        self.ppc.delegate = self;
+        UILabel *label = (UILabel*)sender;
+        
+        CGRect popoverSourceRect = [self convertToPopoverSourceRectangeUseView:label];
+        self.ppc.sourceRect = popoverSourceRect;
+        self.ppc.delegate = self;
+      //  CGSize minimumSize = [ageVC.view systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+        ageVC.preferredContentSize = CGSizeMake(320, 320);
+       // nav.preferredContentSize = CGSizeMake(320, minimumSize.height);
+
+        
+
+        ageVC.selectedLowNode = self.selectedNode;
+        
+        NSIndexPath *highAgeIndexPath = [NSIndexPath indexPathForRow:self.selectedIndexPath.row+1 inSection:self.selectedIndexPath.section];
+        ageVC.selectedHightNode =[self.fetchedResultsController objectAtIndexPath:highAgeIndexPath];
+        
+
     }
 //    if ([segue.identifier isEqualToString:@"selecteConditionSegue"]) {
 //        ModelPlateConditionViewController *conditionVC = (ModelPlateConditionViewController*)segue.destinationViewController;
@@ -320,7 +382,26 @@
     self.selectedConditionResultStr.text = [self.tempResultSet.array componentsJoinedByString:@","];
     [self.tableView reloadData];
 }
+#pragma mask -presentation view controller delegate
+-(UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller
+{
+    return UIModalPresentationOverFullScreen;
+}
+-(UIViewController *)presentationController:(UIPresentationController *)controller viewControllerForAdaptivePresentationStyle:(UIModalPresentationStyle)style
+{
+    return [[UINavigationController alloc] initWithRootViewController:controller.presentedViewController];
+}
+#pragma mask - helper
+-(CGRect) convertToPopoverSourceRectangeUseView:(UIView*)view
+{
+    CGRect frame = view.frame;
+    CGRect labelCenterFrame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
+    CGRect popoverSourceRect = [view convertRect:labelCenterFrame toView:self.tableView];
+    popoverSourceRect.origin.x -= frame.size.width/2+view. center.x/2+50 ;
+    popoverSourceRect.origin.y -= frame.size.height/2;
 
+    return popoverSourceRect;
+}
 #pragma mask - unwind
 ///other conditions segue
 - (IBAction)unwindSegueFromConditionVCToConditionsVC:(UIStoryboardSegue *)segue{
@@ -329,21 +410,11 @@
     
 }
 
-//- (IBAction)unwindSegueSaveFromConditionVCToConditionsVC:(UIStoryboardSegue *)segue {
-//    
-//    
-//    
-//}
 ///age unwind segue
 - (IBAction)unwindSegueAgeCancelVCFromConditionVCToConditionsVC:(UIStoryboardSegue *)segue {
     
     
     
 }
-//- (IBAction)unwindSegueAgeSaveVCFromConditionVCToConditionsVC:(UIStoryboardSegue *)segue {
-//    
-//    
-//    
-//}
 
 @end

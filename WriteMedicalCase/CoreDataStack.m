@@ -163,7 +163,10 @@ static NSString *momdName = @"Model";
     if ([dictData.allKeys containsObject:@"nodeIndex"]) {
         node.nodeIndex = @([[dictData objectForKey:@"nodeIndex"] integerValue]);
     }
-
+    if ([dictData.allKeys containsObject:@"nodeAge"]) {
+        node.nodeAge = [dictData objectForKey:@"nodeAge"];
+    }
+    
     if ([node.nodeName isEqualToString:@"rootField"]) {
         node.nodeSection = @(0);
         node.nodeRow = @(0);

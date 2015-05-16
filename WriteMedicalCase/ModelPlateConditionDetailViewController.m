@@ -7,8 +7,6 @@
 //
 
 #import "ModelPlateConditionDetailViewController.h"
-#import "IHMsgSocket.h"
-#import "MessageObject+DY.h"
 
 @interface ModelPlateConditionDetailViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic) BOOL isHideSearchBar;
@@ -17,6 +15,7 @@
 @property (nonatomic,strong) CoreDataStack *coreDataStack;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic,strong) NSArray *dataArray;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @end
 
 @implementation ModelPlateConditionDetailViewController
@@ -59,7 +58,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.preferredContentSize = CGSizeMake(300, 300);
+
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+   // self.preferredContentSize = CGSizeMake(300, 300);
     
 }
 -(void)viewWillAppear:(BOOL)animated
@@ -76,12 +77,16 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"conditionsCell"];
+    UIView *selectedbackgroundView = [[UIView alloc] initWithFrame:cell.bounds];
+    selectedbackgroundView.backgroundColor = [UIColor orangeColor];
+    [cell setSelectedBackgroundView:selectedbackgroundView];
     
     cell.textLabel.text = [self.dataArray objectAtIndex:indexPath.row];
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSString *selectedItem = [self.dataArray objectAtIndex:indexPath.row];
     self.selectedNode.nodeContent = selectedItem;
     

@@ -392,6 +392,8 @@
 						<string></string>
 						<key>nodeEnglish</key>
 						<string>lowAge</string>
+						<key>nodeAge</key>
+						<string>0</string>
 					</dict>
 					<dict>
 						<key>nodeName</key>
@@ -402,6 +404,8 @@
 						<string></string>
 						<key>nodeEnglish</key>
 						<string>highAge</string>
+						<key>nodeAge</key>
+						<string>0</string>
 					</dict>
 					<dict>
 						<key>nodeName</key>

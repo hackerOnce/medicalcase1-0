@@ -162,6 +162,9 @@
             
         }
     }
+   
+   
+
     
     NSArray *tempA = self.dataDic[view.backBtn.titleLabel.text];
     NSString *doctorName = (NSString*)tempA[indexPath.row];
@@ -169,14 +172,23 @@
     
     return cell;
 }
+
+-(void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([self.orderSet containsObject:indexPath]) {
+        [self.orderSet removeObject:indexPath];
+        [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([self.orderSet containsObject:indexPath]) {
         [cell setSelected:YES];
     }
+    
 }
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
     
 //    HeadView* view = [self.headViewArray objectAtIndex:indexPath.section];
 //    
@@ -191,15 +203,23 @@
 #pragma mark - HeadViewdelegate
 -(void)selectedWith:(HeadView *)view{
     self.currentRow = -1;
-    [self.orderSet addObjectsFromArray:[self.tableView indexPathsForSelectedRows]];
+   // [self.orderSet removeAllObjects];
     
     if (view.open) {
         view.open = NO;
-        [_tableView reloadData];
+        [self.orderSet addObjectsFromArray:[self.tableView indexPathsForSelectedRows]];
+
+        NSIndexSet *indexSet=[NSIndexSet indexSetWithIndex:view.section];
+        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
         return;
+    }else {
+        view.open = YES;
+
+        NSIndexSet *indexSet=[NSIndexSet indexSetWithIndex:view.section];
+        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     _currentSection = view.section;
-    [self reset];
+  //  [self reset];
     
 }
 
@@ -222,6 +242,7 @@
         }
         
     }
+//     [self.tableView reloadRowsAtIndexPaths:self.orderSet.array withRowAnimation:UITableViewRowAnimationAutomatic];
     [self.tableView reloadData];
 }
 

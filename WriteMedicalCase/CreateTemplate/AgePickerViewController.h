@@ -11,12 +11,13 @@
 @protocol AgePickerViewControllerDelegate
 
 -(void)selectedAgeRangeIs:(NSString *)ageString;
-//-(void)cancelButtonClicked;
 
 @end
 
 @interface AgePickerViewController : UIViewController
 
 @property (nonatomic,weak) id <AgePickerViewControllerDelegate> ageDelegate;
+@property (nonatomic,strong) Node *selectedHightNode;
+@property (nonatomic,strong) Node *selectedLowNode;
 @property (nonatomic,strong) NSString *defaultString;
 @end
