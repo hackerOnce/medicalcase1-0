@@ -449,7 +449,7 @@
                     <navigationItem key="navigationItem" title="模板条件" id="EbW-EM-1Aa">
                         <barButtonItem key="leftBarButtonItem" title="取消" id="ybn-tC-V9b">
                             <connections>
-                                <segue destination="dfj-jv-twO" kind="unwind" identifier="unwindSegueCancel" unwindAction="unwindSegueCancelToCreateViewController:" id="NGh-nR-YUx"/>
+                                <action selector="cancelButtonClicked:" destination="X89-DH-0PE" id="vI6-7S-CYX"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="保存" id="i4d-Wo-jOg">
@@ -490,13 +490,17 @@
                             <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="dXU-0Z-Gc6">
                                 <rect key="frame" x="0.0" y="64" width="600" height="44"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="5D1-hk-ABa"/>
+                                    <constraint firstAttribute="height" constant="44" id="lwZ-uh-XVy"/>
                                 </constraints>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="751" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="VVR-Eb-vxa">
                                 <rect key="frame" x="0.0" y="108" width="600" height="492"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <activityIndicatorView key="tableFooterView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" id="rOr-yW-P2T">
+                                    <rect key="frame" x="0.0" y="66" width="600" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </activityIndicatorView>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="conditionsCell" textLabel="1XF-vU-tA6" style="IBUITableViewCellStyleDefault" id="Hyb-A6-1Os">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -519,31 +523,48 @@
                                     <outlet property="delegate" destination="WFK-eC-5fP" id="BmD-KR-Bde"/>
                                 </connections>
                             </tableView>
+                            <navigationBar contentMode="scaleToFill" placeholderIntrinsicWidth="600" placeholderIntrinsicHeight="64" translatesAutoresizingMaskIntoConstraints="NO" id="TRy-7E-mO8">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="64" id="wOK-Uu-ohs"/>
+                                </constraints>
+                                <items>
+                                    <navigationItem title="Title" id="Kih-jn-OwD">
+                                        <barButtonItem key="leftBarButtonItem" title="取消" id="4J8-zG-nfh">
+                                            <connections>
+                                                <action selector="canceClicked:" destination="WFK-eC-5fP" id="lJJ-E6-ZKc"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="确定" id="jJs-fM-mdX">
+                                            <connections>
+                                                <action selector="saveClicked:" destination="WFK-eC-5fP" id="mQQ-Mp-L6K"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="dXU-0Z-Gc6" secondAttribute="trailing" id="0HL-zw-QUT"/>
                             <constraint firstAttribute="trailing" secondItem="VVR-Eb-vxa" secondAttribute="trailing" id="4YQ-lu-BFm"/>
-                            <constraint firstItem="VVR-Eb-vxa" firstAttribute="top" secondItem="dXU-0Z-Gc6" secondAttribute="bottom" id="6dl-Vd-nEN"/>
-                            <constraint firstItem="dXU-0Z-Gc6" firstAttribute="top" secondItem="TXb-r9-RCk" secondAttribute="bottom" id="GMg-NI-jad"/>
+                            <constraint firstItem="dXU-0Z-Gc6" firstAttribute="leading" secondItem="dJR-GG-GwK" secondAttribute="leadingMargin" constant="-16" id="5ZH-a3-fb4"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="dXU-0Z-Gc6" secondAttribute="trailing" constant="-16" id="A1p-jX-Kjt"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="TRy-7E-mO8" secondAttribute="trailing" constant="-16" id="CWt-0b-hRD"/>
                             <constraint firstItem="xqE-hl-IC1" firstAttribute="top" secondItem="VVR-Eb-vxa" secondAttribute="bottom" id="HQS-Ss-0gN"/>
-                            <constraint firstItem="dXU-0Z-Gc6" firstAttribute="leading" secondItem="dJR-GG-GwK" secondAttribute="leading" id="gMy-k5-dTw"/>
+                            <constraint firstItem="dXU-0Z-Gc6" firstAttribute="top" secondItem="TRy-7E-mO8" secondAttribute="bottom" id="MSq-hy-urB"/>
+                            <constraint firstItem="TRy-7E-mO8" firstAttribute="leading" secondItem="dJR-GG-GwK" secondAttribute="leadingMargin" constant="-16" id="V7J-cr-Hoe"/>
+                            <constraint firstItem="TRy-7E-mO8" firstAttribute="top" secondItem="TXb-r9-RCk" secondAttribute="bottom" constant="-20" id="aMg-kf-wNZ"/>
                             <constraint firstItem="VVR-Eb-vxa" firstAttribute="leading" secondItem="dJR-GG-GwK" secondAttribute="leading" id="gcZ-z2-8ya"/>
+                            <constraint firstItem="VVR-Eb-vxa" firstAttribute="top" secondItem="dXU-0Z-Gc6" secondAttribute="bottom" id="u14-2D-tXF"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="n3x-Le-18i">
-                        <barButtonItem key="leftBarButtonItem" title="取消" id="IU6-gb-1jn">
-                            <connections>
-                                <action selector="canceClicked:" destination="WFK-eC-5fP" id="i02-FS-axe"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="确定" id="WgV-Xu-UkM">
-                            <connections>
-                                <action selector="saveClicked:" destination="WFK-eC-5fP" id="CS3-U0-WYE"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="600" height="600"/>
                     <connections>
-                        <outlet property="searchBarHeightConstraints" destination="5D1-hk-ABa" id="1Lu-Fe-u5c"/>
+                        <outlet property="activityIndicator" destination="rOr-yW-P2T" id="BZz-X2-43B"/>
+                        <outlet property="navationBar" destination="TRy-7E-mO8" id="iI2-ow-PyC"/>
+                        <outlet property="navbarHeightConstraints" destination="wOK-Uu-ohs" id="JbC-cN-bjd"/>
+                        <outlet property="searchBar" destination="dXU-0Z-Gc6" id="UU3-TP-VSs"/>
+                        <outlet property="searchBarHeightConstraints" destination="lwZ-uh-XVy" id="lij-by-MeK"/>
                         <outlet property="tableView" destination="VVR-Eb-vxa" id="2Z3-o7-7ie"/>
                     </connections>
                 </viewController>
@@ -1775,31 +1796,12 @@
             </objects>
             <point key="canvasLocation" x="4663" y="2769"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="KyJ-Kj-vLo">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PZ8-eE-Gdi" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="1fb-2O-mbx">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="WFK-eC-5fP" kind="relationship" relationship="rootViewController" id="Y8W-xB-TwE"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="yvb-xr-Pyx" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="6997" y="1314"/>
-        </scene>
     </scenes>
     <resources>
         <image name="delete" width="16" height="16"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="G9U-kH-lTV"/>
-        <segue reference="WdJ-fh-vuT"/>
         <segue reference="lai-zV-M89"/>
     </inferredMetricsTieBreakers>
 </document>

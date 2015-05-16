@@ -14,7 +14,11 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchBarHeightConstraints;
 @property (nonatomic,strong) CoreDataStack *coreDataStack;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *navbarHeightConstraints;
+@property (weak, nonatomic) IBOutlet UINavigationBar *navationBar;
 @property (nonatomic,strong) NSArray *dataArray;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @end
 
@@ -28,6 +32,7 @@
     }
     return _socket;
 }
+
 - (IBAction)canceClicked:(UIBarButtonItem *)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -39,7 +44,20 @@
 {
     if ([self.selectedNode.nodeEnglish isEqualToString:@"gender"]) {
         _dataArray = @[@"男",@"女"];
-        self.searchBarHeightConstraints.constant = 0;
+        self.searchBarHeightConstraints.constant = 10;
+        self.searchBar.hidden  =YES;
+        self.navationBar.hidden = YES;
+        self.navbarHeightConstraints.constant = 10;
+        self.activityIndicator.hidden = YES;
+    }
+    if ([self.selectedNode.nodeEnglish isEqualToString:@"diagnose"]) {
+        
+    }
+    if ([self.selectedNode.nodeEnglish isEqualToString:@"mainSymptom"]) {
+        
+    }
+    if ([self.selectedNode.nodeEnglish isEqualToString:@"acompanySymptom"]){
+        
     }
     return _dataArray;
 }
@@ -58,9 +76,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-   // self.preferredContentSize = CGSizeMake(300, 300);
     
 }
 -(void)viewWillAppear:(BOOL)animated

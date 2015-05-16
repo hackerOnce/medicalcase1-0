@@ -14,7 +14,7 @@
 
 @interface ModelPlateConditionsViewController ()<UITableViewDelegate,UITableViewDataSource,
     NSFetchedResultsControllerDelegate,
-   ModelPlateConditionViewControllerDelegate,AgePickerViewControllerDelegate,UIPopoverPresentationControllerDelegate>
+   ModelPlateConditionViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic,strong) NSMutableArray *dataArray;
@@ -59,12 +59,26 @@
     }
     return _parentNode;
 }
+- (IBAction)cancelButtonClicked:(UIBarButtonItem *)sender
+{
+    [self setDefaultValueForEntutyNameCondition];
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+-(void)setDefaultValueForEntutyNameCondition
+{
+    ParentNode *parentNode = [self.coreDataStack fetchParentNodeWithNodeEntityName:@"条件"];
+    for (Node *tempNode in parentNode.nodes) {
+        tempNode.nodeAge = @"0";
+        tempNode.nodeContent = @"";
+    }
+    [self.coreDataStack saveContext];
+}
 -(NSFetchedResultsController *)fetchedResultsController
 {
     if (!_fetchedResultsController) {
         
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:[Node entityName]];
-       // NSPredicate *predicate = [NSPredicate predicateWithFormat:@"parentNode.nodeName = %@ AND nodeIndex != 2",@"条件"];
          NSPredicate *predicate = [NSPredicate predicateWithFormat:@"parentNode.nodeName = %@",@"条件"];
         NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"nodeIndex" ascending:YES];
         fetchRequest.sortDescriptors = @[sortDescriptor];
@@ -81,18 +95,6 @@
     return _fetchedResultsController;
 }
 
-//-(NSMutableArray *)dataArray
-//{
-//    if (!_dataArray){
-//        _dataArray = [[NSMutableArray alloc] init];
-//        [_dataArray addObject:@"性别"];
-//        [_dataArray addObject:@"年龄段"];
-//        [_dataArray addObject:@"入院诊断"];
-//        [_dataArray addObject:@"主要症状"];
-//        [_dataArray addObject:@"伴随症状"];
-//    }
-//    return _dataArray;
-//}
 -(NSMutableArray *)tempResultArray
 {
     if(!_tempResultArray){
@@ -106,38 +108,6 @@
         _tempResultSet = [[NSMutableOrderedSet alloc] init];
     }
     return _tempResultSet;
-}
-//-(NSMutableDictionary *)dataDicWithValueArray
-//{
-//    if(!_dataDicWithValueArray){
-//        _dataDicWithValueArray = [[NSMutableDictionary alloc] init];
-//        
-//        NSArray *arr1 = @[@"男",@"女"];
-//        NSArray *arr2 = @[@"哮喘1",@"哮喘2",@"哮喘3",@"哮喘4",@"哮喘5",@"哮喘6"];
-//        NSArray *arr3 = @[@"咳嗽1",@"咳嗽2",@"咳嗽3",@"咳嗽4",@"咳嗽5",@"咳嗽6"];
-//        NSArray *arr4 = @[@"呼吸困难1",@"呼吸困难2",@"呼吸困难3",@"呼吸困难4",@"呼吸困难5",@"呼吸困难6"];
-//
-//        NSArray *sumArray = @[arr1,arr2,arr3,arr4];
-//        NSMutableArray *tempArr = [[NSMutableArray alloc] initWithArray:self.dataArray];
-//        [tempArr removeObject:@"年龄段"];
-//        
-//        for (NSString *str in tempArr) {
-//            NSInteger index = [tempArr indexOfObject:str];
-//            [_dataDicWithValueArray setValue:sumArray[index] forKey:str];
-//        }
-//    }
-//    return _dataDicWithValueArray;
-//}
--(NSMutableDictionary *)dataDic
-{
-    if (!_dataDic) {
-        _dataDic = [[NSMutableDictionary alloc] init];
-        
-        for (NSString *str in self.dataArray) {
-            [_dataDic setObject:@"请选择" forKey:str];
-        }
-    }
-        return _dataDic;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -182,21 +152,6 @@
     }else {
       [self performSegueWithIdentifier:@"conditionDetailSegue" sender:cellLabelContent];
     }
-    
-    
-//    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-//    UILabel *cellLabel = (UILabel*)[cell viewWithTag:1001];
-//    UILabel *cellSelectedContentLabel = (UILabel*)[cell viewWithTag:1002];
-//    self.selectedCellContentStr = cellSelectedContentLabel.text;
-//    self.selectedCellStr = cellLabel.text;
-//    
-//
-//    
-//    if([cellLabel.text isEqualToString:@"年龄段"]){
-//        [self performSegueWithIdentifier:@"conditionAgeSegue" sender:nil];
-//    }else {
-//        [self performSegueWithIdentifier:@"selecteConditionSegue" sender:nil];
-//    }
     
 }
 -(void)configCell:(UITableViewCell*)cell withIndexPath:(NSIndexPath*)indexPath
@@ -243,12 +198,7 @@
         CGRect popoverSourceRect = [self convertToPopoverSourceRectangeUseView:label];
         self.ppc.sourceRect = popoverSourceRect;
         self.ppc.delegate = self;
-      //  CGSize minimumSize = [ageVC.view systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
         ageVC.preferredContentSize = CGSizeMake(320, 320);
-       // nav.preferredContentSize = CGSizeMake(320, minimumSize.height);
-
-        
-
         ageVC.selectedLowNode = self.selectedNode;
         
         NSIndexPath *highAgeIndexPath = [NSIndexPath indexPathForRow:self.selectedIndexPath.row+1 inSection:self.selectedIndexPath.section];
@@ -366,31 +316,7 @@
     
     [self.tableView reloadData];
 }
-#pragma -mask AgePickerViewControllerDelegate
--(void)selectedAgeRangeIs:(NSString *)ageString
-{
-    self.tempResultSet = nil;
 
-    [self.dataDic setValue:ageString forKey:self.selectedCellStr];
-   // [self.tempResultArray addObject:ageString];
-    
-    for (NSString *str in self.dataArray) {
-        if (![[self.dataDic objectForKey:str] isEqualToString:@"请选择"]) {
-            [self.tempResultSet addObject:[self.dataDic objectForKey:str]];
-        }
-    }
-    self.selectedConditionResultStr.text = [self.tempResultSet.array componentsJoinedByString:@","];
-    [self.tableView reloadData];
-}
-#pragma mask -presentation view controller delegate
--(UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller
-{
-    return UIModalPresentationOverFullScreen;
-}
--(UIViewController *)presentationController:(UIPresentationController *)controller viewControllerForAdaptivePresentationStyle:(UIModalPresentationStyle)style
-{
-    return [[UINavigationController alloc] initWithRootViewController:controller.presentedViewController];
-}
 #pragma mask - helper
 -(CGRect) convertToPopoverSourceRectangeUseView:(UIView*)view
 {
