@@ -192,7 +192,16 @@
         CGRect popoverSourceRect = [self convertToPopoverSourceRectangeUseView:label];
         ppc.sourceRect = popoverSourceRect ;
         detailVC.selectedNode = self.selectedNode;
-        detailVC.preferredContentSize = CGSizeMake(320, 45 * 2);
+        if ([self.selectedNode.nodeEnglish isEqualToString:@"gender"]) {
+            detailVC.preferredContentSize = CGSizeMake(320, 45 * 2);
+
+        }else {
+            NSIndexPath *mainIndexPath = [NSIndexPath indexPathForRow:self.selectedIndexPath.row-1 inSection:self.selectedIndexPath.section];
+            
+            Node *tempNode = [self.fetchedResultsController objectAtIndexPath:mainIndexPath];
+            detailVC.selectedMainNode = tempNode;
+            detailVC.preferredContentSize = CGSizeMake(600, 600);
+        }
     }else if([segue.identifier isEqualToString:@"conditionAgeSegue"]){
         
         AgePickerViewController *ageVC = (AgePickerViewController*)segue.destinationViewController;

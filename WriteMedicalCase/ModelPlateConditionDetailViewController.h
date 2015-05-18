@@ -10,4 +10,5 @@
 
 @interface ModelPlateConditionDetailViewController : UIViewController
 @property (nonatomic,strong) Node *selectedNode;
+@property (nonatomic,strong) Node *selectedMainNode;
 @end
