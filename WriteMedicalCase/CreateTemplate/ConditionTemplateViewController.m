@@ -126,15 +126,15 @@
 }
 -(void)configureCell:(ConditionTemplateVCTableViewCell*)cell AtIndexPath:(NSIndexPath*)indexPath
 {
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    Template *template = [self.fetchResultController objectAtIndexPath:indexPath];
-    //UILabel *cellLabel = (UILabel*)[cell viewWithTag:1001];
-    UITextView *textView = (UITextView*)[cell viewWithTag:1002];
-    
-    textView.text = template.content;
-    //textView.text = ([template.content isEqualToString:template.content]) ? @" ": template.content;
-    [textView layoutIfNeeded];
+//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    
+//    Template *template = [self.fetchResultController objectAtIndexPath:indexPath];
+//    //UILabel *cellLabel = (UILabel*)[cell viewWithTag:1001];
+//    UITextView *textView = (UITextView*)[cell viewWithTag:1002];
+//    
+//    textView.text = template.content;
+//    //textView.text = ([template.content isEqualToString:template.content]) ? @" ": template.content;
+//    [textView layoutIfNeeded];
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

@@ -1,64 +1,51 @@
 //
 //  RecordBaseInfo.h
-//  MedicalCase
+//  WriteMedicalCase
 //
-//  Created by GK on 15/4/25.
-//  Copyright (c) 2015年 ihefe. All rights reserved.
+//  Created by ihefe-JF on 15/5/18.
+//  Copyright (c) 2015年 GK. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Doctor, Patient;
+@class CaseContent, NSManagedObject;
 
 @interface RecordBaseInfo : NSManagedObject
-
-@property (nonatomic, retain) NSString * isCompleted;
 
 @property (nonatomic, retain) NSString * dID;
 @property (nonatomic, retain) NSString * dName;
 @property (nonatomic, retain) NSString * pID;
 @property (nonatomic, retain) NSString * pName;
-
-@property (nonatomic,retain) NSString *caseID;
-
-@property (nonatomic, retain) NSDate * archivedTime;
-@property (nonatomic, retain) NSString * caseContent;
 @property (nonatomic, retain) NSString * casePresenter;
-@property (nonatomic, retain) NSString * caseState;
+@property (nonatomic, retain) NSString * caseEditStatus;
+@property (nonatomic, retain) NSString * caseStatus;
 @property (nonatomic, retain) NSString * caseType;
-@property (nonatomic, retain) NSDate * createdTime;
-@property (nonatomic, retain) NSDate * lastModifyTime;
-
-@property (nonatomic,retain) NSString *attendingPhysicianDoctorID;
-@property (nonatomic,retain) NSString *attendingPhysicianDoctorName;
-
-@property (nonatomic,retain) NSString *chiefPhysicianDoctorID;
-@property (nonatomic,retain) NSString *chiefPhysicianDoctorName;
-
-@property (nonatomic,retain) NSString *residentDoctorID;
-@property (nonatomic,retain) NSString *residentDoctorname;
-
-@property (nonatomic,retain) NSString *submitToDoctorID;
-@property (nonatomic,retain) NSString *submitToDoctorName;
-
+@property (nonatomic, retain) NSString * residentdID;
+@property (nonatomic, retain) NSString * attendingPhysiciandID;
+@property (nonatomic, retain) NSString * createdDate;
+@property (nonatomic, retain) NSString * updatedDate;
+@property (nonatomic, retain) NSString * dof;
+@property (nonatomic, retain) NSString * residentdName;
+@property (nonatomic, retain) NSString * attendingPhysiciandName;
+@property (nonatomic, retain) NSString * chiefPhysiciandID;
+@property (nonatomic, retain) NSString * chiefPhysiciandName;
 @property (nonatomic, retain) NSOrderedSet *doctors;
-@property (nonatomic, retain) Patient *patient;
-
+@property (nonatomic, retain) NSManagedObject *patient;
+@property (nonatomic, retain) CaseContent *caseContent;
 @end
 
 @interface RecordBaseInfo (CoreDataGeneratedAccessors)
++(NSString*)entityName;
 
-- (void)insertObject:(Doctor *)value inDoctorsAtIndex:(NSUInteger)idx;
+- (void)insertObject:(NSManagedObject *)value inDoctorsAtIndex:(NSUInteger)idx;
 - (void)removeObjectFromDoctorsAtIndex:(NSUInteger)idx;
 - (void)insertDoctors:(NSArray *)value atIndexes:(NSIndexSet *)indexes;
 - (void)removeDoctorsAtIndexes:(NSIndexSet *)indexes;
-- (void)replaceObjectInDoctorsAtIndex:(NSUInteger)idx withObject:(Doctor *)value;
+- (void)replaceObjectInDoctorsAtIndex:(NSUInteger)idx withObject:(NSManagedObject *)value;
 - (void)replaceDoctorsAtIndexes:(NSIndexSet *)indexes withDoctors:(NSArray *)values;
-- (void)addDoctorsObject:(Doctor *)value;
-- (void)removeDoctorsObject:(Doctor *)value;
+- (void)addDoctorsObject:(NSManagedObject *)value;
+- (void)removeDoctorsObject:(NSManagedObject *)value;
 - (void)addDoctors:(NSOrderedSet *)values;
 - (void)removeDoctors:(NSOrderedSet *)values;
-+(NSString*)entityName;
-
 @end

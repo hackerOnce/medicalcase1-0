@@ -1,47 +1,39 @@
 //
 //  RecordBaseInfo.m
-//  MedicalCase
+//  WriteMedicalCase
 //
-//  Created by GK on 15/4/25.
-//  Copyright (c) 2015年 ihefe. All rights reserved.
+//  Created by ihefe-JF on 15/5/18.
+//  Copyright (c) 2015年 GK. All rights reserved.
 //
 
 #import "RecordBaseInfo.h"
-#import "Doctor.h"
-#import "Patient.h"
+#import "CaseContent.h"
 
 
 @implementation RecordBaseInfo
+
 @dynamic dID;
 @dynamic dName;
 @dynamic pID;
 @dynamic pName;
-@dynamic isCompleted;
-
-@dynamic caseID;
-
-@dynamic submitToDoctorID;
-@dynamic submitToDoctorName;
-
-@dynamic attendingPhysicianDoctorID;
-@dynamic attendingPhysicianDoctorName;
-
-@dynamic chiefPhysicianDoctorID;
-@dynamic chiefPhysicianDoctorName;
-
-@dynamic residentDoctorID;
-@dynamic residentDoctorname;
-
-@dynamic archivedTime;
-@dynamic caseContent;
 @dynamic casePresenter;
-@dynamic caseState;
+@dynamic caseEditStatus;
+@dynamic caseStatus;
 @dynamic caseType;
-@dynamic createdTime;
-@dynamic lastModifyTime;
+@dynamic residentdID;
+@dynamic attendingPhysiciandID;
+@dynamic createdDate;
+@dynamic updatedDate;
+@dynamic dof;
+@dynamic residentdName;
+@dynamic attendingPhysiciandName;
+@dynamic chiefPhysiciandID;
+@dynamic chiefPhysiciandName;
 @dynamic doctors;
 @dynamic patient;
-+(NSString*)entityName{
+@dynamic caseContent;
++(NSString*)entityName
+{
     return @"RecordBaseInfo";
 }
 

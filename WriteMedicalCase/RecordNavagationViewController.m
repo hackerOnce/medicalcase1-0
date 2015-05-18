@@ -69,41 +69,41 @@
 }
 -(void)kDidCompletedAsyncInitEntity
 {
-    NSArray *temp = [self.coreDataStack fetchDoctorEntityWithName:@"姓名" dID:nil];
-    if (temp.count == 0) {
-        NSLog(@"error");
-    }else {
-        Doctor *doctor =(Doctor*)[temp firstObject];
-        NSArray *temp = doctor.patients.array;
-        
-        NSMutableArray *a1 = [[NSMutableArray alloc] init];
-        NSMutableArray *a2 = [[NSMutableArray alloc] init];
-        
-        for (Patient *patient in temp) {
-            if ([patient.patientState isEqualToString:@"已出院"] ) {
-                [a2 addObject:patient];
-            }else {
-                [a1 addObject:patient];
-            }
-            NSLog(@"patient name: %@",patient);
-            
-            for (RecordBaseInfo *record in patient.medicalCases) {
-                RecordBaseInfo *rec = (RecordBaseInfo*)record;
-                NSLog(@"record : status %@,record type: %@,patient %@,doctor %@",rec.caseState,rec.caseType,patient.pName,patient.doctor.dName);
-            }
-        }
-        
-        for (NSString *tempStr in self.classficationArray) {
-            if ([tempStr isEqualToString:@"本次住院"]) {
-                [self.dataDic setObject:a1 forKey:tempStr];
-            }else {
-                [self.dataDic setObject:a2 forKey:tempStr];
-            }
-        }
-    }
-
-    
-    [self.tableView reloadData];
+//    NSArray *temp = [self.coreDataStack fetchDoctorEntityWithName:@"姓名" dID:nil];
+//    if (temp.count == 0) {
+//        NSLog(@"error");
+//    }else {
+//        Doctor *doctor =(Doctor*)[temp firstObject];
+//        NSArray *temp = doctor.patients.array;
+//        
+//        NSMutableArray *a1 = [[NSMutableArray alloc] init];
+//        NSMutableArray *a2 = [[NSMutableArray alloc] init];
+//        
+//        for (Patient *patient in temp) {
+//            if ([patient.patientState isEqualToString:@"已出院"] ) {
+//                [a2 addObject:patient];
+//            }else {
+//                [a1 addObject:patient];
+//            }
+//            NSLog(@"patient name: %@",patient);
+//            
+//            for (RecordBaseInfo *record in patient.medicalCases) {
+//                RecordBaseInfo *rec = (RecordBaseInfo*)record;
+//                NSLog(@"record : status %@,record type: %@,patient %@,doctor %@",rec.caseState,rec.caseType,patient.pName,patient.doctor.dName);
+//            }
+//        }
+//        
+//        for (NSString *tempStr in self.classficationArray) {
+//            if ([tempStr isEqualToString:@"本次住院"]) {
+//                [self.dataDic setObject:a1 forKey:tempStr];
+//            }else {
+//                [self.dataDic setObject:a2 forKey:tempStr];
+//            }
+//        }
+//    }
+//
+//    
+//    [self.tableView reloadData];
 
 
 }
@@ -112,13 +112,13 @@
     CurrentDoctor *currentDoctor = [CurrentDoctor currentDoctor];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dName = %@ and dID = %@ ",currentDoctor.dName,currentDoctor.dID];
     
-    [self.coreDataStack fetchManagedObjectInContext:self.managedObjectContext WithEntityName:[RecordBaseInfo entityName] withPredicate:predicate successfulFetched:^(NSArray *resultArray) {
-        
-        self.records = [NSMutableArray arrayWithArray:resultArray];
-        
-    } failedToFetched:^(NSError *error, NSString *errorInfo) {
-        
-    } ];
+//    [self.coreDataStack fetchManagedObjectInContext:self.managedObjectContext WithEntityName:[RecordBaseInfo entityName] withPredicate:predicate successfulFetched:^(NSArray *resultArray) {
+//        
+//        self.records = [NSMutableArray arrayWithArray:resultArray];
+//        
+//    } failedToFetched:^(NSError *error, NSString *errorInfo) {
+//        
+//    } ];
 }
 
 

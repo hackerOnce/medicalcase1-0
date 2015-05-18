@@ -217,7 +217,7 @@
     
     NSDictionary *tempDD = NSDictionaryOfVariableBindings(condition,content,ageLow,ageHigh,gender,admittingDiagnosis,simultaneousPhenomenon,cardinalSymptom);
     
-    [self.coreDataStack createManagedObjectTemplateWithDic:tempDD ForNodeWithNodeName:self.title];
+//    [self.coreDataStack createManagedObjectTemplateWithDic:tempDD ForNodeWithNodeName:self.title];
     [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:20002 dictionary:param block:^(IHSockRequest *request) {
         
         NSLog(@"sucess");

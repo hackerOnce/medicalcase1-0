@@ -152,28 +152,28 @@
 }
 -(void)configCell:(ShowTemplateTableViewCell*)cell withIndexPath:(NSIndexPath*)indexPath
 {
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-    Template *template =(Template*) [self.fetchResultController objectAtIndexPath:indexPath];
-    
-    NSLog(@"template condition : %@",template.condition);
-    NSLog(@"template content : %@",template.content);
-    NSLog(@"template create date : %@",template.createDate);
-    
-    
-    UILabel *conditionLabel = (UILabel*)[cell viewWithTag:1001];
-    UILabel *contentLabel = (UILabel*)[cell viewWithTag:1003];
-    
-    conditionLabel.text = template.condition;
-    
-    NSString *content;
-    if (template.content.length > 100) {
-        content = [NSString stringWithFormat:@"%@...", [template.content substringToIndex:100]];
-    }else {
-        content = template.content;
-    }
-    
-    contentLabel.text = content;
+//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//
+//    Template *template =(Template*) [self.fetchResultController objectAtIndexPath:indexPath];
+//    
+////    NSLog(@"template condition : %@",template.condition);
+////    NSLog(@"template content : %@",template.content);
+////    NSLog(@"template create date : %@",template.createDate);
+//    
+//    
+//    UILabel *conditionLabel = (UILabel*)[cell viewWithTag:1001];
+//    UILabel *contentLabel = (UILabel*)[cell viewWithTag:1003];
+//    
+//    conditionLabel.text = template.condition;
+//    
+//    NSString *content;
+//    if (template.content.length > 100) {
+//        content = [NSString stringWithFormat:@"%@...", [template.content substringToIndex:100]];
+//    }else {
+//        content = template.content;
+//    }
+//    
+//    contentLabel.text = content;
 
 }
 

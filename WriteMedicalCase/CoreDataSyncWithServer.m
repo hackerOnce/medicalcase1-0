@@ -118,16 +118,16 @@
                                 NSArray *tempArray = (NSArray*)values;
                                 for (NSDictionary *tempDic in tempArray) {
                                     NSDictionary *dic = [self parseCaseInfoWithDic:tempDic];
-                                    [self.coreDataStack syncServerMedicalCaseWithDataDic:dic inContext:self.privateContext failedToSync:^(NSError *error, NSString *errorInfo) {
-                                        
-                                        if ([self.delegate respondsToSelector:@selector(failureSync)]) {
-                                            [self.delegate failureSync];
-                                        }
-
-                                    } successfulSync:^{
-                                        
-                                    }];
-                                    
+//                                    [self.coreDataStack syncServerMedicalCaseWithDataDic:dic inContext:self.privateContext failedToSync:^(NSError *error, NSString *errorInfo) {
+//                                        
+//                                        if ([self.delegate respondsToSelector:@selector(failureSync)]) {
+//                                            [self.delegate failureSync];
+//                                        }
+//
+//                                    } successfulSync:^{
+//                                        
+//                                    }];
+//                                    
                                 }
                             }
                         }
@@ -152,18 +152,18 @@
             }];
             
             /// 保存到core data
-            [self.coreDataStack saveContext:self.privateContext failedToSync:^(NSError *error, NSString *errorInfo) {
-                
-                if ([self.delegate respondsToSelector:@selector(failureSync)]) {
-                    [self.delegate failureSync];
-                }
-
-                
-            } successfulSync:^{
-                if ([self.delegate respondsToSelector:@selector(successfulSync)]) {
-                    [self.delegate successfulSync];
-                }
-            }];
+//            [self.coreDataStack saveContext:self.privateContext failedToSync:^(NSError *error, NSString *errorInfo) {
+//                
+//                if ([self.delegate respondsToSelector:@selector(failureSync)]) {
+//                    [self.delegate failureSync];
+//                }
+//
+//                
+//            } successfulSync:^{
+//                if ([self.delegate respondsToSelector:@selector(successfulSync)]) {
+//                    [self.delegate successfulSync];
+//                }
+//            }];
             
         }
         

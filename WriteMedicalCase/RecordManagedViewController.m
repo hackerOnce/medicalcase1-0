@@ -221,16 +221,16 @@
     ///config cell
     
     
-    NSArray *tempA = self.dataDic[view.backBtn.titleLabel.text];
-    
-    RecordBaseInfo *rec = (RecordBaseInfo*)tempA[indexPath.row];
-    
-    if (rec.createdTime && rec.lastModifyTime) {
-        cell.remainTimeLabel.text = [self timeIntervalBetweenTimes:rec.createdTime date2:rec.lastModifyTime];
-    }
-    
-    cell.caseTypeLabel.text = rec.caseType;
-    [cell.cellButton setTitle:@"编辑" forState:UIControlStateNormal];
+//    NSArray *tempA = self.dataDic[view.backBtn.titleLabel.text];
+//    
+//    RecordBaseInfo *rec = (RecordBaseInfo*)tempA[indexPath.row];
+//    
+//    if (rec.createdTime && rec.lastModifyTime) {
+//        cell.remainTimeLabel.text = [self timeIntervalBetweenTimes:rec.createdTime date2:rec.lastModifyTime];
+//    }
+//    
+   // cell.caseTypeLabel.text = rec.caseType;
+//    [cell.cellButton setTitle:@"编辑" forState:UIControlStateNormal];
    // cell.textLabel.text = tempA[indexPath.row];
     //cell.textLabel.backgroundColor = [UIColor clearColor];
     //cell.textLabel.textColor = [UIColor whiteColor];

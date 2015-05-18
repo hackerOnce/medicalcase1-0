@@ -144,23 +144,23 @@
 }
 -(void)configCell:(UITableViewCell*)cell withIndexPath:(NSIndexPath*)indexPath
 {
-    Template *template =(Template*) [self.fetchResultController objectAtIndexPath:indexPath];
-    
-    //    Template *template = [self.dataArray objectAtIndex:indexPath.row];
-    NSLog(@"template condition : %@",template.condition);
-    NSLog(@"template content : %@",template.content);
-    NSLog(@"template create date : %@",template.createDate);
-    
-    UILabel *dayLabel = (UILabel*)[cell viewWithTag:1001];
-    UILabel *monthLabel = (UILabel*)[cell viewWithTag:1002];
-    UILabel *conditionLabel = (UILabel*)[cell viewWithTag:1003];
-    UILabel *contentLanel = (UILabel*)[cell viewWithTag:1004];
-    
-    monthLabel.text = [self getMonthWithDateStr:template.createDate];
-    dayLabel.text = [self getDayWithDateStr:template.createDate];
-    conditionLabel.text = template.condition;
-    // contentLanel.text = @"男性，30-40岁，突发下腹痛男性，30-40岁，突发下腹痛男性，30-40岁，突发下腹痛";
-    contentLanel.text = template.content;
+//    Template *template =(Template*) [self.fetchResultController objectAtIndexPath:indexPath];
+//    
+//    //    Template *template = [self.dataArray objectAtIndex:indexPath.row];
+//    NSLog(@"template condition : %@",template.condition);
+//    NSLog(@"template content : %@",template.content);
+//    NSLog(@"template create date : %@",template.createDate);
+//    
+//    UILabel *dayLabel = (UILabel*)[cell viewWithTag:1001];
+//    UILabel *monthLabel = (UILabel*)[cell viewWithTag:1002];
+//    UILabel *conditionLabel = (UILabel*)[cell viewWithTag:1003];
+//    UILabel *contentLanel = (UILabel*)[cell viewWithTag:1004];
+//    
+//    monthLabel.text = [self getMonthWithDateStr:template.createDate];
+//    dayLabel.text = [self getDayWithDateStr:template.createDate];
+//    conditionLabel.text = template.condition;
+//    // contentLanel.text = @"男性，30-40岁，突发下腹痛男性，30-40岁，突发下腹痛男性，30-40岁，突发下腹痛";
+    //contentLanel.text = template.content;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section

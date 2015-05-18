@@ -41,7 +41,6 @@
 #import "Doctor.h"
 //#import "updateCoreDataStack.h"
 #import "AutoHeightTextView.h"
-#import "CoreDataStack+UpdateMethods.h"
 #import "NSDate+Helper.h"
 #import "CurrentDoctor.h"
 #import "CurrentPatient.h"
@@ -57,6 +56,7 @@
 
 #import "Node.h"
 #import "ParentNode.h"
+
 
 #pragma mark - hud
 //#import "KVNProgress.h"

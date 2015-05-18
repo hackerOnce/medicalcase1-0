@@ -102,63 +102,63 @@
     
     [self.coreDataStack saveContext];
 
-    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[self getContentDic]];
-    
-    NSString * dID = self.currentDoctor.dID;
-    NSString * dName = self.currentDoctor.dName;
-    NSString * pID = self.currentPatient.pID;
-    NSString * pName = self.currentPatient.pName;
-    
-    [dic setObject:dID forKey:@"dID"];
-    [dic setObject:dName forKey:@"dName"];
-    [dic setObject:pID forKey:@"pID"];
-    [dic setObject:pName forKey:@"pName"];
-    
-   //UIButton *button = (UIButton*)sender;
-    NSDictionary *doctor = [self getSaveCaseDoctorSocketDic];
-    NSDictionary *patient = [self getSaveCasePatientSocketDic];
-    NSDictionary *caseBaseInfo = [self getContentDic];
-    
-    [dic setObject:doctor forKey:@"doctor"];
-    [dic setObject:patient forKey:@"patient"];
-    [dic setObject:caseBaseInfo forKey:@"caseBaseInfo"];
-    
-    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:20001 dictionary:dic block:^(IHSockRequest *request) {
-       
-       NSDictionary *requestDic = [request.responseData firstObject];
-       [dic setObject:requestDic[@"_DOF"] forKey:@"archivedTime"];
-       [dic setObject:requestDic[@"_created"] forKey:@"createdTime"];
-       [dic setObject:requestDic[@"_updated"] forKey:@"lastModifyTime"];
-       [dic setObject:requestDic[@"_id"] forKey:@"caseID"];
-       
-        NSDictionary *tempDic = [self parseCaseInfoWithDic:dic];
-        
-        [self.coreDataStack fetchCaseInfoWithDic:tempDic successfulFetched:^(NSArray *resultArray) {
-           [self dismissViewControllerAnimated:YES completion:^{
-               
-           }];
-        } failedToFetched:^(NSError *error, NSString *errorInfo) {
-            [self dismissViewControllerAnimated:YES completion:^{
-                
-            }];
-
-        }];
-        
-     } failConection:^(NSError *error) {
-         
-         NSDictionary *tempDic = [self parseCaseInfoWithDic:dic];
-         [self.coreDataStack fetchCaseInfoWithDic:tempDic successfulFetched:^(NSArray *resultArray) {
-             [self dismissViewControllerAnimated:YES completion:^{
-                 
-             }];
-
-         } failedToFetched:^(NSError *error, NSString *errorInfo) {
-             [self dismissViewControllerAnimated:YES completion:^{
-                 
-             }];
-
-         }];
-   }];
+//    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:[self getContentDic]];
+//    
+//    NSString * dID = self.currentDoctor.dID;
+//    NSString * dName = self.currentDoctor.dName;
+//    NSString * pID = self.currentPatient.pID;
+//    NSString * pName = self.currentPatient.pName;
+//    
+//    [dic setObject:dID forKey:@"dID"];
+//    [dic setObject:dName forKey:@"dName"];
+//    [dic setObject:pID forKey:@"pID"];
+//    [dic setObject:pName forKey:@"pName"];
+//    
+//   //UIButton *button = (UIButton*)sender;
+//    NSDictionary *doctor = [self getSaveCaseDoctorSocketDic];
+//    NSDictionary *patient = [self getSaveCasePatientSocketDic];
+//    NSDictionary *caseBaseInfo = [self getContentDic];
+//    
+//    [dic setObject:doctor forKey:@"doctor"];
+//    [dic setObject:patient forKey:@"patient"];
+//    [dic setObject:caseBaseInfo forKey:@"caseBaseInfo"];
+//    
+//    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:20001 dictionary:dic block:^(IHSockRequest *request) {
+//       
+//       NSDictionary *requestDic = [request.responseData firstObject];
+//       [dic setObject:requestDic[@"_DOF"] forKey:@"archivedTime"];
+//       [dic setObject:requestDic[@"_created"] forKey:@"createdTime"];
+//       [dic setObject:requestDic[@"_updated"] forKey:@"lastModifyTime"];
+//       [dic setObject:requestDic[@"_id"] forKey:@"caseID"];
+//       
+//        NSDictionary *tempDic = [self parseCaseInfoWithDic:dic];
+//        
+//        [self.coreDataStack fetchCaseInfoWithDic:tempDic successfulFetched:^(NSArray *resultArray) {
+//           [self dismissViewControllerAnimated:YES completion:^{
+//               
+//           }];
+//        } failedToFetched:^(NSError *error, NSString *errorInfo) {
+//            [self dismissViewControllerAnimated:YES completion:^{
+//                
+//            }];
+//
+//        }];
+//        
+//     } failConection:^(NSError *error) {
+//         
+//         NSDictionary *tempDic = [self parseCaseInfoWithDic:dic];
+//         [self.coreDataStack fetchCaseInfoWithDic:tempDic successfulFetched:^(NSArray *resultArray) {
+//             [self dismissViewControllerAnimated:YES completion:^{
+//                 
+//             }];
+//
+//         } failedToFetched:^(NSError *error, NSString *errorInfo) {
+//             [self dismissViewControllerAnimated:YES completion:^{
+//                 
+//             }];
+//
+//         }];
+//   }];
     
 }
 -(NSDictionary*)getSaveCaseDoctorSocketDic
@@ -200,34 +200,34 @@
 }
 -(void)setRecordBaseInfo:(RecordBaseInfo *)recordBaseInfo
 {
-    _recordBaseInfo = recordBaseInfo;
-    
-    NSDictionary *dic;
-    
-    if (_recordBaseInfo.caseContent == nil || [_recordBaseInfo.caseContent isEqualToString:@""]) {
-     //[self setUpFetchViewController];
-        _recordBaseInfo.caseContent = @"";
-    }
-    
-        dic =[self convertJSONDataToList:[self convertStringToJSONData:_recordBaseInfo.caseContent]];
-        
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"nodeName = %@",@"入院记录"];
-        
-        NSArray *resultA = [self.coreDataStack fetchNSManagedObjectEntityWithName:[ParentNode entityName] withNSPredicate:predicate setUpFetchRequestResultType:0 isSetUpResultType:NO setUpFetchRequestSortDescriptors:nil isSetupSortDescriptors:NO];
-        if (resultA.count == 1) {
-            ParentNode *parentNode = (ParentNode*)[resultA firstObject];
-            for (Node *node in parentNode.nodes.array) {
-                node.nodeContent = [dic objectForKey:node.nodeName];
-            }
-            [self.coreDataStack saveContextFailToSave:^(NSError *error, NSString *errorInfo) {
-                
-            } successfulCreated:^{
-                [self setUpFetchViewController];
-            }];
-            
-        }else {
-            abort();
-        }
+//    _recordBaseInfo = recordBaseInfo;
+//    
+//    NSDictionary *dic;
+//    
+//    if (_recordBaseInfo.caseContent == nil || [_recordBaseInfo.caseContent isEqualToString:@""]) {
+//     //[self setUpFetchViewController];
+//        _recordBaseInfo.caseContent = @"";
+//    }
+//    
+//        dic =[self convertJSONDataToList:[self convertStringToJSONData:_recordBaseInfo.caseContent]];
+//        
+//        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"nodeName = %@",@"入院记录"];
+//        
+//        NSArray *resultA = [self.coreDataStack fetchNSManagedObjectEntityWithName:[ParentNode entityName] withNSPredicate:predicate setUpFetchRequestResultType:0 isSetUpResultType:NO setUpFetchRequestSortDescriptors:nil isSetupSortDescriptors:NO];
+//        if (resultA.count == 1) {
+//            ParentNode *parentNode = (ParentNode*)[resultA firstObject];
+//            for (Node *node in parentNode.nodes.array) {
+//                node.nodeContent = [dic objectForKey:node.nodeName];
+//            }
+//            [self.coreDataStack saveContextFailToSave:^(NSError *error, NSString *errorInfo) {
+//                
+//            } successfulCreated:^{
+//                [self setUpFetchViewController];
+//            }];
+//            
+//        }else {
+//            abort();
+//        }
     
 }
 
@@ -241,34 +241,34 @@
     BOOL hasContent = NO;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"nodeName = %@",@"入院记录"];
     
-    NSArray *resultA = [self.coreDataStack fetchNSManagedObjectEntityWithName:[ParentNode entityName] withNSPredicate:predicate setUpFetchRequestResultType:0 isSetUpResultType:NO setUpFetchRequestSortDescriptors:nil isSetupSortDescriptors:NO];
-    if (resultA.count == 1) {
-        ParentNode *parentNode = (ParentNode*)[resultA firstObject];
-        for (Node *node in parentNode.nodes.array) {
-            
-          node.nodeContent = [node.nodeContent stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-            if (node.nodeContent == nil ||[node.nodeContent isEqualToString:node.nodeName]) {
-                node.nodeContent = @"";
-                caseState  = @"未完整创建";
-                hasContent = YES;
-            }
-            [dic setObject:node.nodeContent forKey:node.nodeName];
-
-        }
-        caseContent = [self convertJSONDataToString:[self convertToJSONDataFromList:dic]];
-
-    }
-    if (hasContent) {
-        [self.saveButton setTitle:@"保存" forState:UIControlStateNormal];
-        caseState  = @"未完整创建";
-    }else {
-        [self.saveButton setTitle:@"提交" forState:UIControlStateNormal];
-        caseState  = @"未提交";
-    }
-    [returnDic setObject:dic forKey:@"caseContentDic"];
-    [returnDic setObject:caseContent forKey:@"caseContent"];
-    [returnDic setObject:caseState forKey:@"caseState"];
-    [returnDic setObject:self.caseType forKey:@"caseType"];
+//    NSArray *resultA = [self.coreDataStack fetchNSManagedObjectEntityWithName:[ParentNode entityName] withNSPredicate:predicate setUpFetchRequestResultType:0 isSetUpResultType:NO setUpFetchRequestSortDescriptors:nil isSetupSortDescriptors:NO];
+//    if (resultA.count == 1) {
+//        ParentNode *parentNode = (ParentNode*)[resultA firstObject];
+//        for (Node *node in parentNode.nodes.array) {
+//            
+//          node.nodeContent = [node.nodeContent stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+//            if (node.nodeContent == nil ||[node.nodeContent isEqualToString:node.nodeName]) {
+//                node.nodeContent = @"";
+//                caseState  = @"未完整创建";
+//                hasContent = YES;
+//            }
+//            [dic setObject:node.nodeContent forKey:node.nodeName];
+//
+//        }
+//        caseContent = [self convertJSONDataToString:[self convertToJSONDataFromList:dic]];
+//
+//    }
+//    if (hasContent) {
+//        [self.saveButton setTitle:@"保存" forState:UIControlStateNormal];
+//        caseState  = @"未完整创建";
+//    }else {
+//        [self.saveButton setTitle:@"提交" forState:UIControlStateNormal];
+//        caseState  = @"未提交";
+//    }
+//    [returnDic setObject:dic forKey:@"caseContentDic"];
+//    [returnDic setObject:caseContent forKey:@"caseContent"];
+//    [returnDic setObject:caseState forKey:@"caseState"];
+//    [returnDic setObject:self.caseType forKey:@"caseType"];
     
     return returnDic;
 }
@@ -348,19 +348,19 @@
     NSString *pID = self.currentPatient.pID;
     NSString *caseType = self.caseType;//入院病历
 
-    [self.coreDataStack fetchCaseInfoWithDic:NSDictionaryOfVariableBindings(dName,dID,pName,pID,caseType) successfulFetched:^(NSArray *resultArray) {
-        
-                            if (resultArray.count == 1) {
-                                self.recordBaseInfo = (RecordBaseInfo*)[resultArray firstObject];
-                            }else {
-        
-                            }
-                        } failedToFetched:^(NSError *error, NSString *errorInfo) {
-                            
-                        }];
-
-    
-    self.isBeginEdit = NO;
+//    [self.coreDataStack fetchCaseInfoWithDic:NSDictionaryOfVariableBindings(dName,dID,pName,pID,caseType) successfulFetched:^(NSArray *resultArray) {
+//        
+//                            if (resultArray.count == 1) {
+//                                self.recordBaseInfo = (RecordBaseInfo*)[resultArray firstObject];
+//                            }else {
+//        
+//                            }
+//                        } failedToFetched:^(NSError *error, NSString *errorInfo) {
+//                            
+//                        }];
+//
+//    
+//    self.isBeginEdit = NO;
     
 //    NSString *dID = @"88888";
 //    NSString *dName = @"医生";
