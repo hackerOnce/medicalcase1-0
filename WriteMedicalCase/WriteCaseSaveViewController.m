@@ -15,7 +15,7 @@
 #import "MessageObject+DY.h"
 #import "CaseContent.h"
 
-@interface WriteCaseSaveViewController ()<NSFetchedResultsControllerDelegate,WriteCaseSaveCellDelegate,UITableViewDelegate,UITableViewDataSource,WriteCaseEditViewControllerDelegate,writeCaseFirstItemViewControllerDelegate>
+@interface WriteCaseSaveViewController ()<NSFetchedResultsControllerDelegate,WriteCaseSaveCellDelegate,UITableViewDelegate,UITableViewDataSource,WriteCaseEditViewControllerDelegate,writeCaseFirstItemViewControllerDelegate,UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *saveButton;
 @property (weak, nonatomic) IBOutlet UILabel *remainTimeLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -69,7 +69,6 @@
 }
 
 /// load data
-
 -(NSString *)caseType
 {
     if (!_caseType) {
@@ -98,20 +97,70 @@
         
     }];
     
-    self.recordBaseInfo = [self.coreDataStack fetchRecordWithDict:[self caseKeyDic]];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请稍后，正在保存 . . ." message:nil delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+    
+    [alertView show];
+
+    alertView.backgroundColor = [UIColor blueColor];
+    
+    NSMutableDictionary *caseContent = [[NSMutableDictionary alloc] init];
+
+    RecordBaseInfo *recordBaseInfo = [self.coreDataStack fetchRecordWithDict:[self caseKeyDic]];
     ParentNode *parentNode = [self.coreDataStack fetchParentNodeWithNodeEntityName:@"入院记录"];
+    CaseContent *tempCaseContent = (CaseContent*)recordBaseInfo.caseContent;
+
     for (int i=0; i< parentNode.nodes.count; i++) {
         Node *tempNode = parentNode.nodes[i];
         
-        NSString *key = [[self caseInfoArray] objectAtIndex:i];
-        if ([tempNode.nodeEnglish isEqualToString:key]) {
-            
-            CaseContent *tempCaseContent = (CaseContent*)_recordBaseInfo.caseContent;
-            tempNode.nodeContent = [tempCaseContent valueForKey:key];
+        NSMutableDictionary *tempDict = [[NSMutableDictionary alloc] init];
+        [tempDict setObject:tempNode.nodeContent forKey:tempNode.nodeEnglish];
+        [caseContent setObject:tempDict forKey:tempNode.nodeEnglish];
+        
+        if ([tempNode.nodeEnglish isEqualToString:@"chiefComplaint"]) {
+            tempCaseContent.chiefComplaint = tempNode.nodeContent;
+        }else if([tempNode.nodeEnglish isEqualToString:@"historyOfPresentillness"]){
+            tempCaseContent.historyOfPresentillness = tempNode.nodeContent;
+        }else if ([tempNode.nodeEnglish isEqualToString:@"personHistory"]) {
+            tempCaseContent.personHistory = tempNode.nodeContent;
+        }else if ([tempNode.nodeEnglish isEqualToString:@"pastHistory"]) {
+            tempCaseContent.pastHistory = tempNode.nodeContent;
+        }else if ([tempNode.nodeEnglish isEqualToString:@"familyHistory"]) {
+            tempCaseContent.familyHistory = tempNode.nodeContent;
+        }else if ([tempNode.nodeEnglish isEqualToString:@"obstericalHistory"]) {
+            tempCaseContent.obstericalHistory = tempNode.nodeContent;
+        }else if([tempNode.nodeEnglish isEqualToString:@"physicalExamination"]){
+            tempCaseContent.physicalExamination = tempNode.nodeContent;
+        }else if([tempNode.nodeEnglish isEqualToString:@"systemsReview"]){
+            tempCaseContent.systemsReview = tempNode.nodeContent;
+        }else if([tempNode.nodeEnglish isEqualToString:@"specializedExamination"]){
+            tempCaseContent.specializedExamination = tempNode.nodeContent;
+        }else if([tempNode.nodeEnglish isEqualToString:@"tentativeDiagnosis"]){
+            tempCaseContent.tentativeDiagnosis = tempNode.nodeContent;
+        }else if([tempNode.nodeEnglish isEqualToString:@"admittingDiagnosis"]){
+            tempCaseContent.admittingDiagnosis = tempNode.nodeContent;
+        }else if([tempNode.nodeEnglish isEqualToString:@"confirmedDiagnosis"]){
+            tempCaseContent.confirmedDiagnosis = tempNode.nodeContent;
         }
+        
+
     }
 
+    [self.coreDataStack saveContext];
     
+    //alertView.title = @"保存成功";
+    [alertView dismissWithClickedButtonIndex:0 animated:YES];
+//    UIAlertView *alertView2 = [[UIAlertView alloc] initWithTitle:@"保存成功" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//    
+//    [alertView2 show];
+
+//    [self.caseInfoDict setObject:caseContent forKey:@"caseContent"];
+//    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:10001 dictionary:self.caseInfoDict block:^(IHSockRequest *request) {
+//        
+//        
+//    } failConection:^(NSError *error) {
+//        
+//        
+//    }];
     
 }
 
@@ -123,15 +172,17 @@
 {
     _recordBaseInfo = recordBaseInfo;
     
+    
    ParentNode *parentNode = [self.coreDataStack fetchParentNodeWithNodeEntityName:@"入院记录"];
+    CaseContent *tempCaseContent = (CaseContent*)_recordBaseInfo.caseContent;
+    NSArray *tempArray = @[tempCaseContent.chiefComplaint?tempCaseContent.chiefComplaint:@"",tempCaseContent.historyOfPresentillness?tempCaseContent.historyOfPresentillness:@"",tempCaseContent.personHistory?tempCaseContent.personHistory:@"",tempCaseContent.personHistory?tempCaseContent.personHistory:@"",tempCaseContent.familyHistory?tempCaseContent.familyHistory:@"",tempCaseContent.obstericalHistory?tempCaseContent.obstericalHistory:@"",tempCaseContent.physicalExamination?tempCaseContent.physicalExamination:@"",tempCaseContent.systemsReview?tempCaseContent.systemsReview:@"",tempCaseContent.specializedExamination?tempCaseContent.specializedExamination:@"",tempCaseContent.tentativeDiagnosis?tempCaseContent.tentativeDiagnosis:@"",tempCaseContent.admittingDiagnosis?tempCaseContent.admittingDiagnosis:@"",tempCaseContent.confirmedDiagnosis?tempCaseContent.confirmedDiagnosis:@""];
+    
     for (int i=0; i< parentNode.nodes.count; i++) {
         Node *tempNode = parentNode.nodes[i];
         
         NSString *key = [[self caseInfoArray] objectAtIndex:i];
         if ([tempNode.nodeEnglish isEqualToString:key]) {
-            
-            CaseContent *tempCaseContent = (CaseContent*)_recordBaseInfo.caseContent;
-            tempNode.nodeContent = [tempCaseContent valueForKey:key];
+            tempNode.nodeContent = tempArray[i];
         }
     }
     
@@ -172,6 +223,7 @@
 
     [self setUpTableView];
     
+    [self caseRecordFromServerOrLocal];
 }
 
 -(void)setUpTableView
@@ -195,27 +247,27 @@
 {
     NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self caseKeyDic]];
     
-    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:1500 dictionary:dict block:^(IHSockRequest *request) {
-        
-        if(request.resp == -1){
-            
-            self.recordBaseInfo = [self.coreDataStack fetchRecordWithDict:dict];
-        
-        }else {
-            if ([request.responseData isKindOfClass:[NSDictionary class]]) {
-                
-                NSDictionary *tempDict =(NSDictionary*) request.responseData;
-                
-                self.caseInfoDict = [[NSMutableDictionary alloc] initWithDictionary:[self parseCaseInfoWithDic:tempDict]];
-                
-                self.recordBaseInfo = [self.coreDataStack fetchRecordWithDict:self.caseInfoDict];
-
-            }
-        }
-        
-    } failConection:^(NSError *error) {
-        
-    }];
+     self.recordBaseInfo = [self.coreDataStack fetchRecordWithDict:dict];
+//    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:1500 dictionary:dict block:^(IHSockRequest *request) {
+//        
+//        if(request.resp == -1){
+//            
+//            self.recordBaseInfo = [self.coreDataStack fetchRecordWithDict:dict];
+//        
+//        }else {
+//            if ([request.responseData isKindOfClass:[NSDictionary class]]) {
+//                
+//                NSDictionary *tempDict =(NSDictionary*) request.responseData;
+//                
+//                self.caseInfoDict = [[NSMutableDictionary alloc] initWithDictionary:[self parseCaseInfoWithDic:tempDict]];
+//                
+//                self.recordBaseInfo = [self.coreDataStack fetchRecordWithDict:self.caseInfoDict];
+//            }
+//        }
+//        
+//    } failConection:^(NSError *error) {
+//        self.recordBaseInfo = [self.coreDataStack fetchRecordWithDict:dict];
+//    }];
 }
 -(NSDictionary*)parseCaseInfoWithDic:(NSDictionary*)dataDic
 {
