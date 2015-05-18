@@ -29,6 +29,7 @@
 
 -(void)saveFieldNodeListToCoreData;
 
+-(RecordBaseInfo*)fetchRecordWithDict:(NSDictionary*)dict;
 
 
 

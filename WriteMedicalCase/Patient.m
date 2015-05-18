@@ -1,20 +1,17 @@
 //
 //  Patient.m
-//  MedicalCase
+//  WriteMedicalCase
 //
-//  Created by GK on 15/4/25.
-//  Copyright (c) 2015年 ihefe. All rights reserved.
+//  Created by ihefe-JF on 15/5/18.
+//  Copyright (c) 2015年 GK. All rights reserved.
 //
 
 #import "Patient.h"
 #import "Doctor.h"
-#import "RecordBaseInfo.h"
 
 
 @implementation Patient
 
-@dynamic pAge;
-@dynamic patientState;
 @dynamic pBedNum;
 @dynamic pCity;
 @dynamic pCountOfHospitalized;
@@ -30,17 +27,13 @@
 @dynamic pNation;
 @dynamic pProfession;
 @dynamic pProvince;
-@dynamic residentDoctorname;
-@dynamic attendingPhysicianDoctorName;
-@dynamic chiefPhysicianDoctorName;
-@dynamic chiefPhysicianDoctorID;
-@dynamic attendingPhysicianDoctorID;
-@dynamic residentDoctorID;
-@dynamic presenter;
-
+@dynamic pAge;
+@dynamic dID;
+@dynamic dName;
 @dynamic doctor;
-@dynamic medicalCases;
-+(NSString*)entityName{
+
++(NSString*)entityName
+{
     return @"Patient";
 }
 

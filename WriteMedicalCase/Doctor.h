@@ -1,15 +1,15 @@
 //
 //  Doctor.h
-//  MedicalCase
+//  WriteMedicalCase
 //
-//  Created by GK on 15/4/25.
-//  Copyright (c) 2015年 ihefe. All rights reserved.
+//  Created by ihefe-JF on 15/5/18.
+//  Copyright (c) 2015年 GK. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Patient, RecordBaseInfo;
+@class NSManagedObject, RecordBaseInfo;
 
 @interface Doctor : NSManagedObject
 
@@ -23,8 +23,6 @@
 @property (nonatomic, retain) NSString * medicalTeam;
 @property (nonatomic, retain) NSOrderedSet *medicalCases;
 @property (nonatomic, retain) NSOrderedSet *patients;
-
-@property (nonatomic,retain)  NSDate *syncTime;
 @end
 
 @interface Doctor (CoreDataGeneratedAccessors)
@@ -40,14 +38,14 @@
 - (void)removeMedicalCasesObject:(RecordBaseInfo *)value;
 - (void)addMedicalCases:(NSOrderedSet *)values;
 - (void)removeMedicalCases:(NSOrderedSet *)values;
-- (void)insertObject:(Patient *)value inPatientsAtIndex:(NSUInteger)idx;
+- (void)insertObject:(NSManagedObject *)value inPatientsAtIndex:(NSUInteger)idx;
 - (void)removeObjectFromPatientsAtIndex:(NSUInteger)idx;
 - (void)insertPatients:(NSArray *)value atIndexes:(NSIndexSet *)indexes;
 - (void)removePatientsAtIndexes:(NSIndexSet *)indexes;
-- (void)replaceObjectInPatientsAtIndex:(NSUInteger)idx withObject:(Patient *)value;
+- (void)replaceObjectInPatientsAtIndex:(NSUInteger)idx withObject:(NSManagedObject *)value;
 - (void)replacePatientsAtIndexes:(NSIndexSet *)indexes withPatients:(NSArray *)values;
-- (void)addPatientsObject:(Patient *)value;
-- (void)removePatientsObject:(Patient *)value;
+- (void)addPatientsObject:(NSManagedObject *)value;
+- (void)removePatientsObject:(NSManagedObject *)value;
 - (void)addPatients:(NSOrderedSet *)values;
 - (void)removePatients:(NSOrderedSet *)values;
 @end

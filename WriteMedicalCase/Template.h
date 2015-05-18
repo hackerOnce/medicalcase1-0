@@ -31,6 +31,7 @@
 @interface Template (CoreDataGeneratedAccessors)
 +(NSString*)entityName;
 
+
 - (void)insertObject:(SharedUser *)value inSharedUsersAtIndex:(NSUInteger)idx;
 - (void)removeObjectFromSharedUsersAtIndex:(NSUInteger)idx;
 - (void)insertSharedUsers:(NSArray *)value atIndexes:(NSIndexSet *)indexes;

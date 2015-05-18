@@ -25,6 +25,8 @@
 @dynamic admittingDiagnosis;
 @dynamic confirmedDiagnosis;
 @dynamic recordBaseInfo;
+@dynamic recordCaseType;
+@dynamic pID;
 +(NSString*)entityName
 {
     return @"CaseContent";

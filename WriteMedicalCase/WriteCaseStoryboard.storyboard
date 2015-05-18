@@ -100,6 +100,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="remainTimeLabel" destination="9Am-xA-jOy" id="Z0T-UT-emH"/>
+                        <outlet property="saveButton" destination="pAk-WC-upo" id="Yw4-Vv-vDB"/>
                         <outlet property="tableView" destination="ezX-CJ-NxF" id="8om-ND-V0V"/>
                         <segue destination="K2v-tp-jw9" kind="presentation" identifier="EditCaseSegue" modalTransitionStyle="coverVertical" id="Ajc-LH-Lyi"/>
                         <segue destination="X6r-Fa-Ax8" kind="presentation" identifier="firstSegue" modalTransitionStyle="crossDissolve" id="q3L-3g-p3S"/>

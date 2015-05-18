@@ -8,6 +8,8 @@
 
 #import "RecordBaseInfo.h"
 #import "CaseContent.h"
+#import "Doctor.h"
+#import "Patient.h"
 
 
 @implementation RecordBaseInfo
@@ -36,5 +38,4 @@
 {
     return @"RecordBaseInfo";
 }
-
 @end

@@ -13,6 +13,9 @@
 
 @interface CaseContent : NSManagedObject
 
+@property (nonatomic,retain) NSString *pID;
+@property (nonatomic,retain) NSString *recordCaseType;
+
 @property (nonatomic, retain) NSString * chiefComplaint;
 @property (nonatomic, retain) NSString * historyOfPresentillness;
 @property (nonatomic, retain) NSString * personHistory;

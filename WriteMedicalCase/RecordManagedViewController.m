@@ -138,19 +138,19 @@
 }
 #pragma mask - RecordNavagationViewControllerDelegate
 
--(void)didSelectedPatient:(Patient *)patient
+-(void)didSelectedPatient:(NSString *)patientID
 {
-    self.recordCases = [NSArray arrayWithArray:patient.medicalCases.array];
-    for (int i=0; i< self.classficationArray.count; i++) {
-        NSString *tempStr = self.classficationArray[i];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"caseState = %@",tempStr];
-        NSArray *resultA = self.sumArray[i];
-        resultA = [self.recordCases filteredArrayUsingPredicate:predicate];
-
-        [self.dataDic setObject:resultA forKey:tempStr];
-    }
-    
-    [self.tableView reloadData];
+//    self.recordCases = [NSArray arrayWithArray:patient.medicalCases.array];
+//    for (int i=0; i< self.classficationArray.count; i++) {
+//        NSString *tempStr = self.classficationArray[i];
+//        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"caseState = %@",tempStr];
+//        NSArray *resultA = self.sumArray[i];
+//        resultA = [self.recordCases filteredArrayUsingPredicate:predicate];
+//
+//        [self.dataDic setObject:resultA forKey:tempStr];
+//    }
+//    
+//    [self.tableView reloadData];
 }
 
 #pragma mark - TableViewdelegate&&TableViewdataSource

@@ -1,13 +1,12 @@
 //
 //  Doctor.m
-//  MedicalCase
+//  WriteMedicalCase
 //
-//  Created by GK on 15/4/25.
-//  Copyright (c) 2015年 ihefe. All rights reserved.
+//  Created by ihefe-JF on 15/5/18.
+//  Copyright (c) 2015年 GK. All rights reserved.
 //
 
 #import "Doctor.h"
-#import "Patient.h"
 #import "RecordBaseInfo.h"
 
 
@@ -23,10 +22,8 @@
 @dynamic medicalTeam;
 @dynamic medicalCases;
 @dynamic patients;
-
-@dynamic syncTime;
-+(NSString*)entityName{
++(NSString*)entityName
+{
     return @"Doctor";
 }
-
 @end

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class CaseContent, NSManagedObject;
+@class CaseContent, Doctor, Patient;
 
 @interface RecordBaseInfo : NSManagedObject
 
@@ -31,21 +31,21 @@
 @property (nonatomic, retain) NSString * chiefPhysiciandID;
 @property (nonatomic, retain) NSString * chiefPhysiciandName;
 @property (nonatomic, retain) NSOrderedSet *doctors;
-@property (nonatomic, retain) NSManagedObject *patient;
+@property (nonatomic, retain) Patient *patient;
 @property (nonatomic, retain) CaseContent *caseContent;
 @end
 
 @interface RecordBaseInfo (CoreDataGeneratedAccessors)
 +(NSString*)entityName;
 
-- (void)insertObject:(NSManagedObject *)value inDoctorsAtIndex:(NSUInteger)idx;
+- (void)insertObject:(Doctor *)value inDoctorsAtIndex:(NSUInteger)idx;
 - (void)removeObjectFromDoctorsAtIndex:(NSUInteger)idx;
 - (void)insertDoctors:(NSArray *)value atIndexes:(NSIndexSet *)indexes;
 - (void)removeDoctorsAtIndexes:(NSIndexSet *)indexes;
-- (void)replaceObjectInDoctorsAtIndex:(NSUInteger)idx withObject:(NSManagedObject *)value;
+- (void)replaceObjectInDoctorsAtIndex:(NSUInteger)idx withObject:(Doctor *)value;
 - (void)replaceDoctorsAtIndexes:(NSIndexSet *)indexes withDoctors:(NSArray *)values;
-- (void)addDoctorsObject:(NSManagedObject *)value;
-- (void)removeDoctorsObject:(NSManagedObject *)value;
+- (void)addDoctorsObject:(Doctor *)value;
+- (void)removeDoctorsObject:(Doctor *)value;
 - (void)addDoctors:(NSOrderedSet *)values;
 - (void)removeDoctors:(NSOrderedSet *)values;
 @end

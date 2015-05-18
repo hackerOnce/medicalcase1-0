@@ -12,7 +12,7 @@
 @class RecordNavagationViewController;
 
 @protocol RecordNavagationViewControllerDelegate <NSObject>
--(void)didSelectedPatient:(Patient*)patient;
+-(void)didSelectedPatient:(NSString*)patientID;
 @end
 
 @interface RecordNavagationViewController : UIViewController
@@ -20,4 +20,6 @@
 @property (nonatomic,weak) id <RecordNavagationViewControllerDelegate> delegate;
 @property (nonatomic) NSInteger currentSection;
 @property (nonatomic) NSInteger currentRow;
+
+@property (nonatomic,strong) NSString *logInDoctorID;
 @end

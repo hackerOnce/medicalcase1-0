@@ -64,8 +64,6 @@
 		4705F0991AF109C10050D47A /* WLKView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0961AF109C10050D47A /* WLKView.m */; };
 		4705F09C1AF109CE0050D47A /* WLKObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F09B1AF109CE0050D47A /* WLKObject.m */; };
 		4705F0A21AF10C040050D47A /* WLKTooles.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0A11AF10C040050D47A /* WLKTooles.m */; };
-		4705F0B91AF10DF00050D47A /* Patient.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0AC1AF10DF00050D47A /* Patient.m */; };
-		4705F0BA1AF10DF00050D47A /* Doctor.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0AE1AF10DF00050D47A /* Doctor.m */; };
 		4705F0C21AF10E580050D47A /* KeyValueObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0C11AF10E580050D47A /* KeyValueObserver.m */; };
 		4705F0C41AF10EE80050D47A /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4705F0C31AF10EE80050D47A /* libz.1.2.5.dylib */; };
 		4705F0CD1AF11B220050D47A /* WriteCaseSaveCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0CC1AF11B220050D47A /* WriteCaseSaveCell.m */; };
@@ -108,15 +106,17 @@
 		4764742F1B03593A004AFDF1 /* SelectedASharedTemplateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4764742E1B03593A004AFDF1 /* SelectedASharedTemplateTableViewCell.m */; };
 		476474321B0437C7004AFDF1 /* SelectedDoctorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 476474311B0437C7004AFDF1 /* SelectedDoctorViewController.m */; };
 		476474351B0444E8004AFDF1 /* SelectedShareRangeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 476474341B0444E8004AFDF1 /* SelectedShareRangeViewController.m */; };
-		476475161B059AEC004AFDF1 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = 476475151B059AEC004AFDF1 /* Node.m */; };
-		476475191B059AED004AFDF1 /* ParentNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 476475181B059AED004AFDF1 /* ParentNode.m */; };
 		4764751B1B059CB7004AFDF1 /* FieldNodeList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4764751A1B059CB7004AFDF1 /* FieldNodeList.plist */; };
 		476475211B05F1A5004AFDF1 /* ModelPlateConditionDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 476475201B05F1A5004AFDF1 /* ModelPlateConditionDetailViewController.m */; };
-		476475421B09BE5D004AFDF1 /* RecordBaseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 476475411B09BE5D004AFDF1 /* RecordBaseInfo.m */; };
-		476475451B09BE5E004AFDF1 /* CaseContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 476475441B09BE5E004AFDF1 /* CaseContent.m */; };
-		476475481B09BE5E004AFDF1 /* Template.m in Sources */ = {isa = PBXBuildFile; fileRef = 476475471B09BE5E004AFDF1 /* Template.m */; };
-		4764754B1B09BE5E004AFDF1 /* SharedUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4764754A1B09BE5E004AFDF1 /* SharedUser.m */; };
-		4764754E1B09BE5E004AFDF1 /* SharedDepartment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4764754D1B09BE5E004AFDF1 /* SharedDepartment.m */; };
+		476475511B09D4B0004AFDF1 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = 476475501B09D4B0004AFDF1 /* Node.m */; };
+		476475541B09D4B1004AFDF1 /* Template.m in Sources */ = {isa = PBXBuildFile; fileRef = 476475531B09D4B1004AFDF1 /* Template.m */; };
+		476475571B09D4B1004AFDF1 /* SharedUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 476475561B09D4B1004AFDF1 /* SharedUser.m */; };
+		4764755A1B09D4B1004AFDF1 /* Doctor.m in Sources */ = {isa = PBXBuildFile; fileRef = 476475591B09D4B1004AFDF1 /* Doctor.m */; };
+		4764755D1B09D4B1004AFDF1 /* SharedDepartment.m in Sources */ = {isa = PBXBuildFile; fileRef = 4764755C1B09D4B1004AFDF1 /* SharedDepartment.m */; };
+		476475601B09D4B1004AFDF1 /* Patient.m in Sources */ = {isa = PBXBuildFile; fileRef = 4764755F1B09D4B1004AFDF1 /* Patient.m */; };
+		476475631B09D4B1004AFDF1 /* RecordBaseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 476475621B09D4B1004AFDF1 /* RecordBaseInfo.m */; };
+		476475661B09D4B1004AFDF1 /* ParentNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 476475651B09D4B1004AFDF1 /* ParentNode.m */; };
+		476475691B09D4B1004AFDF1 /* CaseContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 476475681B09D4B1004AFDF1 /* CaseContent.m */; };
 		478858E31AF1BC9E002CD361 /* AutoHeightTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */; };
 		478858EC1AF1FD06002CD361 /* CustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EB1AF1FD06002CD361 /* CustomSegue.m */; };
 		478858EF1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EE1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m */; };
@@ -253,10 +253,6 @@
 		4705F0A11AF10C040050D47A /* WLKTooles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLKTooles.m; sourceTree = "<group>"; };
 		4705F0A31AF10CA60050D47A /* WLKImport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WLKImport.h; sourceTree = "<group>"; };
 		4705F0A71AF10D860050D47A /* ConstantVariable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConstantVariable.h; sourceTree = "<group>"; };
-		4705F0AB1AF10DF00050D47A /* Patient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Patient.h; sourceTree = "<group>"; };
-		4705F0AC1AF10DF00050D47A /* Patient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Patient.m; sourceTree = "<group>"; };
-		4705F0AD1AF10DF00050D47A /* Doctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Doctor.h; sourceTree = "<group>"; };
-		4705F0AE1AF10DF00050D47A /* Doctor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Doctor.m; sourceTree = "<group>"; };
 		4705F0C01AF10E580050D47A /* KeyValueObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyValueObserver.h; sourceTree = "<group>"; };
 		4705F0C11AF10E580050D47A /* KeyValueObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyValueObserver.m; sourceTree = "<group>"; };
 		4705F0C31AF10EE80050D47A /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
@@ -337,23 +333,27 @@
 		476474311B0437C7004AFDF1 /* SelectedDoctorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectedDoctorViewController.m; sourceTree = "<group>"; };
 		476474331B0444E8004AFDF1 /* SelectedShareRangeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedShareRangeViewController.h; sourceTree = "<group>"; };
 		476474341B0444E8004AFDF1 /* SelectedShareRangeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectedShareRangeViewController.m; sourceTree = "<group>"; };
-		476475141B059AEC004AFDF1 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
-		476475151B059AEC004AFDF1 /* Node.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Node.m; sourceTree = "<group>"; };
-		476475171B059AED004AFDF1 /* ParentNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParentNode.h; sourceTree = "<group>"; };
-		476475181B059AED004AFDF1 /* ParentNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParentNode.m; sourceTree = "<group>"; };
 		4764751A1B059CB7004AFDF1 /* FieldNodeList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FieldNodeList.plist; sourceTree = "<group>"; };
 		4764751F1B05F1A5004AFDF1 /* ModelPlateConditionDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ModelPlateConditionDetailViewController.h; path = ../ModelPlateConditionDetailViewController.h; sourceTree = "<group>"; };
 		476475201B05F1A5004AFDF1 /* ModelPlateConditionDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ModelPlateConditionDetailViewController.m; path = ../ModelPlateConditionDetailViewController.m; sourceTree = "<group>"; };
-		476475401B09BE5D004AFDF1 /* RecordBaseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordBaseInfo.h; sourceTree = "<group>"; };
-		476475411B09BE5D004AFDF1 /* RecordBaseInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordBaseInfo.m; sourceTree = "<group>"; };
-		476475431B09BE5E004AFDF1 /* CaseContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaseContent.h; sourceTree = "<group>"; };
-		476475441B09BE5E004AFDF1 /* CaseContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaseContent.m; sourceTree = "<group>"; };
-		476475461B09BE5E004AFDF1 /* Template.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Template.h; sourceTree = "<group>"; };
-		476475471B09BE5E004AFDF1 /* Template.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Template.m; sourceTree = "<group>"; };
-		476475491B09BE5E004AFDF1 /* SharedUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedUser.h; sourceTree = "<group>"; };
-		4764754A1B09BE5E004AFDF1 /* SharedUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedUser.m; sourceTree = "<group>"; };
-		4764754C1B09BE5E004AFDF1 /* SharedDepartment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedDepartment.h; sourceTree = "<group>"; };
-		4764754D1B09BE5E004AFDF1 /* SharedDepartment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedDepartment.m; sourceTree = "<group>"; };
+		4764754F1B09D4B0004AFDF1 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
+		476475501B09D4B0004AFDF1 /* Node.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Node.m; sourceTree = "<group>"; };
+		476475521B09D4B1004AFDF1 /* Template.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Template.h; sourceTree = "<group>"; };
+		476475531B09D4B1004AFDF1 /* Template.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Template.m; sourceTree = "<group>"; };
+		476475551B09D4B1004AFDF1 /* SharedUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedUser.h; sourceTree = "<group>"; };
+		476475561B09D4B1004AFDF1 /* SharedUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedUser.m; sourceTree = "<group>"; };
+		476475581B09D4B1004AFDF1 /* Doctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Doctor.h; sourceTree = "<group>"; };
+		476475591B09D4B1004AFDF1 /* Doctor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Doctor.m; sourceTree = "<group>"; };
+		4764755B1B09D4B1004AFDF1 /* SharedDepartment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedDepartment.h; sourceTree = "<group>"; };
+		4764755C1B09D4B1004AFDF1 /* SharedDepartment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SharedDepartment.m; sourceTree = "<group>"; };
+		4764755E1B09D4B1004AFDF1 /* Patient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Patient.h; sourceTree = "<group>"; };
+		4764755F1B09D4B1004AFDF1 /* Patient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Patient.m; sourceTree = "<group>"; };
+		476475611B09D4B1004AFDF1 /* RecordBaseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordBaseInfo.h; sourceTree = "<group>"; };
+		476475621B09D4B1004AFDF1 /* RecordBaseInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordBaseInfo.m; sourceTree = "<group>"; };
+		476475641B09D4B1004AFDF1 /* ParentNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParentNode.h; sourceTree = "<group>"; };
+		476475651B09D4B1004AFDF1 /* ParentNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParentNode.m; sourceTree = "<group>"; };
+		476475671B09D4B1004AFDF1 /* CaseContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaseContent.h; sourceTree = "<group>"; };
+		476475681B09D4B1004AFDF1 /* CaseContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaseContent.m; sourceTree = "<group>"; };
 		478858E11AF1BC9E002CD361 /* AutoHeightTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoHeightTextView.h; sourceTree = "<group>"; };
 		478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoHeightTextView.m; sourceTree = "<group>"; };
 		478858EA1AF1FD06002CD361 /* CustomSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSegue.h; sourceTree = "<group>"; };
@@ -637,24 +637,24 @@
 		4705F0A81AF10DBC0050D47A /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				4764754C1B09BE5E004AFDF1 /* SharedDepartment.h */,
-				4764754D1B09BE5E004AFDF1 /* SharedDepartment.m */,
-				476475491B09BE5E004AFDF1 /* SharedUser.h */,
-				4764754A1B09BE5E004AFDF1 /* SharedUser.m */,
-				476475461B09BE5E004AFDF1 /* Template.h */,
-				476475471B09BE5E004AFDF1 /* Template.m */,
-				476475431B09BE5E004AFDF1 /* CaseContent.h */,
-				476475441B09BE5E004AFDF1 /* CaseContent.m */,
-				476475401B09BE5D004AFDF1 /* RecordBaseInfo.h */,
-				476475411B09BE5D004AFDF1 /* RecordBaseInfo.m */,
-				476475171B059AED004AFDF1 /* ParentNode.h */,
-				476475181B059AED004AFDF1 /* ParentNode.m */,
-				476475141B059AEC004AFDF1 /* Node.h */,
-				476475151B059AEC004AFDF1 /* Node.m */,
-				4705F0AB1AF10DF00050D47A /* Patient.h */,
-				4705F0AC1AF10DF00050D47A /* Patient.m */,
-				4705F0AD1AF10DF00050D47A /* Doctor.h */,
-				4705F0AE1AF10DF00050D47A /* Doctor.m */,
+				476475671B09D4B1004AFDF1 /* CaseContent.h */,
+				476475681B09D4B1004AFDF1 /* CaseContent.m */,
+				476475641B09D4B1004AFDF1 /* ParentNode.h */,
+				476475651B09D4B1004AFDF1 /* ParentNode.m */,
+				476475611B09D4B1004AFDF1 /* RecordBaseInfo.h */,
+				476475621B09D4B1004AFDF1 /* RecordBaseInfo.m */,
+				4764755E1B09D4B1004AFDF1 /* Patient.h */,
+				4764755F1B09D4B1004AFDF1 /* Patient.m */,
+				4764755B1B09D4B1004AFDF1 /* SharedDepartment.h */,
+				4764755C1B09D4B1004AFDF1 /* SharedDepartment.m */,
+				476475581B09D4B1004AFDF1 /* Doctor.h */,
+				476475591B09D4B1004AFDF1 /* Doctor.m */,
+				476475551B09D4B1004AFDF1 /* SharedUser.h */,
+				476475561B09D4B1004AFDF1 /* SharedUser.m */,
+				476475521B09D4B1004AFDF1 /* Template.h */,
+				476475531B09D4B1004AFDF1 /* Template.m */,
+				4764754F1B09D4B0004AFDF1 /* Node.h */,
+				476475501B09D4B0004AFDF1 /* Node.m */,
 				4705F0CE1AF124C90050D47A /* Model.xcdatamodeld */,
 				4764751A1B059CB7004AFDF1 /* FieldNodeList.plist */,
 				4705F0441AF107360050D47A /* CoreDataStack.m */,
@@ -911,9 +911,9 @@
 				4705A47E1AF48659007FD2B9 /* NSDate+Helper.m in Sources */,
 				4705F0D81AF1312F0050D47A /* WriteCaseEditViewController.m in Sources */,
 				4705F0341AF1062C0050D47A /* MessageObject+DY.m in Sources */,
+				4764755A1B09D4B1004AFDF1 /* Doctor.m in Sources */,
 				478858EF1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m in Sources */,
 				474D82A91AFC90FA004A4151 /* CreateTemplateDetailViewController.m in Sources */,
-				4764754B1B09BE5E004AFDF1 /* SharedUser.m in Sources */,
 				473C91261AFCA6E20069ECE4 /* AgePickerViewController.m in Sources */,
 				476474241B0202F1004AFDF1 /* ShowTemplateTableViewCell.m in Sources */,
 				4705F0801AF109770050D47A /* WLKCaseNodeTableView.m in Sources */,
@@ -921,26 +921,29 @@
 				4705F0311AF1062C0050D47A /* IHGCDReconnect.m in Sources */,
 				4705F0501AF1082C0050D47A /* ParseXML.m in Sources */,
 				47301D071AFB4104005D42CC /* CurrentPatient.m in Sources */,
+				476475661B09D4B1004AFDF1 /* ParentNode.m in Sources */,
 				4705F0711AF1094C0050D47A /* SBJsonStreamParserAdapter.m in Sources */,
 				4705F0371AF1062C0050D47A /* Reachability.m in Sources */,
 				4705F0351AF1062C0050D47A /* MessageObject.m in Sources */,
 				4705F0701AF1094C0050D47A /* SBJsonStreamParserAccumulator.m in Sources */,
+				476475631B09D4B1004AFDF1 /* RecordBaseInfo.m in Sources */,
 				4705F08E1AF109990050D47A /* WLKCaseNode.m in Sources */,
 				474D82AC1AFC90FA004A4151 /* ShowTemplateViewController.m in Sources */,
 				4705A4381AF31C67007FD2B9 /* RWLabel.m in Sources */,
+				4764755D1B09D4B1004AFDF1 /* SharedDepartment.m in Sources */,
 				478858F51AF712E0002CD361 /* TempPatient.m in Sources */,
 				476475211B05F1A5004AFDF1 /* ModelPlateConditionDetailViewController.m in Sources */,
 				4764742F1B03593A004AFDF1 /* SelectedASharedTemplateTableViewCell.m in Sources */,
-				476475191B059AED004AFDF1 /* ParentNode.m in Sources */,
 				4705F0741AF1094C0050D47A /* SBJsonStreamWriterAccumulator.m in Sources */,
 				4705F0A21AF10C040050D47A /* WLKTooles.m in Sources */,
+				476475541B09D4B1004AFDF1 /* Template.m in Sources */,
 				4705F0771AF1094C0050D47A /* SBJsonUTF8Stream.m in Sources */,
 				4705A47B1AF4619D007FD2B9 /* WriteCaseSaveViewController.m in Sources */,
+				476475601B09D4B1004AFDF1 /* Patient.m in Sources */,
 				4705F0731AF1094C0050D47A /* SBJsonStreamWriter.m in Sources */,
 				474D82A81AFC90FA004A4151 /* ConditionTemplateViewController.m in Sources */,
 				4705F0901AF109990050D47A /* WLKTemplate.m in Sources */,
 				4705F0451AF107360050D47A /* CoreDataStack.m in Sources */,
-				476475451B09BE5E004AFDF1 /* CaseContent.m in Sources */,
 				474D82B01AFC90FA004A4151 /* TemplateLeftDetailFirstViewController.m in Sources */,
 				478859081AF71A70002CD361 /* TempDoctor.m in Sources */,
 				4705F03A1AF1062C0050D47A /* MBProgressHUD+MJ.m in Sources */,
@@ -952,24 +955,20 @@
 				4705F0991AF109C10050D47A /* WLKView.m in Sources */,
 				4705F07F1AF109770050D47A /* WLKCaseNodeCell.m in Sources */,
 				4705F0301AF1062C0050D47A /* GCDAsyncSocket.m in Sources */,
-				4705F0B91AF10DF00050D47A /* Patient.m in Sources */,
 				474D82BC1AFC9381004A4151 /* ModelPlateConditionViewController.m in Sources */,
-				476475481B09BE5E004AFDF1 /* Template.m in Sources */,
 				474D82B91AFC923E004A4151 /* HUDSubViewController.m in Sources */,
 				474D82AD1AFC90FA004A4151 /* ShowTemplateViewControllerTwo.m in Sources */,
 				47301D161AFC67EA005D42CC /* RecordManagedCellTableViewCell.m in Sources */,
 				478858F81AF7130D002CD361 /* TempCaseBaseInfo.m in Sources */,
-				476475161B059AEC004AFDF1 /* Node.m in Sources */,
 				474D82B21AFC90FA004A4151 /* TemplateLeftDetailViewController.m in Sources */,
 				4705F0381AF1062C0050D47A /* UIView+DY.m in Sources */,
 				474D82B11AFC90FA004A4151 /* TemplateLeftDetailSecondViewController.m in Sources */,
-				4764754E1B09BE5E004AFDF1 /* SharedDepartment.m in Sources */,
 				476474351B0444E8004AFDF1 /* SelectedShareRangeViewController.m in Sources */,
 				47301D191AFC686E005D42CC /* CaseManagementSplitViewController.m in Sources */,
 				4705EFF51AF1044B0050D47A /* ViewController.m in Sources */,
-				476475421B09BE5D004AFDF1 /* RecordBaseInfo.m in Sources */,
 				4705F06E1AF1094C0050D47A /* SBJsonParser.m in Sources */,
 				4705F0981AF109C10050D47A /* WLKTableView.m in Sources */,
+				476475571B09D4B1004AFDF1 /* SharedUser.m in Sources */,
 				4705F04E1AF1082C0050D47A /* XMLReader.m in Sources */,
 				4705F0971AF109C10050D47A /* UIView+FrameExtends.m in Sources */,
 				474D828B1AF9EBFB004A4151 /* CoreDataSyncWithServer.m in Sources */,
@@ -979,6 +978,7 @@
 				4705F0361AF1062C0050D47A /* NSData+Zip.m in Sources */,
 				478858E31AF1BC9E002CD361 /* AutoHeightTextView.m in Sources */,
 				47301D011AFB2483005D42CC /* mainViewController.m in Sources */,
+				476475511B09D4B0004AFDF1 /* Node.m in Sources */,
 				473C912C1B004ED90069ECE4 /* TemplateModel.m in Sources */,
 				473C91291AFCA8FF0069ECE4 /* CreateTemplateViewController.m in Sources */,
 				4705F08F1AF109990050D47A /* WLKPatient.m in Sources */,
@@ -987,6 +987,7 @@
 				478858EC1AF1FD06002CD361 /* CustomSegue.m in Sources */,
 				4705EFEF1AF1044B0050D47A /* main.m in Sources */,
 				4705A4861AF5B53B007FD2B9 /* PreviewViewController.m in Sources */,
+				476475691B09D4B1004AFDF1 /* CaseContent.m in Sources */,
 				4705F0811AF109770050D47A /* WLKMultiTableView.m in Sources */,
 				4705F0761AF1094C0050D47A /* SBJsonTokeniser.m in Sources */,
 				473C91231AFCA6D30069ECE4 /* ModelPlateConditionsViewController.m in Sources */,
@@ -1002,7 +1003,6 @@
 				474D82AE1AFC90FA004A4151 /* TemplateConditionSelectedViewController.m in Sources */,
 				4705F0841AF109870050D47A /* WLKCaseNodeTableViewConfig.m in Sources */,
 				47301D151AFC67EA005D42CC /* RecordManagedViewController.m in Sources */,
-				4705F0BA1AF10DF00050D47A /* Doctor.m in Sources */,
 				4705F03C1AF1062C0050D47A /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

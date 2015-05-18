@@ -2,7 +2,7 @@
 //  ParentNode.m
 //  WriteMedicalCase
 //
-//  Created by ihefe-JF on 15/5/15.
+//  Created by ihefe-JF on 15/5/18.
 //  Copyright (c) 2015年 GK. All rights reserved.
 //
 
@@ -14,8 +14,8 @@
 
 @dynamic nodeName;
 @dynamic nodes;
-
-+(NSString*)entityName {
++(NSString*)entityName
+{
     return @"ParentNode";
 }
 

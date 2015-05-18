@@ -23,6 +23,11 @@
 @property (nonatomic) BOOL isFirstAppear;
 
 @property (nonatomic,strong) NSMutableArray *records;//该医生的病历数组
+
+@property (nonatomic,strong) NSMutableDictionary *patientDic;
+
+@property (nonatomic,strong) IHMsgSocket *socket;
+
 @end
 
 @implementation RecordNavagationViewController
@@ -35,8 +40,32 @@
     _coreDataStack = [[CoreDataStack alloc] init];
     return _coreDataStack;
 }
+-(IHMsgSocket *)socket
+{
+    if (!_socket) {
+        _socket = [IHMsgSocket sharedRequest];
+        [_socket connectToHost:@"192.168.10.2" onPort:2333];
+    }
+    return _socket;
+}
 
+-(NSString *)logInDoctorID
+{
+    if (!_logInDoctorID) {
+        _logInDoctorID = @"11";
+    }
+    return _logInDoctorID;
+}
 #pragma  mask - property
+
+-(NSMutableDictionary *)patientDic
+{
+    if (!_patientDic) {
+        _patientDic = [[NSMutableDictionary alloc] init];
+    }
+    return _patientDic;
+}
+
 -(NSMutableArray *)classficationArray
 {
     if (!_classficationArray) {
@@ -60,7 +89,7 @@
 }
 -(void)addNotificationObserver
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(kDidCompletedAsyncInitEntity) name:kDidCompletedAsyncInitEntity object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(kDidCompletedAsyncInitEntity) name:kDidCompletedAsyncInitEntity object:nil];
 }
 -(void)setRecords:(NSMutableArray *)records
 {
@@ -121,7 +150,7 @@
 //    } ];
 }
 
-
+#pragma mask -view life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self loadModel];
@@ -131,25 +160,17 @@
     
     self.isFirstAppear = YES;
     
-    
+    [self getPatientDataByDoctorID:self.logInDoctorID];
 }
 -(void)setUpTableView
 {
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-//    _tableView.separatorColor = [UIColor clearColor];
-//    _tableView.backgroundColor = [UIColor clearColor];
-//    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
-    
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    if (!self.isFirstAppear) {
-        [self kDidCompletedAsyncInitEntity];
-    }
 }
 -(void)loadModel
 {
@@ -163,7 +184,50 @@
         [headview.backBtn setTitle:[self.classficationArray objectAtIndex:i] forState:UIControlStateNormal];
         [self.headViewArray addObject:headview];
     }
+    
+}
 
+#pragma mask - load doctor from server
+-(void)getPatientDataByDoctorID:(NSString*)dID
+{
+    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:381 dictionary:@{@"doctor":dID} block:^(IHSockRequest *request) {
+        if ([request.responseData isKindOfClass:[NSArray class]]) {
+            NSArray *tempArray = (NSArray*)request.responseData;
+            
+            if (tempArray.count == 0) {
+                
+            }else {
+                NSMutableArray *inHospital_ids = [[NSMutableArray alloc] init];
+                NSMutableArray *outOfHospital_ids = [[NSMutableArray alloc] init];
+
+                for (NSDictionary *patientDict in tempArray) {
+                    NSString *is_in_hospital;
+                    NSString *pID;
+                    
+                    if ([patientDict.allKeys containsObject:@"is_in_hospital"]) {
+                        is_in_hospital = patientDict[@"is_in_hospital"];
+                        
+                    }
+                    if ([patientDict.allKeys containsObject:@"patient_id"]) {
+                        pID = patientDict[@"patient_id"];
+                    }
+                    
+                    if([is_in_hospital integerValue] == 0){
+                        [inHospital_ids addObject:pID];
+                    }else {
+                        [outOfHospital_ids addObject:pID];
+                    }
+                }
+                [self.patientDic setObject:inHospital_ids forKey:@"本次住院"];
+                [self.patientDic setObject:outOfHospital_ids forKey:@"已出院(未归档)"];
+                
+                [self.tableView reloadData];
+            }
+        }
+        
+    } failConection:^(NSError *error) {
+        
+    }];
 }
 #pragma mark - TableViewdelegate&&TableViewdataSource
 
@@ -192,7 +256,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     HeadView* headView = [self.headViewArray objectAtIndex:section];
 
-    NSArray *tempA = self.dataDic[headView.backBtn.titleLabel.text];
+    NSArray *tempA = self.patientDic[headView.backBtn.titleLabel.text];
     
     
     return headView.open?tempA.count:0;
@@ -214,28 +278,12 @@
         [cell.contentView addSubview:backBtn];
         
         
-//        UIImageView* line = [[UIImageView alloc]initWithFrame:CGRectMake(0, 44, 340, 1)];
-//        line.backgroundColor = [UIColor grayColor];
-//        [cell.contentView addSubview:line];
-//        [line release];
-        
     }
-    UIButton* backBtn = (UIButton*)[cell.contentView viewWithTag:20000];
     HeadView* view = [self.headViewArray objectAtIndex:indexPath.section];
-    //[backBtn setBackgroundImage:[UIImage imageNamed:@"btn_2_nomal"] forState:UIControlStateNormal];
     
-    if (view.open) {
-        if (indexPath.row == _currentRow) {
-           // [backBtn setBackgroundImage:[UIImage imageNamed:@"btn_nomal"] forState:UIControlStateNormal];
-        }
-    }
-    
-    NSArray *tempA = self.dataDic[view.backBtn.titleLabel.text];
-    Patient *patient = (Patient*)tempA[indexPath.row];
-    cell.textLabel.text = patient.pName;
-    //cell.textLabel.backgroundColor = [UIColor clearColor];
-    //cell.textLabel.textColor = [UIColor whiteColor];
-    
+    NSArray *tempA = self.patientDic[view.backBtn.titleLabel.text];
+    NSString *patientID = (NSString*)tempA[indexPath.row];
+    cell.textLabel.text = patientID;
     return cell;
 }
 
@@ -248,9 +296,10 @@
         _currentRow = indexPath.row;
         [_tableView reloadData];
     }
-    NSArray *tempA = self.dataDic[view.backBtn.titleLabel.text];
-    Patient *patient = (Patient*)tempA[indexPath.row];
-    [self.delegate didSelectedPatient:patient];
+    
+    NSArray *tempA = self.patientDic[view.backBtn.titleLabel.text];
+    NSString *patientID = (NSString*)tempA[indexPath.row];
+    [self.delegate didSelectedPatient:patientID];
 }
 
 
@@ -258,22 +307,15 @@
 -(void)selectedWith:(HeadView *)view{
     self.currentRow = -1;
     if (view.open) {
-//        for(int i = 0;i<[self.headViewArray count];i++)
-//        {
-//            HeadView *head = [self.headViewArray objectAtIndex:i];
-//            head.open = NO;
-//            //[head.backBtn setBackgroundImage:[UIImage imageNamed:@"btn_momal"] forState:UIControlStateNormal];
-//        }
         view.open = NO;
         [_tableView reloadData];
         return;
     }
     _currentSection = view.section;
-    [self reset];
+   // [self reset];
     
 }
 
-//界面重置
 - (void)reset
 {
     for(int i = 0;i<[self.headViewArray count];i++)
@@ -283,7 +325,7 @@
         if(head.section == self.currentSection || head.open)
         {
             head.open = YES;
-            //[head.backBtn setBackgroundImage:[UIImage imageNamed:@"btn_nomal"] forState:UIControlStateNormal];
+          
             
         }else {
             //[head.backBtn setBackgroundImage:[UIImage imageNamed:@"btn_momal"] forState:UIControlStateNormal];

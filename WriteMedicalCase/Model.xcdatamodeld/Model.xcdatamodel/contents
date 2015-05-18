@@ -10,12 +10,14 @@
         <attribute name="pastHistory" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="personHistory" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="physicalExamination" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="recordCaseType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="specializedExamination" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="systemsReview" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="tentativeDiagnosis" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="recordBaseInfo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RecordBaseInfo" inverseName="caseContent" inverseEntity="RecordBaseInfo" syncable="YES"/>
     </entity>
-    <entity name="Doctor" syncable="YES">
+    <entity name="Doctor" representedClassName="Doctor" syncable="YES">
         <attribute name="dept" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dName" optional="YES" attributeType="String" syncable="YES"/>
@@ -43,13 +45,10 @@
         <attribute name="nodeName" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="nodes" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Node" inverseName="parentNode" inverseEntity="Node" syncable="YES"/>
     </entity>
-    <entity name="Patient" syncable="YES">
-        <attribute name="attendingPhysicianDoctorID" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="attendingPhysicianDoctorName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="chiefPhysicianDoctorID" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="chiefPhysicianDoctorName" optional="YES" attributeType="String" syncable="YES"/>
+    <entity name="Patient" representedClassName="Patient" syncable="YES">
+        <attribute name="dID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pAge" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="patientState" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pBedNum" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pCity" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pCountOfHospitalized" optional="YES" attributeType="String" syncable="YES"/>
@@ -65,11 +64,7 @@
         <attribute name="pNation" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pProfession" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pProvince" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="presenter" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="residentDoctorID" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="residentDoctorname" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="doctor" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Doctor" inverseName="patients" inverseEntity="Doctor" syncable="YES"/>
-        <relationship name="medicalCases" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RecordBaseInfo" inverseName="patient" inverseEntity="RecordBaseInfo" syncable="YES"/>
     </entity>
     <entity name="RecordBaseInfo" representedClassName="RecordBaseInfo" syncable="YES">
         <attribute name="attendingPhysiciandID" optional="YES" attributeType="String" syncable="YES"/>
@@ -91,7 +86,7 @@
         <attribute name="updatedDate" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="caseContent" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="CaseContent" inverseName="recordBaseInfo" inverseEntity="CaseContent" syncable="YES"/>
         <relationship name="doctors" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Doctor" inverseName="medicalCases" inverseEntity="Doctor" syncable="YES"/>
-        <relationship name="patient" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Patient" inverseName="medicalCases" inverseEntity="Patient" syncable="YES"/>
+        <relationship name="patient" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Patient" syncable="YES"/>
     </entity>
     <entity name="SharedDepartment" representedClassName="SharedDepartment" syncable="YES">
         <attribute name="departmentID" optional="YES" attributeType="String" syncable="YES"/>
@@ -120,10 +115,10 @@
         <element name="Doctor" positionX="-63" positionY="-18" width="128" height="195"/>
         <element name="Node" positionX="-54" positionY="-9" width="128" height="195"/>
         <element name="ParentNode" positionX="-36" positionY="9" width="128" height="75"/>
-        <element name="Patient" positionX="-18" positionY="27" width="128" height="435"/>
+        <element name="Patient" positionX="-18" positionY="27" width="128" height="330"/>
         <element name="RecordBaseInfo" positionX="0" positionY="45" width="128" height="345"/>
         <element name="Template" positionX="18" positionY="63" width="128" height="240"/>
-        <element name="CaseContent" positionX="27" positionY="180" width="128" height="240"/>
+        <element name="CaseContent" positionX="27" positionY="180" width="128" height="270"/>
         <element name="SharedUser" positionX="36" positionY="189" width="128" height="75"/>
         <element name="SharedDepartment" positionX="-9" positionY="135" width="128" height="75"/>
     </elements>
