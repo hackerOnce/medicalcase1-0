@@ -52,6 +52,7 @@
 
 @property (nonatomic,strong) RecordBaseInfo *resultCaseInfo;
 
+@property (nonatomic,strong) NSMutableDictionary *originDict;
 @end
 
 @implementation WriteCaseSaveViewController
@@ -145,22 +146,19 @@
 
     }
 
-    [self.coreDataStack saveContext];
     
     //alertView.title = @"保存成功";
-    [alertView dismissWithClickedButtonIndex:0 animated:YES];
-//    UIAlertView *alertView2 = [[UIAlertView alloc] initWithTitle:@"保存成功" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//    
-//    [alertView2 show];
-
-//    [self.caseInfoDict setObject:caseContent forKey:@"caseContent"];
-//    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:10001 dictionary:self.caseInfoDict block:^(IHSockRequest *request) {
-//        
-//        
-//    } failConection:^(NSError *error) {
-//        
-//        
-//    }];
+   
+    [self.originDict setObject:caseContent forKey:@"caseContent"];
+    
+    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:10001 dictionary:self.originDict block:^(IHSockRequest *request) {
+        
+        alertView.title = @"保存成功";
+        
+        [self.coreDataStack saveContext];
+    } failConection:^(NSError *error) {
+       // [self.coreDataStack saveContext];
+    }];
     
 }
 
@@ -248,26 +246,27 @@
     NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self caseKeyDic]];
     
      self.recordBaseInfo = [self.coreDataStack fetchRecordWithDict:dict];
-//    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:1500 dictionary:dict block:^(IHSockRequest *request) {
-//        
-//        if(request.resp == -1){
-//            
-//            self.recordBaseInfo = [self.coreDataStack fetchRecordWithDict:dict];
-//        
-//        }else {
-//            if ([request.responseData isKindOfClass:[NSDictionary class]]) {
-//                
-//                NSDictionary *tempDict =(NSDictionary*) request.responseData;
-//                
-//                self.caseInfoDict = [[NSMutableDictionary alloc] initWithDictionary:[self parseCaseInfoWithDic:tempDict]];
-//                
-//                self.recordBaseInfo = [self.coreDataStack fetchRecordWithDict:self.caseInfoDict];
-//            }
-//        }
-//        
-//    } failConection:^(NSError *error) {
-//        self.recordBaseInfo = [self.coreDataStack fetchRecordWithDict:dict];
-//    }];
+    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:1500 dictionary:dict block:^(IHSockRequest *request) {
+        
+        if(request.resp == -1){
+            
+            self.recordBaseInfo = [self.coreDataStack fetchRecordWithDict:dict];
+        
+        }else {
+            if ([request.responseData isKindOfClass:[NSDictionary class]]) {
+                
+                NSDictionary *tempDict =(NSDictionary*) request.responseData;
+                self.originDict = [[NSMutableDictionary alloc] initWithDictionary:tempDict];
+                
+                self.caseInfoDict = [[NSMutableDictionary alloc] initWithDictionary:[self parseCaseInfoWithDic:tempDict]];
+                
+                self.recordBaseInfo = [self.coreDataStack fetchRecordWithDict:self.caseInfoDict];
+            }
+        }
+        
+    } failConection:^(NSError *error) {
+        self.recordBaseInfo = [self.coreDataStack fetchRecordWithDict:dict];
+    }];
 }
 -(NSDictionary*)parseCaseInfoWithDic:(NSDictionary*)dataDic
 {

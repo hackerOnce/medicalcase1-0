@@ -140,6 +140,8 @@
 
 -(void)didSelectedPatient:(NSString *)patientID
 {
+    
+    
 //    self.recordCases = [NSArray arrayWithArray:patient.medicalCases.array];
 //    for (int i=0; i< self.classficationArray.count; i++) {
 //        NSString *tempStr = self.classficationArray[i];
