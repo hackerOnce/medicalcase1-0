@@ -164,7 +164,7 @@
                 break;
         }
         
-        self.commitAlertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        self.commitAlertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [self.commitAlertView show];
         
     } failConection:^(NSError *error) {
@@ -210,6 +210,29 @@
     
     [self.originDict setObject:caseContent forKey:@"caseContent"];
     [self.originDict setObject:self.caseType forKey:@"caseType"];
+    
+    NSMutableDictionary *resident = [[NSMutableDictionary alloc] init];
+    [resident setObject:@"" forKey:@"dID"];
+    [resident setObject:@"" forKey:@"dName"];
+    [resident setObject:@"" forKey:@"dProfessionalTitle"];
+    [resident setObject:@"" forKey:@"dept"];
+
+    NSMutableDictionary *attendingPhysician = [[NSMutableDictionary alloc] init];
+    [attendingPhysician setObject:@"" forKey:@"dID"];
+    [attendingPhysician setObject:@"" forKey:@"dName"];
+    [attendingPhysician setObject:@"" forKey:@"dProfessionalTitle"];
+    [attendingPhysician setObject:@"" forKey:@"dept"];
+    
+    NSMutableDictionary *chiefPhysician = [[NSMutableDictionary alloc] init];
+    [chiefPhysician setObject:@"" forKey:@"dID"];
+    [chiefPhysician setObject:@"" forKey:@"dName"];
+    [chiefPhysician setObject:@"" forKey:@"dProfessionalTitle"];
+    [chiefPhysician setObject:@"" forKey:@"dept"];
+    
+    [self.originDict setObject:chiefPhysician forKey:@"resident"];
+    [self.originDict setObject:chiefPhysician forKey:@"attendingPhysician"];
+    [self.originDict setObject:chiefPhysician forKey:@"chiefPhysician"];
+    
     [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:20001 dictionary:self.originDict block:^(IHSockRequest *request) {
         
         self.resp = request.resp;
@@ -462,7 +485,6 @@
     [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:1500 dictionary:dict block:^(IHSockRequest *request) {
         
         if(request.resp == -1){
-            
             self.recordBaseInfo = [self.coreDataStack fetchRecordWithDict:dict];
             self.originDict = [[NSMutableDictionary alloc] init];
         }else {

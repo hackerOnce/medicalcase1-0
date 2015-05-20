@@ -12,10 +12,8 @@
 
 @property (nonatomic, strong) NSString * dID;
 @property (nonatomic, strong) NSString * templateID;
-
 @property (nonatomic, strong) NSString * condition;
 @property (nonatomic, strong) NSString * content;
-
 @property (nonatomic, strong) NSString * gender;
 @property (nonatomic, strong) NSNumber * ageHigh;
 @property (nonatomic, strong) NSString * admittingDiagnosis;

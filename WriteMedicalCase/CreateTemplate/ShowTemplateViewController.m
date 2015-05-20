@@ -84,7 +84,6 @@
         self.isNewsPage = YES;
     }else {
         self.isNewsPage = NO;
-
     }
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:[Template entityName]];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"node.nodeName = %@",tempStr];
@@ -102,7 +101,7 @@
         abort();
     }else {
         [self.tableView reloadData];
-
+        
     }
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

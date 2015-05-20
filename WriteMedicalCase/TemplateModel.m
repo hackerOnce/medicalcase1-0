@@ -12,24 +12,47 @@
 
 -(instancetype)initWithDic:(NSDictionary*)dic
 {
-    if (self = [super init]) {
-      
+     if (self = [super init]) {
         if ([dic.allKeys containsObject:@"dID"]) {
             _dID = dic[@"dID"];
         }
-        
-        if ([dic.allKeys containsObject:@"templateID"]) {
-            _templateID = dic[@"templateID"];
-        }
-        
         if ([dic.allKeys containsObject:@"condition"]) {
             _condition = dic[@"condition"];
         }
         if ([dic.allKeys containsObject:@"content"]) {
             _content = dic[@"content"];
         }
+        
+        if ([dic.allKeys containsObject:@"gender"]) {
+            _gender = dic[@"gender"];
+        }
+        if ([dic.allKeys containsObject:@"ageHigh"]) {
+            _ageHigh = dic[@"ageHigh"];
+        }
+        if ([dic.allKeys containsObject:@"admittingDiagnosis"]) {
+            _admittingDiagnosis = dic[@"admittingDiagnosis"];
+        }
+        if ([dic.allKeys containsObject:@"simultaneousPhenomenon"]) {
+            _simultaneousPhenomenon = dic[@"simultaneousPhenomenon"];
+        }
+       
+        if ([dic.allKeys containsObject:@"ageLow"]) {
+            _ageLow = dic[@"ageLow"];
+        }
+        if ([dic.allKeys containsObject:@"cardinalSymptom"]) {
+            _cardinalSymptom = dic[@"cardinalSymptom"];
+        }
+        if ([dic.allKeys containsObject:@"createDate"]) {
+            _createDate = dic[@"createDate"];
+        }
+        if ([dic.allKeys containsObject:@"updatedTime"]) {
+            _updatedTime = dic[@"updatedTime"];
+        }
         if ([dic.allKeys containsObject:@"createPeople"]) {
             _createPeople = dic[@"createPeople"];
+        }
+        if ([dic.allKeys containsObject:@"sourceType"]) {
+            _sourceType = dic[@"sourceType"];
         }
     }
     return self;

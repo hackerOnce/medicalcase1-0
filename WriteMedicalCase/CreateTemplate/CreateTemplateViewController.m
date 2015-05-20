@@ -20,7 +20,7 @@
 #import "WLKCaseNode.h"
 
 
-@interface CreateTemplateViewController () <UITableViewDataSource,UITableViewDelegate>
+@interface CreateTemplateViewController () <UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,strong) NSArray *dataArray;
 
@@ -175,8 +175,8 @@
 
 -(void)saveTemplateToCoreData
 {
-    NSString *condition = [self.dataDic objectForKey:@"添加条件"];
-    NSString *content = [self.dataDic objectForKey:@"添加内容"];
+    NSString *condition =[NSString stringWithFormat:@"%@",[self.dataDic objectForKey:@"添加条件"]];
+    NSString *content =[NSString stringWithFormat:@"%@", [self.dataDic objectForKey:@"添加内容"]];
     
     
     ParentNode *parentNode = [self.coreDataStack fetchParentNodeWithNodeEntityName:@"条件"];
@@ -186,89 +186,52 @@
         [tempDict setObject:tempNode.nodeContent forKey:tempNode.nodeEnglish];
     }
     
-    NSString *tID = self.currentNode.nodeEnglish;
-    NSString *highAge = tempDict[@"highAge"];
-    NSString *lownAge = tempDict[@"lowAge"];
-    NSString *gender =  tempDict[@"gender"];
-    NSString *diagnose = tempDict[@"diagnose"];
-    NSString *mainSymptom = tempDict[@"mainSymptom"];
-    NSString *otherSymptom = tempDict[@"acompanySymptom"];
+    NSString *highAge =[NSString stringWithFormat:@"%@", tempDict[@"highAge"]];
+    NSString *lowAge = [NSString stringWithFormat:@"%@",tempDict[@"lowAge"]];
+    NSString *gender = [NSString stringWithFormat:@"%@",tempDict[@"gender"]];
+    NSString *diagnose =[NSString stringWithFormat:@"%@",tempDict[@"diagnose"]];
+    NSString *mainSymptom =[NSString stringWithFormat:@"%@", tempDict[@"mainSymptom"]];
+    NSString *otherSymptom =[NSString stringWithFormat:@"%@", tempDict[@"acompanySymptom"]];
     
     NSString *dID = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
-    
-    NSDictionary *param = @{@"tID" :self.currentNode.nodeEnglish ,
+    NSString *dName = [[NSUserDefaults standardUserDefaults] objectForKey:@"dName"];
+    NSDictionary *param = @{
                             @"tArgs" : @{@"highAge" : highAge,
-                                         @"lowAge" : lownAge,
+                                         @"lowAge" : lowAge,
                                          @"gender" : gender, //1为男，0为女
                                          @"diagnose" : diagnose,
                                          @"mainSymptom" :mainSymptom,
                                          @"otherSymptom" : otherSymptom
                                          },
+                            @"condition": condition,
                             @"tContent" : content,
                             @"isPublic" : @"1", //是否公开，1为公开，0为不公开，
                             @"doctor" : @{@"dID" : dID,
-                                          @"dName" : @""},
+                                          @"dName" : dName},
                             @"templateType" : [self getMBBHWithEnglishName:self.currentNode.nodeEnglish],
-                            @"templateName" : self.currentNode.nodeName
+                            @"templateName" : self.currentNode.nodeName,
+                            //@"createPeople" : dName,
+                            //@"sourceType"  : @""
                             };
-    
-    [tempDict setObject:condition forKey:@"condition"];
-    [tempDict setObject:content forKey:@"content"];
     
     [MessageObject messageObjectWithUsrStr:@"11" pwdStr:@"test" iHMsgSocket:self.socket optInt:20002 dictionary:param block:^(IHSockRequest *request) {
         
-    } failConection:^(NSError *error) {
+        NSInteger resp = request.resp;
+        if (resp == 0) {
+          
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"模板保存成功" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alertView show];
+        }
         
+    } failConection:^(NSError *error) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"服务器端出错" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
+
     }];
-    //[self.coreDataStack createManagedObjectTemplateWithDic:tempDict ForNodeWithNodeName:self.title];
-//    NSString *ageSegment = [self.conditionDicData objectForKey:@"年龄段"];
-//    NSString *ageLow = @"0";
-//    NSString *ageHigh = @"0";
-//    if (ageSegment) {
-//        if(![ageSegment isEqualToString:@"请选择"]){
-//            
-//            NSArray *tempA = [ageSegment componentsSeparatedByString:@"-"];
-//            NSMutableArray *tep = [[NSMutableArray alloc] init];
-//            for (NSString *ageStr in tempA) {
-//                NSArray *a = [ageStr componentsSeparatedByString:@"岁"];
-//                [tep addObject:a[0]];
-//            }
-//            ageLow = (NSString*)tep[0];
-//            ageHigh = (NSString*)tep[1];
-//            
-//        }
-//        
-//    }
-//    NSString *gender = [self.conditionDicData objectForKey:@"性别"];
-//    NSString *admittingDiagnosis = [self.conditionDicData objectForKey:@"入院诊断"];
-//    NSString *simultaneousPhenomenon = [self.conditionDicData objectForKey:@"伴随症状"];
-//    NSString *cardinalSymptom = [self.conditionDicData objectForKey:@"主要症状"];
-//    
-//    ///save to server
-//    NSDictionary *param = @{@"tID" :self.currentNode.nodeEnglish ,
-//                            @"tArgs" : @{@"highAge" :ageHigh,
-//                                         @"lowAge" : ageLow,
-//                                         @"gender" :StringValue([gender isEqualToString:@"男"] ? @(1):@(0)), //1为男，0为女
-//                                         @"diagnose" : admittingDiagnosis,
-//                                         @"mainSymptom" : cardinalSymptom,
-//                                         @"otherSymptom" : simultaneousPhenomenon
-//                                         },
-//                            @"tContent" : content,
-//                            @"dID" : @"735789", //医生ID
-//                            @"isPublic" : @"1" //是否公开，1为公开，0为不公开
-//                            };
-//    
-//    NSDictionary *tempDD = NSDictionaryOfVariableBindings(condition,content,ageLow,ageHigh,gender,admittingDiagnosis,simultaneousPhenomenon,cardinalSymptom);
-//    
-////    [self.coreDataStack createManagedObjectTemplateWithDic:tempDD ForNodeWithNodeName:self.title];
-//    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:20002 dictionary:param block:^(IHSockRequest *request) {
-//        
-//        NSLog(@"sucess");
-//        
-//    } failConection:^(NSError *error) {
-//        
-//        NSLog(@"fail");
-//    }];
+}
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(NSString*)getMBBHWithEnglishName:(NSString*)name
 {
