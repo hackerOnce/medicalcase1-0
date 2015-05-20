@@ -23,4 +23,5 @@
 @property (nonatomic,strong) TempDoctor *tempAttendingPhysicianDoctor;
 @property (nonatomic,strong) TempDoctor *tempChiefPhysicianDoctor;
 
+@property (nonatomic) BOOL isRemoveLeftButton;
 @end

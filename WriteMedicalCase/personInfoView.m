@@ -7,6 +7,8 @@
 //
 
 #import "personInfoView.h"
+#import "Patient.h"
+
 @interface personInfoView()
 @property (nonatomic,strong) NSMutableArray *labelArray;
 @property (nonatomic,strong) UIView *secondView;
@@ -14,8 +16,16 @@
 @property (nonatomic,strong) NSLayoutConstraint *heightConstraint;
 
 @property (nonatomic,strong) NSMutableArray *dataArray;
+
+@property (nonatomic,strong) IHMsgSocket *socket;
+
+@property (nonatomic,strong) Patient *patient;
+
+@property (nonatomic,strong) CoreDataStack *coreDataStack;
+
 @end
 @implementation personInfoView
+
 
 -(id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -34,12 +44,15 @@
     }
     return self;
 }
+-(CoreDataStack *)coreDataStack
+{
+    _coreDataStack = [[CoreDataStack alloc] init];
+    return _coreDataStack;
+}
 -(void)setIsHideSubView:(BOOL)isHideSubView
 {
     _isHideSubView = isHideSubView;
-    
-    
-    if (!_isHideSubView) {
+        if (!_isHideSubView) {
         CGFloat subHeight = self.frame.size.height;
         self.heightConstraint.constant = subHeight*3+16;
         [UIView animateWithDuration:0.5 animations:^{
@@ -82,28 +95,36 @@
     
     self.dataArray = [[NSMutableArray alloc] init];
     
-    NSString *nameStr = tempPatient.pName?tempPatient.pName:@"王天扎";
-    NSString *genderStr = [NSString stringWithFormat:@"性别: %@",tempPatient.pGender?tempPatient.pGender:@"男"];
     
-    NSString *ageStr = [NSString stringWithFormat:@"年龄: %@",tempPatient.pAge?tempPatient.pAge:@"24"];
+    NSString *pID1 = [[NSUserDefaults standardUserDefaults] objectForKey:@"pID"];
+    NSString *dID1 = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
     
-    NSString *administrative = [NSString stringWithFormat:@"科室: %@",tempPatient.pDept?tempPatient.pDept:@"心内科"];
-    NSString *pID = [NSString stringWithFormat:@"住院号: %@",tempPatient.pID?tempPatient.pID:@"078899"];
-    NSString *pBedNum = [NSString stringWithFormat:@"床号: %@",tempPatient.pBedNum?tempPatient.pBedNum:@"098"];
+    NSDictionary *dict = @{@"pID":pID1,@"dID":dID1};
+    self.patient = [self.coreDataStack patientFetchWithDict:dict];
+
+    
+    NSString *nameStr = self.patient.pName?self.patient.pName:@"王天扎";
+    NSString *genderStr = [NSString stringWithFormat:@"性别: %@",self.patient.pGender?self.patient.pGender:@"男"];
+    
+    NSString *ageStr = [NSString stringWithFormat:@"年龄: %@",self.patient.pAge?self.patient.pAge:@"24"];
+    
+    NSString *administrative = [NSString stringWithFormat:@"科室: %@",self.patient.pDept?self.patient.pDept:@"心内科"];
+    NSString *pID = [NSString stringWithFormat:@"住院号: %@",self.patient.pID?self.patient.pID:@"078899"];
+    NSString *pBedNum = [NSString stringWithFormat:@"床号: %@",self.patient.pBedNum?self.patient.pBedNum:@"098"];
 
     NSString *pNULL1 = @" ";
 
     
-    NSString *pNation = [NSString stringWithFormat:@"民族: %@",tempPatient.pNation?tempPatient.pNation:@"汉"];
-    NSString *pProfession = [NSString stringWithFormat:@"职业: %@",tempPatient.pProfession?tempPatient.pProfession:@"法律"];
+    NSString *pNation = [NSString stringWithFormat:@"民族: %@",self.patient.pNation?self.patient.pNation:@"汉"];
+    NSString *pProfession = [NSString stringWithFormat:@"职业: %@",self.patient.pProfession?self.patient:@"法律"];
     NSString *presenter = [NSString stringWithFormat:@"病史陈述者: %@",tempPatient.presenter?tempPatient.presenter:@"本人"];
     NSString *pAdmissionTime = [NSString stringWithFormat:@"入院时间: %@",tempPatient.pAdmissionTime?tempPatient.pAdmissionTime:@"2015-08-09"]; //年月日
     NSString *pAdmissionTimeSub = tempPatient.pSubAdmissionTime?tempPatient.pSubAdmissionTime:@"上午 09:00:00";//时分秒
     
     NSString *pNULL2 = @" ";
-    NSString *pMaritalStatus = [NSString stringWithFormat:@"婚姻: %@",tempPatient.pMaritalStatus?tempPatient.pMaritalStatus:@"未婚"];
-    NSString *pProvince = [NSString stringWithFormat:@"籍贯: %@",tempPatient.pProvince?tempPatient.pProvince:@"上海"];
-    NSString *pDetailAddress = [NSString stringWithFormat:@"现居地: %@",tempPatient.pDetailAddress?tempPatient.pDetailAddress:@"上海市闸北区彭江路602号"];
+    NSString *pMaritalStatus = [NSString stringWithFormat:@"婚姻: %@",self.patient.pMaritalStatus?self.patient.pMaritalStatus:@"未婚"];
+    NSString *pProvince = [NSString stringWithFormat:@"籍贯: %@",self.patient.pProvince?self.patient.pProvince:@"上海"];
+    NSString *pDetailAddress = [NSString stringWithFormat:@"现居地: %@",self.patient.pDetailAddress?self.patient.pDetailAddress:@"上海市闸北区彭江路602号"];
     NSDate *date = [NSDate date];
     NSString *pRecordTime = [self getYearAndMonthWithDateStr:date];
     NSString *pSubRecordTime = [self getHourAndMinutesWithDateStr:date];

@@ -14,6 +14,9 @@
 #import "Doctor.h"
 #import "RecordNavagationViewController.h"
 //#import "AdmissionRecordsViewController.h"
+#import "TempRecord.h"
+#import "WriteCaseSaveViewController.h"
+
 
 @interface RecordManagedViewController ()<UITableViewDataSource,UITableViewDelegate,HeadViewDelegate,RecordManagedCellTableViewCellDelegate,RecordNavagationViewControllerDelegate>
 
@@ -36,6 +39,11 @@
 @property (nonatomic,strong) NSMutableArray *sumArray;
 
 @property (nonatomic,strong) RecordBaseInfo *didSelectedRecord;
+
+@property (nonatomic,strong) IHMsgSocket *socket;
+
+@property (nonatomic,strong) RecordBaseInfo *resultCaseInfo;
+
 @end
 
 @implementation RecordManagedViewController
@@ -43,6 +51,14 @@
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];
+}
+-(IHMsgSocket *)socket
+{
+    if (!_socket) {
+        _socket = [IHMsgSocket sharedRequest];
+        [_socket connectToHost:@"192.168.10.106" onPort:2323];
+    }
+    return _socket;
 }
 
 -(NSManagedObjectContext *)managedObjectContext
@@ -61,10 +77,10 @@
     if (!_classficationArray) {
         _classficationArray = [[NSMutableArray alloc] init];
         [_classficationArray addObject:@"未创建"];
-        [_classficationArray addObject:@"未提交"];
-        [_classficationArray addObject:@"未完整创建"];
-        [_classficationArray addObject:@"已提交未审核"];
-        [_classficationArray addObject:@"已审核"];
+        [_classficationArray addObject:@"保存未提交"];
+        [_classficationArray addObject:@"提交未审核"];
+        [_classficationArray addObject:@"主治医师审核"];
+        [_classficationArray addObject:@"（副）主任医师审核"];
         [_classficationArray addObject:@"撤回"];
     }
     return _classficationArray;
@@ -74,7 +90,6 @@
     if (!_dataDic) {
         _dataDic = [[NSMutableDictionary alloc] init];
         
-      //  NSArray *testArray = @[@"入院记录",@"日常病程记录",@"上级医师查房记录"];
         self.arry1 = [[NSMutableArray alloc] init];
         self.arry2 = [[NSMutableArray alloc] init];
         self.arry3 = [[NSMutableArray alloc] init];
@@ -106,6 +121,7 @@
     RecordNavagationViewController *recNav = (RecordNavagationViewController*)[nac.viewControllers firstObject];
     
     recNav.delegate = self;
+    
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -117,10 +133,6 @@
 {
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    //    _tableView.separatorColor = [UIColor clearColor];
-    //    _tableView.backgroundColor = [UIColor clearColor];
-    //    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
 }
 -(void)loadModel
 {
@@ -140,19 +152,59 @@
 
 -(void)didSelectedPatient:(NSString *)patientID
 {
+
+    NSString *dID = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
+
+    NSDictionary *dict = @{@"pid":patientID,@"did":dID};
+
+    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:2014 dictionary:dict block:^(IHSockRequest *request) {
+        
+        NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+        if (request.resp == -1) {
+            TempRecord *tempRecord = [[TempRecord alloc] initWithDic:nil];
+            tempRecord.caseType = @"入院病历";
+            tempRecord.caseStatus = @"未创建";
+            [tempArray addObject:tempRecord];
+            
+        }else {
+            for (NSDictionary *tempDict in request.responseData) {
+                TempRecord *tempRecord = [[TempRecord alloc] initWithDic:nil];
+
+                if ([tempDict.allKeys containsObject:@"caseType"]) {
+                    tempRecord.caseType = tempDict[@"caseType"];
+                }
+                if ([tempDict.allKeys containsObject:@"caseStatus"]) {
+                    tempRecord.caseStatus = tempDict[@"caseStatus"];
+                }
+                [tempArray addObject:tempRecord];
+            }
+        }
+        
+        for (int i=0; i< self.classficationArray.count; i++) {
+            NSString *tempStr = self.classficationArray[i];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"caseStatus = %@",tempStr];
+            NSArray *resultA = self.sumArray[i];
+            resultA = [tempArray filteredArrayUsingPredicate:predicate];
+            
+            [self.dataDic setObject:resultA forKey:tempStr];
+        }
+        
+        [self.tableView reloadData];
+        
+        
+        
+        
+    } failConection:^(NSError *error) {
+        
+    }];
+
     
     
-//    self.recordCases = [NSArray arrayWithArray:patient.medicalCases.array];
-//    for (int i=0; i< self.classficationArray.count; i++) {
-//        NSString *tempStr = self.classficationArray[i];
-//        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"caseState = %@",tempStr];
-//        NSArray *resultA = self.sumArray[i];
-//        resultA = [self.recordCases filteredArrayUsingPredicate:predicate];
-//
-//        [self.dataDic setObject:resultA forKey:tempStr];
-//    }
-//    
-//    [self.tableView reloadData];
+
+//    NSDictionary *tempDict= @{@"0":@"保存未提交",@"1":@"提交未审核",@"2":@"主治医师审核",@"3":@"（副）主任医师审核",@"4":@"主治医师审核未通过",@"5":@"副主任医师审核通过",@"6":@"副主任医师审核未通过",@"7":@"归档"   ,@"8":@"撤回"};
+    
+ // self.recordCases = [NSArray arrayWithArray:patient.medicalCases.array];
+    
 }
 
 #pragma mark - TableViewdelegate&&TableViewdataSource
@@ -193,50 +245,11 @@
     static NSString *indentifier = @"managementCell";
     RecordManagedCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:indentifier];
     cell.delegate = self;
-//    if (!cell) {
-//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indentifier];
-////        UIButton* backBtn=  [[UIButton alloc]initWithFrame:CGRectMake(0, 0, cell.frame.size.width, 45)];
-////        backBtn.tag = 20000;
-////        //[backBtn setBackgroundImage:[UIImage imageNamed:@"btn_on"] forState:UIControlStateHighlighted];
-////        backBtn.userInteractionEnabled = NO;
-////        [backBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-////        [cell.contentView addSubview:backBtn];
-//        
-//        
-//        //        UIImageView* line = [[UIImageView alloc]initWithFrame:CGRectMake(0, 44, 340, 1)];
-//        //        line.backgroundColor = [UIColor grayColor];
-//        //        [cell.contentView addSubview:line];
-//        //        [line release];
-//        
-//    }
-   // UIButton* backBtn = (UIButton*)[cell.contentView viewWithTag:20000];
+
     HeadView* view = [self.headViewArray objectAtIndex:indexPath.section];
-    //[backBtn setBackgroundImage:[UIImage imageNamed:@"btn_2_nomal"] forState:UIControlStateNormal];
-    
-    if (view.open) {
-        if (indexPath.row == _currentRow) {
-            // [backBtn setBackgroundImage:[UIImage imageNamed:@"btn_nomal"] forState:UIControlStateNormal];
-        }
-    }
-    
-    
-    ///config cell
-    
-    
-//    NSArray *tempA = self.dataDic[view.backBtn.titleLabel.text];
-//    
-//    RecordBaseInfo *rec = (RecordBaseInfo*)tempA[indexPath.row];
-//    
-//    if (rec.createdTime && rec.lastModifyTime) {
-//        cell.remainTimeLabel.text = [self timeIntervalBetweenTimes:rec.createdTime date2:rec.lastModifyTime];
-//    }
-//    
-   // cell.caseTypeLabel.text = rec.caseType;
-//    [cell.cellButton setTitle:@"编辑" forState:UIControlStateNormal];
-   // cell.textLabel.text = tempA[indexPath.row];
-    //cell.textLabel.backgroundColor = [UIColor clearColor];
-    //cell.textLabel.textColor = [UIColor whiteColor];
-    
+    NSArray *tempArray = [self.dataDic objectForKey:view.backBtn.titleLabel.text];
+    TempRecord *record = tempArray[indexPath.row];
+    cell.caseTypeLabel.text = record.caseType;
     return cell;
 }
 
@@ -264,6 +277,22 @@
         _currentRow = indexPath.row;
         [_tableView reloadData];
     }
+    
+    RecordManagedCellTableViewCell *cell = (RecordManagedCellTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
+
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"WriteCaseStoryboard" bundle:nil];
+    UINavigationController *nav = [storyBoard instantiateViewControllerWithIdentifier:@"writeNav"];
+    
+    WriteCaseSaveViewController *saveVC = (WriteCaseSaveViewController*)[nav.viewControllers firstObject];
+    
+    saveVC.currentDoctor = [CurrentDoctor currentDoctor];
+    saveVC.currentPatient = [[CurrentPatient alloc] init];
+    saveVC.isRemoveLeftButton = YES;
+    saveVC.caseType = cell.caseTypeLabel.text;
+    
+    [self.navigationController pushViewController:saveVC animated:YES];
+    
+    
 }
 
 #pragma mark - HeadViewdelegate

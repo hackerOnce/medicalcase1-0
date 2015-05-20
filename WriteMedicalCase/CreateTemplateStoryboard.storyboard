@@ -1629,7 +1629,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sh5-hY-1gF" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="vDE-d3-zPf" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="6081" y="2758"/>
+            <point key="canvasLocation" x="6189" y="2769"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="NRu-95-THY">

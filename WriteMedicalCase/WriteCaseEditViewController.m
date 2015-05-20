@@ -227,6 +227,8 @@
     self.navButton.layer.cornerRadius = self.navButton.frame.size.width/2;
     self.navButton.backgroundColor = [UIColor whiteColor];
     
+    
+    
 }
 -(void)viewWillAppear:(BOOL)animated
 {

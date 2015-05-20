@@ -70,6 +70,7 @@ static NSString *momdName = @"Model";
     return _managedObjectModel;
 }
 
+
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
     
     if (_persistentStoreCoordinator != nil) {
@@ -125,6 +126,19 @@ static NSString *momdName = @"Model";
     }
 }
 
+-(void)savePrivateContext
+{
+    NSManagedObjectContext *managedObjectContext = self.privateContext;
+    if (managedObjectContext != nil) {
+        NSError *error = nil;
+        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
+            // Replace this implementation with code to handle the error appropriately.
+            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+    }
+}
 #pragma mask - save node field to core data
 -(void)saveFieldNodeListToCoreData
 {
@@ -268,6 +282,12 @@ static NSString *momdName = @"Model";
     if ([dict.allKeys containsObject:@"pID"]) {
         pID = dict[@"pID"];
     }
+    if ([dict.allKeys containsObject:@"did"]) {
+        dID = dict[@"did"];
+    }
+    if ([dict.allKeys containsObject:@"pid"]) {
+        pID = dict[@"pid"];
+    }
     if ([dict.allKeys containsObject:@"caseType"]) {
         caseType = dict[@"caseType"];
     }
@@ -293,10 +313,21 @@ static NSString *momdName = @"Model";
         return [self fetchRecordWithDict:dict];
         
     }else {
+        
         recordBaseInfo = (RecordBaseInfo*)[tempArray firstObject];
     }
     
     return recordBaseInfo;
+}
+-(void)recordUpdatedWithDict:(NSDictionary*)dict
+{
+    RecordBaseInfo *recordToUpdated = [self fetchRecordWithDict:dict];
+    
+    [self updatePatient:recordToUpdated.patient dataWithDict:dict];
+    [self updateCaseContent:recordToUpdated.caseContent dataWithDict:dict];
+    [self updateRecord:recordToUpdated dataWithDict:dict];
+    
+    [self saveContext];
 }
 -(void)recordCreateWithDict:(NSDictionary*)dict
 {
@@ -311,6 +342,19 @@ static NSString *momdName = @"Model";
     if ([dict.allKeys containsObject:@"pID"]) {
         pID = dict[@"pID"];
     }
+    if ([dict.allKeys containsObject:@"dID"]) {
+        dID = dict[@"dID"];
+    }
+    if ([dict.allKeys containsObject:@"pID"]) {
+        pID = dict[@"pID"];
+    }
+    if ([dict.allKeys containsObject:@"did"]) {
+        dID = dict[@"did"];
+    }
+    if ([dict.allKeys containsObject:@"pid"]) {
+        pID = dict[@"pid"];
+    }
+    
     if ([dict.allKeys containsObject:@"caseType"]) {
         caseType = dict[@"caseType"];
     }else {
@@ -332,6 +376,10 @@ static NSString *momdName = @"Model";
         
         recordBaseInfo.caseContent =  caseContent;
         
+        NSEntityDescription *entityDesc2 = [NSEntityDescription entityForName: [Patient entityName]inManagedObjectContext:self.managedObjectContext];
+        Patient *patient = [[Patient alloc] initWithEntity:entityDesc2 insertIntoManagedObjectContext:self.managedObjectContext];
+        [self updatePatient:patient dataWithDict:dict];
+
         [self saveContext];
     }else {
         
@@ -343,6 +391,11 @@ static NSString *momdName = @"Model";
     if ([dict.allKeys containsObject:@"pID"]) {
         caseContent.pID = dict[@"pID"];
     }
+    
+    if ([dict.allKeys containsObject:@"pid"]) {
+       caseContent.pID = dict[@"pid"];
+    }
+    
     if ([dict.allKeys containsObject:@"recordCaseType"]) {
         caseContent.recordCaseType = dict[@"recordCaseType"];
     }
@@ -396,12 +449,18 @@ static NSString *momdName = @"Model";
     if ([dict.allKeys containsObject:@"dID"]) {
         recordBaseInfo.dID = dict[@"dID"];
     }
+    if ([dict.allKeys containsObject:@"did"]) {
+        recordBaseInfo.dID = dict[@"did"];
+    }
     if ([dict.allKeys containsObject:@"dName"]) {
         recordBaseInfo.dName = dict[@"dName"];
     }
    
     if ([dict.allKeys containsObject:@"pID"]) {
         recordBaseInfo.pID = dict[@"pID"];
+    }
+    if ([dict.allKeys containsObject:@"pid"]) {
+        recordBaseInfo.pID = dict[@"pid"];
     }
     if ([dict.allKeys containsObject:@"pName"]) {
         recordBaseInfo.pName = dict[@"pName"];
@@ -449,6 +508,147 @@ static NSString *momdName = @"Model";
     if ([dict.allKeys containsObject:@"chiefPhysiciandID"]) {
         recordBaseInfo.chiefPhysiciandID = dict[@"chiefPhysiciandID"];
     
+    }
+}
+
+
+-(Patient*)patientFetchWithDict:(NSDictionary*)dict
+{
+    NSString *dID;
+    NSString *pID;
+    NSPredicate *predicate;
+    Patient *patient;
+    if ([dict.allKeys containsObject:@"dID"]) {
+        dID = dict[@"dID"];
+    } else if ([dict.allKeys containsObject:@"did"]) {
+        dID = dict[@"did"];
+    }
+    if ([dict.allKeys containsObject:@"pid"]) {
+        pID = dict[@"pid"];
+    }else if ([dict.allKeys containsObject:@"pID"]) {
+        pID = dict[@"pID"];
+    }
+    
+    if (dID) {
+        
+    }else {
+        abort();
+    }
+    if (pID) {
+        
+    }else {
+        abort();
+    }
+    predicate = [NSPredicate predicateWithFormat:@"pID = %@ AND dID = %@",pID,dID];
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[Patient entityName]];
+    request.predicate = predicate;
+    
+    NSError *error;
+    NSArray *tempArray = [self.managedObjectContext executeFetchRequest:request error:&error];
+    
+    if(error){
+        NSLog(@"fetch error %@",error.description);
+    }
+    
+    if (tempArray.count == 0) {
+        
+        [self patientCreateWithDict:dict];
+        
+        return [self patientFetchWithDict:dict];
+        
+    }else {
+        patient = (Patient*)[tempArray firstObject];
+    }
+    
+    return patient;
+
+}
+-(void)patientCreateWithDict:(NSDictionary*)dict
+{
+    NSString *dID;
+    NSString *pID;
+    NSPredicate *predicate;
+    
+    if ([dict.allKeys containsObject:@"dID"]) {
+        dID = dict[@"dID"];
+    }
+    if ([dict.allKeys containsObject:@"pID"]) {
+        pID = dict[@"pID"];
+    }
+    
+    predicate = [NSPredicate predicateWithFormat:@"pID = %@ AND dID = %@",pID,dID];
+    
+    NSInteger count = [self fetchCountNSManagedObjectEntity:[Patient  entityName] WithNSPredicate:predicate];
+    if (count == 0) {
+        //create
+        NSEntityDescription *entityDesc = [NSEntityDescription entityForName: [Patient entityName]inManagedObjectContext:self.managedObjectContext];
+        Patient *patient = [[Patient alloc] initWithEntity:entityDesc insertIntoManagedObjectContext:self.managedObjectContext];
+        [self updatePatient:patient dataWithDict:dict];
+        
+        [self saveContext];
+    }else {
+        
+    }
+}
+-(void)updatePatient:(Patient*)patient dataWithDict:(NSDictionary*)dict
+{
+    if ([dict.allKeys containsObject:@"pBedNum"]) {
+        patient.pBedNum = dict[@"pBedNum"];
+    }
+    if ([dict.allKeys containsObject:@"pCity"]) {
+        patient.pCity = dict[@"pCity"];
+    }
+    if ([dict.allKeys containsObject:@"pCountOfHospitalized"]) {
+        patient.pCountOfHospitalized = dict[@"pCountOfHospitalized"];
+    }
+    if ([dict.allKeys containsObject:@"pDept"]) {
+        patient.pDept = dict[@"pDept"];
+    }
+    
+    if ([dict.allKeys containsObject:@"pDetailAddress"]) {
+        patient.pDetailAddress = dict[@"pDetailAddress"];
+    }
+    if ([dict.allKeys containsObject:@"pGender"]) {
+        patient.pGender = dict[@"pGender"];
+    }
+    if ([dict.allKeys containsObject:@"pID"]) {
+        patient.pID = dict[@"pID"];
+    }
+    if ([dict.allKeys containsObject:@"pLinkman"]) {
+        patient.pBedNum = dict[@"pLinkman"];
+    }
+    
+    if ([dict.allKeys containsObject:@"pLinkmanMobileNum"]) {
+        patient.pLinkmanMobileNum = dict[@"pLinkmanMobileNum"];
+    }
+    if ([dict.allKeys containsObject:@"pMaritalStatus"]) {
+        patient.pMaritalStatus = dict[@"pMaritalStatus"];
+    }
+    if ([dict.allKeys containsObject:@"pMobileNum"]) {
+        patient.pMobileNum = dict[@"pMobileNum"];
+    }
+    if ([dict.allKeys containsObject:@"pName"]) {
+        patient.pName = dict[@"pName"];
+    }
+    
+    if ([dict.allKeys containsObject:@"pNation"]) {
+        patient.pNation = dict[@"pNation"];
+    }
+    if ([dict.allKeys containsObject:@"pProfession"]) {
+        patient.pProfession = dict[@"pProfession"];
+    }
+    if ([dict.allKeys containsObject:@"pProvince"]) {
+        patient.pProvince = dict[@"pProvince"];
+    }
+    if ([dict.allKeys containsObject:@"pAge"]) {
+        patient.pAge = dict[@"pAge"];
+    }
+    if ([dict.allKeys containsObject:@"dID"]) {
+        patient.dID = dict[@"dID"];
+    }
+    if ([dict.allKeys containsObject:@"dName"]) {
+        patient.dName = dict[@"dName"];
     }
 }
 @end

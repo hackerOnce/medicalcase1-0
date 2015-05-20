@@ -14,6 +14,8 @@
     if (self = [super init]) {
         if ([doctorDic.allKeys containsObject:@"dID"]) {
             self.dID = doctorDic[@"dID"];
+        }else if([doctorDic.allKeys containsObject:@"id"]) {
+            self.dID = doctorDic[@"id"];
         }else {
             NSLog(@"医生必须包含dID");
             abort();
@@ -21,7 +23,9 @@
         
         if ([doctorDic.allKeys containsObject:@"dName"]) {
             self.dName = doctorDic[@"dName"];
-        }else {
+        }else if([doctorDic.allKeys containsObject:@"name"]) {
+            self.dName = doctorDic[@"name"];
+        }else{
             NSLog(@"医生必须包含dName");
             abort();
         }

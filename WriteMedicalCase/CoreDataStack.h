@@ -31,7 +31,9 @@
 
 -(RecordBaseInfo*)fetchRecordWithDict:(NSDictionary*)dict;
 
+-(Patient*)patientFetchWithDict:(NSDictionary*)dict;
 
+-(void)recordUpdatedWithDict:(NSDictionary*)dict;
 
 
 @end

@@ -44,7 +44,7 @@
 {
     if (!_socket) {
         _socket = [IHMsgSocket sharedRequest];
-        [_socket connectToHost:@"192.168.10.2" onPort:2333];
+        [_socket connectToHost:@"192.168.10.106" onPort:2323];
     }
     return _socket;
 }
@@ -190,7 +190,9 @@
 #pragma mask - load doctor from server
 -(void)getPatientDataByDoctorID:(NSString*)dID
 {
-    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:381 dictionary:@{@"doctor":dID} block:^(IHSockRequest *request) {
+    [[NSUserDefaults standardUserDefaults] setObject:@"2225" forKey:@"dID"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"张三" forKey:@"dName"];
+    [MessageObject messageObjectWithUsrStr:@"11" pwdStr:@"test" iHMsgSocket:self.socket optInt:2015 dictionary:@{@"did":@"2225"} block:^(IHSockRequest *request) {
         if ([request.responseData isKindOfClass:[NSArray class]]) {
             NSArray *tempArray = (NSArray*)request.responseData;
             
@@ -201,27 +203,33 @@
                 NSMutableArray *outOfHospital_ids = [[NSMutableArray alloc] init];
 
                 for (NSDictionary *patientDict in tempArray) {
+                    TempPatient *patient = [[TempPatient alloc] initWithPatientID:nil];
+                    
                     NSString *is_in_hospital;
                     NSString *pID;
-                    
-                    if ([patientDict.allKeys containsObject:@"is_in_hospital"]) {
-                        is_in_hospital = patientDict[@"is_in_hospital"];
-                        
+                    NSString *pName;
+                    if ([patientDict.allKeys containsObject:@"brzt"]) {
+                        patient.patientState = [patientDict[@"brzt"] integerValue] == 1? @"未出院":@"已出院";
+                        is_in_hospital = patientDict[@"brzt"];
                     }
-                    if ([patientDict.allKeys containsObject:@"patient_id"]) {
-                        pID = patientDict[@"patient_id"];
+                    if ([patientDict.allKeys containsObject:@"syxh"]) {
+                        patient.pID = patientDict[@"syxh"];
                     }
                     
-                    if([is_in_hospital integerValue] == 0){
-                        [inHospital_ids addObject:pID];
+                    if ([patientDict.allKeys containsObject:@"hzxm"]) {
+                        patient.pName = patientDict[@"hzxm"];
+                    }
+                    if([is_in_hospital integerValue] == 1){
+                        [inHospital_ids addObject:patient];
                     }else {
-                        [outOfHospital_ids addObject:pID];
+                        [outOfHospital_ids addObject:patient];
                     }
                 }
                 [self.patientDic setObject:inHospital_ids forKey:@"本次住院"];
                 [self.patientDic setObject:outOfHospital_ids forKey:@"已出院(未归档)"];
                 
                 [self.tableView reloadData];
+                
             }
         }
         
@@ -282,8 +290,12 @@
     HeadView* view = [self.headViewArray objectAtIndex:indexPath.section];
     
     NSArray *tempA = self.patientDic[view.backBtn.titleLabel.text];
-    NSString *patientID = (NSString*)tempA[indexPath.row];
-    cell.textLabel.text = patientID;
+    TempPatient *patient = (TempPatient*)tempA[indexPath.row];
+    cell.textLabel.text = patient.pName;
+    
+    if (indexPath.row == 0) {
+        [cell setSelected:YES];
+    }
     return cell;
 }
 
@@ -292,14 +304,21 @@
     
     HeadView* view = [self.headViewArray objectAtIndex:indexPath.section];
 
-    if (view.open) {
-        _currentRow = indexPath.row;
-        [_tableView reloadData];
-    }
-    
+//    if (view.open) {
+//        _currentRow = indexPath.row;
+//        [_tableView reloadData];
+//    }
+//    
     NSArray *tempA = self.patientDic[view.backBtn.titleLabel.text];
-    NSString *patientID = (NSString*)tempA[indexPath.row];
-    [self.delegate didSelectedPatient:patientID];
+    TempPatient *patientID = (TempPatient*)tempA[indexPath.row];
+    
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",patientID.pID] forKey:@"pID"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",patientID.pName] forKey:@"pName"];
+
+    
+    [self.delegate didSelectedPatient:patientID.pID];
+
 }
 
 

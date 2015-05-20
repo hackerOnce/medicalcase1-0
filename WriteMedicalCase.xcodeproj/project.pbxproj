@@ -117,6 +117,7 @@
 		476475631B09D4B1004AFDF1 /* RecordBaseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 476475621B09D4B1004AFDF1 /* RecordBaseInfo.m */; };
 		476475661B09D4B1004AFDF1 /* ParentNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 476475651B09D4B1004AFDF1 /* ParentNode.m */; };
 		476475691B09D4B1004AFDF1 /* CaseContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 476475681B09D4B1004AFDF1 /* CaseContent.m */; };
+		4764756C1B0AD761004AFDF1 /* TempRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 4764756B1B0AD761004AFDF1 /* TempRecord.m */; };
 		478858E31AF1BC9E002CD361 /* AutoHeightTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */; };
 		478858EC1AF1FD06002CD361 /* CustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EB1AF1FD06002CD361 /* CustomSegue.m */; };
 		478858EF1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EE1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m */; };
@@ -124,6 +125,7 @@
 		478858F51AF712E0002CD361 /* TempPatient.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858F41AF712E0002CD361 /* TempPatient.m */; };
 		478858F81AF7130D002CD361 /* TempCaseBaseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858F71AF7130D002CD361 /* TempCaseBaseInfo.m */; };
 		478859081AF71A70002CD361 /* TempDoctor.m in Sources */ = {isa = PBXBuildFile; fileRef = 478859071AF71A70002CD361 /* TempDoctor.m */; };
+		478BD1901B0C376600EC632E /* SelectCommitDoctorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 478BD18F1B0C376600EC632E /* SelectCommitDoctorViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -354,6 +356,8 @@
 		476475651B09D4B1004AFDF1 /* ParentNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParentNode.m; sourceTree = "<group>"; };
 		476475671B09D4B1004AFDF1 /* CaseContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaseContent.h; sourceTree = "<group>"; };
 		476475681B09D4B1004AFDF1 /* CaseContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaseContent.m; sourceTree = "<group>"; };
+		4764756A1B0AD761004AFDF1 /* TempRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempRecord.h; sourceTree = "<group>"; };
+		4764756B1B0AD761004AFDF1 /* TempRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempRecord.m; sourceTree = "<group>"; };
 		478858E11AF1BC9E002CD361 /* AutoHeightTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoHeightTextView.h; sourceTree = "<group>"; };
 		478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoHeightTextView.m; sourceTree = "<group>"; };
 		478858EA1AF1FD06002CD361 /* CustomSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSegue.h; sourceTree = "<group>"; };
@@ -368,6 +372,8 @@
 		478858F71AF7130D002CD361 /* TempCaseBaseInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempCaseBaseInfo.m; sourceTree = "<group>"; };
 		478859061AF71A70002CD361 /* TempDoctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempDoctor.h; sourceTree = "<group>"; };
 		478859071AF71A70002CD361 /* TempDoctor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempDoctor.m; sourceTree = "<group>"; };
+		478BD18E1B0C376600EC632E /* SelectCommitDoctorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectCommitDoctorViewController.h; sourceTree = "<group>"; };
+		478BD18F1B0C376600EC632E /* SelectCommitDoctorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCommitDoctorViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -483,6 +489,8 @@
 				478858EA1AF1FD06002CD361 /* CustomSegue.h */,
 				478858EB1AF1FD06002CD361 /* CustomSegue.m */,
 				4705F0121AF1049E0050D47A /* WriteCaseStoryboard.storyboard */,
+				478BD18E1B0C376600EC632E /* SelectCommitDoctorViewController.h */,
+				478BD18F1B0C376600EC632E /* SelectCommitDoctorViewController.m */,
 				4705A4841AF5B53B007FD2B9 /* PreviewViewController.h */,
 				4705A4851AF5B53B007FD2B9 /* PreviewViewController.m */,
 				4705A47F1AF4B41A007FD2B9 /* writeCaseFirstItemViewController.h */,
@@ -681,6 +689,8 @@
 				47301D0E1AFC67EA005D42CC /* RecordNavagationViewController.m */,
 				47301D0F1AFC67EA005D42CC /* RecordManagedViewController.h */,
 				47301D101AFC67EA005D42CC /* RecordManagedViewController.m */,
+				4764756A1B0AD761004AFDF1 /* TempRecord.h */,
+				4764756B1B0AD761004AFDF1 /* TempRecord.m */,
 				47301D111AFC67EA005D42CC /* RecordManagedCellTableViewCell.h */,
 				47301D121AFC67EA005D42CC /* RecordManagedCellTableViewCell.m */,
 				47301D081AFC6548005D42CC /* CaseManagement.storyboard */,
@@ -947,6 +957,7 @@
 				474D82B01AFC90FA004A4151 /* TemplateLeftDetailFirstViewController.m in Sources */,
 				478859081AF71A70002CD361 /* TempDoctor.m in Sources */,
 				4705F03A1AF1062C0050D47A /* MBProgressHUD+MJ.m in Sources */,
+				4764756C1B0AD761004AFDF1 /* TempRecord.m in Sources */,
 				4705F0C21AF10E580050D47A /* KeyValueObserver.m in Sources */,
 				4705F0331AF1062C0050D47A /* IHMsgSocket.m in Sources */,
 				4705F06D1AF1094C0050D47A /* NSObject+SBJson.m in Sources */,
@@ -955,6 +966,7 @@
 				4705F0991AF109C10050D47A /* WLKView.m in Sources */,
 				4705F07F1AF109770050D47A /* WLKCaseNodeCell.m in Sources */,
 				4705F0301AF1062C0050D47A /* GCDAsyncSocket.m in Sources */,
+				478BD1901B0C376600EC632E /* SelectCommitDoctorViewController.m in Sources */,
 				474D82BC1AFC9381004A4151 /* ModelPlateConditionViewController.m in Sources */,
 				474D82B91AFC923E004A4151 /* HUDSubViewController.m in Sources */,
 				474D82AD1AFC90FA004A4151 /* ShowTemplateViewControllerTwo.m in Sources */,
