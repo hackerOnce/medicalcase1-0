@@ -229,8 +229,8 @@
     [chiefPhysician setObject:@"" forKey:@"dProfessionalTitle"];
     [chiefPhysician setObject:@"" forKey:@"dept"];
     
-    [self.originDict setObject:chiefPhysician forKey:@"resident"];
-    [self.originDict setObject:chiefPhysician forKey:@"attendingPhysician"];
+    [self.originDict setObject:resident forKey:@"resident"];
+    [self.originDict setObject:attendingPhysician forKey:@"attendingPhysician"];
     [self.originDict setObject:chiefPhysician forKey:@"chiefPhysician"];
     
     [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:20001 dictionary:self.originDict block:^(IHSockRequest *request) {
