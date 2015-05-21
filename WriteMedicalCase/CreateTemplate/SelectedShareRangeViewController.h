@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface SelectedShareRangeViewController : UIViewController
+@property (nonatomic,strong) NSMutableArray *selectedTemplates;
 
 @end

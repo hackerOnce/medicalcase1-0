@@ -14,7 +14,7 @@
 #import "Template.h"
 #import "ShowTemplateDetailViewController.h"
 #import "SelectedShareRangeViewController.h"
-
+#import "SelectASharedTemplateViewController.h"
 #import "ShowTemplateTableViewCell.h"
 
 @interface ShowTemplateViewController ()<UITableViewDataSource,UITableViewDelegate,NSFetchedResultsControllerDelegate,ShowTemplateTableViewCellDelegate>
@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic) CGFloat keyboardOverlap;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 
 @property (nonatomic,strong) NSFetchedResultsController *fetchResultController;
 
@@ -32,6 +33,13 @@
 @property (nonatomic) BOOL isNewsPage;
 
 @property (nonatomic) NSInteger test;
+
+@property (nonatomic,strong) NSMutableArray *templateArray;//template
+@property (nonatomic,strong) IHMsgSocket *socket;
+
+@property (nonatomic,strong) TemplateModel *templateModel;
+
+@property (nonatomic,strong) NSString *templateType;
 @end
 @implementation ShowTemplateViewController
 
@@ -51,6 +59,15 @@
     }
     return _dataArray;
 }
+
+-(IHMsgSocket *)socket
+{
+    if (!_socket) {
+        _socket = [IHMsgSocket sharedRequest];
+        [_socket connectToHost:@"192.168.10.106" onPort:2323];
+    }
+    return _socket;
+}
 - (IBAction)cancelBtn:(UIBarButtonItem *)sender {
     [self dismissViewControllerAnimated:YES completion:^{
         
@@ -64,6 +81,8 @@
 
     [self setUpTableView];
     [self addKVOObserver];
+    
+    
 }
 -(void)setUpTableView
 {
@@ -85,36 +104,69 @@
     }else {
         self.isNewsPage = NO;
     }
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:[Template entityName]];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"node.nodeName = %@",tempStr];
     
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createDate" ascending:NO];
-    NSSortDescriptor *sectionSort = [[NSSortDescriptor alloc] initWithKey:@"section" ascending:NO];
-    fetchRequest.predicate = predicate;
-    fetchRequest.sortDescriptors = @[sortDescriptor,sectionSort];
+    NSString *dID = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
+    NSString *tempType = tempStr;
     
-    self.fetchResultController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.coreDataStack.managedObjectContext sectionNameKeyPath:@"section" cacheName:nil];
-    self.fetchResultController.delegate = self;
-    NSError *error = nil;
-    if (![self.fetchResultController performFetch:&error]) {
-        NSLog(@"error: %@",error.description);
-        abort();
-    }else {
-        [self.tableView reloadData];
+    self.templateType = [self getMBBHWithEnglishName:tempType];
+    
+    self.templateArray = [[NSMutableArray alloc] init];
+
+    [MessageObject messageObjectWithUsrStr:@"2225" pwdStr:@"test" iHMsgSocket:self.socket optInt:2003 dictionary:@{@"id":dID,@"mbbh":[NSString stringWithFormat:@"%@",[self getMBBHWithEnglishName:tempType]]} block:^(IHSockRequest *request) {
         
+        if ([request.responseData isKindOfClass:[NSArray class]]) {
+            NSArray *tempArray = (NSArray*)request.responseData;
+            
+            for (NSDictionary *dict in tempArray) {
+                TemplateModel *templateModel = [[TemplateModel alloc] initWithDic:dict];
+                [self.templateArray addObject:templateModel];
+            }
+            self.spinner.hidden = YES;
+            [self.tableView reloadData];
+        }
+    } failConection:^(NSError *error) {
+        self.spinner.hidden = YES;
+    }];
+    
+}
+-(NSString*)getMBBHWithEnglishName:(NSString*)name
+{
+    static NSDictionary *dic = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dic = @{
+                @"入院记录" : @"ihefe101",
+                @"主诉" : @"ihefe10101",
+                @"现病史" : @"ihefe10102",
+                @"过去史" : @"ihefe10103",
+                @"系统回顾" : @"ihefe10104",
+                @"个人史" : @"ihefe10105",
+                @"月经史" : @"ihefe10106",
+                @"婚姻史" : @"ihefe10107",
+                @"婚育史" : @"ihefe10107",//婚育史
+                @"家族史" : @"ihefe10108",
+                @"体格检查" : @"ihefe10109",
+                @"专科检查" : @"ihefe10110",
+                @"辅助检查" : @"ihefe10111",
+                @"初步诊断" : @"ihefe10112",
+                @"入院诊断" : @"ihefe10113",
+                @"确诊诊断" : @"ihefe10114" //补充诊断
+                };
+    });
+    if ([dic.allKeys containsObject:name]) {
+        return dic[name];
     }
+    return nil;
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    NSLog(@"section count %@", @(self.fetchResultController.sections.count));
-    return self.fetchResultController.sections.count ;
+    return 1 ;
 
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-   // return self.dataArray.count;
-    id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchResultController.sections[section];
-    return [sectionInfo numberOfObjects] ;
+   
+    return self.templateArray.count ;
     
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -133,6 +185,8 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    self.templateModel =(TemplateModel*)[self.templateArray objectAtIndex:indexPath.row];
+
     [self performSegueWithIdentifier:@"templateDetail" sender:nil];
 }
 
@@ -144,36 +198,30 @@
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        Template *template =(Template*) [self.fetchResultController objectAtIndexPath:indexPath];
-        [self.managedObjectContext deleteObject:template];
-        [self.coreDataStack saveContext];
+        
     }
 }
+
 -(void)configCell:(ShowTemplateTableViewCell*)cell withIndexPath:(NSIndexPath*)indexPath
 {
-//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//
-//    Template *template =(Template*) [self.fetchResultController objectAtIndexPath:indexPath];
-//    
-////    NSLog(@"template condition : %@",template.condition);
-////    NSLog(@"template content : %@",template.content);
-////    NSLog(@"template create date : %@",template.createDate);
-//    
-//    
-//    UILabel *conditionLabel = (UILabel*)[cell viewWithTag:1001];
-//    UILabel *contentLabel = (UILabel*)[cell viewWithTag:1003];
-//    
-//    conditionLabel.text = template.condition;
-//    
-//    NSString *content;
-//    if (template.content.length > 100) {
-//        content = [NSString stringWithFormat:@"%@...", [template.content substringToIndex:100]];
-//    }else {
-//        content = template.content;
-//    }
-//    
-//    contentLabel.text = content;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    TemplateModel *templateModel = [self.templateArray objectAtIndex:indexPath.row];
+    
+    
+    cell.cellIndexPath = indexPath;
+    
+    UILabel *conditionLabel = (UILabel*)[cell viewWithTag:1001];
+    UILabel *contentLabel = (UILabel*)[cell viewWithTag:1003];
+    
+    conditionLabel.text = templateModel.condition;
 
+    NSString *content;
+    if (templateModel.content.length > 100) {
+        content = [NSString stringWithFormat:@"%@...", [templateModel.content substringToIndex:100]];
+    }else {
+        content = templateModel.content;
+    }
+    contentLabel.text = content;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -205,14 +253,6 @@
 {
     return UITableViewAutomaticDimension;
 }
-
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchResultController.sections[section];
-    return sectionInfo.name;
-}
-
-
 - (void)cellDidOpen:(UITableViewCell *)cell
 {
     NSIndexPath *currentEditingIndexPath = [self.tableView indexPathForCell:cell];
@@ -226,7 +266,31 @@
 
 -(void)buttonDeleteActionClicked:(UIButton *)sender withCell:(ShowTemplateTableViewCell *)cell
 {
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    TemplateModel *templateModel = (TemplateModel*)[self.templateArray objectAtIndex:indexPath.row];
+    [self deleteATemplate:templateModel];
+    [self.templateArray removeObjectAtIndex:indexPath.row];
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+-(void)deleteATemplate:(TemplateModel*)templateModel
+{
+    NSString *dID = templateModel.dID;
+    NSString *templateID = templateModel.templateID;
+    NSString *templateType = templateModel.templateType;
     
+    
+    [MessageObject messageObjectWithUsrStr:@"2225" pwdStr:@"test" iHMsgSocket:self.socket optInt:2004 dictionary:@{@"id":templateID,@"did":dID,@"mbbh":templateType} block:^(IHSockRequest *request) {
+        
+        if (request.resp == 0) {
+            
+        }else {
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"模板删除失败" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+//            [alert show];
+        }
+        
+    } failConection:^(NSError *error) {
+        
+    }];
 }
 -(void)buttonMoreActionClicked:(UIButton *)sender withCell:(ShowTemplateTableViewCell *)cell
 {
@@ -234,10 +298,20 @@
 }
 -(void)buttonShareActionClicked:(UIButton *)sender withCell:(ShowTemplateTableViewCell *)cell
 {
+    if ([sender.titleLabel.text isEqualToString:@""]) {
+        
+    }
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    TemplateModel *templateModel = (TemplateModel*)[self.templateArray objectAtIndex:indexPath.row];
+    
     UIStoryboard *myStoryBoard = self.storyboard;
     UINavigationController *shareRangeVC = [myStoryBoard instantiateViewControllerWithIdentifier:@"SelectedShareRangeNav"];
+    SelectedShareRangeViewController *rangeVC = (SelectedShareRangeViewController*)[shareRangeVC.viewControllers firstObject];
+    rangeVC.selectedTemplates = [[NSMutableArray alloc] initWithArray:@[templateModel]];
     UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:shareRangeVC];
-    [popover presentPopoverFromRect:sender.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    CGRect rectMake = sender.frame;
+    rectMake.origin.y = rectMake.size.width/2;
+    [popover presentPopoverFromRect:rectMake inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     
 }
 -(void)buttonIgnoreActionClicked:(UIButton *)sender withCell:(ShowTemplateTableViewCell *)cell
@@ -294,7 +368,13 @@
 {
     if ([segue.identifier isEqualToString:@"templateDetail"]) {
         ShowTemplateDetailViewController *templateDetailVC = (ShowTemplateDetailViewController*)segue.destinationViewController;
-        //
+        templateDetailVC.templateModel = self.templateModel;
+    }
+    
+    if ([segue.identifier isEqualToString:@"ShareVCSegue"]) {
+        UINavigationController *nav = (UINavigationController*)segue.destinationViewController;
+        SelectASharedTemplateViewController *sharedVC = (SelectASharedTemplateViewController*)[nav.viewControllers firstObject];
+        sharedVC.templateType = self.templateType;
     }
 }
 @end

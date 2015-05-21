@@ -11,15 +11,27 @@
 
 @interface SelectedShareRangeViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,strong) NSArray *dataArray;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@property(nonatomic,strong) NSString *sharedStyle;
 @end
 
 @implementation SelectedShareRangeViewController
 -(NSArray *)dataArray
 {
     if (!_dataArray) {
-        _dataArray = @[@"个人分享",@"科室分享",@"全院分享"];
+        _dataArray = @[@"个人分享",@"科室分享",@"个人和科室混合",@"全院分享"];
     }
    return _dataArray;
+}
+
+
+-(NSMutableArray *)selectedTemplates
+{
+    if (!_selectedTemplates) {
+        _selectedTemplates = [[NSMutableArray alloc] init];
+    }
+    return _selectedTemplates;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -43,6 +55,9 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSString *selectedStr = [self.dataArray objectAtIndex:indexPath.row];
+    self.sharedStyle = selectedStr;
+    
     [self performSegueWithIdentifier:@"showDoctorSegue" sender:nil];
 }
 
@@ -52,6 +67,9 @@
     
     if ([segue.identifier isEqualToString:@"showDoctorSegue"]) {
         
+        SelectedDoctorViewController *selectedDoctor = (SelectedDoctorViewController*)segue.destinationViewController;
+        selectedDoctor.selectedTemplates = [NSMutableArray arrayWithArray:self.selectedTemplates];
+        selectedDoctor.selectedSharedStyle =[NSString stringWithFormat:@"%@",self.sharedStyle];
     }
 }
 

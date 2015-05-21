@@ -17,7 +17,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     self.title = @"模板概览";
     
@@ -27,7 +26,6 @@
 -(void)setUptableView
 {
     self.tableView.tableFooterView = [[UIView alloc] init];
-    //self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
 }
 
 #pragma mask - table data source
@@ -37,7 +35,7 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 3+2;
+    return 1+2;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -51,7 +49,7 @@
        // cell.se
         [self configConditionCell:cell atIndexPath:indexPath];
         //cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width);
-    }else if(indexPath.row == 4) {///最后一个cell
+    }else if(indexPath.row == 2) {///最后一个cell
         cell = [tableView dequeueReusableCellWithIdentifier:otherCellID];
         [self configOtherCell:cell atIndexPath:indexPath];
         //cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, cell.bounds.size.width);
@@ -67,24 +65,24 @@
 -(void)configConditionCell:(UITableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath
 {
     UILabel *conditionLabel = (UILabel*)[cell viewWithTag:1001];
-    conditionLabel.text = @"性别男，心内科，性别男，心内科性别男，心内科性别男，心内科性别男，心内科性别男，心内科，性别男，心内科性别男，心内科性别男，心内科性别男，心内科性别男，心内科，性别男，心内科性别男，心内科性别男，心内科性别男，心内科性别男，心内科，性别男，心内科性别男，心内科性别男，心内科性别男，心内科性别男，心内科，性别男，心内科性别男，心内科性别男，心内科性别男，心内科性别男，心内科，性别男，心内科性别男，心内科性别男，心内科性别";
+    conditionLabel.text = self.templateModel.condition;
 }
 -(void)configContentCell:(UITableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath
 {
     UILabel *titleLabel = (UILabel*)[cell viewWithTag:1001];
     UILabel *contentLabel = (UILabel*)[cell viewWithTag:1002];
     
-    titleLabel.text = @"住宿";
-    contentLabel.text = @"性别男，心内科，性别男，心内科性别男，心内科性别男，心内科性别男，心内科性别男，心内科，性别男，心内科性别男，心内科性别男，心内科性别男，心内科性别男，心内科，性别男，心内科性别男，心内科性别男，心内科性别男，心内科性别男，心内科，性别男，心内科性别男，心内科性别男，心内科性别男，心内科性别男，心内科，性别男，心内科性别男，心内科性别男，心内科性别男，心内科性别男，心内科，性别男，心内科性别男，心内科性别男，心内科性别男，心内科";
+    titleLabel.text = @"内容";
+    contentLabel.text = self.templateModel.content;
 
 }
 -(void)configOtherCell:(UITableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath
 {
     UILabel *createLabel = (UILabel*)[cell viewWithTag:1001];
     UILabel *sourceLabel = (UILabel*)[cell viewWithTag:1002];
-
-    createLabel.text = @"创建人:王刚";
-    sourceLabel.text = @"来源: 个人分享";
+    createLabel.text = [NSString stringWithFormat:@"创建人:%@",self.templateModel.createPeople];
+    
+    sourceLabel.text = self.templateModel.sourceType?[NSString stringWithFormat:@"来源:%@",self.templateModel.sourceType]:@" ";
 }
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -92,7 +90,6 @@
         
     }else {
         cell.separatorInset = UIEdgeInsetsMake(0, cell.bounds.size.width+16, 0, 0);
-
     }
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -110,7 +107,6 @@
         }else {
             sizingCell = [self.tableView dequeueReusableCellWithIdentifier:@"ContentCell"];
             [self configContentCell:sizingCell atIndexPath:indexPath];
-           // sizingCell.separatorInset = UIEdgeInsetsMake(0, 16, 0, sizingCell.bounds.size.width);
 
         }
     

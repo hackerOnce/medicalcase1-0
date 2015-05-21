@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface SelectedDoctorViewController : UIViewController
-
+@property (nonatomic,strong) NSMutableArray *selectedTemplates;
+@property (nonatomic,strong) NSString *selectedSharedStyle;
 @end

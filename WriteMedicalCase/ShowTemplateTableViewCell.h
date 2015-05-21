@@ -33,4 +33,5 @@
 @property (nonatomic) BOOL isNewsPage;
 @property (nonatomic) BOOL isShareTemplate;
 @property (nonatomic,strong) TemplateModel *templateModel;
+@property (nonatomic,strong) NSIndexPath *cellIndexPath;
 @end

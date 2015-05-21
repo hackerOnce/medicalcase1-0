@@ -70,7 +70,7 @@
     
     self.selectedString = celllabel.text;
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDidSelectedFinalTemplate object:celllabel.text];
+   // [[NSNotificationCenter defaultCenter] postNotificationName:kDidSelectedFinalTemplate object:celllabel.text];
     
 }
 -(void)configCell:(UITableViewCell*)cell withIndexPath:(NSIndexPath*)indexPath

@@ -126,6 +126,7 @@
 		478858F81AF7130D002CD361 /* TempCaseBaseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858F71AF7130D002CD361 /* TempCaseBaseInfo.m */; };
 		478859081AF71A70002CD361 /* TempDoctor.m in Sources */ = {isa = PBXBuildFile; fileRef = 478859071AF71A70002CD361 /* TempDoctor.m */; };
 		478BD1901B0C376600EC632E /* SelectCommitDoctorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 478BD18F1B0C376600EC632E /* SelectCommitDoctorViewController.m */; };
+		47ADB1BA1B0D6DF40037912B /* Department.m in Sources */ = {isa = PBXBuildFile; fileRef = 47ADB1B91B0D6DF40037912B /* Department.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -374,6 +375,8 @@
 		478859071AF71A70002CD361 /* TempDoctor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempDoctor.m; sourceTree = "<group>"; };
 		478BD18E1B0C376600EC632E /* SelectCommitDoctorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectCommitDoctorViewController.h; sourceTree = "<group>"; };
 		478BD18F1B0C376600EC632E /* SelectCommitDoctorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCommitDoctorViewController.m; sourceTree = "<group>"; };
+		47ADB1B81B0D6DF40037912B /* Department.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Department.h; sourceTree = "<group>"; };
+		47ADB1B91B0D6DF40037912B /* Department.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Department.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -732,6 +735,8 @@
 				476474281B034B2B004AFDF1 /* SelectASharedTemplateViewController.m */,
 				476474301B0437C7004AFDF1 /* SelectedDoctorViewController.h */,
 				476474311B0437C7004AFDF1 /* SelectedDoctorViewController.m */,
+				47ADB1B81B0D6DF40037912B /* Department.h */,
+				47ADB1B91B0D6DF40037912B /* Department.m */,
 				476474331B0444E8004AFDF1 /* SelectedShareRangeViewController.h */,
 				476474341B0444E8004AFDF1 /* SelectedShareRangeViewController.m */,
 				4764742D1B03593A004AFDF1 /* SelectedASharedTemplateTableViewCell.h */,
@@ -975,6 +980,7 @@
 				474D82B21AFC90FA004A4151 /* TemplateLeftDetailViewController.m in Sources */,
 				4705F0381AF1062C0050D47A /* UIView+DY.m in Sources */,
 				474D82B11AFC90FA004A4151 /* TemplateLeftDetailSecondViewController.m in Sources */,
+				47ADB1BA1B0D6DF40037912B /* Department.m in Sources */,
 				476474351B0444E8004AFDF1 /* SelectedShareRangeViewController.m in Sources */,
 				47301D191AFC686E005D42CC /* CaseManagementSplitViewController.m in Sources */,
 				4705EFF51AF1044B0050D47A /* ViewController.m in Sources */,

@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface SelectASharedTemplateViewController : UIViewController
-
+@property (nonatomic,strong) NSString *templateType;
 @end
