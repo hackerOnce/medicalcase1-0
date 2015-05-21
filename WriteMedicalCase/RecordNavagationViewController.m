@@ -190,9 +190,9 @@
 #pragma mask - load doctor from server
 -(void)getPatientDataByDoctorID:(NSString*)dID
 {
-    [[NSUserDefaults standardUserDefaults] setObject:@"2225" forKey:@"dID"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"2216" forKey:@"dID"];
     [[NSUserDefaults standardUserDefaults] setObject:@"张三" forKey:@"dName"];
-    [MessageObject messageObjectWithUsrStr:@"11" pwdStr:@"test" iHMsgSocket:self.socket optInt:2015 dictionary:@{@"did":@"2225"} block:^(IHSockRequest *request) {
+    [MessageObject messageObjectWithUsrStr:@"2216" pwdStr:@"test" iHMsgSocket:self.socket optInt:2015 dictionary:@{@"did":@"2225"} block:^(IHSockRequest *request) {
         if ([request.responseData isKindOfClass:[NSArray class]]) {
             NSArray *tempArray = (NSArray*)request.responseData;
             
@@ -206,8 +206,7 @@
                     TempPatient *patient = [[TempPatient alloc] initWithPatientID:nil];
                     
                     NSString *is_in_hospital;
-                    NSString *pID;
-                    NSString *pName;
+   
                     if ([patientDict.allKeys containsObject:@"brzt"]) {
                         patient.patientState = [patientDict[@"brzt"] integerValue] == 1? @"未出院":@"已出院";
                         is_in_hospital = patientDict[@"brzt"];
@@ -325,14 +324,21 @@
 #pragma mark - HeadViewdelegate
 -(void)selectedWith:(HeadView *)view{
     self.currentRow = -1;
+    
     if (view.open) {
         view.open = NO;
-        [_tableView reloadData];
+
+        
+        NSIndexSet *indexSet=[NSIndexSet indexSetWithIndex:view.section];
+        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
         return;
+    }else {
+        view.open = YES;
+        
+        NSIndexSet *indexSet=[NSIndexSet indexSetWithIndex:view.section];
+        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+                _currentSection = view.section;
     }
-    _currentSection = view.section;
-   // [self reset];
-    
 }
 
 - (void)reset

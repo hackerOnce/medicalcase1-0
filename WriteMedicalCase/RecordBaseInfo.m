@@ -34,6 +34,7 @@
 @dynamic doctors;
 @dynamic patient;
 @dynamic caseContent;
+@dynamic caseID;
 +(NSString*)entityName
 {
     return @"RecordBaseInfo";

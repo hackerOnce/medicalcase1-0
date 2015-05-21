@@ -27,7 +27,6 @@
 
 @property (nonatomic,strong) NSString *doctorID;
 
-@property (nonatomic,strong) UIRefreshControl *refreshControl;
 
 @property (nonatomic,strong) TemplateModel *currentTemplateModel;
 
@@ -36,6 +35,9 @@
 @property (nonatomic) BOOL searchFlag;
 
 @property (nonatomic,strong) NSMutableArray *tempArray;
+
+
+@property (nonatomic,strong) NSMutableArray *templateArray;
 @end
 
 @implementation WriteCaseShowTemplateViewController
@@ -60,13 +62,7 @@
     self.tableView.layer.shadowColor = [UIColor darkGrayColor].CGColor;
     
     self.tableView.layer.borderWidth = 1;
-    
-    UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
-    [refresh addTarget:self action:@selector(refreshTableViewData:) forControlEvents:UIControlEventValueChanged];
-    self.refreshControl = refresh;
-  
-    [self.tableView addSubview:self.refreshControl];
-    [self.refreshControl beginRefreshing];
+
 }
 -(void)refreshTableViewData:(UIRefreshControl*)refreshControl
 {
@@ -100,6 +96,62 @@
     }
     return _tempArray;
 }
+-(void)setTemplateName:(NSString *)templateName
+{
+    _templateName = templateName;
+    
+    NSString *dID = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
+    NSString  *templateType =[NSString stringWithFormat:@"%@",[self getMBBHWithEnglishName:_templateName]];
+    self.templateArray = [[NSMutableArray alloc] init];
+    
+    [MessageObject messageObjectWithUsrStr:@"2216" pwdStr:@"test" iHMsgSocket:self.socket optInt:2003 dictionary:@{@"id":dID,@"mbbh":templateType} block:^(IHSockRequest *request) {
+        
+        if ([request.responseData isKindOfClass:[NSArray class]]) {
+            NSArray *tempArray = (NSArray*)request.responseData;
+            
+            for (NSDictionary *dict in tempArray) {
+                TemplateModel *templateModel = [[TemplateModel alloc] initWithDic:dict];
+                [self.templateArray addObject:templateModel];
+            }
+            // self.spinner.hidden = YES;
+            [self.tableView reloadData];
+        }
+    } failConection:^(NSError *error) {
+        // self.spinner.hidden = YES;
+    }];
+    
+}
+
+-(NSString*)getMBBHWithEnglishName:(NSString*)name
+{
+    static NSDictionary *dic = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dic = @{
+                @"入院记录" : @"ihefe101",
+                @"主诉" : @"ihefe10101",
+                @"现病史" : @"ihefe10102",
+                @"过去史" : @"ihefe10103",
+                @"系统回顾" : @"ihefe10104",
+                @"个人史" : @"ihefe10105",
+                @"月经史" : @"ihefe10106",
+                @"婚姻史" : @"ihefe10107",
+                @"婚育史" : @"ihefe10107",//婚育史
+                @"家族史" : @"ihefe10108",
+                @"体格检查" : @"ihefe10109",
+                @"专科检查" : @"ihefe10110",
+                @"辅助检查" : @"ihefe10111",
+                @"初步诊断" : @"ihefe10112",
+                @"入院诊断" : @"ihefe10113",
+                @"确诊诊断" : @"ihefe10114" //补充诊断
+                };
+    });
+    if ([dic.allKeys containsObject:name]) {
+        return dic[name];
+    }
+    return nil;
+}
+
 #pragma mask - view controller life cycle
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -192,7 +244,7 @@
     if (self.searchFlag) {
         self.tempArray = [NSMutableArray arrayWithArray:self.searchDataArray];
     }else {
-        self.tempArray = [NSMutableArray arrayWithArray:self.dataArray];
+        self.tempArray = [NSMutableArray arrayWithArray:self.templateArray];
     }
     
     return  self.tempArray.count;
@@ -214,6 +266,7 @@
     cell.sourcelabel.text = templateModel.sourceType;//来源个人，科室
     cell.createPeopleLabel.text = templateModel.createPeople;
     
+
     NSString *content;
     if (templateModel.content.length > 100) {
         content = [NSString stringWithFormat:@"%@...", [templateModel.content substringToIndex:100]];
@@ -221,7 +274,7 @@
         content = templateModel.content;
     }
 
-    cell.contentLabel.text  = content;
+    cell.contentLabel.text  = templateModel.condition;
 }
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {

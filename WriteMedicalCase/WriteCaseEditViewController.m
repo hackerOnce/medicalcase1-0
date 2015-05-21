@@ -384,7 +384,11 @@
     if ([segue.identifier isEqualToString:@"customSegue"]) {
         UINavigationController *nav = (UINavigationController*)segue.destinationViewController;
         WriteCaseShowTemplateViewController *showTemplateVC = (WriteCaseShowTemplateViewController*)[nav.viewControllers firstObject];
-        showTemplateVC.templateName = self.templateNameStr;
+        if (self.rightSlideViewFlag) {
+            
+        }else {
+            showTemplateVC.templateName = self.templateNameStr;
+        }
         showTemplateVC.showTemplateDelegate = self;
     }
 }

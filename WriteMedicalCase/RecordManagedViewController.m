@@ -38,12 +38,13 @@
 
 @property (nonatomic,strong) NSMutableArray *sumArray;
 
-@property (nonatomic,strong) RecordBaseInfo *didSelectedRecord;
+@property (nonatomic,strong) RecordBaseInfo *recordBaseInfo;
 
 @property (nonatomic,strong) IHMsgSocket *socket;
 
 @property (nonatomic,strong) RecordBaseInfo *resultCaseInfo;
 
+@property (nonatomic,strong) NSMutableArray *recordCaseArray;
 @end
 
 @implementation RecordManagedViewController
@@ -89,26 +90,21 @@
 {
     if (!_dataDic) {
         _dataDic = [[NSMutableDictionary alloc] init];
-        
-        self.arry1 = [[NSMutableArray alloc] init];
-        self.arry2 = [[NSMutableArray alloc] init];
-        self.arry3 = [[NSMutableArray alloc] init];
-
-        self.arry4 = [[NSMutableArray alloc] init];
-        self.arry5 = [[NSMutableArray alloc] init];
-        self.arry6 = [[NSMutableArray alloc] init];
-
-        self.sumArray =[NSMutableArray arrayWithArray:@[self.arry1,self.arry2,self.arry3,self.arry4,self.arry5,self.arry6]];
-        
-        for (int i=0; i< self.classficationArray.count; i++) {
-            NSString *tempStr = self.classficationArray[i];
-
-            [_dataDic setObject:self.sumArray[i] forKey:tempStr];
-            
-            
-        }
     }
     return _dataDic;
+}
+-(void)setRecordCaseArray:(NSMutableArray *)recordCaseArray
+{
+    _recordCaseArray = recordCaseArray;
+    
+    for (int i=0; i < self.classficationArray.count; i++) {
+        NSString *key = self.classficationArray[i];
+        RecordBaseInfo *recordCaseInfo = [_recordCaseArray objectAtIndex:i];
+        if ([recordCaseInfo.caseStatus isEqualToString:key]) {
+            [self.dataDic setObject:recordCaseInfo forKey:key];
+        }
+    }
+    [self.tableView reloadData];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -149,55 +145,137 @@
     
 }
 #pragma mask - RecordNavagationViewControllerDelegate
+-(void)loadPatientInfoWithPatientID:(NSString*)patientID
+{
+    [MessageObject messageObjectWithUsrStr:@"11" pwdStr:@"test" iHMsgSocket:self.socket optInt:2016 dictionary:@{@"syxh":patientID} block:^(IHSockRequest *request) {
+        NSMutableDictionary *patientDict = [[NSMutableDictionary alloc] init];
+        
+        if ([request.responseData isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *tempDict  = (NSDictionary*)request.responseData;
+            if ([tempDict.allKeys containsObject:@"csd_s"]) {
+                [patientDict setObject:[NSString stringWithFormat:@"%@", tempDict[@"csd_s"]]forKey:@"pProvince"];
+            }
+            if ([tempDict.allKeys containsObject:@"hyzk"]) {
+                [patientDict setObject:[NSString stringWithFormat:@"%@", tempDict[@"hyzk"]]forKey:@"pMaritalStatus"];
+            }
+            if ([tempDict.allKeys containsObject:@"mzbm"]) {
+                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"mzbm"]]forKey:@"pNation"];
+            }
+            //            if ([tempDict.allKeys containsObject:@"patid"]) {
+            //                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"patid"]]forKey:@"pID"];
+            //            }
+            
+            if ([tempDict.allKeys containsObject:@"sex"]) {
+                [patientDict setObject:tempDict[@"sex"]forKey:@"pGender"];
+            }
+            if ([tempDict.allKeys containsObject:@"hzxm"]) {
+                [patientDict setObject:tempDict[@"hzxm"]forKey:@"pName"];
+            }
+            if ([tempDict.allKeys containsObject:@"ksdm"]) {
+                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"ksdm"]]forKey:@"pProvince"];
+            }
+            if ([tempDict.allKeys containsObject:@"csd_s"]) {
+                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"csd_s"]] forKey:@"pDept"];
+            }
+            if ([tempDict.allKeys containsObject:@"cwdm"]) {
+                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"cwdm"]] forKey:@"pBedNum"];
+            }
+            if ([tempDict.allKeys containsObject:@"lxr"]) {
+                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"lxr"]]forKey:@"pLinkman"];
+            }
+            if ([tempDict.allKeys containsObject:@"lxrdh"]) {
+                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"lxrdh"]]forKey:@"pLinkmanMobileNum"];
+            }
+            if ([tempDict.allKeys containsObject:@"zycs"]) {
+                [patientDict setObject:[NSString stringWithFormat:@"%@", tempDict[@"zycs"]]forKey:@"pCountOfHospitalized"];
+            }
+            
+            
+        }
+        
+        NSString *patientID = [[NSUserDefaults standardUserDefaults] objectForKey:@"pID"];
+        
+        [patientDict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"dID"] forKey:@"dID"];
+        [patientDict setObject:patientID forKey:@"pID"];
+        [self.coreDataStack patientFetchWithDict:patientDict];
+        
+        NSString *dID = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
+        NSDictionary *dict = @{@"pid":patientID,@"did":dID,@"caseType":@"入院记录"};
+        RecordBaseInfo *recordCaseInfo = [self.coreDataStack fetchRecordWithDict:dict];
+        [self.recordCaseArray addObject:recordCaseInfo];
 
+    } failConection:^(NSError *error) {
+        
+    }];
+}
 -(void)didSelectedPatient:(NSString *)patientID
 {
 
     NSString *dID = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
-
+ 
     NSDictionary *dict = @{@"pid":patientID,@"did":dID};
-
-    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:2014 dictionary:dict block:^(IHSockRequest *request) {
+   
+    self.recordCaseArray = [[NSMutableArray alloc] init];
+    
+    [MessageObject messageObjectWithUsrStr:dID pwdStr:@"test" iHMsgSocket:self.socket optInt:2013 dictionary:dict block:^(IHSockRequest *request) {
         
-        NSMutableArray *tempArray = [[NSMutableArray alloc] init];
-        if (request.resp == -1) {
-            TempRecord *tempRecord = [[TempRecord alloc] initWithDic:nil];
-            tempRecord.caseType = @"入院病历";
-            tempRecord.caseStatus = @"未创建";
-            [tempArray addObject:tempRecord];
+        if ([request.responseData isKindOfClass:[NSArray class]]) {
+            NSArray *tempArray = (NSArray*)request.responseData;
+            if (tempArray.count == 0) {
+                
+                [self loadPatientInfoWithPatientID:patientID];
             
-        }else {
-            for (NSDictionary *tempDict in request.responseData) {
-                TempRecord *tempRecord = [[TempRecord alloc] initWithDic:nil];
-
-                if ([tempDict.allKeys containsObject:@"caseType"]) {
-                    tempRecord.caseType = tempDict[@"caseType"];
+            }else {
+                for (NSDictionary *recordDict in tempArray) {
+                    NSDictionary *dict = [self parseCaseInfoWithDic:recordDict];
+                    RecordBaseInfo *recordBaseInfo = [self.coreDataStack fetchRecordWithDict:dict];
+                    [self.recordCaseArray addObject:recordBaseInfo];
                 }
-                if ([tempDict.allKeys containsObject:@"caseStatus"]) {
-                    tempRecord.caseStatus = tempDict[@"caseStatus"];
-                }
-                [tempArray addObject:tempRecord];
             }
         }
-        
-        for (int i=0; i< self.classficationArray.count; i++) {
-            NSString *tempStr = self.classficationArray[i];
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"caseStatus = %@",tempStr];
-            NSArray *resultA = self.sumArray[i];
-            resultA = [tempArray filteredArrayUsingPredicate:predicate];
-            
-            [self.dataDic setObject:resultA forKey:tempStr];
-        }
-        
-        [self.tableView reloadData];
-        
-        
         
         
     } failConection:^(NSError *error) {
         
     }];
-
+//    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:2014 dictionary:dict block:^(IHSockRequest *request) {
+//        
+//        NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+//        if (request.resp == -1) {
+//            TempRecord *tempRecord = [[TempRecord alloc] initWithDic:nil];
+//            tempRecord.caseType = @"入院病历";
+//            tempRecord.caseStatus = @"未创建";
+//            [tempArray addObject:tempRecord];
+//            
+//        }else {
+//            for (NSDictionary *tempDict in request.responseData) {
+//                TempRecord *tempRecord = [[TempRecord alloc] initWithDic:nil];
+//
+//                if ([tempDict.allKeys containsObject:@"caseType"]) {
+//                    tempRecord.caseType = tempDict[@"caseType"];
+//                }
+//                if ([tempDict.allKeys containsObject:@"caseStatus"]) {
+//                    tempRecord.caseStatus = tempDict[@"caseStatus"];
+//                }
+//                [tempArray addObject:tempRecord];
+//            }
+//        }
+//        
+//        for (int i=0; i< self.classficationArray.count; i++) {
+//            NSString *tempStr = self.classficationArray[i];
+//            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"caseStatus = %@",tempStr];
+//            NSArray *resultA = self.sumArray[i];
+//            resultA = [tempArray filteredArrayUsingPredicate:predicate];
+//            
+//            [self.dataDic setObject:resultA forKey:tempStr];
+//        }
+//        
+//     //   [self.tableView reloadData];
+//        
+//    } failConection:^(NSError *error) {
+//        
+//    }];
+//
     
     
 
@@ -205,6 +283,45 @@
     
  // self.recordCases = [NSArray arrayWithArray:patient.medicalCases.array];
     
+}
+
+-(NSDictionary*)caseKeyDic
+{
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"dID"]   forKey:@"did"];
+    [dict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"pID"]   forKey:@"pid"];
+    return dict;
+}
+-(void)caseRecordFromServerOrLocal
+{
+    NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self caseKeyDic]];
+    
+    self.recordCaseArray = [[NSMutableArray alloc] init];
+    
+  //  self.recordBaseInfo = [self.coreDataStack fetchRecordWithDict:dict];
+    [MessageObject messageObjectWithUsrStr:@"2216" pwdStr:@"test" iHMsgSocket:self.socket optInt:2013 dictionary:dict block:^(IHSockRequest *request) {
+        
+        if(request.resp == -1){
+           // self.recordBaseInfo = [self.coreDataStack fetchRecordWithDict:dict];
+           // self.originDict = [[NSMutableDictionary alloc] init];
+        }else {
+            
+          //  NSMutableDictionary *caseInfoDict =
+            
+//            if ([request.responseData isKindOfClass:[NSDictionary class]]) {
+//                
+//                NSDictionary *tempDict =(NSDictionary*) request.responseData;
+//                self.originDict = [[NSMutableDictionary alloc] initWithDictionary:tempDict];
+//                
+//                self.caseInfoDict = [[NSMutableDictionary alloc] initWithDictionary:[self parseCaseInfoWithDic:tempDict]];
+//                
+//                self.recordBaseInfo = [self.coreDataStack fetchRecordWithDict:self.caseInfoDict];
+//            }
+        }
+        
+    } failConection:^(NSError *error) {
+       // self.recordBaseInfo = [self.coreDataStack fetchRecordWithDict:dict];
+    }];
 }
 
 #pragma mark - TableViewdelegate&&TableViewdataSource
@@ -248,7 +365,7 @@
 
     HeadView* view = [self.headViewArray objectAtIndex:indexPath.section];
     NSArray *tempArray = [self.dataDic objectForKey:view.backBtn.titleLabel.text];
-    TempRecord *record = tempArray[indexPath.row];
+    RecordBaseInfo *record = tempArray[indexPath.row];
     cell.caseTypeLabel.text = record.caseType;
     return cell;
 }
@@ -344,7 +461,7 @@
     HeadView* view = [self.headViewArray objectAtIndex:indexPath.section];
     NSArray *tempA = self.dataDic[view.backBtn.titleLabel.text];
     
-    self.didSelectedRecord = (RecordBaseInfo*)tempA[indexPath.row];
+   // self.didSelectedRecord = (RecordBaseInfo*)tempA[indexPath.row];
 
     [self performSegueWithIdentifier:@"EditCaseSegue" sender:nil];
 }
@@ -359,6 +476,185 @@
 //       // AdmissionRecordsViewController *writeVC = (AdmissionRecordsViewController*)[nav.viewControllers firstObject];
 //        writeVC.recordCase = self.didSelectedRecord;
 //    }
+}
+#pragma mask -helper
+-(NSDictionary*)parseCaseInfoWithDic:(NSDictionary*)dataDic
+{
+    NSMutableDictionary *tempDic = [[NSMutableDictionary alloc] init];
+    
+    if ([dataDic.allKeys containsObject:@"_DOF"]) {
+        [tempDic setObject:dataDic[@"_DOF"] forKey:@"archivedTime"];
+    }
+    if ([dataDic.allKeys containsObject:@"_created"]) {
+        [tempDic setObject:dataDic[@"_created"] forKey:@"createdTime"];
+    }
+    if ([dataDic.allKeys containsObject:@"_id"]) {
+        [tempDic setObject:dataDic[@"_id"] forKey:@"caseID"];
+    }
+    
+    if ([dataDic.allKeys containsObject:@"_updated"]) {
+        [tempDic setObject:dataDic[@"_updated"] forKey:@"updatedTime"];
+    }
+    if ([dataDic.allKeys containsObject:@"caseBaseInfo"]) {
+        
+        NSDictionary *dic = dataDic[@"caseBaseInfo"];
+        
+        if ([dic.allKeys containsObject:@"casePresenter"]) {
+            [tempDic setObject:dic[@"casePresenter"]forKey:@"casePresenter"];
+        }
+        if ([dic.allKeys containsObject:@"caseEditStatus"]) {
+            [tempDic setObject:dic[@"caseEditStatus"]forKey:@"caseEditStatus"];
+        }
+        if ([dic.allKeys containsObject:@"caseStatus"]) {
+            [tempDic setObject:dic[@"caseStatus"]forKey:@"caseStatus"];
+        }
+    }
+    if ([dataDic.allKeys containsObject:@"caseContent"]) {
+        NSDictionary *dic = dataDic[@"caseContent"];
+        
+        if ([dic.allKeys containsObject:@"chiefComplaint"]) {
+            [tempDic setObject:dic[@"chiefComplaint"] forKey:@"chiefComplaint"];
+        }
+        if ([dic.allKeys containsObject:@"historyOfPresentillness"]) {
+            [tempDic setObject:dic[@"historyOfPresentillness"] forKey:@"historyOfPresentillness"];
+        }
+        if ([dic.allKeys containsObject:@"personHistory"]) {
+            [tempDic setObject:dic[@"personHistory"] forKey:@"personHistory"];
+        }
+        if ([dic.allKeys containsObject:@"pastHistory"]) {
+            [tempDic setObject:dic[@"pastHistory"] forKey:@"pastHistory"];
+        }
+        
+        if ([dic.allKeys containsObject:@"familyHistory"]) {
+            [tempDic setObject:dic[@"familyHistory"] forKey:@"familyHistory"];
+        }
+        if ([dic.allKeys containsObject:@"obstericalHistory"]) {
+            [tempDic setObject:dic[@"obstericalHistory"] forKey:@"obstericalHistory"];
+        }
+        if ([dic.allKeys containsObject:@"physicalExamination"]) {
+            [tempDic setObject:dic[@"physicalExamination"] forKey:@"physicalExamination"];
+        }
+        
+        if ([dic.allKeys containsObject:@"systemsReview"]) {
+            [tempDic setObject:dic[@"systemsReview"] forKey:@"systemsReview"];
+        }
+        if ([dic.allKeys containsObject:@"specializedExamination"]) {
+            [tempDic setObject:dic[@"specializedExamination"] forKey:@"specializedExamination"];
+        }
+        
+        if ([dic.allKeys containsObject:@"tentativeDiagnosis"]) {
+            [tempDic setObject:dic[@"tentativeDiagnosis"] forKey:@"tentativeDiagnosis"];
+        }
+        if ([dic.allKeys containsObject:@"obstericalHistory"]) {
+            [tempDic setObject:dic[@"obstericalHistory"] forKey:@"obstericalHistory"];
+        }
+        if ([dic.allKeys containsObject:@"admittingDiagnosis"]) {
+            [tempDic setObject:dic[@"admittingDiagnosis"] forKey:@"admittingDiagnosis"];
+        }
+        
+        if ([dic.allKeys containsObject:@"confirmedDiagnosis"]) {
+            [tempDic setObject:dic[@"confirmedDiagnosis"] forKey:@"confirmedDiagnosis"];
+        }
+        
+    }
+    if ([dataDic.allKeys containsObject:@"caseType"]) {
+        [tempDic setObject:dataDic[@"caseType"] forKey:@"caseType"];
+    }
+    
+    if ([dataDic.allKeys containsObject:@"resident"]) {
+        NSDictionary *doctor = dataDic[@"resident"];
+        if ([doctor.allKeys containsObject:@"dID"]) {
+            [tempDic setObject:doctor[@"dID"] forKey:@"residentdID"];
+        }
+        if ([doctor.allKeys containsObject:@"dName"]) {
+            [tempDic setObject:doctor[@"dName"] forKey:@"residentdName"];
+        }
+    }
+    if ([dataDic.allKeys containsObject:@"attendingPhysician"]) {
+        NSDictionary *doctor = dataDic[@"attendingPhysician"];
+        if ([doctor.allKeys containsObject:@"dID"]) {
+            [tempDic setObject:doctor[@"dID"] forKey:@"attendingPhysiciandID"];
+        }
+        if ([doctor.allKeys containsObject:@"dName"]) {
+            [tempDic setObject:doctor[@"dName"] forKey:@"attendingPhysiciandName"];
+        }
+    }
+    if ([dataDic.allKeys containsObject:@"chiefPhysician"]) {
+        NSDictionary *doctor = dataDic[@"chiefPhysician"];
+        if ([doctor.allKeys containsObject:@"dID"]) {
+            [tempDic setObject:doctor[@"dID"] forKey:@"chiefPhysiciandID"];
+        }
+        if ([doctor.allKeys containsObject:@"dName"]) {
+            [tempDic setObject:doctor[@"dName"] forKey:@"chiefPhysiciandName"];
+        }
+    }
+    
+    if ([dataDic.allKeys containsObject:@"patient"]) {
+        NSDictionary *patient = dataDic[@"patient"];
+        
+        if ([patient.allKeys containsObject:@"pAge"]) {
+            [tempDic setObject:patient[@"pAge"] forKey:@"pAge"];
+        }
+        if ([patient.allKeys containsObject:@"pBedNum"]) {
+            [tempDic setObject:patient[@"pBedNum"] forKey:@"pBedNum"];
+        }
+        if ([patient.allKeys containsObject:@"pCity"]) {
+            [tempDic setObject:patient[@"pCity"] forKey:@"pCity"];
+        }
+        if ([patient.allKeys containsObject:@"pCountOfHospitalized"]) {
+            [tempDic setObject:patient[@"pCountOfHospitalized"] forKey:@"pCountOfHospitalized"];
+        }
+        
+        if ([patient.allKeys containsObject:@"pDept"]) {
+            [tempDic setObject:patient[@"pDept"] forKey:@"pDept"];
+        }
+        if ([patient.allKeys containsObject:@"pDetailAddress"]) {
+            [tempDic setObject:patient[@"pDetailAddress"] forKey:@"pDetailAddress"];
+        }
+        if ([patient.allKeys containsObject:@"pGender"]) {
+            [tempDic setObject:patient[@"pGender"] forKey:@"pGender"];
+        }
+        if ([patient.allKeys containsObject:@"pID"]) {
+            [tempDic setObject:patient[@"pID"] forKey:@"pID"];
+        }
+        
+        if ([patient.allKeys containsObject:@"pLinkman"]) {
+            [tempDic setObject:patient[@"pLinkman"] forKey:@"pLinkman"];
+        }
+        if ([patient.allKeys containsObject:@"pLinkmanMobileNum"]) {
+            [tempDic setObject:patient[@"pLinkmanMobileNum"] forKey:@"pLinkmanMobileNum"];
+        }
+        if ([patient.allKeys containsObject:@"pMaritalStatus"]) {
+            [tempDic setObject:patient[@"pMaritalStatus"] forKey:@"pMaritalStatus"];
+        }
+        
+        if ([patient.allKeys containsObject:@"pMobileNum"]) {
+            [tempDic setObject:patient[@"pMobileNum"] forKey:@"pMobileNum"];
+        }
+        if ([patient.allKeys containsObject:@"pName"]) {
+            [tempDic setObject:patient[@"pName"] forKey:@"pName"];
+        }
+        if ([patient.allKeys containsObject:@"pNation"]) {
+            [tempDic setObject:patient[@"pNation"] forKey:@"pNation"];
+        }
+        
+        if ([patient.allKeys containsObject:@"pProfession"]) {
+            [tempDic setObject:patient[@"pProfession"] forKey:@"pProfession"];
+        }
+        if ([patient.allKeys containsObject:@"pProvince"]) {
+            [tempDic setObject:patient[@"pProvince"] forKey:@"pProvince"];
+        }
+        if ([patient.allKeys containsObject:@"patientState"]) {
+            [tempDic setObject:patient[@"patientState"] forKey:@"patientState"];
+        }
+        
+        if ([patient.allKeys containsObject:@"presenter"]) {
+            [tempDic setObject:patient[@"presenter"] forKey:@"presenter"];
+        }
+        
+    }
+    
+    return tempDic;
 }
 
 

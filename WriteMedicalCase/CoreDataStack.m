@@ -466,6 +466,9 @@ static NSString *momdName = @"Model";
         recordBaseInfo.pName = dict[@"pName"];
     }
     
+    if ([dict.allKeys containsObject:@"caseID"]) {
+        recordBaseInfo.caseID = dict[@"caseID"];
+    }
     if ([dict.allKeys containsObject:@"casePresenter"]) {
         recordBaseInfo.casePresenter = dict[@"casePresenter"];
     }

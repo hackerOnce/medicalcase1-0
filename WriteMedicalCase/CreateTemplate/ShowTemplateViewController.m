@@ -112,7 +112,7 @@
     
     self.templateArray = [[NSMutableArray alloc] init];
 
-    [MessageObject messageObjectWithUsrStr:@"2225" pwdStr:@"test" iHMsgSocket:self.socket optInt:2003 dictionary:@{@"id":dID,@"mbbh":[NSString stringWithFormat:@"%@",[self getMBBHWithEnglishName:tempType]]} block:^(IHSockRequest *request) {
+    [MessageObject messageObjectWithUsrStr:@"2216" pwdStr:@"test" iHMsgSocket:self.socket optInt:2003 dictionary:@{@"id":dID,@"mbbh":[NSString stringWithFormat:@"%@",[self getMBBHWithEnglishName:tempType]]} block:^(IHSockRequest *request) {
         
         if ([request.responseData isKindOfClass:[NSArray class]]) {
             NSArray *tempArray = (NSArray*)request.responseData;

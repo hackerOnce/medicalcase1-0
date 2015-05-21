@@ -26,6 +26,7 @@
 @property (nonatomic, retain) NSString * createdDate;
 @property (nonatomic, retain) NSString * updatedDate;
 @property (nonatomic, retain) NSString * dof;
+@property (nonatomic, retain) NSString * caseID;
 @property (nonatomic, retain) NSString * residentdName;
 @property (nonatomic, retain) NSString * attendingPhysiciandName;
 @property (nonatomic, retain) NSString * chiefPhysiciandID;

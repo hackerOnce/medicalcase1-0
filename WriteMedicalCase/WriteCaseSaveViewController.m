@@ -142,7 +142,7 @@
     NSString *doctorID = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
     NSString *sid = doctor.dID;
     
-    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:2008 dictionary:@{@"id":caseID,@"did":doctorID,@"sid":sid} block:^(IHSockRequest *request) {
+    [MessageObject messageObjectWithUsrStr:@"2216" pwdStr:@"test" iHMsgSocket:self.socket optInt:2008 dictionary:@{@"id":caseID,@"did":doctorID,@"sid":sid} block:^(IHSockRequest *request) {
         
         NSInteger resp = request.resp;
         self.resp = resp;
@@ -233,7 +233,7 @@
     [self.originDict setObject:attendingPhysician forKey:@"attendingPhysician"];
     [self.originDict setObject:chiefPhysician forKey:@"chiefPhysician"];
     
-    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:20001 dictionary:self.originDict block:^(IHSockRequest *request) {
+    [MessageObject messageObjectWithUsrStr:@"2216" pwdStr:@"test" iHMsgSocket:self.socket optInt:20001 dictionary:self.originDict block:^(IHSockRequest *request) {
         
         self.resp = request.resp;
         self.saveAlertView = [[UIAlertView alloc] initWithTitle:@"保存成功" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -382,7 +382,7 @@
 
     [self setUpTableView];
     
-    [self caseRecordFromServerOrLocal];
+  //  [self caseRecordFromServerOrLocal];
     
     if (self.isRemoveLeftButton) {
         self.navigationItem.leftBarButtonItem = nil;
@@ -395,64 +395,7 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    NSString *patientID = [[NSUserDefaults standardUserDefaults] objectForKey:@"pID"];
-    
-    [MessageObject messageObjectWithUsrStr:@"11" pwdStr:@"test" iHMsgSocket:self.socket optInt:2016 dictionary:@{@"syxh":patientID} block:^(IHSockRequest *request) {
-        NSMutableDictionary *patientDict = [[NSMutableDictionary alloc] init];
-        
-        if ([request.responseData isKindOfClass:[NSDictionary class]]) {
-            NSDictionary *tempDict  = (NSDictionary*)request.responseData;
-            if ([tempDict.allKeys containsObject:@"csd_s"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@", tempDict[@"csd_s"]]forKey:@"pProvince"];
-            }
-            if ([tempDict.allKeys containsObject:@"hyzk"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@", tempDict[@"hyzk"]]forKey:@"pMaritalStatus"];
-            }
-            if ([tempDict.allKeys containsObject:@"mzbm"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"mzbm"]]forKey:@"pNation"];
-            }
-//            if ([tempDict.allKeys containsObject:@"patid"]) {
-//                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"patid"]]forKey:@"pID"];
-//            }
-            
-            if ([tempDict.allKeys containsObject:@"sex"]) {
-                [patientDict setObject:tempDict[@"sex"]forKey:@"pGender"];
-            }
-            if ([tempDict.allKeys containsObject:@"hzxm"]) {
-                [patientDict setObject:tempDict[@"hzxm"]forKey:@"pName"];
-            }
-            if ([tempDict.allKeys containsObject:@"ksdm"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"ksdm"]]forKey:@"pProvince"];
-            }
-            if ([tempDict.allKeys containsObject:@"csd_s"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"csd_s"]] forKey:@"pDept"];
-            }
-            if ([tempDict.allKeys containsObject:@"cwdm"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"cwdm"]] forKey:@"pBedNum"];
-            }
-            if ([tempDict.allKeys containsObject:@"lxr"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"lxr"]]forKey:@"pLinkman"];
-            }
-            if ([tempDict.allKeys containsObject:@"lxrdh"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"lxrdh"]]forKey:@"pLinkmanMobileNum"];
-            }
-            if ([tempDict.allKeys containsObject:@"zycs"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@", tempDict[@"zycs"]]forKey:@"pCountOfHospitalized"];
-            }
-            
-            
-        }
-        
-        NSString *patientID = [[NSUserDefaults standardUserDefaults] objectForKey:@"pID"];
 
-        [patientDict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"dID"] forKey:@"dID"];
-        [patientDict setObject:patientID forKey:@"pID"];
-        [self.coreDataStack patientFetchWithDict:patientDict];
-        
-    } failConection:^(NSError *error) {
-        
-    }];
     
 }
 -(void)setUpTableView
@@ -477,32 +420,7 @@
     [dict setObject:self.caseType forKey:@"caseType"];
     return dict;
 }
--(void)caseRecordFromServerOrLocal
-{
-    NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self caseKeyDic]];
-    
-     self.recordBaseInfo = [self.coreDataStack fetchRecordWithDict:dict];
-    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:1500 dictionary:dict block:^(IHSockRequest *request) {
-        
-        if(request.resp == -1){
-            self.recordBaseInfo = [self.coreDataStack fetchRecordWithDict:dict];
-            self.originDict = [[NSMutableDictionary alloc] init];
-        }else {
-            if ([request.responseData isKindOfClass:[NSDictionary class]]) {
-                
-                NSDictionary *tempDict =(NSDictionary*) request.responseData;
-                self.originDict = [[NSMutableDictionary alloc] initWithDictionary:tempDict];
-                
-                self.caseInfoDict = [[NSMutableDictionary alloc] initWithDictionary:[self parseCaseInfoWithDic:tempDict]];
-                
-                self.recordBaseInfo = [self.coreDataStack fetchRecordWithDict:self.caseInfoDict];
-            }
-        }
-        
-    } failConection:^(NSError *error) {
-        self.recordBaseInfo = [self.coreDataStack fetchRecordWithDict:dict];
-    }];
-}
+
 -(NSDictionary*)parseCaseInfoWithDic:(NSDictionary*)dataDic
 {
     NSMutableDictionary *tempDic = [[NSMutableDictionary alloc] init];
@@ -592,7 +510,7 @@
             [tempDic setObject:doctor[@"dID"] forKey:@"residentdID"];
         }
         if ([doctor.allKeys containsObject:@"dName"]) {
-            [tempDic setObject:doctor[@"dName"] forKey:@"residentdID"];
+            [tempDic setObject:doctor[@"dName"] forKey:@"residentdName"];
         }
     }
     if ([dataDic.allKeys containsObject:@"attendingPhysician"]) {
