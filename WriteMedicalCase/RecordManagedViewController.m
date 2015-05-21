@@ -145,9 +145,9 @@
     
 }
 #pragma mask - RecordNavagationViewControllerDelegate
--(void)loadPatientInfoWithPatientID:(NSString*)patientID
+-(void)loadPatientInfoWithPatientID:(TempPatient*)patient
 {
-    [MessageObject messageObjectWithUsrStr:@"11" pwdStr:@"test" iHMsgSocket:self.socket optInt:2016 dictionary:@{@"syxh":patientID} block:^(IHSockRequest *request) {
+    [MessageObject messageObjectWithUsrStr:@"11" pwdStr:@"test" iHMsgSocket:self.socket optInt:2016 dictionary:@{@"syxh":patient.pID} block:^(IHSockRequest *request) {
         NSMutableDictionary *patientDict = [[NSMutableDictionary alloc] init];
         
         if ([request.responseData isKindOfClass:[NSDictionary class]]) {
@@ -193,14 +193,16 @@
             
         }
         
-        NSString *patientID = [[NSUserDefaults standardUserDefaults] objectForKey:@"pID"];
-        
+      //  NSString *patientID = [[NSUserDefaults standardUserDefaults] objectForKey:@"pID"];
+        [[NSUserDefaults standardUserDefaults] setObject:patient.pID forKey:@"pID"];
+        [[NSUserDefaults standardUserDefaults] setObject:patient.pName forKey:@"pName"];
+
         [patientDict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"dID"] forKey:@"dID"];
-        [patientDict setObject:patientID forKey:@"pID"];
+        [patientDict setObject:patient.pID forKey:@"pID"];
         [self.coreDataStack patientFetchWithDict:patientDict];
         
         NSString *dID = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
-        NSDictionary *dict = @{@"pid":patientID,@"did":dID,@"caseType":@"入院记录"};
+        NSDictionary *dict = @{@"pid":patient.pID,@"did":dID,@"caseType":@"入院记录"};
         RecordBaseInfo *recordCaseInfo = [self.coreDataStack fetchRecordWithDict:dict];
         [self.recordCaseArray addObject:recordCaseInfo];
 
@@ -208,12 +210,12 @@
         
     }];
 }
--(void)didSelectedPatient:(NSString *)patientID
+-(void)didSelectedPatient:(TempPatient *)patient
 {
 
     NSString *dID = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
  
-    NSDictionary *dict = @{@"pid":patientID,@"did":dID};
+    NSDictionary *dict = @{@"pid":patient.pID,@"did":dID};
    
     self.recordCaseArray = [[NSMutableArray alloc] init];
     
@@ -223,7 +225,7 @@
             NSArray *tempArray = (NSArray*)request.responseData;
             if (tempArray.count == 0) {
                 
-                [self loadPatientInfoWithPatientID:patientID];
+                [self loadPatientInfoWithPatientID:patient];
             
             }else {
                 for (NSDictionary *recordDict in tempArray) {
@@ -389,10 +391,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     HeadView* view = [self.headViewArray objectAtIndex:indexPath.section];
+    NSArray *tempArray = [self.dataDic objectForKey:view.backBtn.titleLabel.text];
+    RecordBaseInfo *record = tempArray[indexPath.row];
     
     if (view.open) {
         _currentRow = indexPath.row;
-        [_tableView reloadData];
+       // [_tableView reloadData];
     }
     
     RecordManagedCellTableViewCell *cell = (RecordManagedCellTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
@@ -402,11 +406,11 @@
     
     WriteCaseSaveViewController *saveVC = (WriteCaseSaveViewController*)[nav.viewControllers firstObject];
     
-    saveVC.currentDoctor = [CurrentDoctor currentDoctor];
-    saveVC.currentPatient = [[CurrentPatient alloc] init];
-    saveVC.isRemoveLeftButton = YES;
-    saveVC.caseType = cell.caseTypeLabel.text;
-    
+    //saveVC.currentDoctor = [CurrentDoctor currentDoctor];
+    //saveVC.currentPatient = [[CurrentPatient alloc] init];
+    //saveVC.isRemoveLeftButton = YES;
+    //saveVC.caseType = cell.caseTypeLabel.text;
+    saveVC.recordBaseInfo = record;
     [self.navigationController pushViewController:saveVC animated:YES];
     
     

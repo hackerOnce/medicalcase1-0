@@ -314,7 +314,14 @@ static NSString *momdName = @"Model";
         
     }else {
         
+        
         recordBaseInfo = (RecordBaseInfo*)[tempArray firstObject];
+        
+        [self updateRecord:recordBaseInfo dataWithDict:dict];
+        [self updateCaseContent:recordBaseInfo.caseContent dataWithDict:dict];
+        [self updatePatient:recordBaseInfo.patient dataWithDict:dict];
+        
+        [self saveContext];
     }
     
     return recordBaseInfo;
@@ -525,11 +532,15 @@ static NSString *momdName = @"Model";
         dID = dict[@"dID"];
     } else if ([dict.allKeys containsObject:@"did"]) {
         dID = dict[@"did"];
+    }else {
+        abort();
     }
     if ([dict.allKeys containsObject:@"pid"]) {
         pID = dict[@"pid"];
     }else if ([dict.allKeys containsObject:@"pID"]) {
         pID = dict[@"pID"];
+    }else {
+        abort();
     }
     
     if (dID) {
@@ -562,6 +573,9 @@ static NSString *momdName = @"Model";
         
     }else {
         patient = (Patient*)[tempArray firstObject];
+        
+        [self updatePatient:patient dataWithDict:dict];
+        [self saveContext];
     }
     
     return patient;
@@ -575,9 +589,17 @@ static NSString *momdName = @"Model";
     
     if ([dict.allKeys containsObject:@"dID"]) {
         dID = dict[@"dID"];
+    } else if ([dict.allKeys containsObject:@"did"]) {
+        dID = dict[@"did"];
+    }else {
+        abort();
     }
-    if ([dict.allKeys containsObject:@"pID"]) {
+    if ([dict.allKeys containsObject:@"pid"]) {
+        pID = dict[@"pid"];
+    }else if ([dict.allKeys containsObject:@"pID"]) {
         pID = dict[@"pID"];
+    }else {
+        abort();
     }
     
     predicate = [NSPredicate predicateWithFormat:@"pID = %@ AND dID = %@",pID,dID];
@@ -596,6 +618,16 @@ static NSString *momdName = @"Model";
 }
 -(void)updatePatient:(Patient*)patient dataWithDict:(NSDictionary*)dict
 {
+    if ([dict.allKeys containsObject:@"dID"]) {
+        patient.dID = dict[@"dID"];
+    } else if ([dict.allKeys containsObject:@"did"]) {
+        patient.dID = dict[@"did"];
+    }
+    if ([dict.allKeys containsObject:@"pid"]) {
+        patient.pID = dict[@"pid"];
+    }else if ([dict.allKeys containsObject:@"pID"]) {
+        patient.pID = dict[@"pID"];
+    }
     if ([dict.allKeys containsObject:@"pBedNum"]) {
         patient.pBedNum = dict[@"pBedNum"];
     }
@@ -614,9 +646,6 @@ static NSString *momdName = @"Model";
     }
     if ([dict.allKeys containsObject:@"pGender"]) {
         patient.pGender = dict[@"pGender"];
-    }
-    if ([dict.allKeys containsObject:@"pID"]) {
-        patient.pID = dict[@"pID"];
     }
     if ([dict.allKeys containsObject:@"pLinkman"]) {
         patient.pBedNum = dict[@"pLinkman"];
@@ -646,9 +675,6 @@ static NSString *momdName = @"Model";
     }
     if ([dict.allKeys containsObject:@"pAge"]) {
         patient.pAge = dict[@"pAge"];
-    }
-    if ([dict.allKeys containsObject:@"dID"]) {
-        patient.dID = dict[@"dID"];
     }
     if ([dict.allKeys containsObject:@"dName"]) {
         patient.dName = dict[@"dName"];

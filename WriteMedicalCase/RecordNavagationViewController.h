@@ -12,7 +12,7 @@
 @class RecordNavagationViewController;
 
 @protocol RecordNavagationViewControllerDelegate <NSObject>
--(void)didSelectedPatient:(NSString*)patientID;
+-(void)didSelectedPatient:(TempPatient*)patient;
 @end
 
 @interface RecordNavagationViewController : UIViewController

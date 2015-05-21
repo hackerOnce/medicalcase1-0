@@ -37,7 +37,7 @@
 
 @property (nonatomic) BOOL isBeginEdit;
 
-@property (nonatomic,strong) RecordBaseInfo *recordBaseInfo;
+//@property (nonatomic,strong) RecordBaseInfo *recordBaseInfo;
 //@property (nonatomic) BOOL hasContent;
 @property (nonatomic,strong) NSString *textViewContent;
 
@@ -66,11 +66,11 @@
 @property (nonatomic,strong) UIAlertView *cancelAlertView;
 
 @property (nonatomic) NSInteger resp;
+@property (nonatomic) BOOL hasCompletedWriteRecord; //
+@property (nonatomic) BOOL hasEditedRecord;
 @end
 
 @implementation WriteCaseSaveViewController
-@synthesize tempResidentDoctor = _tempResidentDoctor;
-@synthesize tempPatient = _tempPatient;
 ///test data
 
 -(IHMsgSocket *)socket
@@ -92,19 +92,29 @@
 }
 - (IBAction)saveButton:(UIBarButtonItem *)sender {
     if ([sender.title isEqualToString:@"保存"]) {
-        [self saveCaseToServer];
+        if (StringValue(self.recordBaseInfo.caseID)) {
+            //update
+            [self updateCase];
+        }else {
+            //save
+            [self saveCaseToServer];
+        }
     }else if([sender.title isEqualToString:@"提交"]){
         [self commitCaseToServerWithSender:sender];
     }else if([sender.title isEqualToString:@"撤回"]){
-        
+        [self cancelCommitCaseToServer];
     }
+}
+-(void)updateCase
+{
+    
 }
 -(void)cancelCommitCaseToServer
 {
     NSString *doctorID = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
-    NSString *caseID = self.caseID;
+    NSString *caseID =[NSString stringWithFormat:@"%@",self.recordBaseInfo.caseID];
     
-    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"" iHMsgSocket:self.socket optInt:2009 dictionary:@{@"id":caseID,@"did":doctorID} block:^(IHSockRequest *request) {
+    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:2009 dictionary:@{@"id":caseID,@"did":doctorID} block:^(IHSockRequest *request) {
         NSInteger resp = request.resp;
         self.resp = resp;
         NSString *message;
@@ -138,7 +148,7 @@
 }
 -(void)didSelectedDoctor:(TempDoctor *)doctor
 {
-    NSString *caseID = self.caseID;
+    NSString *caseID = self.recordBaseInfo.caseID;
     NSString *doctorID = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
     NSString *sid = doctor.dID;
     
@@ -181,7 +191,13 @@
     
     for (int i=0; i< parentNode.nodes.count; i++) {
         Node *tempNode = parentNode.nodes[i];
-        [caseContent setObject:tempNode.nodeContent forKey:tempNode.nodeName];
+        
+        if ([tempNode.nodeContent isEqualToString:tempNode.nodeName]) {
+            if ([StringValue(tempNode.nodeContent) isEqualToString:@""]) {
+                self.hasCompletedWriteRecord = YES;
+            }
+        }
+        [caseContent setObject:tempNode.nodeContent forKey:tempNode.nodeEnglish];
     }
     Patient *patient = [self.coreDataStack patientFetchWithDict:[self caseKeyDic]];
     NSMutableDictionary *pDict = [[NSMutableDictionary alloc] init];
@@ -272,7 +288,7 @@
         
         [self.coreDataStack recordUpdatedWithDict:[self parseCaseInfoWithDic:self.originDict]];
         
-        if (self.resp == 0) {
+        if (self.resp == 0 && !self.hasCompletedWriteRecord && !self.hasCompletedWriteRecord) {
            [self.saveButton setTitle:@"提交"];
         }
     }
@@ -390,6 +406,7 @@
         self.remainTimeLabel.text =[NSString stringWithFormat:@"剩余时间:08:00:00"];
     }
     
+    self.hasCompletedWriteRecord = NO;
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -414,10 +431,10 @@
 -(NSDictionary*)caseKeyDic
 {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    [dict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"dID"]   forKey:@"did"];
-    [dict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"pID"]   forKey:@"pid"];
+    [dict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"dID"]   forKey:@"dID"];
+    [dict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"pID"]   forKey:@"pID"];
     
-    [dict setObject:self.caseType forKey:@"caseType"];
+    [dict setObject:self.recordBaseInfo.caseType forKey:@"caseType"];
     return dict;
 }
 
@@ -771,19 +788,40 @@
     }
     
 }
+-(void)setHasEditedRecord:(BOOL)hasEditedRecord
+{
+    _hasEditedRecord  = hasEditedRecord;
+    
+    if (_hasEditedRecord) {
+        if ([self.saveButton.title isEqualToString:@"提交"]) {
+            [self.saveButton setTitle:@"保存"];
+        }
+    }
+}
 #pragma mask - write delegate
 -(void)didWriteStringToMedicalRecord:(NSString *)writeString withKeyStr:(NSString *)keyStr
 {
     
     Node *tempNode = [self.fetchResultController objectAtIndexPath:self.currentIndexPath];
+    
+    if ([tempNode.nodeContent isEqualToString:writeString]) {
+        
+    }else {
+        self.hasEditedRecord = YES;
+    }
     tempNode.nodeContent = writeString;
     [self.coreDataStack saveContext];
     
 }
 -(void)didWriteWithString:(NSString *)writeString
 {
-    
     Node *tempNode = [self.fetchResultController objectAtIndexPath:self.currentIndexPath];
+    
+    if ([tempNode.nodeContent isEqualToString:writeString]) {
+        
+    }else {
+        self.hasEditedRecord = YES;
+    }
     tempNode.nodeContent = writeString;
     [self.coreDataStack saveContext];
 

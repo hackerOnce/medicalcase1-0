@@ -192,6 +192,7 @@
 {
     [[NSUserDefaults standardUserDefaults] setObject:@"2216" forKey:@"dID"];
     [[NSUserDefaults standardUserDefaults] setObject:@"张三" forKey:@"dName"];
+    
     [MessageObject messageObjectWithUsrStr:@"2216" pwdStr:@"test" iHMsgSocket:self.socket optInt:2015 dictionary:@{@"did":@"2225"} block:^(IHSockRequest *request) {
         if ([request.responseData isKindOfClass:[NSArray class]]) {
             NSArray *tempArray = (NSArray*)request.responseData;
@@ -309,14 +310,14 @@
 //    }
 //    
     NSArray *tempA = self.patientDic[view.backBtn.titleLabel.text];
-    TempPatient *patientID = (TempPatient*)tempA[indexPath.row];
+    TempPatient *patient = (TempPatient*)tempA[indexPath.row];
     
     
-    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",patientID.pID] forKey:@"pID"];
-    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",patientID.pName] forKey:@"pName"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",patient.pID] forKey:@"pID"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",patient.pName] forKey:@"pName"];
 
     
-    [self.delegate didSelectedPatient:patientID.pID];
+    [self.delegate didSelectedPatient:patient];
 
 }
 
