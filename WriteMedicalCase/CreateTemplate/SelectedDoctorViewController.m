@@ -155,7 +155,9 @@
 {
     if (!_socket) {
         _socket = [IHMsgSocket sharedRequest];
-        [_socket connectToHost:@"192.168.10.106" onPort:2323];
+        if (![[_socket IHGCDSocket].asyncSocket isConnected]) {
+            [_socket connectToHost:@"192.168.10.106" onPort:2323];
+        }
     }
     return _socket;
 }

@@ -47,7 +47,9 @@
 {
     if (!_socket) {
         _socket = [IHMsgSocket sharedRequest];
-        [_socket connectToHost:@"192.168.10.106" onPort:2323];
+        if (![[_socket IHGCDSocket].asyncSocket isConnected]) {
+            [_socket connectToHost:@"192.168.10.106" onPort:2323];
+        }
     }
     return _socket;
 }
@@ -196,25 +198,25 @@
     NSString *dID = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
     NSString *dName = [[NSUserDefaults standardUserDefaults] objectForKey:@"dName"];
     NSDictionary *param = @{
-                            @"tArgs" : @{@"highAge" : highAge,
-                                         @"lowAge" : lowAge,
-                                         @"gender" : gender, //1为男，0为女
-                                         @"diagnose" : diagnose,
-                                         @"mainSymptom" :mainSymptom,
+                            @"tArgs" : @{@"highAge" : StringValue(highAge),
+                                         @"lowAge" : StringValue(lowAge),
+                                         @"gender" : StringValue(gender), //1为男，0为女
+                                         @"diagnose" : StringValue(diagnose),
+                                         @"mainSymptom" :StringValue(mainSymptom),
                                          @"otherSymptom" : otherSymptom
                                          },
-                            @"condition": condition,
-                            @"tContent" : content,
+                            @"condition": StringValue(condition),
+                            @"tContent" : StringValue(content),
                             @"isPublic" : @"1", //是否公开，1为公开，0为不公开，
-                            @"doctor" : @{@"dID" : dID,
-                                          @"dName" : dName},
-                            @"templateType" : [self getMBBHWithEnglishName:self.currentNode.nodeEnglish],
-                            @"templateName" : self.currentNode.nodeName,
+                            @"doctor" : @{@"dID" : StringValue(dID),
+                                          @"dName" : StringValue(dName)},
+                            @"templateType" : StringValue([self getMBBHWithEnglishName:self.currentNode.nodeEnglish]),
+                            @"templateName" : StringValue(self.currentNode.nodeName),
                             //@"createPeople" : dName,
                             //@"sourceType"  : @""
                             };
     
-    [MessageObject messageObjectWithUsrStr:@"11" pwdStr:@"test" iHMsgSocket:self.socket optInt:20002 dictionary:param block:^(IHSockRequest *request) {
+    [MessageObject messageObjectWithUsrStr:@"2216" pwdStr:@"test" iHMsgSocket:self.socket optInt:20002 dictionary:param block:^(IHSockRequest *request) {
         
         NSInteger resp = request.resp;
         if (resp == 0) {
@@ -247,7 +249,7 @@
                 @"historyOfPresentIllness" : @"ihefe10102",
                 @"pastHistory" : @"ihefe10103",
                 @"systemsReview" : @"ihefe10104",
-                @"personalHistory" : @"ihefe10105",
+                @"personHistory" : @"ihefe10105",
                 @"menstrualHistory" : @"ihefe10106",
                 @"maritalHistory" : @"ihefe10107",
                 @"obstericalHistory" : @"ihefe10107",//婚育史
