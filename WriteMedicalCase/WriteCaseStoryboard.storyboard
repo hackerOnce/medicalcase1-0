@@ -76,21 +76,10 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="入院记录" id="IaV-xo-YxU">
-                        <barButtonItem key="leftBarButtonItem" style="plain" id="dA8-yl-azB">
-                            <view key="customView" contentMode="scaleToFill" id="VMT-vy-24O">
-                                <rect key="frame" x="16" y="5" width="180" height="33"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="剩余时间：24：09：09" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Am-xA-jOy">
-                                        <rect key="frame" x="0.0" y="6" width="177" height="21"/>
-                                        <color key="backgroundColor" red="0.40062061560000001" green="1" blue="0.61810924119999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
+                        <barButtonItem key="leftBarButtonItem" title="取消" id="7jx-pV-rFv">
+                            <connections>
+                                <action selector="cancelButtonClicked:" destination="fAI-x7-5G4" id="cdq-rz-LZX"/>
+                            </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="保存" id="pAk-WC-upo">
                             <connections>
@@ -99,7 +88,6 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="remainTimeLabel" destination="9Am-xA-jOy" id="Z0T-UT-emH"/>
                         <outlet property="saveButton" destination="pAk-WC-upo" id="Yw4-Vv-vDB"/>
                         <outlet property="tableView" destination="ezX-CJ-NxF" id="8om-ND-V0V"/>
                         <segue destination="K2v-tp-jw9" kind="presentation" identifier="EditCaseSegue" modalTransitionStyle="coverVertical" id="Ajc-LH-Lyi"/>

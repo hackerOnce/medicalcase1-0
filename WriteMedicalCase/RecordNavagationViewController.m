@@ -213,7 +213,7 @@
                         is_in_hospital = patientDict[@"brzt"];
                     }
                     if ([patientDict.allKeys containsObject:@"syxh"]) {
-                        patient.pID = patientDict[@"syxh"];
+                        patient.pID =[NSString stringWithFormat:@"%@", patientDict[@"syxh"]];
                     }
                     
                     if ([patientDict.allKeys containsObject:@"hzxm"]) {
@@ -313,8 +313,8 @@
     TempPatient *patient = (TempPatient*)tempA[indexPath.row];
     
     
-    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",patient.pID] forKey:@"pID"];
-    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",patient.pName] forKey:@"pName"];
+//    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",patient.pID] forKey:@"pID"];
+//    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",patient.pName] forKey:@"pName"];
 
     
     [self.delegate didSelectedPatient:patient];

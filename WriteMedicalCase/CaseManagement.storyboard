@@ -128,24 +128,11 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" tag="1004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OyZ-g1-Ltr">
-                                                    <rect key="frame" x="539" y="30" width="46" height="30"/>
-                                                    <color key="backgroundColor" red="0.59607843140000005" green="0.98431372549999996" blue="0.59607843140000005" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="30" id="c3g-Y4-Zsa"/>
-                                                        <constraint firstAttribute="width" constant="46" id="hoK-Ip-vke"/>
-                                                    </constraints>
-                                                    <state key="normal" title="Button">
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="kLn-nK-isS" firstAttribute="top" secondItem="2R4-AC-QsQ" secondAttribute="topMargin" id="3LE-nt-3U2"/>
                                                 <constraint firstItem="kLn-nK-isS" firstAttribute="leading" secondItem="2R4-AC-QsQ" secondAttribute="leadingMargin" id="9rs-Pl-1tn"/>
                                                 <constraint firstItem="gLE-Kt-kcv" firstAttribute="bottom" secondItem="2R4-AC-QsQ" secondAttribute="bottomMargin" id="EGf-Xr-PoO"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="OyZ-g1-Ltr" secondAttribute="trailing" constant="7" id="FtG-rq-Swk"/>
-                                                <constraint firstItem="OyZ-g1-Ltr" firstAttribute="top" secondItem="2R4-AC-QsQ" secondAttribute="topMargin" constant="22" id="Krc-J4-kg9"/>
                                                 <constraint firstItem="gLE-Kt-kcv" firstAttribute="top" secondItem="kLn-nK-isS" secondAttribute="bottom" constant="2" id="Nf9-am-9pV"/>
                                                 <constraint firstItem="WPL-si-U3Y" firstAttribute="top" secondItem="2R4-AC-QsQ" secondAttribute="topMargin" id="SFC-EV-jBi"/>
                                                 <constraint firstItem="WPL-si-U3Y" firstAttribute="leading" secondItem="kLn-nK-isS" secondAttribute="trailing" constant="8" id="UaB-lU-7cz"/>
@@ -154,7 +141,6 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="caseTypeLabel" destination="gLE-Kt-kcv" id="U9R-ao-5OL"/>
-                                            <outlet property="cellButton" destination="OyZ-g1-Ltr" id="oBh-Qg-nZe"/>
                                             <outlet property="remainTimeLabel" destination="WPL-si-U3Y" id="MNk-Oc-s3a"/>
                                         </connections>
                                     </tableViewCell>

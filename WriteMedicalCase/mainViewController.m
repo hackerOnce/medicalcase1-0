@@ -24,8 +24,8 @@
     //WriteCaseSaveViewController *saveVC = [storyBoard instantiateViewControllerWithIdentifier:@"saveCaseVC"];
     WriteCaseSaveViewController *saveVC = (WriteCaseSaveViewController*)[nav.viewControllers firstObject];
     
-    saveVC.currentDoctor = [CurrentDoctor currentDoctor];
-    saveVC.currentPatient = [[CurrentPatient alloc] init];
+   // saveVC.currentDoctor = [CurrentDoctor currentDoctor];
+    //saveVC.currentPatient = [[CurrentPatient alloc] init];
     
     [self presentViewController:nav animated:YES completion:^{
         

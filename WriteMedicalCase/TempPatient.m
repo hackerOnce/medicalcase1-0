@@ -86,10 +86,74 @@
         if ([patientDic.allKeys containsObject:@"pCountOfHospitalized"]) {
             self.pCountOfHospitalized = patientDic[@"pCountOfHospitalized"];
         }
-
+        if ([patientDic.allKeys containsObject:@"pAdmitDate"]) {
+            self.pAdmitDate = patientDic[@"pAdmitDate"];
+        }
+        
     }
     
     
+    return self;
+}
+-(instancetype)initPatientWithPatient:(TempPatient*)patient
+{
+    if (self = [super init]) {
+        _pID = patient.pID;
+        _pGender = patient.pGender;
+        _pName = patient.pName;
+        _patientState = patient.patientState;
+        _pAge = patient.pAge;
+        _pCity = patient.pCity;
+        _pProvince = patient.pProvince;
+        _pDetailAddress = patient.pDetailAddress;
+        
+//        if ([patientDic.allKeys containsObject:@"pDept"]) {
+//            self.pDept = patientDic[@"pDept"];
+//        }
+//        if ([patientDic.allKeys containsObject:@"pDept"]) {
+//            self.pDept = patientDic[@"pDept"];
+//        }
+//        
+//        if ([patientDic.allKeys containsObject:@"patientState"]) {
+//            self.patientState = patientDic[@"patientState"];
+//        }
+//        if ([patientDic.allKeys containsObject:@"pNation"]) {
+//            self.pNation = patientDic[@"pNation"];
+//        }
+//        
+//        if ([patientDic.allKeys containsObject:@"pProfession"]) {
+//            self.pProfession = patientDic[@"pProfession"];
+//        }
+//        if ([patientDic.allKeys containsObject:@"pMaritalStatus"]) {
+//            self.pMaritalStatus = patientDic[@"pMaritalStatus"];
+//        }
+//        
+//        if ([patientDic.allKeys containsObject:@"pMobileNum"]) {
+//            self.pMobileNum = patientDic[@"pMobileNum"];
+//        }
+//        if ([patientDic.allKeys containsObject:@"pLinkman"]) {
+//            self.pLinkman = patientDic[@"pLinkman"];
+//        }
+//        
+//        if ([patientDic.allKeys containsObject:@"pLinkmanMobileNum"]) {
+//            self.pLinkmanMobileNum = patientDic[@"pLinkmanMobileNum"];
+//        }
+//        if ([patientDic.allKeys containsObject:@"presenter"]) {
+//            self.presenter = patientDic[@"presenter"];
+//        }
+//        if ([patientDic.allKeys containsObject:@"pAdmissionTime"]) {
+//            self.pAdmissionTime = patientDic[@"pAdmissionTime"];
+//        }
+//        if ([patientDic.allKeys containsObject:@"pSubAdmissionTime"]) {
+//            self.pSubAdmissionTime = patientDic[@"pSubAdmissionTime"];
+//        }
+//        if ([patientDic.allKeys containsObject:@"pCountOfHospitalized"]) {
+//            self.pCountOfHospitalized = patientDic[@"pCountOfHospitalized"];
+//        }
+//        if ([patientDic.allKeys containsObject:@"pAdmitDate"]) {
+//            self.pAdmitDate = patientDic[@"pAdmitDate"];
+//        }
+    }
     return self;
 }
 @end

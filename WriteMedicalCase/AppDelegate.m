@@ -41,6 +41,9 @@
     [[NSUserDefaults standardUserDefaults] setObject:@"2216" forKey:@"dID"];
     [[NSUserDefaults standardUserDefaults] setObject:@"张三" forKey:@"dName"];
     
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"pID"];
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"pName"];
+    
     [self.coreDataStack saveFieldNodeListToCoreData];
     
     

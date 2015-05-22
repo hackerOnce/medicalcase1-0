@@ -29,8 +29,10 @@
 @property (nonatomic,strong) NSString *pAdmissionTime;//入院时间 //年月日
 @property (nonatomic,strong) NSString *pSubAdmissionTime; //时分秒
 @property (nonatomic,strong) NSString *patientState;//未出院
+@property (nonatomic,strong) NSString *pAdmitDate; //入院日期
 //@property (nonatomic,strong) NSString *pRecordTime;
 //@property (nonatomic,strong) NSString *pSubRecordTime;
 -(instancetype)initWithPatientID:(NSDictionary*)patientDic;
+-(instancetype)initPatientWithPatient:(TempPatient*)patient;
 
 @end

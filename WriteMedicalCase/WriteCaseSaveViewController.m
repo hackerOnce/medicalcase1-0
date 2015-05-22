@@ -64,6 +64,7 @@
 @property (nonatomic,strong) UIAlertView *saveAlertView;
 @property (nonatomic,strong) UIAlertView *commitAlertView;
 @property (nonatomic,strong) UIAlertView *cancelAlertView;
+@property (nonatomic,strong) UIAlertView *updateAlertView;
 
 @property (nonatomic) NSInteger resp;
 @property (nonatomic) BOOL hasCompletedWriteRecord; //
@@ -72,6 +73,9 @@
 
 @implementation WriteCaseSaveViewController
 ///test data
+- (IBAction)cancelButtonClicked:(UIBarButtonItem *)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 -(IHMsgSocket *)socket
 {
@@ -92,7 +96,7 @@
 }
 - (IBAction)saveButton:(UIBarButtonItem *)sender {
     if ([sender.title isEqualToString:@"保存"]) {
-        if (StringValue(self.recordBaseInfo.caseID)) {
+        if (self.recordBaseInfo.caseID) {
             //update
             [self updateCase];
         }else {
@@ -107,7 +111,39 @@
 }
 -(void)updateCase
 {
+    NSString *caseID = self.recordBaseInfo.caseID;
+    if (caseID) {
+        
+    }else {
+        abort();
+    }
+    NSMutableDictionary *caseContent = [[NSMutableDictionary alloc] init];
     
+    ParentNode *parentNode = [self.coreDataStack fetchParentNodeWithNodeEntityName:@"入院记录"];
+    for (int i=0; i< parentNode.nodes.count; i++) {
+        Node *tempNode = parentNode.nodes[i];
+        if ([tempNode.nodeContent isEqualToString:@""]) {
+            self.hasCompletedWriteRecord = YES;
+        }
+        [caseContent setObject:tempNode.nodeContent forKey:tempNode.nodeEnglish];
+        NSLog(@"nodeEnglish= %@,nodeContent= %@,nodeName=%@",tempNode.nodeEnglish,tempNode.nodeContent,tempNode.nodeName);
+        
+    }
+
+    [MessageObject messageObjectWithUsrStr:@"2216" pwdStr:@"test" iHMsgSocket:self.socket optInt:1999 dictionary:@{@"content":caseContent,@"id":self.recordBaseInfo.caseID} block:^(IHSockRequest *request) {
+        if (request.resp == 0) {
+            self.resp = request.resp;
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.updateAlertView = [[UIAlertView alloc] initWithTitle:@"保存成功" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                NSLog(@"update record case ok");
+                [self.updateAlertView show];
+            });
+            
+        }
+    } failConection:^(NSError *error) {
+        
+    }];
 }
 -(void)cancelCommitCaseToServer
 {
@@ -134,9 +170,11 @@
             default:
                 break;
         }
-        
-        self.cancelAlertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [self.cancelAlertView show];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.cancelAlertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [self.cancelAlertView show];
+        });
+       
         
     } failConection:^(NSError *error) {
         
@@ -174,8 +212,11 @@
                 break;
         }
         
-        self.commitAlertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [self.commitAlertView show];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.commitAlertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [self.commitAlertView show];
+        });
+        
         
     } failConection:^(NSError *error) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"服务器端出错" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles: nil];
@@ -191,14 +232,13 @@
     
     for (int i=0; i< parentNode.nodes.count; i++) {
         Node *tempNode = parentNode.nodes[i];
-        
-        if ([tempNode.nodeContent isEqualToString:tempNode.nodeName]) {
-            if ([StringValue(tempNode.nodeContent) isEqualToString:@""]) {
+        if ([tempNode.nodeContent isEqualToString:@""]) {
                 self.hasCompletedWriteRecord = YES;
-            }
         }
         [caseContent setObject:tempNode.nodeContent forKey:tempNode.nodeEnglish];
     }
+    
+    self.originDict = [[NSMutableDictionary alloc] init];
     Patient *patient = [self.coreDataStack patientFetchWithDict:[self caseKeyDic]];
     NSMutableDictionary *pDict = [[NSMutableDictionary alloc] init];
     [pDict setObject:[NSString stringWithFormat:@"%@",patient.pID] forKey:@"pID"];
@@ -225,7 +265,7 @@
     //alertView.title = @"保存成功";
     
     [self.originDict setObject:caseContent forKey:@"caseContent"];
-    [self.originDict setObject:self.caseType forKey:@"caseType"];
+    [self.originDict setObject:self.recordBaseInfo.caseType forKey:@"caseType"];
     
     NSMutableDictionary *resident = [[NSMutableDictionary alloc] init];
     [resident setObject:@"" forKey:@"dID"];
@@ -272,7 +312,11 @@
             }
             
         }
-        [self.saveAlertView show];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.saveAlertView show];
+
+        });
         
     } failConection:^(NSError *error) {
         // [self.coreDataStack saveContext];
@@ -288,8 +332,13 @@
         
         [self.coreDataStack recordUpdatedWithDict:[self parseCaseInfoWithDic:self.originDict]];
         
-        if (self.resp == 0 && !self.hasCompletedWriteRecord && !self.hasCompletedWriteRecord) {
+        if (self.resp == 0 && !self.hasCompletedWriteRecord) {
            [self.saveButton setTitle:@"提交"];
+        }
+    }
+    if (alertView == self.updateAlertView) {
+        if (self.resp == 0 && !self.hasCompletedWriteRecord) {
+            [self.saveButton setTitle:@"提交"];
         }
     }
     if (alertView == self.commitAlertView) {
@@ -307,17 +356,28 @@
 {
     return @[@"chiefComplaint",@"historyOfPresentillness",@"personHistory",@"pastHistory",@"familyHistory",@"obstericalHistory",@"physicalExamination",@"systemsReview",@"specializedExamination",@"tentativeDiagnosis",@"admittingDiagnosis",@"confirmedDiagnosis",];
 }
+-(NSString*)transformCaseStatus:(NSString*)caseStatusString
+{
+    NSDictionary *tempDict= @{@"保存未提交":@"0",@"提交未审核":@"1",@"主治医师审核":@"2",@"（副）主任医师审核":@"3",@"主治医师审核未通过":@"4",@"副主任医师审核通过":@"5",@"副主任医师审核未通过":@"6",@"归档":@"7",@"撤回":@"8"};
+    if ([tempDict.allKeys containsObject:caseStatusString]) {
+        return tempDict[caseStatusString];
+    }else {
+        return @"0";
+    }
+}
 -(void)setRecordBaseInfo:(RecordBaseInfo *)recordBaseInfo
 {
     _recordBaseInfo = recordBaseInfo;
     
-    switch ([_recordBaseInfo.caseStatus integerValue]) {
+    NSString *caseStatusInt = [self transformCaseStatus:_recordBaseInfo.caseStatus];
+    
+    switch ([caseStatusInt integerValue]) {
         case 0:{
             [self.saveButton setTitle:@"保存"];
             break;
         }
         case 1:{
-            [self.saveButton setTitle:@"提交"];
+            [self.saveButton setTitle:@"撤回"];
             break;
         }
         case 2:{
@@ -350,7 +410,7 @@
    
    ParentNode *parentNode = [self.coreDataStack fetchParentNodeWithNodeEntityName:@"入院记录"];
     CaseContent *tempCaseContent = (CaseContent*)_recordBaseInfo.caseContent;
-    NSArray *tempArray = @[tempCaseContent.chiefComplaint?tempCaseContent.chiefComplaint:@"",tempCaseContent.historyOfPresentillness?tempCaseContent.historyOfPresentillness:@"",tempCaseContent.personHistory?tempCaseContent.personHistory:@"",tempCaseContent.personHistory?tempCaseContent.personHistory:@"",tempCaseContent.familyHistory?tempCaseContent.familyHistory:@"",tempCaseContent.obstericalHistory?tempCaseContent.obstericalHistory:@"",tempCaseContent.physicalExamination?tempCaseContent.physicalExamination:@"",tempCaseContent.systemsReview?tempCaseContent.systemsReview:@"",tempCaseContent.specializedExamination?tempCaseContent.specializedExamination:@"",tempCaseContent.tentativeDiagnosis?tempCaseContent.tentativeDiagnosis:@"",tempCaseContent.admittingDiagnosis?tempCaseContent.admittingDiagnosis:@"",tempCaseContent.confirmedDiagnosis?tempCaseContent.confirmedDiagnosis:@""];
+    NSArray *tempArray = @[tempCaseContent.chiefComplaint?tempCaseContent.chiefComplaint:@"",tempCaseContent.historyOfPresentillness?tempCaseContent.historyOfPresentillness:@"",tempCaseContent.personHistory?tempCaseContent.personHistory:@"",tempCaseContent.pastHistory?tempCaseContent.pastHistory:@"",tempCaseContent.familyHistory?tempCaseContent.familyHistory:@"",tempCaseContent.obstericalHistory?tempCaseContent.obstericalHistory:@"",tempCaseContent.physicalExamination?tempCaseContent.physicalExamination:@"",tempCaseContent.systemsReview?tempCaseContent.systemsReview:@"",tempCaseContent.specializedExamination?tempCaseContent.specializedExamination:@"",tempCaseContent.tentativeDiagnosis?tempCaseContent.tentativeDiagnosis:@"",tempCaseContent.admittingDiagnosis?tempCaseContent.admittingDiagnosis:@"",tempCaseContent.confirmedDiagnosis?tempCaseContent.confirmedDiagnosis:@""];
     
     for (int i=0; i< parentNode.nodes.count; i++) {
         Node *tempNode = parentNode.nodes[i];
@@ -451,7 +511,9 @@
     if ([dataDic.allKeys containsObject:@"_id"]) {
         [tempDic setObject:dataDic[@"_id"] forKey:@"caseID"];
     }
-    
+    if ([dataDic.allKeys containsObject:@"caseType"]) {
+        [tempDic setObject:dataDic[@"caseType"] forKey:@"caseType"];
+    }
     if ([dataDic.allKeys containsObject:@"_updated"]) {
         [tempDic setObject:dataDic[@"_updated"] forKey:@"updatedTime"];
     }
