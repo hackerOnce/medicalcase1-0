@@ -15,6 +15,7 @@
 @end
 
 @interface RecordManagedCellTableViewCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *remianTimeLabelHeight;
 @property (weak, nonatomic) IBOutlet UILabel *remainTimeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *caseTypeLabel;
 @property (weak, nonatomic) IBOutlet UIButton *cellButton;

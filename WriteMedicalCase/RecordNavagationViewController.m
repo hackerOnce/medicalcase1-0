@@ -228,8 +228,10 @@
                 [self.patientDic setObject:inHospital_ids forKey:@"本次住院"];
                 [self.patientDic setObject:outOfHospital_ids forKey:@"已出院(未归档)"];
                 
-                [self.tableView reloadData];
-                
+               dispatch_async(dispatch_get_main_queue(), ^{
+                   [self.tableView reloadData];
+
+               });
             }
         }
         

@@ -209,7 +209,7 @@ static IHMsgSocket *ihMsgSocket;
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
 {
     _error = err;
-   // self.failConnection(err);
+    self.failConnection(err);
     [self performSelectorInBackground:@selector(createNetworkSubThread) withObject:nil];
     
 }

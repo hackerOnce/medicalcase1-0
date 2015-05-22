@@ -473,7 +473,7 @@
     if (self.isRemoveLeftButton) {
         self.navigationItem.leftBarButtonItem = nil;
     }else {
-        self.remainTimeLabel.text =[NSString stringWithFormat:@"剩余时间:08:00:00"];
+      //  self.remainTimeLabel.text =[NSString stringWithFormat:@"剩余时间:08:00:00"];
     }
     
     self.hasCompletedWriteRecord = NO;
@@ -766,22 +766,36 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    WriteCaseSaveCell *cell =(WriteCaseSaveCell*) [tableView cellForRowAtIndexPath:indexPath];
-    UILabel *label =(UILabel*) [cell viewWithTag:1001];
-    UITextView *textView = (UITextView*)[cell viewWithTag:1002];
-    self.selectedStr = label.text;
-    self.textViewContent = textView.text;
-    self.currentIndexPath = indexPath;
-    
-    if ([label.text isEqualToString:@"主诉"]) {
-        [self performSegueWithIdentifier:@"firstSegue" sender:nil];
 
-    }else{
-        [self performSegueWithIdentifier:@"EditCaseSegue" sender:nil];
+    if ([self.saveButton.title isEqualToString:@"保存"]) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        WriteCaseSaveCell *cell =(WriteCaseSaveCell*) [tableView cellForRowAtIndexPath:indexPath];
+        UILabel *label =(UILabel*) [cell viewWithTag:1001];
+        UITextView *textView = (UITextView*)[cell viewWithTag:1002];
+        self.selectedStr = label.text;
+        self.textViewContent = textView.text;
+        self.currentIndexPath = indexPath;
+        
+        if ([label.text isEqualToString:@"主诉"]) {
+            [self performSegueWithIdentifier:@"firstSegue" sender:nil];
+            
+        }else{
+            [self performSegueWithIdentifier:@"EditCaseSegue" sender:nil];
+        }
+    }else {
+        NSString *message;
+        
+        if ([self.saveButton.title isEqualToString:@"撤回"]) {
+            message = @"不能编辑病历，请先撤回";
+        }else {
+            message = @"病历正在审核中，不能编辑";
+        }
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alertView show];
     }
+    
 }
+
 #pragma mask - fetch view controller delegate
 /// fetch result controller delegate
 -(void)controllerWillChangeContent:(NSFetchedResultsController *)controller

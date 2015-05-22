@@ -28,21 +28,16 @@
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 @property (nonatomic,strong) NSArray *recordCases;
-
-@property (nonatomic,strong) NSMutableArray *arry1;
-@property (nonatomic,strong) NSMutableArray *arry2;
-@property (nonatomic,strong) NSMutableArray *arry3;
-@property (nonatomic,strong) NSMutableArray *arry4;
-@property (nonatomic,strong) NSMutableArray *arry5;
-@property (nonatomic,strong) NSMutableArray *arry6;
+@property (weak, nonatomic) IBOutlet UILabel *remainTime;
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 
 @property (nonatomic,strong) NSMutableArray *sumArray;
+
 
 @property (nonatomic,strong) RecordBaseInfo *recordBaseInfo;
 
 @property (nonatomic,strong) IHMsgSocket *socket;
-
-@property (nonatomic,strong) RecordBaseInfo *resultCaseInfo;
+@property (nonatomic,strong) UIRefreshControl *refreshControl;
 
 @property (nonatomic,strong) NSMutableArray *recordCaseArray;
 
@@ -105,24 +100,11 @@
     }
     return _dataDic;
 }
-//-(void)setRecordCaseArray:(NSMutableArray *)recordCaseArray
-//{
-//    _recordCaseArray = recordCaseArray;
-//    
-//    for (int i=0; i < self.classficationArray.count; i++) {
-//        NSString *key = self.classficationArray[i];
-//        RecordBaseInfo *recordCaseInfo = [_recordCaseArray objectAtIndex:i];
-//        if ([recordCaseInfo.caseStatus isEqualToString:key]) {
-//            [self.dataDic setObject:recordCaseInfo forKey:key];
-//        }
-//    }
-//    [self.tableView reloadData];
-//}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self loadModel];
     [self setUpTableView];
-    //Do any additional setup after loading the view.
+    
     UIViewController *rec = [self.splitViewController.viewControllers objectAtIndex:0];
     
     UINavigationController *nac = (UINavigationController*)rec;
@@ -149,6 +131,13 @@
 {
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    
+    UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
+    
+    [self.tableView addSubview:refresh];
+    
+    self.refreshControl = refresh;
+    
 }
 -(void)loadModel
 {
@@ -167,9 +156,7 @@
 #pragma mask - RecordNavagationViewControllerDelegate
 -(void)loadPatientInfoWithPatientID:(TempPatient*)patient
 {
-    
-    self.dataDic = nil;
-    [MessageObject messageObjectWithUsrStr:@"2216" pwdStr:@"test" iHMsgSocket:self.socket optInt:2016 dictionary:@{@"syxh":[NSString stringWithFormat:@"%@",patient.pID]} block:^(IHSockRequest *request) {
+        [MessageObject messageObjectWithUsrStr:@"2216" pwdStr:@"test" iHMsgSocket:self.socket optInt:2016 dictionary:@{@"syxh":[NSString stringWithFormat:@"%@",patient.pID]} block:^(IHSockRequest *request) {
         NSMutableDictionary *patientDict = [[NSMutableDictionary alloc] init];
         
         if ([request.responseData isKindOfClass:[NSDictionary class]]) {
@@ -213,8 +200,6 @@
             }
             
         }
-        
-      //  NSString *patientID = [[NSUserDefaults standardUserDefaults] objectForKey:@"pID"];
         [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",patient.pID] forKey:@"pID"];
         [[NSUserDefaults standardUserDefaults] setObject:patient.pName forKey:@"pName"];
 
@@ -239,7 +224,9 @@
             }
                 
         }
-        
+        [self.refreshControl endRefreshing];
+        [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+
         [self.tableView reloadData];
     } failConection:^(NSError *error) {
         
@@ -247,6 +234,9 @@
 }
 -(void)didSelectedPatient:(TempPatient *)patient
 {
+    self.dataDic = nil;
+    [self.refreshControl beginRefreshing];
+    [self.tableView setContentOffset:CGPointMake(0, -100) animated:YES];
     [self loadRecordCaseFromServerWithPatient:patient];
 }
 -(void)loadRecordCaseFromServerWithPatient:(TempPatient*)patient
@@ -275,7 +265,6 @@
                     RecordBaseInfo *recordBaseInfo = [self.coreDataStack fetchRecordWithDict:dict];
                     [self.recordCaseArray addObject:recordBaseInfo];
                 }
-                self.dataDic = nil;
                 
                 for (RecordBaseInfo *record in self.recordCaseArray) {
                     
@@ -286,6 +275,10 @@
                     }
                     
                 }
+                
+                [self.refreshControl endRefreshing];
+                [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+
                 [self.tableView reloadData];
                 
                 
@@ -294,7 +287,10 @@
         
         
     } failConection:^(NSError *error) {
-        
+        if (self.refreshControl.isFirstResponder) {
+            [self.refreshControl endRefreshing];
+            [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+        }
     }];
 }
 -(NSString*)transformCaseStatue:(NSString*)caseStatusInt
@@ -303,7 +299,7 @@
     if ([tempDict.allKeys containsObject:caseStatusInt]) {
         return tempDict[caseStatusInt];
     }else {
-        return @"保存未提交";
+        return @"未创建";
     }
 }
 -(NSDictionary*)caseKeyDic
@@ -357,6 +353,12 @@
     NSArray *tempArray = [self.dataDic objectForKey:view.backBtn.titleLabel.text];
     RecordBaseInfo *record = tempArray[indexPath.row];
     cell.caseTypeLabel.text = record.caseType;
+    
+    if ([record.caseStatus isEqualToString:@"未创建"] || [record.caseStatus isEqualToString:@"保存未提交"]) {
+        cell.remainTimeLabel.text = @"剩余时间: 02:00:00";
+    }else {
+        cell.remainTimeLabel.text = [NSString stringWithFormat:@"病历状态：%@",record.caseStatus];
+    }
     return cell;
 }
 
@@ -384,26 +386,17 @@
     
     if (view.open) {
         _currentRow = indexPath.row;
-       // [_tableView reloadData];
     }
     
-    RecordManagedCellTableViewCell *cell = (RecordManagedCellTableViewCell*)[tableView cellForRowAtIndexPath:indexPath];
-
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"WriteCaseStoryboard" bundle:nil];
     UINavigationController *nav = [storyBoard instantiateViewControllerWithIdentifier:@"writeNav"];
     
     WriteCaseSaveViewController *saveVC = (WriteCaseSaveViewController*)[nav.viewControllers firstObject];
     
-    //saveVC.currentDoctor = [CurrentDoctor currentDoctor];
-    //saveVC.currentPatient = [[CurrentPatient alloc] init];
-    //saveVC.isRemoveLeftButton = YES;
-    //saveVC.caseType = cell.caseTypeLabel.text;
     saveVC.recordBaseInfo = record;
     
     [self presentViewController:nav animated:YES completion:nil];
-  //  [self.navigationController pushViewController:saveVC animated:YES];
-    
-    
+
 }
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -444,56 +437,23 @@
     self.currentRow = -1;
 
     if (view.open) {
-//        for(int i = 0;i<[self.headViewArray count];i++)
-//        {
-//            HeadView *head = [self.headViewArray objectAtIndex:i];
-//            head.open = NO;
-//            //[head.backBtn setBackgroundImage:[UIImage imageNamed:@"btn_momal"] forState:UIControlStateNormal];
-//        }
         view.open = NO;
-        [_tableView reloadData];
+        
+        NSIndexSet *indexSet=[NSIndexSet indexSetWithIndex:view.section];
+        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
         return;
+    }else {
+        view.open = YES;
+        
+        NSIndexSet *indexSet=[NSIndexSet indexSetWithIndex:view.section];
+        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+        _currentSection = view.section;
+        
+       _currentSection = view.section;
     }
-    _currentSection = view.section;
-    [self reset];
     
 }
 
-//界面重置
-- (void)reset
-{
-    for(int i = 0;i<[self.headViewArray count];i++)
-    {
-        HeadView *head = [self.headViewArray objectAtIndex:i];
-        
-        if(head.section == self.currentSection || head.open)
-        {
-            head.open = YES;
-            //[head.backBtn setBackgroundImage:[UIImage imageNamed:@"btn_nomal"] forState:UIControlStateNormal];
-            
-        }else {
-            //[head.backBtn setBackgroundImage:[UIImage imageNamed:@"btn_momal"] forState:UIControlStateNormal];
-            
-            head.open = NO;
-        }
-        
-    }
-    [self.tableView reloadData];
-}
-
-//#pragma mask - cell delegate
-//-(void)didSelectedCellButton:(UIButton *)button inCell:(RecordManagedCellTableViewCell *)cell
-//{
-//    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-//    HeadView* view = [self.headViewArray objectAtIndex:indexPath.section];
-//
-//    [self performSegueWithIdentifier:@"EditCaseSegue" sender:nil];
-//}
-#pragma mark - Navigation
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-}
 #pragma mask -helper
 -(NSDictionary*)parseCaseInfoWithDic:(NSDictionary*)dataDic
 {
