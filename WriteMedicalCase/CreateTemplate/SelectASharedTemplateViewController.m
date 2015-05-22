@@ -69,6 +69,25 @@
     [super viewWillAppear:animated];
     
     self.isSearchEnabled = NO;
+    [self addNotificationObserver];
+
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self removeNotificationObserver];
+}
+-(void)removeNotificationObserver
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+-(void)addNotificationObserver
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(shouldDismissThisViewController)  name:@"ShouldEndShareTemplate" object:nil];
+}
+-(void)shouldDismissThisViewController
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)updateTableView
 {

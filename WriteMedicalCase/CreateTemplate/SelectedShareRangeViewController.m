@@ -70,6 +70,7 @@
         SelectedDoctorViewController *selectedDoctor = (SelectedDoctorViewController*)segue.destinationViewController;
         selectedDoctor.selectedTemplates = [NSMutableArray arrayWithArray:self.selectedTemplates];
         selectedDoctor.selectedSharedStyle =[NSString stringWithFormat:@"%@",self.sharedStyle];
+        
     }
 }
 

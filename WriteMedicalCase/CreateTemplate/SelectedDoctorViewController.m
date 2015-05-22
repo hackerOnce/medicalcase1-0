@@ -107,6 +107,8 @@
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ShouldEndShareTemplate" object:nil];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (IBAction)cancelButton:(UIBarButtonItem *)sender {

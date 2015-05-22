@@ -94,6 +94,16 @@
     }
     return _caseType;
 }
+
+- (void)setCaseID:(NSString *)caseID
+{
+    if (![caseID isEqualToString:_caseID]) {
+        _caseID = caseID;
+        self.recordBaseInfo.caseID = caseID;
+        [self.coreDataStack saveContext];
+    }
+}
+
 - (IBAction)saveButton:(UIBarButtonItem *)sender {
     if ([sender.title isEqualToString:@"保存"]) {
         if (self.recordBaseInfo.caseID) {

@@ -144,8 +144,6 @@
         TempPatient *patient1 = [[TempPatient alloc] initWithPatientID:@{@"pID":patientID,@"pName":patientName}];
         [self loadRecordCaseFromServerWithPatient:patient1];
     }
-    
-    
 }
 -(void)setUpTableView
 {
@@ -185,10 +183,7 @@
             if ([tempDict.allKeys containsObject:@"mzbm"]) {
                 [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"mzbm"]]forKey:@"pNation"];
             }
-            //            if ([tempDict.allKeys containsObject:@"patid"]) {
-            //                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"patid"]]forKey:@"pID"];
-            //            }
-            
+    
             if ([tempDict.allKeys containsObject:@"sex"]) {
                 [patientDict setObject:[NSString stringWithFormat:@"%@", tempDict[@"sex"]]forKey:@"pGender"];
             }
@@ -409,6 +404,39 @@
   //  [self.navigationController pushViewController:saveVC animated:YES];
     
     
+}
+
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 1) {
+        return YES;
+    }
+    return NO;
+}
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        HeadView* view = [self.headViewArray objectAtIndex:indexPath.section];
+        NSMutableArray *tempArray = [self.dataDic objectForKey:view.backBtn.titleLabel.text];
+        RecordBaseInfo *record = tempArray[indexPath.row];
+
+        [tempArray removeObjectAtIndex:indexPath.row];
+        
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+
+        NSString *caseID = record.caseID;
+        NSString *doctorID = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
+        
+        [MessageObject messageObjectWithUsrStr:@"2216" pwdStr:@"test" iHMsgSocket:self.socket optInt:2006 dictionary:@{@"did":doctorID,@"id":caseID} block:^(IHSockRequest *request) {
+            if (request.resp == 0) {
+                NSLog(@"删除成功");
+            }
+            
+        } failConection:^(NSError *error) {
+            
+        }];
+    }
 }
 
 #pragma mark - HeadViewdelegate
