@@ -20,7 +20,7 @@
 -(NSArray *)dataArray
 {
     if (!_dataArray) {
-        _dataArray = @[@"个人分享",@"科室分享",@"个人和科室混合",@"全院分享"];
+        _dataArray = @[@"个人分享",@"科室分享",@"全院分享"];
     }
    return _dataArray;
 }

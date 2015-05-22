@@ -206,8 +206,6 @@
 {
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     TemplateModel *templateModel = [self.templateArray objectAtIndex:indexPath.row];
-    
-    
     cell.cellIndexPath = indexPath;
     
     UILabel *conditionLabel = (UILabel*)[cell viewWithTag:1001];

@@ -219,13 +219,16 @@
         NSInteger resp = request.resp;
         if (resp == 0) {
           
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"模板保存成功" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alertView show];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"模板保存成功" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alertView show];
+            });
+            
         }
         
     } failConection:^(NSError *error) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"服务器端出错" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [alertView show];
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"服务器端出错" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//        [alertView show];
 
     }];
 }

@@ -10,7 +10,7 @@
 #import "HeadView.h"
 #import "Department.h"
 
-@interface SelectedDoctorViewController ()<HeadViewDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface SelectedDoctorViewController ()<HeadViewDelegate,UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>
 @property (nonatomic,strong) NSMutableArray *headViewArray;
 
 @property (nonatomic) NSInteger currentRow;
@@ -76,19 +76,22 @@
         switch (count) {
             case 0:{
                 //成功
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"成功分享模板" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                    [alert show];
+                });
                 break;
             }
             case -1:{
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"没有分享权限" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"没有分享权限" message:nil delegate:nil cancelButtonTitle:@"OK"otherButtonTitles:nil];
                     [alert show];
                 });
-
                 break;
             }
             case -2:{
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"模板不存在" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"模板不存在" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
                     [alert show];
                 });
                 break;
@@ -101,18 +104,10 @@
     }];
     
     [self dismissViewControllerAnimated:YES completion:nil];
-  //  [MessageObject ]
-    
-    //[MessageObject ]
-//    NSMutableArray *selectedTemplates = [[NSMutableArray alloc] init];
-//    for (NSIndexPath *indexPath in tempArray) {
-//        TempDoctor *templateDoctor = [self.templateArray objectAtIndex:indexPath.row];
-//        [selectedTemplates addObject:templateDoctor];
-//    }
-
-  //  NSArray *sharedUsers = [NSArray ar]
-    
-    
+}
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (IBAction)cancelButton:(UIBarButtonItem *)sender {
     
@@ -288,9 +283,11 @@
 }
 -(NSString*)refrenceStyleWith:(NSString*)selectedString
 {
-    NSDictionary *dict = @{@"个人分享":@"0",@"科室分享":@"1",@"个人和科室混合":@"2",@"全院分享":@"3"};
+    NSDictionary *dict = @{@"个人分享":@"1",@"科室分享":@"2",@"全院分享":@"3"};
     return [dict objectForKey:selectedString];
 }
+
+
 #pragma mark - TableViewdelegate&&TableViewdataSource
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
