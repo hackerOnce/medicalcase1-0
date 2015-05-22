@@ -123,6 +123,7 @@
     if ([patientID isEqualToString:@""] && [patientName isEqualToString:@""]) {
     
     }else {
+        self.dataDic = nil;
         TempPatient *patient1 = [[TempPatient alloc] initWithPatientID:@{@"pID":patientID,@"pName":patientName}];
         [self loadRecordCaseFromServerWithPatient:patient1];
     }

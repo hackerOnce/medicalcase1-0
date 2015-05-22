@@ -175,36 +175,41 @@
 
 -(void)saveTemplateToCoreData
 {
-    NSString *condition =[NSString stringWithFormat:@"%@",[self.dataDic objectForKey:@"添加条件"]];
-    NSString *content =[NSString stringWithFormat:@"%@", [self.dataDic objectForKey:@"添加内容"]];
+    NSString *condition =[self.dataDic objectForKey:@"添加条件"];
+    NSString *content =[self.dataDic objectForKey:@"添加内容"];
     
     
     ParentNode *parentNode = [self.coreDataStack fetchParentNodeWithNodeEntityName:@"条件"];
     
     NSMutableDictionary *tempDict = [[NSMutableDictionary alloc] init];
     for (Node *tempNode in parentNode.nodes) {
-        [tempDict setObject:tempNode.nodeContent forKey:tempNode.nodeEnglish];
+        if ([tempNode.nodeContent isEqualToString:@""]) {
+            
+        }else {
+            [tempDict setObject:tempNode.nodeContent forKey:tempNode.nodeEnglish];
+        }
+        
     }
     
-    NSString *highAge =[NSString stringWithFormat:@"%@", tempDict[@"highAge"]];
-    NSString *lowAge = [NSString stringWithFormat:@"%@",tempDict[@"lowAge"]];
-    NSString *gender = [NSString stringWithFormat:@"%@",tempDict[@"gender"]];
-    NSString *diagnose =[NSString stringWithFormat:@"%@",tempDict[@"diagnose"]];
-    NSString *mainSymptom =[NSString stringWithFormat:@"%@", tempDict[@"mainSymptom"]];
-    NSString *otherSymptom =[NSString stringWithFormat:@"%@", tempDict[@"acompanySymptom"]];
+    NSString *highAge = tempDict[@"highAge"];
+    NSString *lowAge = tempDict[@"lowAge"];
+    NSString *gender = tempDict[@"gender"];
+    NSString *diagnose = tempDict[@"diagnose"];
+    NSString *mainSymptom = tempDict[@"mainSymptom"];
+    NSString *otherSymptom = tempDict[@"acompanySymptom"];
     
     NSString *dID = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
     NSString *dName = [[NSUserDefaults standardUserDefaults] objectForKey:@"dName"];
     NSDictionary *param = @{
-                            @"tArgs" : @{@"highAge" : highAge,
-                                         @"lowAge" : lowAge,
-                                         @"gender" : gender, //1为男，0为女
-                                         @"diagnose" : diagnose,
-                                         @"mainSymptom" :mainSymptom,
-                                         @"otherSymptom" : otherSymptom
+                            @"tArgs" : @{@"highAge" :StringValue(highAge) ,
+                                         @"lowAge" : StringValue(lowAge),
+                                         @"gender" : StringValue(gender), //1为男，0为女
+                                         @"diagnose" :StringValue(diagnose),
+                                         @"mainSymptom" :StringValue(mainSymptom),
+                                         @"otherSymptom" : StringValue(otherSymptom)
                                          },
-                            @"condition": condition,
-                            @"tContent" : content,
+                            @"condition": StringValue(condition),
+                            @"tContent" : StringValue(content),
                             @"isPublic" : @"1", //是否公开，1为公开，0为不公开，
                             @"doctor" : @{@"dID" : dID,
                                           @"dName" : dName},
@@ -227,8 +232,8 @@
         }
         
     } failConection:^(NSError *error) {
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"服务器端出错" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//        [alertView show];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"服务器端出错" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alertView show];
 
     }];
 }
@@ -244,10 +249,10 @@
         dic = @{
                 @"residentAdmitNote" : @"ihefe101",
                 @"chiefComplaint" : @"ihefe10101",
-                @"historyOfPresentIllness" : @"ihefe10102",
+                @"historyOfPresentillness" : @"ihefe10102",
                 @"pastHistory" : @"ihefe10103",
                 @"systemsReview" : @"ihefe10104",
-                @"personalHistory" : @"ihefe10105",
+                @"personHistory" : @"ihefe10105",
                 @"menstrualHistory" : @"ihefe10106",
                 @"maritalHistory" : @"ihefe10107",
                 @"obstericalHistory" : @"ihefe10107",//婚育史

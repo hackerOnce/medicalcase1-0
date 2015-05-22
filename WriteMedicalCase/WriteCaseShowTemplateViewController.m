@@ -274,7 +274,7 @@
         content = templateModel.content;
     }
 
-    cell.contentLabel.text  = templateModel.condition;
+    cell.contentLabel.text  = templateModel.content;
 }
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {

@@ -29,7 +29,7 @@ static CGFloat const kBounceValue = 20.0f;
 - (IBAction)buttonsClicked:(UIButton *)sender
 {
     if (sender == self.moreButton) {
-        [self.delegate buttonDeleteActionClicked:sender withCell:self];
+        [self.delegate buttonMoreActionClicked:sender withCell:self];
     }else if(sender == self.deleteButton){
         if ([sender.titleLabel.text isEqualToString:@"删除"]) {
             [self.delegate buttonDeleteActionClicked:sender withCell:self];

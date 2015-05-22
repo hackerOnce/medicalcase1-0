@@ -106,7 +106,7 @@
 
 - (IBAction)saveButton:(UIBarButtonItem *)sender {
     if ([sender.title isEqualToString:@"保存"]) {
-        if (self.recordBaseInfo.caseID) {
+        if (StringValue(self.recordBaseInfo.caseID)) {
             //update
             [self updateCase];
         }else {
