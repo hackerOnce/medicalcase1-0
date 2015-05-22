@@ -309,8 +309,11 @@
     SelectedShareRangeViewController *rangeVC = (SelectedShareRangeViewController*)[shareRangeVC.viewControllers firstObject];
     rangeVC.selectedTemplates = [[NSMutableArray alloc] initWithArray:@[templateModel]];
     UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:shareRangeVC];
-    CGRect rectMake = sender.frame;
-    rectMake.origin.y = rectMake.size.width/2;
+    
+    CGRect frame = [cell convertRect:sender.frame toView:self.view];
+    
+    CGRect rectMake = frame;
+    rectMake.origin.y += rectMake.size.height/2;
     [popover presentPopoverFromRect:rectMake inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     
 }

@@ -100,7 +100,11 @@
                 break;
         }
     } failConection:^(NSError *error) {
-        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"服务器端出错" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+        });
+
     }];
     
     [self dismissViewControllerAnimated:YES completion:nil];
