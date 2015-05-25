@@ -36,12 +36,8 @@
 @property (nonatomic,strong) NSString *selectedStr;
 
 @property (nonatomic) BOOL isBeginEdit;
-
-//@property (nonatomic,strong) RecordBaseInfo *recordBaseInfo;
-//@property (nonatomic) BOOL hasContent;
 @property (nonatomic,strong) NSString *textViewContent;
 
-///
 @property (nonatomic,strong) IHMsgSocket *socket;
 
 @property (nonatomic) BOOL doctorCreatedSucess;
@@ -69,12 +65,17 @@
 @property (nonatomic) NSInteger resp;
 @property (nonatomic) BOOL hasCompletedWriteRecord; //
 @property (nonatomic) BOOL hasEditedRecord;
+
+@property (nonatomic,strong) NSMutableDictionary *coreDataDict;
+//@property (nonatomic,strong) NSMutableDictionary *caseContentDict;
 @end
 
 @implementation WriteCaseSaveViewController
 ///test data
 - (IBAction)cancelButtonClicked:(UIBarButtonItem *)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
+    
+    [self.delegate didExitEditRecordCaseWithCurrentPatient:self.tempPatient];
 }
 
 -(IHMsgSocket *)socket
@@ -88,7 +89,6 @@
     return _socket;
 }
 
-/// load data
 -(NSString *)caseType
 {
     if (!_caseType) {
@@ -108,7 +108,7 @@
 
 - (IBAction)saveButton:(UIBarButtonItem *)sender {
     if ([sender.title isEqualToString:@"保存"]) {
-        if (StringValue(self.recordBaseInfo.caseID)) {
+        if (self.recordBaseInfo.caseID) {
             //update
             [self updateCase];
         }else {
@@ -131,9 +131,15 @@
     }
     NSMutableDictionary *caseContent = [[NSMutableDictionary alloc] init];
     
+    self.hasCompletedWriteRecord = NO;
+
+    
     ParentNode *parentNode = [self.coreDataStack fetchParentNodeWithNodeEntityName:@"入院记录"];
     for (int i=0; i< parentNode.nodes.count; i++) {
         Node *tempNode = parentNode.nodes[i];
+        if (!tempNode.nodeContent) {
+            tempNode.nodeContent = @"";
+        }
         if ([tempNode.nodeContent isEqualToString:@""]) {
             self.hasCompletedWriteRecord = YES;
         }
@@ -141,7 +147,10 @@
         NSLog(@"nodeEnglish= %@,nodeContent= %@,nodeName=%@",tempNode.nodeEnglish,tempNode.nodeContent,tempNode.nodeName);
         
     }
-
+    self.coreDataDict = [[NSMutableDictionary alloc] initWithDictionary:caseContent];
+    
+    
+    //保存到服务器
     [MessageObject messageObjectWithUsrStr:@"2216" pwdStr:@"test" iHMsgSocket:self.socket optInt:1999 dictionary:@{@"content":caseContent,@"id":self.recordBaseInfo.caseID} block:^(IHSockRequest *request) {
         if (request.resp == 0) {
             self.resp = request.resp;
@@ -154,8 +163,42 @@
             
         }
     } failConection:^(NSError *error) {
-        
+        [self connectServerFailWithMessage:@"更新病历到服务器时，服务器断开连接" failType:2];
     }];
+}
+///fail type :保存 1，更新 2，提交 3，撤回 4
+-(void)connectServerFailWithMessage:(NSString*)failMessage failType:(NSInteger)failType
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.updateAlertView = [[UIAlertView alloc] initWithTitle:failMessage?failMessage:@"服务器断开连接" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [self.updateAlertView show];
+        
+        //保存到本地
+        switch (failType) {
+            case 1:{
+                [self.coreDataStack updateCaseContent:self.recordBaseInfo.caseContent dataWithDict:self.coreDataDict];
+                break;
+            }
+            case 2:{
+                [self.coreDataStack updateCaseContent:self.recordBaseInfo.caseContent dataWithDict:self.coreDataDict];
+                break;
+            }
+            case 3:{
+                
+                break;
+            }
+            case 4:{
+                
+                break;
+            }
+            default:
+                break;
+        }
+        
+        [self.coreDataStack saveContext];
+
+    });
+
 }
 -(void)cancelCommitCaseToServer
 {
@@ -166,9 +209,12 @@
         NSInteger resp = request.resp;
         self.resp = resp;
         NSString *message;
+        NSString *caseStatus;
+
         switch (resp) {
             case 0:{
                 message = @"撤销成功";
+                caseStatus = @"保存未提交";
                 break;
             }
             case -1:{
@@ -185,11 +231,15 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             self.cancelAlertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [self.cancelAlertView show];
+            
+            if (caseStatus) {
+                self.recordBaseInfo.caseStatus = caseStatus;
+            }
         });
        
         
     } failConection:^(NSError *error) {
-        
+        [self connectServerFailWithMessage:@"撤销提交病历时，服务器断开连接" failType:4];
     }];
 }
 -(void)commitCaseToServerWithSender:(UIBarButtonItem*)sender
@@ -204,12 +254,14 @@
     
     [MessageObject messageObjectWithUsrStr:@"2216" pwdStr:@"test" iHMsgSocket:self.socket optInt:2008 dictionary:@{@"id":caseID,@"did":doctorID,@"sid":sid} block:^(IHSockRequest *request) {
         
+        NSString *caseStatus;
         NSInteger resp = request.resp;
         self.resp = resp;
         NSString *message;
         switch (resp) {
             case 0:{
                 message = @"提交成功";
+                caseStatus = @"已提交未审核";
                 break;
             }
             case -1:{
@@ -227,12 +279,16 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             self.commitAlertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [self.commitAlertView show];
+            
+            if (caseStatus) {
+                self.recordBaseInfo.caseStatus = caseStatus;
+                [self.coreDataStack saveContext];
+            }
         });
         
         
     } failConection:^(NSError *error) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"服务器端出错" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles: nil];
-        [alert show];
+        [self connectServerFailWithMessage:@"提交病历到服务器时，服务器端出错" failType:3];
     }];
     
 }
@@ -240,18 +296,27 @@
 {
     NSMutableDictionary *caseContent = [[NSMutableDictionary alloc] init];
     
+    self.hasCompletedWriteRecord = NO;
+    
     ParentNode *parentNode = [self.coreDataStack fetchParentNodeWithNodeEntityName:@"入院记录"];
     
     for (int i=0; i< parentNode.nodes.count; i++) {
         Node *tempNode = parentNode.nodes[i];
+        if (!tempNode.nodeContent) {
+            tempNode.nodeContent = @"";
+        }
         if ([tempNode.nodeContent isEqualToString:@""]) {
-                self.hasCompletedWriteRecord = YES;
+            self.hasCompletedWriteRecord = YES;
         }
         [caseContent setObject:tempNode.nodeContent forKey:tempNode.nodeEnglish];
+        NSLog(@"nodeEnglish= %@,nodeContent= %@,nodeName=%@",tempNode.nodeEnglish,tempNode.nodeContent,tempNode.nodeName);
+        
     }
+    self.coreDataDict = [[NSMutableDictionary alloc] initWithDictionary:caseContent];
     
     self.originDict = [[NSMutableDictionary alloc] init];
-    Patient *patient = [self.coreDataStack patientFetchWithDict:[self caseKeyDic]];
+    Patient *patient = self.recordBaseInfo.patient;
+    
     NSMutableDictionary *pDict = [[NSMutableDictionary alloc] init];
     [pDict setObject:[NSString stringWithFormat:@"%@",patient.pID] forKey:@"pID"];
     [pDict setObject:[NSString stringWithFormat:@"%@",patient.pName] forKey:@"pName"];
@@ -300,49 +365,66 @@
     [self.originDict setObject:resident forKey:@"resident"];
     [self.originDict setObject:attendingPhysician forKey:@"attendingPhysician"];
     [self.originDict setObject:chiefPhysician forKey:@"chiefPhysician"];
-    
+
+     //保存在服务器
     [MessageObject messageObjectWithUsrStr:@"2216" pwdStr:@"test" iHMsgSocket:self.socket optInt:20001 dictionary:self.originDict block:^(IHSockRequest *request) {
         
         self.resp = request.resp;
         self.saveAlertView = [[UIAlertView alloc] initWithTitle:@"保存成功" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         
+        NSString *archivedTime;
+        NSString *createdTime;
+        NSString *caseID;
+        NSString *updatedTime;
+
         if ([request.responseData isKindOfClass:[NSArray class]] )
         {
             NSArray *tempArray = (NSArray*)request.responseData;
             NSDictionary *tempDict =(NSDictionary*)[tempArray firstObject];
+            
+            
             if ([tempDict.allKeys containsObject:@"_DOF"]) {
-                self._DOF = tempDict[@"_DOF"];
+                self._DOF =StringValue(tempDict[@"_DOF"]);
+                archivedTime = self._DOF;
             }
             if ([tempDict.allKeys containsObject:@"_created"]) {
-                self._created = tempDict[@"_created"];
+                self._created = StringValue(tempDict[@"_created"]);
+               
+                createdTime = self._created;
             }
             if ([tempDict.allKeys containsObject:@"_id"]) {
-                self.caseID = tempDict[@"_id"];
+                self.caseID = StringValue(tempDict[@"_id"]);
+                
+                caseID = self.caseID;
             }
             if ([tempDict.allKeys containsObject:@"_updated"]) {
-                self._updated = tempDict[@"_updated"];
+                self._updated = StringValue(tempDict[@"_updated"]);
+               
+                updatedTime = self._updated;
             }
-            
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            
             [self.saveAlertView show];
-
+            
+            [self.coreDataStack updateCaseContent:self.recordBaseInfo.caseContent dataWithDict:self.caseInfoDict];
+            
+            self.recordBaseInfo.dof = archivedTime;
+            self.recordBaseInfo.caseID = caseID;
+            self.recordBaseInfo.createdDate = createdTime;
+            self.recordBaseInfo.updatedDate = updatedTime;
+            
+            [self.coreDataStack saveContext];
         });
         
     } failConection:^(NSError *error) {
-        // [self.coreDataStack saveContext];
+        [self connectServerFailWithMessage:@"保存病历到服务器时服务器出错" failType:1];
     }];
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (alertView == self.saveAlertView) {
-        [self.originDict setObject:[NSString stringWithFormat:@"%@",self._DOF] forKey:@"_DOF"];
-        [self.originDict setObject:[NSString stringWithFormat:@"%@", self._created] forKey:@"_created"];
-        [self.originDict setObject:[NSString stringWithFormat:@"%@", self.caseID] forKey:@"_id"];
-        [self.originDict setObject:[NSString stringWithFormat:@"%@", self._updated] forKey:@"_updated"];
-        
-        [self.coreDataStack recordUpdatedWithDict:[self parseCaseInfoWithDic:self.originDict]];
         
         if (self.resp == 0 && !self.hasCompletedWriteRecord) {
            [self.saveButton setTitle:@"提交"];
@@ -446,12 +528,7 @@
     return _coreDataStack;
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-  
-}
+
 -(NSString*)getYearAndMonthWithDateStr:(NSDate*)date
 {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -481,12 +558,6 @@
     self.hasCompletedWriteRecord = NO;
 }
 
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-
-    
-}
 -(void)setUpTableView
 {
     self.tableView.layer.shadowOffset = CGSizeMake(15, 13);
@@ -529,6 +600,7 @@
     if ([dataDic.allKeys containsObject:@"_updated"]) {
         [tempDic setObject:dataDic[@"_updated"] forKey:@"updatedTime"];
     }
+    
     if ([dataDic.allKeys containsObject:@"caseBaseInfo"]) {
         
         NSDictionary *dic = dataDic[@"caseBaseInfo"];

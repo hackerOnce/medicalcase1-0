@@ -35,5 +35,7 @@
 
 -(void)recordUpdatedWithDict:(NSDictionary*)dict;
 
+-(void)updateCaseContent:(CaseContent*)caseContent dataWithDict:(NSDictionary*)dict;
+
 
 @end

@@ -238,7 +238,10 @@
         }
         
     } failConection:^(NSError *error) {
-        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView *alert  = [[UIAlertView alloc] initWithTitle:@"2015, 服务器断开连接" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
+        });
     }];
 }
 #pragma mark - TableViewdelegate&&TableViewdataSource
@@ -317,8 +320,8 @@
     TempPatient *patient = (TempPatient*)tempA[indexPath.row];
     
     
-//    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",patient.pID] forKey:@"pID"];
-//    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",patient.pName] forKey:@"pName"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",patient.pID] forKey:@"pID"];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",patient.pName] forKey:@"pName"];
 
     
     [self.delegate didSelectedPatient:patient];

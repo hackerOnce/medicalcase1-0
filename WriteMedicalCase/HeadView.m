@@ -20,14 +20,14 @@
     if (self) {
         self.open = YES;
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = CGRectMake(0, 0, self.frame.size.width, 45);
+        btn.frame = CGRectMake(0, 0, self.frame.size.width, 43);
         [btn addTarget:self action:@selector(doSelected) forControlEvents:UIControlEventTouchUpInside];
+        btn.backgroundColor = [UIColor whiteColor];
         [self addSubview:btn];
         self.backBtn = btn;
         [btn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-       // self.layer.borderWidth  =1;
-       // self.layer.borderColor= [UIColor redColor].CGColor;
         
+        self.backgroundColor = [UIColor whiteColor];
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 44, self.frame.size.width, 1)];
         line.tag = 1001;
         line.backgroundColor = [UIColor darkGrayColor];
@@ -37,7 +37,6 @@
     return self;
 }
 -(void)doSelected{
-    //    [self setImage];
     if (_delegate && [_delegate respondsToSelector:@selector(selectedWith:)]){
         [_delegate selectedWith:self];
     }
@@ -47,17 +46,15 @@
     [super layoutSubviews];
     
     UIView *myView =(UIView*) [self viewWithTag:1001];
-    myView.frame = CGRectMake(0, 45, self.frame.size.width, 1);
-    self.backBtn.frame = CGRectMake(0, 0, self.frame.size.width, 45);
+    [myView removeFromSuperview];
+    
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 44, self.frame.size.width, 1)];
+    line.tag = 1001;
+    line.backgroundColor = [UIColor redColor];
+    [self addSubview:line];
+    
+    self.backBtn.frame = CGRectMake(0, 0, self.frame.size.width, 43);
     
 }
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 @end

@@ -48,6 +48,7 @@
     <entity name="Patient" representedClassName="Patient" syncable="YES">
         <attribute name="dID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pAdmitDate" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pAge" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pBedNum" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pCity" optional="YES" attributeType="String" syncable="YES"/>
@@ -117,7 +118,7 @@
         <element name="Doctor" positionX="-63" positionY="-18" width="128" height="195"/>
         <element name="Node" positionX="-54" positionY="-9" width="128" height="195"/>
         <element name="ParentNode" positionX="-36" positionY="9" width="128" height="75"/>
-        <element name="Patient" positionX="-18" positionY="27" width="128" height="330"/>
+        <element name="Patient" positionX="-18" positionY="27" width="128" height="345"/>
         <element name="RecordBaseInfo" positionX="0" positionY="45" width="128" height="360"/>
         <element name="SharedDepartment" positionX="-9" positionY="135" width="128" height="75"/>
         <element name="SharedUser" positionX="36" positionY="189" width="128" height="75"/>

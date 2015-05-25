@@ -856,6 +856,7 @@
 				TargetAttributes = {
 					4705EFE81AF1044B0050D47A = {
 						CreatedOnToolsVersion = 6.3;
+						DevelopmentTeam = 2AHKDU2ECU;
 					};
 					4705F0011AF1044B0050D47A = {
 						CreatedOnToolsVersion = 6.3;
@@ -1151,6 +1152,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WriteMedicalCase/PrefixHeader.pch;
 				INFOPLIST_FILE = WriteMedicalCase/Info.plist;
@@ -1164,6 +1166,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WriteMedicalCase/PrefixHeader.pch;
 				INFOPLIST_FILE = WriteMedicalCase/Info.plist;

@@ -31,7 +31,7 @@
 @dynamic dID;
 @dynamic dName;
 @dynamic doctor;
-
+@dynamic pAdmitDate;
 +(NSString*)entityName
 {
     return @"Patient";

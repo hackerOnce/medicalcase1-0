@@ -32,6 +32,9 @@
         messageObject.sync_snStr = @"1234";
         messageObject.sync_data = dicM;
         [socket sendMsg:messageObject completed:block failConnection:fail];
+    }else {
+        NSError *error;
+        fail(error);
     }
 
 }

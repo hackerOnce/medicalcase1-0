@@ -208,7 +208,7 @@
                                          @"gender" : StringValue(gender), //1为男，0为女
                                          @"diagnose" : StringValue(diagnose),
                                          @"mainSymptom" :StringValue(mainSymptom),
-                                         @"otherSymptom" : otherSymptom
+                                         @"otherSymptom" : StringValue(otherSymptom)
                                          },
                             @"condition": StringValue(condition),
                             @"tContent" : StringValue(content),

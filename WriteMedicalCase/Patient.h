@@ -31,6 +31,7 @@
 @property (nonatomic, retain) NSString * pAge;
 @property (nonatomic, retain) NSString * dID;
 @property (nonatomic, retain) NSString * dName;
+@property (nonatomic, retain) NSString * pAdmitDate;
 @property (nonatomic, retain) Doctor *doctor;
 
 +(NSString*)entityName;

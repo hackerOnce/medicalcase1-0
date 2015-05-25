@@ -232,19 +232,25 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A6B-q4-1Ka">
                                 <rect key="frame" x="0.0" y="184" width="600" height="51"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" tag="10001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="现病史" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="inz-bC-fvr">
+                                    <label opaque="NO" userInteractionEnabled="NO" tag="10001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="现病史" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="inz-bC-fvr">
                                         <rect key="frame" x="12" y="13" width="51" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wus-ZI-mFE">
-                                        <rect key="frame" x="8" y="0.0" width="59" height="51"/>
+                                        <rect key="frame" x="8" y="0.0" width="51" height="51"/>
                                         <constraints>
+                                            <constraint firstAttribute="height" constant="51" id="pf5-yY-KGt"/>
                                             <constraint firstAttribute="width" constant="59" id="yU1-FH-lOS"/>
                                         </constraints>
                                         <state key="normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="yU1-FH-lOS"/>
+                                            </mask>
+                                        </variation>
                                         <connections>
                                             <action selector="leftUpButton:" destination="vqD-53-k5K" eventType="touchUpInside" id="T6a-bW-sDC"/>
                                         </connections>
@@ -262,16 +268,21 @@
                                 <constraints>
                                     <constraint firstItem="Wus-ZI-mFE" firstAttribute="leading" secondItem="A6B-q4-1Ka" secondAttribute="leading" constant="8" id="3YH-KX-76Y"/>
                                     <constraint firstAttribute="height" constant="48" id="5eV-fs-Phz"/>
+                                    <constraint firstItem="inz-bC-fvr" firstAttribute="top" secondItem="A6B-q4-1Ka" secondAttribute="top" constant="13" id="70I-pu-iy6"/>
                                     <constraint firstItem="Wus-ZI-mFE" firstAttribute="top" secondItem="A6B-q4-1Ka" secondAttribute="top" id="B8Z-Ha-qj0"/>
+                                    <constraint firstItem="inz-bC-fvr" firstAttribute="leading" secondItem="A6B-q4-1Ka" secondAttribute="leading" constant="12" id="H3H-Fn-LIp"/>
+                                    <constraint firstItem="8rT-Cu-Tdd" firstAttribute="leading" secondItem="inz-bC-fvr" secondAttribute="trailing" constant="8" id="H5i-Oo-NPx"/>
                                     <constraint firstAttribute="bottom" secondItem="Wus-ZI-mFE" secondAttribute="bottom" id="TP4-M4-rZe"/>
                                     <constraint firstAttribute="trailing" secondItem="8rT-Cu-Tdd" secondAttribute="trailing" constant="8" id="Zjs-ne-Pdh"/>
                                     <constraint firstItem="8rT-Cu-Tdd" firstAttribute="leading" secondItem="Wus-ZI-mFE" secondAttribute="trailing" constant="4" id="euk-m9-2tm"/>
                                     <constraint firstItem="8rT-Cu-Tdd" firstAttribute="top" secondItem="A6B-q4-1Ka" secondAttribute="top" constant="7" id="g69-D4-WHH"/>
                                     <constraint firstAttribute="bottom" secondItem="8rT-Cu-Tdd" secondAttribute="bottom" constant="8" id="ggC-jC-jty"/>
+                                    <constraint firstItem="inz-bC-fvr" firstAttribute="width" secondItem="Wus-ZI-mFE" secondAttribute="width" id="xxR-n3-9E1"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="5eV-fs-Phz"/>
+                                        <exclude reference="euk-m9-2tm"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -890,7 +901,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Noa-wg-zEP"/>
-        <segue reference="aDp-kT-Mhc"/>
+        <segue reference="XgN-mO-eHf"/>
+        <segue reference="MLR-AJ-rwg"/>
     </inferredMetricsTieBreakers>
 </document>

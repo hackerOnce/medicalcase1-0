@@ -386,7 +386,7 @@ static NSString *momdName = @"Model";
         NSEntityDescription *entityDesc2 = [NSEntityDescription entityForName: [Patient entityName]inManagedObjectContext:self.managedObjectContext];
         Patient *patient = [[Patient alloc] initWithEntity:entityDesc2 insertIntoManagedObjectContext:self.managedObjectContext];
         [self updatePatient:patient dataWithDict:dict];
-
+        recordBaseInfo.patient = patient;
         [self saveContext];
     }else {
         
@@ -519,6 +519,7 @@ static NSString *momdName = @"Model";
         recordBaseInfo.chiefPhysiciandID = dict[@"chiefPhysiciandID"];
     
     }
+    
 }
 
 
@@ -618,6 +619,12 @@ static NSString *momdName = @"Model";
 }
 -(void)updatePatient:(Patient*)patient dataWithDict:(NSDictionary*)dict
 {
+    
+    
+    if ([dict.allKeys containsObject:@"pAdmitDate"]) {
+        patient.pAdmitDate = dict[@"pAdmitDate"];
+    }
+    
     if ([dict.allKeys containsObject:@"dID"]) {
         patient.dID = dict[@"dID"];
     } else if ([dict.allKeys containsObject:@"did"]) {
