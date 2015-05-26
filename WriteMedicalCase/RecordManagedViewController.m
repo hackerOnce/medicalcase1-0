@@ -87,6 +87,8 @@
         [_classficationArray addObject:@"副主任医师审核未通过"];
         [_classficationArray addObject:@"归档"];
         [_classficationArray addObject:@"撤回"];
+//        [_classficationArray addObject:@"已审核"];
+//        [_classficationArray addObject:@"审核未通过"];
     }
     return _classficationArray;
 }
@@ -141,6 +143,7 @@
 }
 -(void)pullRefreshControlAction:(UIRefreshControl*)refreshControl
 {
+    self.dataDic = nil;
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         [self loadRecordCaseFromServerWithPatient:self.patient];
     });
@@ -168,15 +171,22 @@
         if ([request.responseData isKindOfClass:[NSDictionary class]]) {
             NSDictionary *tempDict  = (NSDictionary*)request.responseData;
             if ([tempDict.allKeys containsObject:@"csd_s"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@", tempDict[@"csd_s"]]forKey:@"pProvince"];
+                [patientDict setObject:StringValue(tempDict[@"csd_s"])forKey:@"pProvince"];
             }
             if ([tempDict.allKeys containsObject:@"hyzk"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@", tempDict[@"hyzk"]]forKey:@"pMaritalStatus"];
+                [patientDict setObject:StringValue(tempDict[@"hyzk"])forKey:@"pMaritalStatus"];
             }
             if ([tempDict.allKeys containsObject:@"mzbm"]) {
                 [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"mzbm"]]forKey:@"pNation"];
             }
-    
+            if ([tempDict.allKeys containsObject:@"lxdz"]) {
+                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"lxdz"]]forKey:@"pDetailAddress"];
+            }
+            if ([tempDict.allKeys containsObject:@"age"]) {
+                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"age"]]forKey:@"pAge"];
+            }
+
+
             if ([tempDict.allKeys containsObject:@"sex"]) {
                 [patientDict setObject:[NSString stringWithFormat:@"%@", tempDict[@"sex"]]forKey:@"pGender"];
             }
@@ -279,6 +289,7 @@
                 
                 for (RecordBaseInfo *record in self.recordCaseArray) {
                     
+                    
                     if ([self.classficationArray containsObject:record.caseStatus]) {
                         NSMutableArray *arr = [self.dataDic objectForKey:record.caseStatus];
                         [arr addObject:record];
@@ -314,13 +325,23 @@
         }
     });
 }
--(NSString*)transformCaseStatue:(NSString*)caseStatusInt
+-(NSString*)transformCaseStatus:(NSString*)caseStatusInt
 {
     NSDictionary *tempDict= @{@"0":@"保存未提交",@"1":@"提交未审核",@"2":@"主治医师审核",@"3":@"（副）主任医师审核",@"4":@"主治医师审核未通过",@"5":@"副主任医师审核通过",@"6":@"副主任医师审核未通过",@"7":@"归档"   ,@"8":@"撤回"};
     if ([tempDict.allKeys containsObject:caseStatusInt]) {
         return tempDict[caseStatusInt];
     }else {
         return @"未创建";
+    }
+}
+-(NSString *)transformCaseStatusString:(NSString*)caseStatusString
+{
+    NSDictionary *tempDict= @{@"保存未提交":@"0",@"提交未审核":@"1",@"主治医师审核":@"2",@"（副）主任医师审核":@"3",@"主治医师审核未通过":@"4",@"副主任医师审核通过":@"5",@"副主任医师审核未通过":@"6",@"归档":@"7",@"撤回":@"8"};
+    
+    if ([tempDict.allKeys containsObject:caseStatusString]) {
+        return tempDict[caseStatusString];
+    }else {
+        return @"0";
     }
 }
 -(NSDictionary*)caseKeyDic
@@ -376,7 +397,7 @@
     cell.caseTypeLabel.text = record.caseType;
     
     if ([record.caseStatus isEqualToString:@"未创建"] || [record.caseStatus isEqualToString:@"保存未提交"]) {
-        cell.remainTimeLabel.text =  [self remainTimeFromAdmitDate:record.patient.pAdmitDate];
+        cell.remainTimeLabel.text = [self remainTimeFromAdmitDate:record.patient.pAdmitDate];
     }else {
         cell.remainTimeLabel.text = [NSString stringWithFormat:@"病历状态：%@",record.caseStatus];
     }
@@ -527,7 +548,7 @@
     }
    if ([dataDic.allKeys containsObject:@"caseStatus"]) {
        
-       NSString *caseStatus = [self transformCaseStatue:[NSString stringWithFormat:@"%@",dataDic[@"caseStatus"]]];
+       NSString *caseStatus = [self transformCaseStatus:[NSString stringWithFormat:@"%@",dataDic[@"caseStatus"]]];
        
        [tempDic setObject:caseStatus forKey:@"caseStatus"];
     }

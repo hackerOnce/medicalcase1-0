@@ -45,16 +45,20 @@
 {
     [super layoutSubviews];
     
+    self.backBtn.frame = CGRectMake(0, 0, self.frame.size.width, 43);
+    
+}
+-(void)drawRect:(CGRect)rect
+{
+    [super drawRect:rect];
+    
     UIView *myView =(UIView*) [self viewWithTag:1001];
     [myView removeFromSuperview];
     
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 44, self.frame.size.width, 1)];
     line.tag = 1001;
-    line.backgroundColor = [UIColor redColor];
+    line.backgroundColor = [UIColor darkGrayColor];
     [self addSubview:line];
-    
-    self.backBtn.frame = CGRectMake(0, 0, self.frame.size.width, 43);
-    
 }
 
 @end

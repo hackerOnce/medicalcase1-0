@@ -18,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="68" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ezX-CJ-NxF">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="184" width="600" height="416"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="WriteCaseSaveCell" rowHeight="54" id="AOd-N1-7ln" customClass="WriteCaseSaveCell">
@@ -66,13 +66,23 @@
                                     <outlet property="delegate" destination="fAI-x7-5G4" id="xPN-an-cyc"/>
                                 </connections>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QZ5-ll-5FZ" customClass="personInfoView">
+                                <rect key="frame" x="0.0" y="64" width="600" height="120"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="120" id="Kgs-To-xwF"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="ezX-CJ-NxF" firstAttribute="top" secondItem="QZ5-ll-5FZ" secondAttribute="bottom" id="1DC-H3-QRP"/>
+                            <constraint firstItem="QZ5-ll-5FZ" firstAttribute="top" secondItem="WEh-f4-UUP" secondAttribute="bottom" id="Ael-eJ-CyZ"/>
+                            <constraint firstItem="QZ5-ll-5FZ" firstAttribute="leading" secondItem="DjU-2t-fmF" secondAttribute="leadingMargin" constant="-16" id="Ifi-hT-YL9"/>
                             <constraint firstItem="ezX-CJ-NxF" firstAttribute="bottom" secondItem="hJG-mn-tJ1" secondAttribute="top" id="Mnc-DD-BQD"/>
                             <constraint firstAttribute="trailing" secondItem="ezX-CJ-NxF" secondAttribute="trailing" id="o0b-LP-BIa"/>
                             <constraint firstItem="ezX-CJ-NxF" firstAttribute="leading" secondItem="DjU-2t-fmF" secondAttribute="leading" id="ouy-B1-rJv"/>
-                            <constraint firstItem="ezX-CJ-NxF" firstAttribute="top" secondItem="WEh-f4-UUP" secondAttribute="bottom" id="pdG-SZ-Ojg"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="QZ5-ll-5FZ" secondAttribute="trailing" constant="-16" id="vbM-ox-MYh"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="入院记录" id="IaV-xo-YxU">
@@ -88,6 +98,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="personInfoView" destination="QZ5-ll-5FZ" id="bOs-zW-mWx"/>
                         <outlet property="saveButton" destination="pAk-WC-upo" id="Yw4-Vv-vDB"/>
                         <outlet property="tableView" destination="ezX-CJ-NxF" id="8om-ND-V0V"/>
                         <segue destination="K2v-tp-jw9" kind="presentation" identifier="EditCaseSegue" modalTransitionStyle="coverVertical" id="Ajc-LH-Lyi"/>

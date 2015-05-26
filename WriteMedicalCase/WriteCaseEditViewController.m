@@ -219,7 +219,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.personInfoView.isHideSubView = YES;
     self.autoHeightTextView.text = nil;
     self.title = self.labelString;
     [self setUpTableView];
@@ -248,10 +247,17 @@
     if (![self.textViewContent isEqualToString:@" "]) {
         self.autoHeightTextView.text = self.textViewContent;
     }
-    
-    self.personInfoView.tempPatient = self.tempPatient;
-
+    if (self.recordBaseInfo) {
+        self.personInfoView.patient = self.recordBaseInfo.patient;
+        self.personInfoView.isHideSubView = YES;
+    }
     [self addKeyboardObserver];
+}
+-(void)setRecordBaseInfo:(RecordBaseInfo *)recordBaseInfo
+{
+    _recordBaseInfo = recordBaseInfo;
+    
+
 }
 -(void)viewWillDisappear:(BOOL)animated
 {

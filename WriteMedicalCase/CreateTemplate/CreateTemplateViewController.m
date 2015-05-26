@@ -185,12 +185,10 @@
     
     NSMutableDictionary *tempDict = [[NSMutableDictionary alloc] init];
     for (Node *tempNode in parentNode.nodes) {
-        if ([tempNode.nodeContent isEqualToString:@""]) {
-            
-        }else {
-            [tempDict setObject:tempNode.nodeContent forKey:tempNode.nodeEnglish];
+        if (!tempNode.nodeContent) {
+            tempNode.nodeContent = @"";
         }
-        
+        [tempDict setObject:tempNode.nodeContent forKey:tempNode.nodeEnglish];
     }
     
     NSString *highAge = tempDict[@"highAge"];

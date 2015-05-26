@@ -50,6 +50,7 @@
 @property (nonatomic,strong) RecordBaseInfo *resultCaseInfo;
 
 @property (nonatomic,strong) NSMutableDictionary *originDict;
+@property (weak, nonatomic) IBOutlet personInfoView *personInfoView;
 
 @property (nonatomic,strong) NSString *_DOF;
 @property (nonatomic,strong) NSString *_created;
@@ -547,17 +548,24 @@
 
     [self setUpTableView];
     
-  //  [self caseRecordFromServerOrLocal];
+  //[self caseRecordFromServerOrLocal];
     
     if (self.isRemoveLeftButton) {
         self.navigationItem.leftBarButtonItem = nil;
     }else {
-      //  self.remainTimeLabel.text =[NSString stringWithFormat:@"剩余时间:08:00:00"];
+      //self.remainTimeLabel.text =[NSString stringWithFormat:@"剩余时间:08:00:00"];
     }
     
     self.hasCompletedWriteRecord = NO;
+    
+    self.personInfoView.patient = self.recordBaseInfo.patient;
 }
-
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    
+}
 -(void)setUpTableView
 {
     self.tableView.layer.shadowOffset = CGSizeMake(15, 13);
@@ -925,11 +933,12 @@
         UINavigationController *nav = (UINavigationController*)segue.destinationViewController;
         
         WriteCaseEditViewController *writeVC = (WriteCaseEditViewController*)[nav.viewControllers firstObject];
+        writeVC.recordBaseInfo = self.recordBaseInfo;
+
         writeVC.labelString = self.selectedStr;
         writeVC.Editdelegate = self;
         writeVC.textViewContent = self.textViewContent;
         writeVC.tempPatient = self.tempPatient;
-    
     }else if([segue.identifier isEqualToString:@"firstSegue"]){
         self.isBeginEdit = YES;
 

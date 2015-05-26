@@ -19,7 +19,6 @@
 
 @property (nonatomic,strong) IHMsgSocket *socket;
 
-@property (nonatomic,strong) Patient *patient;
 
 @property (nonatomic,strong) CoreDataStack *coreDataStack;
 
@@ -89,45 +88,37 @@
 //    }
 //    return _dataArray;
 //}
--(void)setTempPatient:(TempPatient *)tempPatient
+
+-(void)setPatient:(Patient *)patient
 {
-    _tempPatient = tempPatient;
+    _patient = patient;
+    NSString *nameStr = self.patient.pName?self.patient.pName:@" ";
+    NSString *genderStr = [NSString stringWithFormat:@"性别: %@",self.patient.pGender?self.patient.pGender:@" "];
     
-    self.dataArray = [[NSMutableArray alloc] init];
+    NSString *ageStr = [NSString stringWithFormat:@"年龄: %@",self.patient.pAge?self.patient.pAge:@" "];
     
+    NSString *administrative = [NSString stringWithFormat:@"科室: %@",self.patient.pDept?self.patient.pDept:@" "];
+    NSString *pID = [NSString stringWithFormat:@"住院号: %@",self.patient.pID?self.patient.pID:@" "];
+    NSString *pBedNum = [NSString stringWithFormat:@"床号: %@",self.patient.pBedNum?self.patient.pBedNum:@" "];
     
-    NSString *pID1 = [[NSUserDefaults standardUserDefaults] objectForKey:@"pID"];
-    NSString *dID1 = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
+    NSString *pNation = [NSString stringWithFormat:@"民族: %@",self.patient.pNation?self.patient.pNation:@" "];
+    NSString *pProfession = [NSString stringWithFormat:@"职业: %@",self.patient.pProfession?self.patient.pProfession:@" "];
+    NSString *presenter = @"病史陈述者：本人";
     
-    NSDictionary *dict = @{@"pID":pID1,@"dID":dID1};
-    self.patient = [self.coreDataStack patientFetchWithDict:dict];
-
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+    NSDate *admissionTime = [formatter dateFromString:patient.pAdmitDate];
+    NSString *pAdmissionTime = [self getYearAndMonthWithDateStr:admissionTime]; //年月日
+    NSString *pAdmissionTimeSub =[self getHourAndMinutesWithDateStr:admissionTime] ;//时分秒
     
-    NSString *nameStr = self.patient.pName?self.patient.pName:@"王天扎";
-    NSString *genderStr = [NSString stringWithFormat:@"性别: %@",self.patient.pGender?self.patient.pGender:@"男"];
-    
-    NSString *ageStr = [NSString stringWithFormat:@"年龄: %@",self.patient.pAge?self.patient.pAge:@"24"];
-    
-    NSString *administrative = [NSString stringWithFormat:@"科室: %@",self.patient.pDept?self.patient.pDept:@"心内科"];
-    NSString *pID = [NSString stringWithFormat:@"住院号: %@",self.patient.pID?self.patient.pID:@"078899"];
-    NSString *pBedNum = [NSString stringWithFormat:@"床号: %@",self.patient.pBedNum?self.patient.pBedNum:@"098"];
-
-    NSString *pNULL1 = @" ";
-
-    
-    NSString *pNation = [NSString stringWithFormat:@"民族: %@",self.patient.pNation?self.patient.pNation:@"汉"];
-    NSString *pProfession = [NSString stringWithFormat:@"职业: %@",self.patient.pProfession?self.patient:@"法律"];
-    NSString *presenter = [NSString stringWithFormat:@"病史陈述者: %@",tempPatient.presenter?tempPatient.presenter:@"本人"];
-    NSString *pAdmissionTime = [NSString stringWithFormat:@"入院时间: %@",tempPatient.pAdmissionTime?tempPatient.pAdmissionTime:@"2015-08-09"]; //年月日
-    NSString *pAdmissionTimeSub = tempPatient.pSubAdmissionTime?tempPatient.pSubAdmissionTime:@"上午 09:00:00";//时分秒
-    
-    NSString *pNULL2 = @" ";
-    NSString *pMaritalStatus = [NSString stringWithFormat:@"婚姻: %@",self.patient.pMaritalStatus?self.patient.pMaritalStatus:@"未婚"];
-    NSString *pProvince = [NSString stringWithFormat:@"籍贯: %@",self.patient.pProvince?self.patient.pProvince:@"上海"];
-    NSString *pDetailAddress = [NSString stringWithFormat:@"现居地: %@",self.patient.pDetailAddress?self.patient.pDetailAddress:@"上海市闸北区彭江路602号"];
+    NSString *pMaritalStatus = [NSString stringWithFormat:@"婚姻: %@",self.patient.pMaritalStatus?self.patient.pMaritalStatus:@" "];
+    NSString *pProvince = [NSString stringWithFormat:@"籍贯: %@",self.patient.pProvince?self.patient.pProvince:@" "];
+    NSString *pDetailAddress = [NSString stringWithFormat:@"现居地: %@",self.patient.pDetailAddress?self.patient.pDetailAddress:@" "];
     NSDate *date = [NSDate date];
     NSString *pRecordTime = [self getYearAndMonthWithDateStr:date];
     NSString *pSubRecordTime = [self getHourAndMinutesWithDateStr:date];
+    
+    self.dataArray = [[NSMutableArray alloc] init];
     
     [self.dataArray addObject: nameStr];
     [self.dataArray addObject: genderStr];
@@ -135,66 +126,89 @@
     [self.dataArray addObject: administrative];
     [self.dataArray addObject: pID];
     [self.dataArray addObject: pBedNum];
-    [self.dataArray addObject: pNULL1];
     
     [self.dataArray addObject: pNation];
-    [self.dataArray addObject: pProfession];
     [self.dataArray addObject: presenter];
+    [self.dataArray addObject: pProfession];
+
+    
     [self.dataArray addObject: pAdmissionTime];
     [self.dataArray addObject: pAdmissionTimeSub];
-    [self.dataArray addObject: pNULL2];
-
+    
     [self.dataArray addObject: pMaritalStatus];
     [self.dataArray addObject: pProvince];
     [self.dataArray addObject: pDetailAddress];
+    
     [self.dataArray addObject: pRecordTime];
     [self.dataArray addObject: pSubRecordTime];
     
     [self setNeedsLayout];
-  //  [self layoutSubviews];
 }
+//-(void)setTempPatient:(TempPatient *)tempPatient
+//{
+//    _tempPatient = tempPatient;
+//    
+//    self.dataArray = [[NSMutableArray alloc] init];
+//    
+//    NSString *pID1 = [[NSUserDefaults standardUserDefaults] objectForKey:@"pID"];
+//    NSString *dID1 = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
+//    
+//    NSDictionary *dict = @{@"pID":pID1,@"dID":dID1};
+//
+//    
+//  //[self layoutSubviews];
+//}
 -(NSString*)getYearAndMonthWithDateStr:(NSDate*)date
 {
-    NSString *dateStr = @"记录日期: ";
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
+    if (date) {
+        NSString *dateStr = @"记录日期: ";
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        
+        dateStr = [dateStr stringByAppendingString:[formatter stringFromDate:date]];
+        
+        NSLog(@"date : %@",dateStr);
+        return dateStr;
+    }else {
+       return  @"";
+    }
     
-    dateStr = [dateStr stringByAppendingString:[formatter stringFromDate:date]];
-    
-    NSLog(@"date : %@",dateStr);
-    return dateStr;
 }
 -(NSString*)getHourAndMinutesWithDateStr:(NSDate*)date
 {
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"HH:mm:ss"];
-    
-    NSString *str = @"";
-
-    NSString *dateStr = [formatter stringFromDate:date];
-    
-    NSLog(@"date : %@",dateStr);
-    
-    NSMutableArray *tempA = [[NSMutableArray alloc] initWithArray:[dateStr componentsSeparatedByString:@":"]];
-
-    if ([tempA[0] integerValue] > 12) {
+    if (date) {
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"HH:mm:ss"];
         
-        NSString *tempStr = @"下午 ";
-        tempA[0] = [NSString stringWithFormat:@"%@",@([tempA[0] integerValue] - 12)];
+        NSString *str = @"";
         
-        str = [tempA componentsJoinedByString:@":"];
-        str = [tempStr stringByAppendingString:str];
+        NSString *dateStr = [formatter stringFromDate:date];
         
+        NSLog(@"date : %@",dateStr);
+        
+        NSMutableArray *tempA = [[NSMutableArray alloc] initWithArray:[dateStr componentsSeparatedByString:@":"]];
+        
+        if ([tempA[0] integerValue] > 12) {
+            
+            NSString *tempStr = @"下午 ";
+            tempA[0] = [NSString stringWithFormat:@"%@",@([tempA[0] integerValue] - 12)];
+            
+            str = [tempA componentsJoinedByString:@":"];
+            str = [tempStr stringByAppendingString:str];
+            
+        }else {
+            NSString *tempStr = @"上午 ";
+            str = [tempStr stringByAppendingString:dateStr];
+        }
+        return str;
     }else {
-        NSString *tempStr = @"上午 ";
-        str = [tempStr stringByAppendingString:dateStr];
+      return @"";
     }
-    return str;
+    
 }
 
 -(void)addSubViewToCurrentView
 {
-    
     //self.isHideSubView = YES;
     for (NSLayoutConstraint *constraint in self.constraints) {
         if (constraint.firstAttribute == NSLayoutAttributeHeight) {
@@ -231,7 +245,7 @@
         [self addSubview:secondView];
         self.secondView = secondView;
         
-        for (int i=0; i<12; i++){
+        for (int i=0; i<10; i++){
             UILabel  *label = [[UILabel alloc] init];
             label.textAlignment = NSTextAlignmentLeft;
             label.backgroundColor = [self randomColor];
@@ -239,7 +253,12 @@
 
             if (i < 6) {
                 label.frame = CGRectMake(i*subWidth, 0, subWidth, 29);
-            }else {
+            }else if(i == 8){
+                label.frame = CGRectMake((i-6)*subWidth, subHeight, 2 * subWidth, 29);
+            }else if(i==9){
+                label.frame = CGRectMake((i-6)*subWidth+subWidth, subHeight, subWidth, 29);
+
+            }else{
                 label.frame = CGRectMake((i-6)*subWidth,subHeight, subWidth, 29);
             }
             [self.labelArray addObject:label];
@@ -307,18 +326,35 @@
             }else {
                label.frame = CGRectMake(index*subWidth + 8, 8, subWidth, 29);
             }
-        }else if (index < 12) {
+        }else if (index < 11) {
             if (index == 6) {
                 label.frame = CGRectMake((index-6)*subWidth+8, 8, firstWWidth, 29);
+            }else if(index == 8){
+                label.frame = CGRectMake((index-6)*subWidth+8, 8, 2 * subWidth, 29);
+            }else if(index == 9){
+                label.frame = CGRectMake((index-6)*subWidth+subWidth+8, 8,subWidth, 29);
+
+            }else if(index == 10){
+                label.frame = CGRectMake((index-6)*subWidth+8+subWidth, 8, subWidth, 29);
+
             }else {
                 label.frame = CGRectMake((index-6)*subWidth+8, 8, subWidth, 29);
+
             }
 
         }else {
-            if (index == 12) {
-                label.frame = CGRectMake((index-12)*subWidth+8, 8+subHeight, firstWWidth, 29);
+            if(index == 11){
+                label.frame = CGRectMake((index-11)*subWidth+8, 8+subHeight, firstWWidth, 29);
+
+            }else if (index == 13) {
+                label.frame = CGRectMake((index-11)*subWidth+8, 8+subHeight, subWidth*2, 29);
+            }else if(index == 14){
+                label.frame = CGRectMake((index-11)*subWidth+8+subWidth, 8+subHeight, subWidth, 29);
+            }else if(index == 15){
+                label.frame = CGRectMake((index-11)*subWidth+8+subWidth, 8+subHeight, subWidth, 29);
+   
             }else {
-                label.frame = CGRectMake((index-12)*subWidth+8, 8+subHeight, subWidth, 29);
+                label.frame = CGRectMake((index-11)*subWidth+8, 8+subHeight, subWidth, 29);
  
             }
 

@@ -22,6 +22,8 @@
 @property (nonatomic,strong) NSString *textViewContent;
 
 @property (nonatomic,strong) TempPatient *tempPatient;
+
+@property (nonatomic,strong) RecordBaseInfo *recordBaseInfo;
 @end
 
 @protocol WriteCaseEditViewControllerDelegate <NSObject>
