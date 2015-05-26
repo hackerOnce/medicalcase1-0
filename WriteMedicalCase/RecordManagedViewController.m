@@ -194,11 +194,9 @@
                 [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"hzxm"]]forKey:@"pName"];
             }
             if ([tempDict.allKeys containsObject:@"ksdm"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"ksdm"]]forKey:@"pProvince"];
+                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"ksdm"]]forKey:@"pDept"];
             }
-            if ([tempDict.allKeys containsObject:@"csd_s"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"csd_s"]] forKey:@"pDept"];
-            }
+            
             if ([tempDict.allKeys containsObject:@"cwdm"]) {
                 [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"cwdm"]] forKey:@"pBedNum"];
             }
@@ -214,7 +212,9 @@
             if ([tempDict.allKeys containsObject:@"ryrq"]) {
                 [patientDict setObject:[NSString stringWithFormat:@"%@", tempDict[@"ryrq"]]forKey:@"pAdmitDate"];
             }
-            
+            if ([tempDict.allKeys containsObject:@"zybm"]) {
+                [patientDict setObject:[NSString stringWithFormat:@"%@", tempDict[@"zybm"]]forKey:@"pProfession"];
+            }
         }
         [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",patient.pID] forKey:@"pID"];
         [[NSUserDefaults standardUserDefaults] setObject:patient.pName forKey:@"pName"];
@@ -463,6 +463,8 @@
     saveVC.recordBaseInfo = record;
     saveVC.delegate =  self;
     saveVC.tempPatient = self.patient;
+    saveVC.isHideRetreatButton = YES;
+    
     [self presentViewController:nav animated:YES completion:nil];
 
 }

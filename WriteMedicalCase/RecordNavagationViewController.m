@@ -81,88 +81,31 @@
 {
     if (!_dataDic) {
         _dataDic = [[NSMutableDictionary alloc] init];
-        
-//        NSArray *testArray = @[@"高宗明",@"陈家豪",@"沈家桢"];
-//        for (NSString *tempS in self.classficationArray) {
-//            [_dataDic setObject:testArray forKey:tempS];
-//        }
+        for (NSString *key in self.classficationArray) {
+            NSMutableArray *array = [[NSMutableArray alloc] init];
+            [_dataDic setObject:array forKey:key];
+        }
     }
     return _dataDic;
 }
--(void)addNotificationObserver
-{
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(kDidCompletedAsyncInitEntity) name:kDidCompletedAsyncInitEntity object:nil];
-}
+
 -(void)setRecords:(NSMutableArray *)records
 {
     _records = records;
     
 }
--(void)kDidCompletedAsyncInitEntity
-{
-//    NSArray *temp = [self.coreDataStack fetchDoctorEntityWithName:@"姓名" dID:nil];
-//    if (temp.count == 0) {
-//        NSLog(@"error");
-//    }else {
-//        Doctor *doctor =(Doctor*)[temp firstObject];
-//        NSArray *temp = doctor.patients.array;
-//        
-//        NSMutableArray *a1 = [[NSMutableArray alloc] init];
-//        NSMutableArray *a2 = [[NSMutableArray alloc] init];
-//        
-//        for (Patient *patient in temp) {
-//            if ([patient.patientState isEqualToString:@"已出院"] ) {
-//                [a2 addObject:patient];
-//            }else {
-//                [a1 addObject:patient];
-//            }
-//            NSLog(@"patient name: %@",patient);
-//            
-//            for (RecordBaseInfo *record in patient.medicalCases) {
-//                RecordBaseInfo *rec = (RecordBaseInfo*)record;
-//                NSLog(@"record : status %@,record type: %@,patient %@,doctor %@",rec.caseState,rec.caseType,patient.pName,patient.doctor.dName);
-//            }
-//        }
-//        
-//        for (NSString *tempStr in self.classficationArray) {
-//            if ([tempStr isEqualToString:@"本次住院"]) {
-//                [self.dataDic setObject:a1 forKey:tempStr];
-//            }else {
-//                [self.dataDic setObject:a2 forKey:tempStr];
-//            }
-//        }
-//    }
-//
-//    
-//    [self.tableView reloadData];
-
-
-}
--(void)fetchRecordCase
-{
-    CurrentDoctor *currentDoctor = [CurrentDoctor currentDoctor];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dName = %@ and dID = %@ ",currentDoctor.dName,currentDoctor.dID];
-    
-//    [self.coreDataStack fetchManagedObjectInContext:self.managedObjectContext WithEntityName:[RecordBaseInfo entityName] withPredicate:predicate successfulFetched:^(NSArray *resultArray) {
-//        
-//        self.records = [NSMutableArray arrayWithArray:resultArray];
-//        
-//    } failedToFetched:^(NSError *error, NSString *errorInfo) {
-//        
-//    } ];
-}
 
 #pragma mask -view life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self loadModel];
+    //[self loadModel];
     [self setUpTableView];
-    // Do any additional setup after loading the view.
-    [self addNotificationObserver];
     
     self.isFirstAppear = YES;
     
-    [self getPatientDataByDoctorID:self.logInDoctorID];
+   // [self getPatientDataByDoctorID:self.logInDoctorID];
+    
+    [self loadDoctorInfoWithDoctorID:@"2216"];
 }
 -(void)setUpTableView
 {
@@ -173,6 +116,70 @@
 {
     [super viewWillAppear:animated];
     
+}
+-(void)loadDoctorInfoWithDoctorID:(NSString*)doctorID
+{
+    if (!doctorID) {
+        return;
+    }
+    [MessageObject messageObjectWithUsrStr:@"2216" pwdStr:@"test" iHMsgSocket:self.socket optInt:1111 dictionary:NSDictionaryOfVariableBindings(doctorID) block:^(IHSockRequest *request) {
+        
+        if ([request.responseData isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *tempDict = (NSDictionary*)request.responseData;
+            NSString *dID,*dName,*dProfessionalTitle,*dept,*medicalCaseTeam;
+            if ([tempDict.allKeys containsObject:@""]) {
+                dID = [tempDict objectForKey:@"dID"];
+            }
+            if ([tempDict.allKeys containsObject:@""]) {
+                dName = [tempDict objectForKey:@"dName"];
+            }
+            if ([tempDict.allKeys containsObject:@""]) {
+                dProfessionalTitle = [tempDict objectForKey:@"dProfessionalTitle"];
+            }
+            if ([tempDict.allKeys containsObject:@""]) {
+                dept = [tempDict objectForKey:@"dept"];
+            }
+            if ([tempDict.allKeys containsObject:@""]) {
+                medicalCaseTeam = [tempDict objectForKey:@"medicalCaseTeam"];
+            }
+            NSDictionary *doctorDict = @{@"dID":dID,@"dName":dName,@"dProfessionalTitle":dProfessionalTitle,@"dept":dept,@"medicalCaseTeam":medicalCaseTeam};
+            
+            TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:doctorDict];
+            NSLog(@"doctor name: %@",doctor.dName);
+            
+            if ([doctor.dProfessionalTitle containsString:@"住院医师"]) {
+                [self loadModel];
+                
+                [self getPatientDataByDoctorID:doctor.dID];
+                
+            }else {
+                
+                NSMutableArray *array = [[NSMutableArray alloc] init];
+                [self.classficationArray addObject:@"待审核"];
+                [self.dataDic setObject:array forKey:@"待审核"];
+                
+                
+                [self loadModel];
+                
+                [self patientsFromServerWithDoctor:doctor sucessLoad:^(NSArray *resultArray) {
+                    if (resultArray.count == 0) {
+                        [self.dataDic setObject:resultArray forKey:@"待审核"];
+                    }else {
+                        [self.dataDic setObject:resultArray forKey:@"待审核"];
+                    }
+                } failConection:^(NSError *error) {
+                    
+                }];
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView reloadData];
+            });
+        }
+        
+    } failConection:^(NSError *error) {
+        
+    }];
 }
 -(void)loadModel
 {
@@ -185,7 +192,14 @@
         headview.section = i;
         [headview.backBtn setTitle:[self.classficationArray objectAtIndex:i] forState:UIControlStateNormal];
         [self.headViewArray addObject:headview];
+        
+        if (i==0) {
+            headview.open = YES;
+        }else {
+            headview.open = NO;
+        }
     }
+    
     
 }
 
@@ -232,7 +246,6 @@
                 
                dispatch_async(dispatch_get_main_queue(), ^{
                    [self.tableView reloadData];
-
                });
             }
         }
@@ -287,7 +300,6 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indentifier];
         UIButton* backBtn=  [[UIButton alloc]initWithFrame:CGRectMake(0, 0, cell.frame.size.width, 45)];
         backBtn.tag = 20000;
-       // [backBtn setBackgroundImage:[UIImage imageNamed:@"btn_on"] forState:UIControlStateHighlighted];
         backBtn.userInteractionEnabled = NO;
         [backBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         [cell.contentView addSubview:backBtn];
@@ -311,19 +323,12 @@
     
     HeadView* view = [self.headViewArray objectAtIndex:indexPath.section];
 
-//    if (view.open) {
-//        _currentRow = indexPath.row;
-//        [_tableView reloadData];
-//    }
-//    
     NSArray *tempA = self.patientDic[view.backBtn.titleLabel.text];
     TempPatient *patient = (TempPatient*)tempA[indexPath.row];
-    
     
     [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",patient.pID] forKey:@"pID"];
     [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",patient.pName] forKey:@"pName"];
 
-    
     [self.delegate didSelectedPatient:patient];
 
 }
@@ -343,12 +348,56 @@
     }else {
         view.open = YES;
         
-        NSIndexSet *indexSet=[NSIndexSet indexSetWithIndex:view.section];
-        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
-                _currentSection = view.section;
+        if ([view.backBtn.titleLabel.text isEqualToString:@"待审核"]) {
+            
+            [self patientsFromServerWithDoctor:[TempDoctor setSharedDoctorWithDict:nil] sucessLoad:^(NSArray *resultArray) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    
+                    [self.dataDic setObject:resultArray forKey:@"待审核"];
+                    NSIndexSet *indexSet=[NSIndexSet indexSetWithIndex:view.section];
+                    [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+                    _currentSection = view.section;
+                    
+                });
+            } failConection:^(NSError *error) {
+                
+            }];
+            
+        }else {
+            [self getPatientDataByDoctorID:[TempDoctor setSharedDoctorWithDict:nil].dID];
+        }
     }
 }
-
+-(void)patientsFromServerWithDoctor:(TempDoctor*)tempDoctor sucessLoad:(void (^)(NSArray *resultArray))successful failConection:(void (^)(NSError *))fail
+{
+    NSString *doctorID = tempDoctor.dID;
+    [MessageObject messageObjectWithUsrStr:@"2216" pwdStr:@"test" iHMsgSocket:self.socket optInt:1503 dictionary:@{@"did":doctorID} block:^(IHSockRequest *request) {
+        
+        NSMutableArray *patientArray = [[NSMutableArray alloc] init];
+        
+        if([request.responseData isKindOfClass:[NSArray class]]){
+            NSArray *tempArray = (NSArray*)request.responseData;
+            for (NSDictionary *dict in tempArray) {
+                
+                NSString *pID;
+                NSString *pName;
+            
+                if ([dict.allKeys containsObject:@"patient"]) {
+                    NSDictionary *patientDict = (NSDictionary*)dict[@"patient"];
+                    pID = [patientDict objectForKey:@"pID"];
+                    pName = [patientDict objectForKey:@"pName"];
+                }
+                TempPatient *tempPatient = [[TempPatient alloc] initWithPatientID:NSDictionaryOfVariableBindings(pID,pName)];
+                
+                [patientArray addObject:tempPatient];
+            }
+        }
+        successful(patientArray);
+        
+    } failConection:^(NSError *error) {
+        fail(error);
+    }];
+}
 - (void)reset
 {
     for(int i = 0;i<[self.headViewArray count];i++)
@@ -370,20 +419,7 @@
     [self.tableView reloadData];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 -(void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];

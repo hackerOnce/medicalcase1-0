@@ -106,8 +106,8 @@
     NSString *presenter = @"病史陈述者：本人";
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
-    NSDate *admissionTime = [formatter dateFromString:patient.pAdmitDate];
+    [formatter setDateFormat:@"yyyyMMddhh:mm:ss"];
+    NSDate *admissionTime = [formatter dateFromString:StringValue(patient.pAdmitDate)];
     NSString *pAdmissionTime = [self getYearAndMonthWithDateStr:admissionTime]; //年月日
     NSString *pAdmissionTimeSub =[self getHourAndMinutesWithDateStr:admissionTime] ;//时分秒
     

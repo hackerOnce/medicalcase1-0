@@ -17,7 +17,8 @@
 #import "SelectCommitDoctorViewController.h"
 
 @interface WriteCaseSaveViewController ()<NSFetchedResultsControllerDelegate,WriteCaseSaveCellDelegate,UITableViewDelegate,UITableViewDataSource,WriteCaseEditViewControllerDelegate,writeCaseFirstItemViewControllerDelegate,UIAlertViewDelegate,SelectCommitDoctorViewControllerDelegate>
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *saveButton;
+@property (weak, nonatomic) IBOutlet UIButton *saveButton;
+
 @property (weak, nonatomic) IBOutlet UILabel *remainTimeLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -48,6 +49,7 @@
 @property (nonatomic,strong) NSMutableDictionary *caseInfoDict;
 
 @property (nonatomic,strong) RecordBaseInfo *resultCaseInfo;
+@property (weak, nonatomic) IBOutlet UIButton *retreatButton;
 
 @property (nonatomic,strong) NSMutableDictionary *originDict;
 @property (weak, nonatomic) IBOutlet personInfoView *personInfoView;
@@ -97,7 +99,14 @@
     }
     return _caseType;
 }
+-(void)setIsHideRetreatButton:(BOOL)isHideRetreatButton
+{
+    _isHideRetreatButton = isHideRetreatButton;
+    
+    self.retreatButton.hidden = _isHideRetreatButton;
+    self.retreatButton.enabled = !_isHideRetreatButton;
 
+}
 - (void)setCaseID:(NSString *)caseID
 {
     if (![caseID isEqualToString:_caseID]) {
@@ -106,9 +115,8 @@
         [self.coreDataStack saveContext];
     }
 }
-
-- (IBAction)saveButton:(UIBarButtonItem *)sender {
-    if ([sender.title isEqualToString:@"保存"]) {
+- (IBAction)saveButton:(UIButton *)sender {
+    if ([sender.titleLabel.text isEqualToString:@"保存"]) {
         if (self.recordBaseInfo.caseID) {
             //update
             [self updateCase];
@@ -116,12 +124,14 @@
             //save
             [self saveCaseToServer];
         }
-    }else if([sender.title isEqualToString:@"提交"]){
+    }else if([sender.titleLabel.text isEqualToString:@"提交"]){
         [self commitCaseToServerWithSender:sender];
-    }else if([sender.title isEqualToString:@"撤回"]){
+    }else if([sender.titleLabel.text isEqualToString:@"撤回"]){
         [self cancelCommitCaseToServer];
     }
 }
+
+
 -(void)updateCase
 {
     NSString *caseID = self.recordBaseInfo.caseID;
@@ -243,7 +253,7 @@
         [self connectServerFailWithMessage:@"撤销提交病历时，服务器断开连接" failType:4];
     }];
 }
--(void)commitCaseToServerWithSender:(UIBarButtonItem*)sender
+-(void)commitCaseToServerWithSender:(UIButton*)sender
 {
     [self performSegueWithIdentifier:@"commitDoctor" sender:sender];
 }
@@ -428,22 +438,22 @@
     if (alertView == self.saveAlertView) {
         
         if (self.resp == 0 && !self.hasCompletedWriteRecord) {
-           [self.saveButton setTitle:@"提交"];
+           [self.saveButton setTitle:@"提交" forState:UIControlStateNormal ];
         }
     }
     if (alertView == self.updateAlertView) {
         if (self.resp == 0 && !self.hasCompletedWriteRecord) {
-            [self.saveButton setTitle:@"提交"];
+            [self.saveButton setTitle:@"提交" forState:UIControlStateNormal ];
         }
     }
     if (alertView == self.commitAlertView) {
         if (self.resp == 0) {
-            [self.saveButton setTitle:@"撤回"];
+            [self.saveButton setTitle:@"撤回" forState:UIControlStateNormal ];
         }
     }
     if (alertView == self.cancelAlertView) {
         if (self.resp == 0) {
-            [self.saveButton setTitle:@"保存"];
+            [self.saveButton setTitle:@"保存" forState:UIControlStateNormal ];
         }
     }
 }
@@ -468,35 +478,36 @@
     
     switch ([caseStatusInt integerValue]) {
         case 0:{
-            [self.saveButton setTitle:@"保存"];
+            [self.saveButton setTitle:@"保存" forState:UIControlStateNormal ];
             break;
         }
         case 1:{
-            [self.saveButton setTitle:@"撤回"];
+            [self.saveButton setTitle:@"撤回" forState:UIControlStateNormal ];
             break;
         }
         case 2:{
-            [self.saveButton setTitle:@"主治医师审核中"];
+            [self.saveButton setTitle:@"主治医师审核中" forState:UIControlStateNormal ];
+
             break;
         }
         case 3:{
-            [self.saveButton setTitle:@"主治医师审核通过"];
+            [self.saveButton setTitle:@"主治医师审核通过" forState:UIControlStateNormal ];
             break;
         }
         case 4:{
-            [self.saveButton setTitle:@"主治医师审核未通过"];
+            [self.saveButton setTitle:@"主治医师审核未通过" forState:UIControlStateNormal ];
             break;
         }
         case 5:{
-            [self.saveButton setTitle:@"主任医师审核通过"];
+            [self.saveButton setTitle:@"主任医师审核通过" forState:UIControlStateNormal ];
             break;
         }
         case 6:{
-            [self.saveButton setTitle:@"主任医师审核未通过"];
+            [self.saveButton setTitle:@"主任医师审核未通过" forState:UIControlStateNormal ];
             break;
         }
         case 7:{
-            [self.saveButton setTitle:@"归档"];
+            [self.saveButton setTitle:@"归档" forState:UIControlStateNormal ];
             break;
         }
         default:
@@ -849,7 +860,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 
-    if ([self.saveButton.title isEqualToString:@"保存"]) {
+    if ([self.saveButton.titleLabel.text isEqualToString:@"保存"]) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         WriteCaseSaveCell *cell =(WriteCaseSaveCell*) [tableView cellForRowAtIndexPath:indexPath];
         UILabel *label =(UILabel*) [cell viewWithTag:1001];
@@ -867,7 +878,7 @@
     }else {
         NSString *message;
         
-        if ([self.saveButton.title isEqualToString:@"撤回"]) {
+        if ([self.saveButton.titleLabel.text isEqualToString:@"撤回"]) {
             message = @"不能编辑病历，请先撤回";
         }else {
             message = @"病历正在审核中，不能编辑";
@@ -962,8 +973,9 @@
     _hasEditedRecord  = hasEditedRecord;
     
     if (_hasEditedRecord) {
-        if ([self.saveButton.title isEqualToString:@"提交"]) {
-            [self.saveButton setTitle:@"保存"];
+        if ([self.saveButton.titleLabel.text isEqualToString:@"提交"]) {
+            
+            [self.saveButton setTitle:@"保存" forState:UIControlStateNormal];
         }
     }
 }

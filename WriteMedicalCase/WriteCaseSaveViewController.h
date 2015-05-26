@@ -15,7 +15,6 @@
 
 -(void)didExitEditRecordCaseWithCurrentPatient:(TempPatient*)patient;
 
-
 @end
 
 @interface WriteCaseSaveViewController : UIViewController
@@ -25,6 +24,6 @@
 
 @property(nonatomic,strong) RecordBaseInfo *recordBaseInfo;
 @property (nonatomic) BOOL isRemoveLeftButton;
-
+@property (nonatomic) BOOL isHideRetreatButton;
 @property (nonatomic,weak) id<WriteCaseSaveViewControllerDelegate> delegate;
 @end

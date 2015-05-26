@@ -19,5 +19,6 @@
 @property (nonatomic,strong) NSString *isAttendingPhysicianDoctor;
 
 -(instancetype)initWithTempDoctorDic:(NSDictionary*)doctorDic;
++(instancetype)setSharedDoctorWithDict:(NSDictionary*)doctorDic;
 
 @end

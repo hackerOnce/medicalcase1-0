@@ -9,22 +9,81 @@
 #import "TempDoctor.h"
 
 @implementation TempDoctor
--(instancetype)initWithTempDoctorDic:(NSDictionary*)doctorDic
+
++(instancetype)loginDoctor
 {
-    if (self = [super init]) {
+    static TempDoctor *sharedDoctor;
+    static dispatch_once_t dispatch_oncet;
+    dispatch_once(&dispatch_oncet,^{
+        sharedDoctor = [[self alloc] init];
+    });
+    
+    return sharedDoctor;
+}
+
++(instancetype)setSharedDoctorWithDict:(NSDictionary*)doctorDic
+{
+    TempDoctor *doctor = [TempDoctor loginDoctor];
+    if (doctorDic) {
         if ([doctorDic.allKeys containsObject:@"dID"]) {
-            self.dID = doctorDic[@"dID"];
+            doctor.dID = doctorDic[@"dID"];
         }else if([doctorDic.allKeys containsObject:@"id"]) {
-            self.dID = doctorDic[@"id"];
+            doctor.dID = doctorDic[@"id"];
         }else {
             NSLog(@"医生必须包含dID");
             abort();
         }
         
         if ([doctorDic.allKeys containsObject:@"dName"]) {
-            self.dName = doctorDic[@"dName"];
+            doctor.dName = doctorDic[@"dName"];
         }else if([doctorDic.allKeys containsObject:@"name"]) {
-            self.dName = doctorDic[@"name"];
+            doctor.dName = doctorDic[@"name"];
+        }else{
+            NSLog(@"医生必须包含dName");
+            abort();
+        }
+        
+        if ([doctorDic.allKeys containsObject:@"dProfessionalTitle"]) {
+            doctor.dProfessionalTitle = doctorDic[@"dProfessionalTitle"];
+        }
+        if ([doctorDic.allKeys containsObject:@"dept"]) {
+            doctor.dept = doctorDic[@"dept"];
+        }
+        if ([doctorDic.allKeys containsObject:@"medicalTeam"]) {
+            doctor.medicalTeam = doctorDic[@"medicalTeam"];
+        }
+        
+        if ([doctorDic.allKeys containsObject:@"isResidentDoctor"]) {
+            doctor.isResidentDoctor = doctorDic[@"isResidentDoctor"];
+        }
+        if ([doctorDic.allKeys containsObject:@"isChiefPhysicianDoctor"]) {
+            doctor.isChiefPhysicianDoctor = doctorDic[@"isChiefPhysicianDoctor"];
+        }
+        if ([doctorDic.allKeys containsObject:@"isAttendingPhysicianDoctor"]) {
+            doctor.isAttendingPhysicianDoctor = doctorDic[@"isAttendingPhysicianDoctor"];
+        }
+    }
+
+    return doctor;
+}
+-(instancetype)initWithTempDoctorDic:(NSDictionary*)doctorDic
+{
+
+    if (self = [super init]) {
+        
+        if ([doctorDic.allKeys containsObject:@"dID"]) {
+            _dID = doctorDic[@"dID"];
+        }else if([doctorDic.allKeys containsObject:@"id"]) {
+            _dID = doctorDic[@"id"];
+        }else {
+            NSLog(@"医生必须包含dID");
+            abort();
+        }
+        
+        if ([doctorDic.allKeys containsObject:@"dName"]) {
+            _dName = doctorDic[@"dName"];
+        }else if([doctorDic.allKeys containsObject:@"name"]) {
+            _dName = doctorDic[@"name"];
         }else{
             NSLog(@"医生必须包含dName");
             abort();

@@ -91,19 +91,40 @@
                                 <action selector="cancelButtonClicked:" destination="fAI-x7-5G4" id="cdq-rz-LZX"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="保存" id="pAk-WC-upo">
-                            <connections>
-                                <action selector="saveButton:" destination="fAI-x7-5G4" id="qhg-IK-EY5"/>
-                            </connections>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="TVd-oD-H0n">
+                            <view key="customView" contentMode="scaleToFill" id="4g9-bs-qAj">
+                                <rect key="frame" x="484" y="5" width="100" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L7U-vm-psg">
+                                        <rect key="frame" x="0.0" y="0.0" width="38" height="33"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal" title=" 退回">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fRM-LV-qMp">
+                                        <rect key="frame" x="60" y="0.0" width="40" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="保存">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="saveButton:" destination="fAI-x7-5G4" eventType="touchUpInside" id="LTw-od-2K2"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </view>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="personInfoView" destination="QZ5-ll-5FZ" id="bOs-zW-mWx"/>
-                        <outlet property="saveButton" destination="pAk-WC-upo" id="Yw4-Vv-vDB"/>
+                        <outlet property="retreatButton" destination="L7U-vm-psg" id="WKN-c2-wCW"/>
+                        <outlet property="saveButton" destination="fRM-LV-qMp" id="v4n-0a-QY8"/>
                         <outlet property="tableView" destination="ezX-CJ-NxF" id="8om-ND-V0V"/>
                         <segue destination="K2v-tp-jw9" kind="presentation" identifier="EditCaseSegue" modalTransitionStyle="coverVertical" id="Ajc-LH-Lyi"/>
                         <segue destination="X6r-Fa-Ax8" kind="presentation" identifier="firstSegue" modalTransitionStyle="crossDissolve" id="q3L-3g-p3S"/>
-                        <segue destination="trR-8f-qBx" kind="popoverPresentation" identifier="commitDoctor" popoverAnchorBarButtonItem="pAk-WC-upo" id="FTd-0h-qhe">
+                        <segue destination="trR-8f-qBx" kind="popoverPresentation" identifier="commitDoctor" popoverAnchorView="fRM-LV-qMp" id="FTd-0h-qhe">
                             <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                         </segue>
                     </connections>
@@ -912,7 +933,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="XgN-mO-eHf"/>
-        <segue reference="MLR-AJ-rwg"/>
+        <segue reference="Noa-wg-zEP"/>
+        <segue reference="aDp-kT-Mhc"/>
     </inferredMetricsTieBreakers>
 </document>
