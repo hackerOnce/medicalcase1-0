@@ -159,8 +159,10 @@
         NSLog(@"nodeEnglish= %@,nodeContent= %@,nodeName=%@",tempNode.nodeEnglish,tempNode.nodeContent,tempNode.nodeName);
         
     }
-    self.coreDataDict = [[NSMutableDictionary alloc] initWithDictionary:caseContent];
+    self.caseInfoDict = [[NSMutableDictionary alloc] initWithDictionary:caseContent];
     
+    [self.coreDataStack updateCaseContent:self.recordBaseInfo.caseContent dataWithDict:self.caseInfoDict];
+    [self.coreDataStack saveContext];
     
     //保存到服务器
     [MessageObject messageObjectWithUsrStr:[TempDoctor setSharedDoctorWithDict:nil].dID pwdStr:@"test" iHMsgSocket:self.socket optInt:1999 dictionary:@{@"content":caseContent,@"id":self.recordBaseInfo.caseID} block:^(IHSockRequest *request) {
@@ -168,7 +170,7 @@
             self.resp = request.resp;
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                self.updateAlertView = [[UIAlertView alloc] initWithTitle:@"保存成功" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                self.updateAlertView = [[UIAlertView alloc] initWithTitle:@"更新成功" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 NSLog(@"update record case ok");
                 [self.updateAlertView show];
             });
@@ -181,36 +183,13 @@
 ///fail type :保存 1，更新 2，提交 3，撤回 4
 -(void)connectServerFailWithMessage:(NSString*)failMessage failType:(NSInteger)failType
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.updateAlertView = [[UIAlertView alloc] initWithTitle:failMessage?failMessage:@"服务器断开连接" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [self.updateAlertView show];
-        
-        //保存到本地
-        switch (failType) {
-            case 1:{
-                [self.coreDataStack updateCaseContent:self.recordBaseInfo.caseContent dataWithDict:self.coreDataDict];
-                break;
-            }
-            case 2:{
-                [self.coreDataStack updateCaseContent:self.recordBaseInfo.caseContent dataWithDict:self.coreDataDict];
-                break;
-            }
-            case 3:{
-                
-                break;
-            }
-            case 4:{
-                
-                break;
-            }
-            default:
-                break;
-        }
-        
-        [self.coreDataStack saveContext];
-
+    dispatch_once_t *dispatchOnce;
+    dispatch_once(dispatchOnce, ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.updateAlertView = [[UIAlertView alloc] initWithTitle:failMessage?failMessage:@"服务器断开连接" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [self.updateAlertView show];
+        });
     });
-
 }
 -(void)cancelCommitCaseToServer
 {
@@ -334,7 +313,7 @@
         NSLog(@"nodeEnglish= %@,nodeContent= %@,nodeName=%@",tempNode.nodeEnglish,tempNode.nodeContent,tempNode.nodeName);
         
     }
-    self.coreDataDict = [[NSMutableDictionary alloc] initWithDictionary:caseContent];
+    self.caseInfoDict = [[NSMutableDictionary alloc] initWithDictionary:caseContent];
     
     self.originDict = [[NSMutableDictionary alloc] init];
     Patient *patient = self.recordBaseInfo.patient;
@@ -388,59 +367,70 @@
     [self.originDict setObject:attendingPhysician forKey:@"attendingPhysician"];
     [self.originDict setObject:chiefPhysician forKey:@"chiefPhysician"];
 
+    // 保存在本地
+    [self.coreDataStack updateCaseContent:self.recordBaseInfo.caseContent dataWithDict:self.caseInfoDict];
+    [self.coreDataStack saveContext];
+    
      //保存在服务器
     [MessageObject messageObjectWithUsrStr:[TempDoctor setSharedDoctorWithDict:nil].dID pwdStr:@"test" iHMsgSocket:self.socket optInt:20001 dictionary:self.originDict block:^(IHSockRequest *request) {
         
         self.resp = request.resp;
-        self.saveAlertView = [[UIAlertView alloc] initWithTitle:@"保存成功" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
         
-        NSString *archivedTime;
-        NSString *createdTime;
-        NSString *caseID;
-        NSString *updatedTime;
-
-        if ([request.responseData isKindOfClass:[NSArray class]] )
-        {
-            NSArray *tempArray = (NSArray*)request.responseData;
-            NSDictionary *tempDict =(NSDictionary*)[tempArray firstObject];
+        if (request.resp == 0) {
+            NSString *archivedTime;
+            NSString *createdTime;
+            NSString *caseID;
+            NSString *updatedTime;
             
-            
-            if ([tempDict.allKeys containsObject:@"_DOF"]) {
-                self._DOF =StringValue(tempDict[@"_DOF"]);
-                archivedTime = self._DOF;
-            }
-            if ([tempDict.allKeys containsObject:@"_created"]) {
-                self._created = StringValue(tempDict[@"_created"]);
-               
-                createdTime = self._created;
-            }
-            if ([tempDict.allKeys containsObject:@"_id"]) {
-                self.caseID = StringValue(tempDict[@"_id"]);
+            if ([request.responseData isKindOfClass:[NSArray class]] )
+            {
+                NSArray *tempArray = (NSArray*)request.responseData;
+                NSDictionary *tempDict =(NSDictionary*)[tempArray firstObject];
                 
-                caseID = self.caseID;
+                
+                if ([tempDict.allKeys containsObject:@"_DOF"]) {
+                    self._DOF =StringValue(tempDict[@"_DOF"]);
+                    archivedTime = self._DOF;
+                }
+                if ([tempDict.allKeys containsObject:@"_created"]) {
+                    self._created = StringValue(tempDict[@"_created"]);
+                    
+                    createdTime = self._created;
+                }
+                if ([tempDict.allKeys containsObject:@"_id"]) {
+                    self.caseID = StringValue(tempDict[@"_id"]);
+                    
+                    caseID = self.caseID;
+                }
+                if ([tempDict.allKeys containsObject:@"_updated"]) {
+                    self._updated = StringValue(tempDict[@"_updated"]);
+                    
+                    updatedTime = self._updated;
+                }
             }
-            if ([tempDict.allKeys containsObject:@"_updated"]) {
-                self._updated = StringValue(tempDict[@"_updated"]);
-               
-                updatedTime = self._updated;
-            }
+            self.saveAlertView = [[UIAlertView alloc] initWithTitle:@"保存成功" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                [self.saveAlertView show];
+                
+                self.recordBaseInfo.dof = archivedTime;
+                self.recordBaseInfo.caseID = caseID;
+                self.recordBaseInfo.createdDate = createdTime;
+                self.recordBaseInfo.updatedDate = updatedTime;
+                
+                [self.coreDataStack saveContext];
+            });
+        }else {
+            
+         UIAlertView  *alertView = [[UIAlertView alloc] initWithTitle:@"20001，保存病历失败" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [alertView show];
+            });
         }
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            [self.saveAlertView show];
-            
-            [self.coreDataStack updateCaseContent:self.recordBaseInfo.caseContent dataWithDict:self.caseInfoDict];
-            
-            self.recordBaseInfo.dof = archivedTime;
-            self.recordBaseInfo.caseID = caseID;
-            self.recordBaseInfo.createdDate = createdTime;
-            self.recordBaseInfo.updatedDate = updatedTime;
-            
-            [self.coreDataStack saveContext];
-        });
-        
     } failConection:^(NSError *error) {
+        
         [self connectServerFailWithMessage:@"20001,保存病历到服务器时服务器出错" failType:1];
     }];
 }
@@ -544,7 +534,6 @@
             tempNode.nodeContent = tempArray[i];
         }
     }
-    
     [self setUpFetchViewController];
 }
 ///core data

@@ -46,6 +46,7 @@
 @property (nonatomic,strong) TempPatient *patient;
 
 @property (nonatomic) BOOL isAuditCase; //待审核病历
+@property (nonatomic,strong) TempCaseBaseInfo *selectedCaseInfo;
 @end
 
 @implementation RecordManagedViewController
@@ -141,7 +142,9 @@
     }else {
         self.dataDic = nil;
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            [self loadRecordCaseFromServerWithPatient:self.patient];
+            if (self.patient) {
+                [self loadRecordCaseFromServerWithPatient:self.patient];
+            }
         });
 
     }
@@ -163,92 +166,113 @@
 #pragma mask - RecordNavagationViewControllerDelegate
 -(void)loadPatientInfoWithPatientID:(TempPatient*)patient
 {
-    [MessageObject messageObjectWithUsrStr:[TempDoctor setSharedDoctorWithDict:nil].dID pwdStr:@"test" iHMsgSocket:self.socket optInt:2016 dictionary:@{@"syxh":[NSString stringWithFormat:@"%@",patient.pID]} block:^(IHSockRequest *request) {
-        NSMutableDictionary *patientDict = [[NSMutableDictionary alloc] init];
-        
-        if ([request.responseData isKindOfClass:[NSDictionary class]]) {
-            NSDictionary *tempDict  = (NSDictionary*)request.responseData;
-            if ([tempDict.allKeys containsObject:@"csd_s"]) {
-                [patientDict setObject:StringValue(tempDict[@"csd_s"])forKey:@"pProvince"];
-            }
-            if ([tempDict.allKeys containsObject:@"hyzk"]) {
-                [patientDict setObject:StringValue(tempDict[@"hyzk"])forKey:@"pMaritalStatus"];
-            }
-            if ([tempDict.allKeys containsObject:@"mzbm"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"mzbm"]]forKey:@"pNation"];
-            }
-            if ([tempDict.allKeys containsObject:@"lxdz"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"lxdz"]]forKey:@"pDetailAddress"];
-            }
-            if ([tempDict.allKeys containsObject:@"age"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"age"]]forKey:@"pAge"];
-            }
-
-
-            if ([tempDict.allKeys containsObject:@"sex"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@", tempDict[@"sex"]]forKey:@"pGender"];
-            }
-            if ([tempDict.allKeys containsObject:@"hzxm"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"hzxm"]]forKey:@"pName"];
-            }
-            if ([tempDict.allKeys containsObject:@"ksdm"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"ksdm"]]forKey:@"pDept"];
-            }
-            
-            if ([tempDict.allKeys containsObject:@"cwdm"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"cwdm"]] forKey:@"pBedNum"];
-            }
-            if ([tempDict.allKeys containsObject:@"lxr"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"lxr"]]forKey:@"pLinkman"];
-            }
-            if ([tempDict.allKeys containsObject:@"lxrdh"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"lxrdh"]]forKey:@"pLinkmanMobileNum"];
-            }
-            if ([tempDict.allKeys containsObject:@"zycs"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@", tempDict[@"zycs"]]forKey:@"pCountOfHospitalized"];
-            }
-            if ([tempDict.allKeys containsObject:@"ryrq"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@", tempDict[@"ryrq"]]forKey:@"pAdmitDate"];
-            }
-            if ([tempDict.allKeys containsObject:@"zybm"]) {
-                [patientDict setObject:[NSString stringWithFormat:@"%@", tempDict[@"zybm"]]forKey:@"pProfession"];
-            }
-        }
-        [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",patient.pID] forKey:@"pID"];
-        [[NSUserDefaults standardUserDefaults] setObject:patient.pName forKey:@"pName"];
-
-        [patientDict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"dID"] forKey:@"dID"];
-        [patientDict setObject:patient.pID forKey:@"pID"];
-       // [self.coreDataStack patientFetchWithDict:patientDict];
-        [patientDict setObject:@"" forKey:@"caseID"];
-        NSString *dID = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
-
-        [patientDict setObject:dID forKey:@"dID"];
-        [patientDict setObject:@"入院记录" forKey:@"caseType"];
-        [patientDict setObject:@"未创建" forKey:@"caseStatus"];
-        RecordBaseInfo *recordCaseInfo = [self.coreDataStack fetchRecordWithDict:patientDict];
+    NSString *patientID = StringValue(patient.pID);
+    NSString *doctorID = StringValue([TempDoctor setSharedDoctorWithDict:nil].dID);
+    NSString *caseType = @"入院记录";
+    
+    NSMutableDictionary *tempDict = [[NSMutableDictionary alloc] init];
+    [tempDict setObject:patientID forKey:@"pID"];
+    [tempDict setObject:doctorID forKey:@"dID"];
+    [tempDict setObject:caseType forKey:@"caseType"];
+    
+    RecordBaseInfo *recordCaseInfo = [self.coreDataStack fetchRecordWithDict:tempDict isReturnNil:YES];
+    if (recordCaseInfo) {
         [self.recordCaseArray addObject:recordCaseInfo];
-        
-        for (RecordBaseInfo *record in self.recordCaseArray) {
-            
-            if ([self.classficationArray containsObject:record.caseStatus]) {
-                NSMutableArray *arr = [self.dataDic objectForKey:record.caseStatus];
-                [arr addObject:record];
-                [self.dataDic setObject:arr forKey:record.caseStatus];
-            }
-                
-        }
         dispatch_async(dispatch_get_main_queue(), ^{
+            [self.refreshControl endRefreshing];
+            [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+            
+            [self.tableView reloadData];
+        });
+
+    }else {
+        [MessageObject messageObjectWithUsrStr:[TempDoctor setSharedDoctorWithDict:nil].dID pwdStr:@"test" iHMsgSocket:self.socket optInt:2016 dictionary:@{@"syxh":[NSString stringWithFormat:@"%@",patient.pID]} block:^(IHSockRequest *request) {
+            NSMutableDictionary *patientDict = [[NSMutableDictionary alloc] init];
+            
+            if ([request.responseData isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *tempDict  = (NSDictionary*)request.responseData;
+                if ([tempDict.allKeys containsObject:@"csd_s"]) {
+                    [patientDict setObject:StringValue(tempDict[@"csd_s"])forKey:@"pProvince"];
+                }
+                if ([tempDict.allKeys containsObject:@"hyzk"]) {
+                    [patientDict setObject:StringValue(tempDict[@"hyzk"])forKey:@"pMaritalStatus"];
+                }
+                if ([tempDict.allKeys containsObject:@"mzbm"]) {
+                    [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"mzbm"]]forKey:@"pNation"];
+                }
+                if ([tempDict.allKeys containsObject:@"lxdz"]) {
+                    [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"lxdz"]]forKey:@"pDetailAddress"];
+                }
+                if ([tempDict.allKeys containsObject:@"age"]) {
+                    [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"age"]]forKey:@"pAge"];
+                }
+                
+                
+                if ([tempDict.allKeys containsObject:@"sex"]) {
+                    [patientDict setObject:[NSString stringWithFormat:@"%@", tempDict[@"sex"]]forKey:@"pGender"];
+                }
+                if ([tempDict.allKeys containsObject:@"hzxm"]) {
+                    [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"hzxm"]]forKey:@"pName"];
+                }
+                if ([tempDict.allKeys containsObject:@"ksdm"]) {
+                    [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"ksdm"]]forKey:@"pDept"];
+                }
+                
+                if ([tempDict.allKeys containsObject:@"cwdm"]) {
+                    [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"cwdm"]] forKey:@"pBedNum"];
+                }
+                if ([tempDict.allKeys containsObject:@"lxr"]) {
+                    [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"lxr"]]forKey:@"pLinkman"];
+                }
+                if ([tempDict.allKeys containsObject:@"lxrdh"]) {
+                    [patientDict setObject:[NSString stringWithFormat:@"%@",tempDict[@"lxrdh"]]forKey:@"pLinkmanMobileNum"];
+                }
+                if ([tempDict.allKeys containsObject:@"zycs"]) {
+                    [patientDict setObject:[NSString stringWithFormat:@"%@", tempDict[@"zycs"]]forKey:@"pCountOfHospitalized"];
+                }
+                if ([tempDict.allKeys containsObject:@"ryrq"]) {
+                    [patientDict setObject:[NSString stringWithFormat:@"%@", tempDict[@"ryrq"]]forKey:@"pAdmitDate"];
+                }
+                if ([tempDict.allKeys containsObject:@"zybm"]) {
+                    [patientDict setObject:[NSString stringWithFormat:@"%@", tempDict[@"zybm"]]forKey:@"pProfession"];
+                }
+            }
+            [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",patient.pID] forKey:@"pID"];
+            [[NSUserDefaults standardUserDefaults] setObject:patient.pName forKey:@"pName"];
+            
+            [patientDict setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"dID"] forKey:@"dID"];
+            [patientDict setObject:patient.pID forKey:@"pID"];
+            // [self.coreDataStack patientFetchWithDict:patientDict];
+            [patientDict setObject:@"" forKey:@"caseID"];
+            NSString *dID = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
+            
+            [patientDict setObject:dID forKey:@"dID"];
+            [patientDict setObject:@"入院记录" forKey:@"caseType"];
+            [patientDict setObject:@"未创建" forKey:@"caseStatus"];
+            RecordBaseInfo *recordCaseInfo = [self.coreDataStack fetchRecordWithDict:patientDict isReturnNil:NO];
+            [self.recordCaseArray addObject:recordCaseInfo];
+            
+            for (RecordBaseInfo *record in self.recordCaseArray) {
+                
+                if ([self.classficationArray containsObject:record.caseStatus]) {
+                    NSMutableArray *arr = [self.dataDic objectForKey:record.caseStatus];
+                    [arr addObject:record];
+                    [self.dataDic setObject:arr forKey:record.caseStatus];
+                }
+                
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
                 [self.refreshControl endRefreshing];
                 [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
                 
                 [self.tableView reloadData];
-        });
-        
-    } failConection:^(NSError *error) {
-        [self connectServerFailWithMessage:@"2016,从服务器端获取病人信息，服务器断开连接"];
-        
-    }];
+            });
+            
+        } failConection:^(NSError *error) {
+            [self connectServerFailWithMessage:@"2016,从服务器端获取病人信息，服务器断开连接"];
+            
+        }];
+    }
 }
 
 #pragma mask - record navigation view controller delegate
@@ -272,7 +296,7 @@
         return;
     }
     self.auditCaseArray = [[NSMutableArray alloc] init];
-
+    self.isAuditCase = YES;
     [MessageObject messageObjectWithUsrStr:tempDoctor.dID pwdStr:@"test" iHMsgSocket:self.socket optInt:1503 dictionary:NSDictionaryOfVariableBindings(did) block:^(IHSockRequest *request) {
         if ([request.responseData isKindOfClass:[NSArray class]]) {
             NSArray *tempArray = (NSArray*)request.responseData;
@@ -308,19 +332,16 @@
         
             if ([request.responseData isKindOfClass:[NSArray class]]) {
                 NSArray *tempArray = (NSArray*)request.responseData;
-                
-                //只有服务器端没有保存，本地的缓存才有效，否则服务器端的病历将覆盖本地的缓存
                 if (tempArray.count == 0) {
                     [self loadPatientInfoWithPatientID:patient];
                 }else {
                     for (NSDictionary *recordDict in tempArray) {
                         NSDictionary *dict = [self parseCaseInfoWithDic:recordDict];
-                        RecordBaseInfo *recordBaseInfo = [self.coreDataStack fetchRecordWithDict:dict];
+                        RecordBaseInfo *recordBaseInfo = [self.coreDataStack fetchRecordWithDict:dict isReturnNil:NO];
                         [self.recordCaseArray addObject:recordBaseInfo];
                     }
                     
                     for (RecordBaseInfo *record in self.recordCaseArray) {
-                        
                         
                         if ([self.classficationArray containsObject:record.caseStatus]) {
                             NSMutableArray *arr = [self.dataDic objectForKey:record.caseStatus];
@@ -510,6 +531,8 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (self.isAuditCase) {
+        TempCaseBaseInfo *shortRecordCase = [self.auditCaseArray objectAtIndex:indexPath.row];
+        self.selectedCaseInfo = shortRecordCase;
         [self performSegueWithIdentifier:@"auditSegue" sender:nil];
     }else {
         HeadView* view = [self.headViewArray objectAtIndex:indexPath.section];
@@ -587,7 +610,9 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"auditSegue"]) {
-    
+        UINavigationController *nav = (UINavigationController*)segue.destinationViewController;
+        AuditCaseViewController *auditCase = (AuditCaseViewController*)[nav.viewControllers firstObject];
+        auditCase.tempCaseInfo = self.selectedCaseInfo;
     }
 }
 #pragma mark - HeadViewdelegate

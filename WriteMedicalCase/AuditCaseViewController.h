@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "TempCaseBaseInfo.h"
 @interface AuditCaseViewController : UIViewController
 
+@property (nonatomic,strong) TempCaseBaseInfo *tempCaseInfo;
+@property (nonatomic,strong) RecordBaseInfo *recordBaseInfo;
 @end

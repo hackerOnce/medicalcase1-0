@@ -341,6 +341,8 @@
 
     [self.delegate didSelectedPatient:patient];
 
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
 }
 
 
@@ -362,25 +364,8 @@
     }else {
         view.open = YES;
         
-//        if ([view.backBtn.titleLabel.text isEqualToString:@"待审核"]) {
-//            
-//            [self patientsFromServerWithDoctor:[TempDoctor setSharedDoctorWithDict:nil] sucessLoad:^(NSArray *resultArray) {
-//                dispatch_async(dispatch_get_main_queue(), ^{
-//                    
-//                    [self.dataDic setObject:resultArray forKey:@"待审核"];
-//                    NSIndexSet *indexSet=[NSIndexSet indexSetWithIndex:view.section];
-//                    [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
-//                    _currentSection = view.section;
-//                    
-//                });
-//            } failConection:^(NSError *error) {
-//                
-//            }];
-//            
-//        }else {
-//            ;
-//        }
         if ([view.backBtn.titleLabel.text isEqualToString:@"待审核"]) {
+            view.open = NO;
             [self.delegate didSelectedAuditTitleWithTempDoctor:[TempDoctor setSharedDoctorWithDict:nil]];
         }else {
             [self getPatientDataByDoctorID:[TempDoctor setSharedDoctorWithDict:nil].dID];

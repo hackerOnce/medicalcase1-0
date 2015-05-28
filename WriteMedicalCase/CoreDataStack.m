@@ -269,7 +269,7 @@ static NSString *momdName = @"Model";
     
 }
 
--(RecordBaseInfo*)fetchRecordWithDict:(NSDictionary*)dict
+-(RecordBaseInfo*)fetchRecordWithDict:(NSDictionary*)dict isReturnNil:(BOOL)isReturnNil
 {
     NSString *dID;
     NSString *pID;
@@ -308,9 +308,13 @@ static NSString *momdName = @"Model";
     
     if (tempArray.count == 0) {
         
-        [self recordCreateWithDict:dict];
+        if (isReturnNil) {
+            return nil;
+        }else {
+          [self recordCreateWithDict:dict];
         
-        return [self fetchRecordWithDict:dict];
+          return [self fetchRecordWithDict:dict isReturnNil:NO];
+        }
         
     }else {
         
@@ -328,7 +332,7 @@ static NSString *momdName = @"Model";
 }
 -(void)recordUpdatedWithDict:(NSDictionary*)dict
 {
-    RecordBaseInfo *recordToUpdated = [self fetchRecordWithDict:dict];
+    RecordBaseInfo *recordToUpdated = [self fetchRecordWithDict:dict isReturnNil:NO];
     
     [self updatePatient:recordToUpdated.patient dataWithDict:dict];
     [self updateCaseContent:recordToUpdated.caseContent dataWithDict:dict];
