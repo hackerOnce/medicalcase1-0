@@ -14,9 +14,18 @@
 @property (nonatomic,strong) NSString *archivedTime;
 @property (nonatomic,strong) NSString *casePresenter;
 
-
 @property (nonatomic,strong) NSDictionary *caseContent;
 @property (nonatomic,strong) NSString *caseType;
+
+@property (nonatomic,strong) NSString *pID;
+@property (nonatomic,strong) NSString *pName;
+
+@property (nonatomic,strong) NSString *residentID; //住院医师ID
+@property (nonatomic,strong) NSString *residentName;//住院医师姓名
+@property (nonatomic,strong) NSString *attendingPhysiciandName;//主治医师姓名
+@property (nonatomic,strong) NSString *attendingPhysiciandID;//主治医师ID
+@property (nonatomic,strong) NSString *chiefPhysiciandName;//主任医师姓名
+@property (nonatomic,strong) NSString *chiefPhysiciandID;//主任医师ID
 
 -(instancetype)initWithCaseInfoDic:(NSDictionary*)caseInfoDic;
 

@@ -127,6 +127,8 @@
 		478859081AF71A70002CD361 /* TempDoctor.m in Sources */ = {isa = PBXBuildFile; fileRef = 478859071AF71A70002CD361 /* TempDoctor.m */; };
 		478BD1901B0C376600EC632E /* SelectCommitDoctorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 478BD18F1B0C376600EC632E /* SelectCommitDoctorViewController.m */; };
 		47ADB1BA1B0D6DF40037912B /* Department.m in Sources */ = {isa = PBXBuildFile; fileRef = 47ADB1B91B0D6DF40037912B /* Department.m */; };
+		47F99E2A1B1591F1009BC4C7 /* AuditCaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47F99E291B1591F1009BC4C7 /* AuditCaseViewController.m */; };
+		47F99E301B16BFE9009BC4C7 /* AuditCaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 47F99E2F1B16BFE9009BC4C7 /* AuditCaseCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -377,6 +379,10 @@
 		478BD18F1B0C376600EC632E /* SelectCommitDoctorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCommitDoctorViewController.m; sourceTree = "<group>"; };
 		47ADB1B81B0D6DF40037912B /* Department.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Department.h; sourceTree = "<group>"; };
 		47ADB1B91B0D6DF40037912B /* Department.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Department.m; sourceTree = "<group>"; };
+		47F99E281B1591F1009BC4C7 /* AuditCaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuditCaseViewController.h; sourceTree = "<group>"; };
+		47F99E291B1591F1009BC4C7 /* AuditCaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuditCaseViewController.m; sourceTree = "<group>"; };
+		47F99E2E1B16BFE9009BC4C7 /* AuditCaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuditCaseCell.h; sourceTree = "<group>"; };
+		47F99E2F1B16BFE9009BC4C7 /* AuditCaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuditCaseCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -500,17 +506,17 @@
 				4705A4801AF4B41A007FD2B9 /* writeCaseFirstItemViewController.m */,
 				4705A4391AF32BD7007FD2B9 /* TemplateDetailViewController.h */,
 				4705A43A1AF32BD7007FD2B9 /* TemplateDetailViewController.m */,
-				478858F01AF203B8002CD361 /* WriteCaseShowTemplateCell.h */,
 				478858F11AF203B8002CD361 /* WriteCaseShowTemplateCell.m */,
 				478858ED1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.h */,
 				478858EE1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m */,
 				4705F0D61AF1312F0050D47A /* WriteCaseEditViewController.h */,
 				4705F0D71AF1312F0050D47A /* WriteCaseEditViewController.m */,
-				4705A47A1AF4619D007FD2B9 /* WriteCaseSaveViewController.m */,
+				478858F01AF203B8002CD361 /* WriteCaseShowTemplateCell.h */,
 				4705F0C81AF11B010050D47A /* WriteCaseSaveViewController.h */,
-				478859051AF7138F002CD361 /* TempModel */,
+				4705A47A1AF4619D007FD2B9 /* WriteCaseSaveViewController.m */,
 				4705F0CB1AF11B220050D47A /* WriteCaseSaveCell.h */,
 				4705F0CC1AF11B220050D47A /* WriteCaseSaveCell.m */,
+				478859051AF7138F002CD361 /* TempModel */,
 			);
 			name = WriteCase;
 			sourceTree = "<group>";
@@ -692,6 +698,10 @@
 				47301D0E1AFC67EA005D42CC /* RecordNavagationViewController.m */,
 				47301D0F1AFC67EA005D42CC /* RecordManagedViewController.h */,
 				47301D101AFC67EA005D42CC /* RecordManagedViewController.m */,
+				47F99E281B1591F1009BC4C7 /* AuditCaseViewController.h */,
+				47F99E291B1591F1009BC4C7 /* AuditCaseViewController.m */,
+				47F99E2E1B16BFE9009BC4C7 /* AuditCaseCell.h */,
+				47F99E2F1B16BFE9009BC4C7 /* AuditCaseCell.m */,
 				4764756A1B0AD761004AFDF1 /* TempRecord.h */,
 				4764756B1B0AD761004AFDF1 /* TempRecord.m */,
 				47301D111AFC67EA005D42CC /* RecordManagedCellTableViewCell.h */,
@@ -1006,7 +1016,9 @@
 				478858EC1AF1FD06002CD361 /* CustomSegue.m in Sources */,
 				4705EFEF1AF1044B0050D47A /* main.m in Sources */,
 				4705A4861AF5B53B007FD2B9 /* PreviewViewController.m in Sources */,
+				47F99E2A1B1591F1009BC4C7 /* AuditCaseViewController.m in Sources */,
 				476475691B09D4B1004AFDF1 /* CaseContent.m in Sources */,
+				47F99E301B16BFE9009BC4C7 /* AuditCaseCell.m in Sources */,
 				4705F0811AF109770050D47A /* WLKMultiTableView.m in Sources */,
 				4705F0761AF1094C0050D47A /* SBJsonTokeniser.m in Sources */,
 				473C91231AFCA6D30069ECE4 /* ModelPlateConditionsViewController.m in Sources */,

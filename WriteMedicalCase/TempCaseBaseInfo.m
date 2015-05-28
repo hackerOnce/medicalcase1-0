@@ -38,9 +38,38 @@
                 self.caseContent = caseInfoDic[@"caseContent"];
             }
             if ([caseInfoDic.allKeys containsObject:@"caseType"]) {
-                self.caseType = caseInfoDic[@"caseType"];
+                self.caseType =StringValue(caseInfoDic[@"caseType"]);
+            }
+            
+            
+            if ([caseInfoDic.allKeys containsObject:@"residentdID"]) {
+                _residentID =StringValue(caseInfoDic[@"residentdID"]);
+            }
+            if ([caseInfoDic.allKeys containsObject:@"residentdName"]) {
+                _residentName =StringValue(caseInfoDic[@"residentdName"]);
+            }
+            
+            
+            if ([caseInfoDic.allKeys containsObject:@"attendingPhysiciandName"]){
+                _attendingPhysiciandName = StringValue(caseInfoDic[@"attendingPhysiciandName"]);
+            }
+            if ([caseInfoDic.allKeys containsObject:@"attendingPhysiciandID"]) {
+                _attendingPhysiciandID =StringValue(caseInfoDic[@"attendingPhysiciandID"]);
+
+            }
+            if ([caseInfoDic.allKeys containsObject:@"chiefPhysiciandID"]) {
+                _chiefPhysiciandID = StringValue(caseInfoDic[@"chiefPhysiciandID"]);
+            }
+            if ([caseInfoDic.allKeys containsObject:@"chiefPhysiciandName"]){
+                _chiefPhysiciandName = StringValue(caseInfoDic[@"chiefPhysiciandName"]);
             }
  
+            if ([caseInfoDic.allKeys containsObject:@"pID"]) {
+                _pID = StringValue(caseInfoDic[@"pID"]);
+            }
+            if ([caseInfoDic.allKeys containsObject:@"pName"]) {
+                _pName = StringValue(caseInfoDic[@"pName"]);
+            }
         }
     }
     

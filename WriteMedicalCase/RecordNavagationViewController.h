@@ -13,6 +13,7 @@
 
 @protocol RecordNavagationViewControllerDelegate <NSObject>
 -(void)didSelectedPatient:(TempPatient*)patient;
+-(void)didSelectedAuditTitleWithTempDoctor:(TempDoctor*)tempDoctor;
 @end
 
 @interface RecordNavagationViewController : UIViewController

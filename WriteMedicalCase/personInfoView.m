@@ -161,7 +161,7 @@
 -(NSString*)getYearAndMonthWithDateStr:(NSDate*)date
 {
     if (date) {
-        NSString *dateStr = @"记录日期: ";
+        NSString *dateStr = @"";
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"yyyy-MM-dd"];
         

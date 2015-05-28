@@ -17,7 +17,6 @@
 
 @protocol WriteCaseSaveCellDelegate <NSObject>
 
-@required
 -(void)textViewCell:(WriteCaseSaveCell*)cell didChangeText:(NSString*)text;
 -(void)textViewDidBeginEditing:(UITextView*)textView withCellIndexPath:(NSIndexPath*)indexPath;
 

@@ -90,6 +90,7 @@
             self.pAdmitDate = patientDic[@"pAdmitDate"];
         }
         
+        _pAudit = NO;
     }
     
     
@@ -106,7 +107,7 @@
         _pCity = patient.pCity;
         _pProvince = patient.pProvince;
         _pDetailAddress = patient.pDetailAddress;
-        
+        _pAudit = NO;
 //        if ([patientDic.allKeys containsObject:@"pDept"]) {
 //            self.pDept = patientDic[@"pDept"];
 //        }

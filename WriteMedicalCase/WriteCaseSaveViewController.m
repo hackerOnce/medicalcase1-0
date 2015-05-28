@@ -71,6 +71,7 @@
 
 @property (nonatomic,strong) NSMutableDictionary *coreDataDict;
 //@property (nonatomic,strong) NSMutableDictionary *caseContentDict;
+@property (nonatomic) BOOL isSaveSucess;
 @end
 
 @implementation WriteCaseSaveViewController
@@ -117,7 +118,7 @@
 }
 - (IBAction)saveButton:(UIButton *)sender {
     if ([sender.titleLabel.text isEqualToString:@"保存"]) {
-        if (self.recordBaseInfo.caseID) {
+        if (self.recordBaseInfo.caseID && ![self.recordBaseInfo.caseID isEqualToString:@""]) {
             //update
             [self updateCase];
         }else {
@@ -162,7 +163,7 @@
     
     
     //保存到服务器
-    [MessageObject messageObjectWithUsrStr:@"2216" pwdStr:@"test" iHMsgSocket:self.socket optInt:1999 dictionary:@{@"content":caseContent,@"id":self.recordBaseInfo.caseID} block:^(IHSockRequest *request) {
+    [MessageObject messageObjectWithUsrStr:[TempDoctor setSharedDoctorWithDict:nil].dID pwdStr:@"test" iHMsgSocket:self.socket optInt:1999 dictionary:@{@"content":caseContent,@"id":self.recordBaseInfo.caseID} block:^(IHSockRequest *request) {
         if (request.resp == 0) {
             self.resp = request.resp;
             
@@ -174,7 +175,7 @@
             
         }
     } failConection:^(NSError *error) {
-        [self connectServerFailWithMessage:@"更新病历到服务器时，服务器断开连接" failType:2];
+        [self connectServerFailWithMessage:@"1999,更新病历到服务器时，服务器断开连接" failType:2];
     }];
 }
 ///fail type :保存 1，更新 2，提交 3，撤回 4
@@ -232,8 +233,13 @@
                 message = @"撤销失败，没有权限";
                 break;
             }
+            case -2:{
+                message = @"撤销失败，病历未提交";
+                break;
+            }
+
             case -3:{
-                message = @"提交失败，病历未提交";
+                message = @"提交失败，病历已在审核中";
                 break;
             }
             default:
@@ -250,7 +256,7 @@
        
         
     } failConection:^(NSError *error) {
-        [self connectServerFailWithMessage:@"撤销提交病历时，服务器断开连接" failType:4];
+        [self connectServerFailWithMessage:@"2009,撤销提交病历时，服务器断开连接" failType:4];
     }];
 }
 -(void)commitCaseToServerWithSender:(UIButton*)sender
@@ -259,11 +265,12 @@
 }
 -(void)didSelectedDoctor:(TempDoctor *)doctor
 {
+    //2138
     NSString *caseID = self.recordBaseInfo.caseID;
     NSString *doctorID = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
     NSString *sid = doctor.dID;
     
-    [MessageObject messageObjectWithUsrStr:@"2216" pwdStr:@"test" iHMsgSocket:self.socket optInt:2008 dictionary:@{@"id":caseID,@"did":doctorID,@"sid":sid} block:^(IHSockRequest *request) {
+    [MessageObject messageObjectWithUsrStr:sid pwdStr:@"test" iHMsgSocket:self.socket optInt:2008 dictionary:@{@"id":caseID,@"did":doctorID,@"sid":sid} block:^(IHSockRequest *request) {
         
         NSString *caseStatus;
         NSInteger resp = request.resp;
@@ -283,6 +290,10 @@
                 message = @"提交失败，病历已提交";
                 break;
             }
+            case 3:{
+                message = @"提供的上级医师不存在";
+                break;
+            }
             default:
                 break;
         }
@@ -299,7 +310,7 @@
         
         
     } failConection:^(NSError *error) {
-        [self connectServerFailWithMessage:@"提交病历到服务器时，服务器端出错" failType:3];
+        [self connectServerFailWithMessage:@"2008,提交病历到服务器时，服务器端出错" failType:3];
     }];
     
 }
@@ -329,25 +340,25 @@
     Patient *patient = self.recordBaseInfo.patient;
     
     NSMutableDictionary *pDict = [[NSMutableDictionary alloc] init];
-    [pDict setObject:[NSString stringWithFormat:@"%@",patient.pID] forKey:@"pID"];
-    [pDict setObject:[NSString stringWithFormat:@"%@",patient.pName] forKey:@"pName"];
-    [pDict setObject:[NSString stringWithFormat:@"%@",patient.pGender] forKey:@"pGender"];
-    [pDict setObject:[NSString stringWithFormat:@"%@",patient.pAge] forKey:@"pAge"];
+    [pDict setObject:StringValue(patient.pID) forKey:@"pID"];
+    [pDict setObject:StringValue(patient.pName) forKey:@"pName"];
+    [pDict setObject:StringValue(patient.pGender) forKey:@"pGender"];
+    [pDict setObject:StringValue(patient.pAge) forKey:@"pAge"];
     
-    [pDict setObject:[NSString stringWithFormat:@"%@",patient.pCity] forKey:@"pCity"];
-    [pDict setObject:[NSString stringWithFormat:@"%@",patient.pProvince]forKey:@"pProvince"];
-    [pDict setObject:[NSString stringWithFormat:@"%@",patient.pDetailAddress] forKey:@"pDetailAddress"];
-    [pDict setObject:[NSString stringWithFormat:@"%@",patient.pDept] forKey:@"pDept"];
+    [pDict setObject:StringValue(patient.pCity) forKey:@"pCity"];
+    [pDict setObject:StringValue(patient.pProvince)forKey:@"pProvince"];
+    [pDict setObject:StringValue(patient.pDetailAddress) forKey:@"pDetailAddress"];
+    [pDict setObject:StringValue(patient.pDept) forKey:@"pDept"];
     
-    [pDict setObject:[NSString stringWithFormat:@"%@",patient.pBedNum] forKey:@"pBedNum"];
-    [pDict setObject:[NSString stringWithFormat:@"%@",patient.pNation]forKey:@"pNation"];
-    [pDict setObject:[NSString stringWithFormat:@"%@",patient.pProfession] forKey:@"pProfession"];
-    [pDict setObject:[NSString stringWithFormat:@"%@",patient.pMaritalStatus] forKey:@"pMaritalStatus"];
+    [pDict setObject:StringValue(patient.pBedNum) forKey:@"pBedNum"];
+    [pDict setObject:StringValue(patient.pNation)forKey:@"pNation"];
+    [pDict setObject:StringValue(patient.pProfession) forKey:@"pProfession"];
+    [pDict setObject:StringValue(patient.pMaritalStatus) forKey:@"pMaritalStatus"];
     
-    [pDict setObject:[NSString stringWithFormat:@"%@",patient.pBedNum] forKey:@"pMobileNum"];
-    [pDict setObject:[NSString stringWithFormat:@"%@",patient.pNation] forKey:@"pLinkman"];
-    [pDict setObject:[NSString stringWithFormat:@"%@",patient.pProfession]forKey:@"pLinkmanMobileNum"];
-    [pDict setObject:[NSString stringWithFormat:@"%@",patient.pMaritalStatus] forKey:@"pCountOfHospitalized"];
+    [pDict setObject:StringValue(patient.pBedNum) forKey:@"pMobileNum"];
+    [pDict setObject:StringValue(patient.pNation) forKey:@"pLinkman"];
+    [pDict setObject:StringValue(patient.pProfession)forKey:@"pLinkmanMobileNum"];
+    [pDict setObject:StringValue(patient.pMaritalStatus) forKey:@"pCountOfHospitalized"];
     
     [self.originDict setObject:pDict forKey:@"patient"];
     //alertView.title = @"保存成功";
@@ -378,7 +389,7 @@
     [self.originDict setObject:chiefPhysician forKey:@"chiefPhysician"];
 
      //保存在服务器
-    [MessageObject messageObjectWithUsrStr:@"2216" pwdStr:@"test" iHMsgSocket:self.socket optInt:20001 dictionary:self.originDict block:^(IHSockRequest *request) {
+    [MessageObject messageObjectWithUsrStr:[TempDoctor setSharedDoctorWithDict:nil].dID pwdStr:@"test" iHMsgSocket:self.socket optInt:20001 dictionary:self.originDict block:^(IHSockRequest *request) {
         
         self.resp = request.resp;
         self.saveAlertView = [[UIAlertView alloc] initWithTitle:@"保存成功" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -430,7 +441,7 @@
         });
         
     } failConection:^(NSError *error) {
-        [self connectServerFailWithMessage:@"保存病历到服务器时服务器出错" failType:1];
+        [self connectServerFailWithMessage:@"20001,保存病历到服务器时服务器出错" failType:1];
     }];
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -438,21 +449,28 @@
     if (alertView == self.saveAlertView) {
         
         if (self.resp == 0 && !self.hasCompletedWriteRecord) {
+            self.resp = -6;
            [self.saveButton setTitle:@"提交" forState:UIControlStateNormal ];
         }
     }
     if (alertView == self.updateAlertView) {
         if (self.resp == 0 && !self.hasCompletedWriteRecord) {
+            self.resp = -6;
+
             [self.saveButton setTitle:@"提交" forState:UIControlStateNormal ];
         }
     }
     if (alertView == self.commitAlertView) {
         if (self.resp == 0) {
+            self.resp = -6;
+
             [self.saveButton setTitle:@"撤回" forState:UIControlStateNormal ];
         }
     }
     if (alertView == self.cancelAlertView) {
         if (self.resp == 0) {
+            self.resp = -6;
+
             [self.saveButton setTitle:@"保存" forState:UIControlStateNormal ];
         }
     }
@@ -559,8 +577,6 @@
 
     [self setUpTableView];
     
-  //[self caseRecordFromServerOrLocal];
-    
     if (self.isRemoveLeftButton) {
         self.navigationItem.leftBarButtonItem = nil;
     }else {
@@ -570,12 +586,7 @@
     self.hasCompletedWriteRecord = NO;
     
     self.personInfoView.patient = self.recordBaseInfo.patient;
-}
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    
+    self.resp = -6; //初始化resp
 }
 -(void)setUpTableView
 {

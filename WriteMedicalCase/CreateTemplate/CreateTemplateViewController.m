@@ -219,7 +219,7 @@
                             //@"sourceType"  : @""
                             };
     
-    [MessageObject messageObjectWithUsrStr:@"2216" pwdStr:@"test" iHMsgSocket:self.socket optInt:20002 dictionary:param block:^(IHSockRequest *request) {
+    [MessageObject messageObjectWithUsrStr:dID pwdStr:@"test" iHMsgSocket:self.socket optInt:20002 dictionary:param block:^(IHSockRequest *request) {
         
         NSInteger resp = request.resp;
         if (resp == 0) {

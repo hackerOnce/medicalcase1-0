@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface TempPatient : NSObject
+@property (nonatomic) BOOL pAudit; //待审核的病人标志
 @property (nonatomic,strong) NSString *pID;
 @property (nonatomic,strong) NSString *pName;
 @property (nonatomic,strong) NSString *pGender;
