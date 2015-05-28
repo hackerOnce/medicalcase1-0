@@ -198,7 +198,7 @@
         UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(16, 8, 200, 33)];
         headerLabel.tag = 101;
         headerLabel.text = [NSString stringWithFormat:@"入院记录"];
-       headerLabel.textColor = [UIColor colorWithRed:120/255.0 green:118/255.0 blue:118/255.0 alpha:1];
+        headerLabel.textColor = [UIColor colorWithRed:120/255.0 green:118/255.0 blue:118/255.0 alpha:1];
         [headerView addSubview:headerLabel];
         
         UIButton *headerButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -208,11 +208,15 @@
         headerButton.titleLabel.font = [UIFont systemFontOfSize:12];
         headerButton.layer.borderColor = [UIColor lightGrayColor].CGColor;
         headerButton.layer.borderWidth = 1;
-    [headerButton setTitleColor:[UIColor colorWithRed:113/255.0 green:170/255.0 blue:236/255.0 alpha:1] forState:UIControlStateNormal];
-         [headerButton setTitle:@"撤销" forState:UIControlStateNormal];
+        [headerButton setTitleColor:[UIColor colorWithRed:113/255.0 green:170/255.0 blue:236/255.0 alpha:1] forState:UIControlStateNormal];
+        [headerButton setTitle:@"撤销" forState:UIControlStateNormal];
         [headerView addSubview:headerButton];
         headerButton.backgroundColor = [UIColor whiteColor];
         [headerButton addTarget:self action:@selector(headerViewButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
+       UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, CGRectGetWidth(tableView.frame), 1)];
+    lineView.backgroundColor = [UIColor lightGrayColor];
+    [headerView addSubview:lineView];
     
         [self.viewDict setObject:headerView forKey:@"headerView"];
         return headerView;
