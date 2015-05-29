@@ -182,7 +182,21 @@
             [self.refreshControl endRefreshing];
             [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
             
-            [self.tableView reloadData];
+            for (RecordBaseInfo *record in self.recordCaseArray) {
+                
+                if ([self.classficationArray containsObject:record.caseStatus]) {
+                    NSMutableArray *arr = [self.dataDic objectForKey:record.caseStatus];
+                    [arr addObject:record];
+                    [self.dataDic setObject:arr forKey:record.caseStatus];
+                }
+                
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.refreshControl endRefreshing];
+                [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+                
+                [self.tableView reloadData];
+            });
         });
 
     }else {
@@ -297,7 +311,7 @@
     }
     self.auditCaseArray = [[NSMutableArray alloc] init];
     self.isAuditCase = YES;
-    [MessageObject messageObjectWithUsrStr:tempDoctor.dID pwdStr:@"test" iHMsgSocket:self.socket optInt:1503 dictionary:NSDictionaryOfVariableBindings(did) block:^(IHSockRequest *request) {
+    [MessageObject messageObjectWithUsrStr:tempDoctor.dID pwdStr:@"test" iHMsgSocket:self.socket optInt:1503 dictionary:@{@"did":did,@"pid":@""} block:^(IHSockRequest *request) {
         if ([request.responseData isKindOfClass:[NSArray class]]) {
             NSArray *tempArray = (NSArray*)request.responseData;
 

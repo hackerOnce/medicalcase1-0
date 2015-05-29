@@ -58,7 +58,7 @@
     
     TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
     self.auditCaseArray = [[NSMutableArray alloc] init];
-    [MessageObject messageObjectWithUsrStr:doctor.dID pwdStr:@"test" iHMsgSocket:self.socket optInt:1503 dictionary:@{@"did":doctor.dID} block:^(IHSockRequest *request) {
+    [MessageObject messageObjectWithUsrStr:doctor.dID pwdStr:@"test" iHMsgSocket:self.socket optInt:1503 dictionary:@{@"did":doctor.dID,@"pid":tempCaseInfo.pID} block:^(IHSockRequest *request) {
         if ([request.responseData isKindOfClass:[NSArray class]]) {
             NSArray *tempArray = (NSArray*)request.responseData;
             
@@ -71,7 +71,7 @@
             }
             
             for (RecordBaseInfo *recordBaseInfo in self.auditCaseArray) {
-                if ([recordBaseInfo.caseType isEqualToString:@"入院病历"]) {
+                if ([recordBaseInfo.caseType isEqualToString:@"入院记录"]) {
                     self.recordBaseInfo = recordBaseInfo;
                     break;
                 }
@@ -93,6 +93,7 @@
     
     if ([_recordBaseInfo.caseType isEqualToString:@"入院记录"]) {
         [self saveResidentRecordCaseContentToCoreData:_recordBaseInfo withSection:0];
+        self.isResidentNote = YES;
     }
 }
 -(void)saveResidentRecordCaseContentToCoreData:(RecordBaseInfo*)recordBaseInfo withSection:(NSUInteger)section
@@ -129,7 +130,7 @@
         abort();
     }else {
         NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:section];
-        [self.tableView reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView reloadData];
     }
 }
 -(NSArray *)caseInfoArray
@@ -488,13 +489,13 @@
     
     return tempDic;
 }
--(NSString*)transformCaseStatus:(NSString*)caseStatusString
+-(NSString*)transformCaseStatus:(NSString*)caseStatusInt
 {
-    NSDictionary *tempDict= @{@"保存未提交":@"0",@"提交未审核":@"1",@"主治医师审核":@"2",@"（副）主任医师审核":@"3",@"主治医师审核未通过":@"4",@"副主任医师审核通过":@"5",@"副主任医师审核未通过":@"6",@"归档":@"7",@"撤回":@"8"};
-    if ([tempDict.allKeys containsObject:caseStatusString]) {
-        return tempDict[caseStatusString];
+    NSDictionary *tempDict= @{@"0":@"保存未提交",@"1":@"提交未审核",@"2":@"主治医师审核",@"3":@"（副）主任医师审核",@"4":@"主治医师审核未通过",@"5":@"副主任医师审核通过",@"6":@"副主任医师审核未通过",@"7":@"归档"   ,@"8":@"撤回"};
+    if ([tempDict.allKeys containsObject:caseStatusInt]) {
+        return tempDict[caseStatusInt];
     }else {
-        return @"0";
+        return @"未创建";
     }
 }
 @end

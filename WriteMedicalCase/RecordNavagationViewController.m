@@ -107,8 +107,9 @@
     
     //[self loadDoctorInfoWithDoctorID:@"2216"];
    //[self loadDoctorInfoWithDoctorID:@"2235"];
-    //[self loadDoctorInfoWithDoctorID:@"2494"];
-    [self loadDoctorInfoWithDoctorID:@"2138"];
+   // [self loadDoctorInfoWithDoctorID:@"2494"];
+    //[self loadDoctorInfoWithDoctorID:@"2138"];
+    [self loadDoctorInfoWithDoctorID:@"2120"];
 
 }
 -(void)setUpTableView
