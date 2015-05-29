@@ -15,6 +15,10 @@
 #import "RecordBaseInfo.h"
 #import "CaseContent.h"
 
+
+@interface CoreDataStack()
+@property (nonatomic,strong) NSArray *recordCaseTypes;
+@end
 @implementation CoreDataStack
 
 static NSString *momdName = @"Model";
@@ -22,7 +26,10 @@ static NSString *momdName = @"Model";
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
-
+-(NSArray *)recordCaseTypes
+{
+    return @[@"入院记录",@"首次病程记录"];
+}
 - (NSURL *)applicationDocumentsDirectory {
         return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
@@ -229,9 +236,6 @@ static NSString *momdName = @"Model";
     return count;
 }
 
-
-
-
 -(ParentNode*)fetchParentNodeWithNodeEntityName:(NSString*)parentName
 {
     
@@ -269,13 +273,14 @@ static NSString *momdName = @"Model";
     
 }
 
--(RecordBaseInfo*)fetchRecordWithDict:(NSDictionary*)dict isReturnNil:(BOOL)isReturnNil
+-(NSArray*)fetchRecordWithDict:(NSDictionary*)dict isReturnNil:(BOOL)isReturnNil
 {
+
     NSString *dID;
     NSString *pID;
     NSString *caseType = @"";
     NSPredicate *predicate;
-    RecordBaseInfo *recordBaseInfo;
+   // RecordBaseInfo *recordBaseInfo;
     if ([dict.allKeys containsObject:@"dID"]) {
         dID = dict[@"dID"];
     }
@@ -311,34 +316,46 @@ static NSString *momdName = @"Model";
         if (isReturnNil) {
             return nil;
         }else {
-          [self recordCreateWithDict:dict];
-        
+            
+            NSMutableDictionary *tempDict = [NSMutableDictionary dictionaryWithDictionary:dict];
+            [tempDict setObject:@"未创建" forKey:@"caseStatus"];
+            for (NSString *caseType in self.recordCaseTypes) {
+                [tempDict setObject:caseType forKey:@"caseType"];
+                [self recordCreateWithDict:tempDict];
+            }
+           
           return [self fetchRecordWithDict:dict isReturnNil:NO];
         }
         
     }else {
         
-        
-        recordBaseInfo = (RecordBaseInfo*)[tempArray firstObject];
-        
-        [self updateRecord:recordBaseInfo dataWithDict:dict];
-        [self updateCaseContent:recordBaseInfo.caseContent dataWithDict:dict];
-        [self updatePatient:recordBaseInfo.patient dataWithDict:dict];
+        for (RecordBaseInfo *recordBaseInfo in tempArray) {
+            if ([recordBaseInfo.caseType isEqualToString:@"入院记录" ]) {
+                [self updateRecord:recordBaseInfo dataWithDict:dict];
+                [self updateCaseContent:recordBaseInfo.caseContent dataWithDict:dict];
+                [self updatePatient:recordBaseInfo.patient dataWithDict:dict];
+            }else {
+               //更新其他类型病历
+            }
+        }
         
         [self saveContext];
     }
     
-    return recordBaseInfo;
+    return tempArray;
 }
+
 -(void)recordUpdatedWithDict:(NSDictionary*)dict
 {
-    RecordBaseInfo *recordToUpdated = [self fetchRecordWithDict:dict isReturnNil:NO];
+    NSArray *records = [self fetchRecordWithDict:dict isReturnNil:NO];
     
-    [self updatePatient:recordToUpdated.patient dataWithDict:dict];
-    [self updateCaseContent:recordToUpdated.caseContent dataWithDict:dict];
-    [self updateRecord:recordToUpdated dataWithDict:dict];
-    
-    [self saveContext];
+    for (RecordBaseInfo *recordToUpdated in records) {
+        [self updatePatient:recordToUpdated.patient dataWithDict:dict];
+        [self updateCaseContent:recordToUpdated.caseContent dataWithDict:dict];
+        [self updateRecord:recordToUpdated dataWithDict:dict];
+        
+        [self saveContext];
+    }
 }
 -(void)recordCreateWithDict:(NSDictionary*)dict
 {
@@ -527,7 +544,7 @@ static NSString *momdName = @"Model";
 }
 
 
--(Patient*)patientFetchWithDict:(NSDictionary*)dict
+-(Patient*)patientFetchWithDict:(NSDictionary*)dict isReturnNil:(BOOL)isReturnNil
 {
     NSString *dID;
     NSString *pID;
@@ -537,28 +554,20 @@ static NSString *momdName = @"Model";
         dID = dict[@"dID"];
     } else if ([dict.allKeys containsObject:@"did"]) {
         dID = dict[@"did"];
-    }else {
-        abort();
     }
     if ([dict.allKeys containsObject:@"pid"]) {
         pID = dict[@"pid"];
     }else if ([dict.allKeys containsObject:@"pID"]) {
         pID = dict[@"pID"];
-    }else {
+    }else{
         abort();
     }
     
-    if (dID) {
-        
-    }else {
-        abort();
+    if (dID && pID) {
+        predicate = [NSPredicate predicateWithFormat:@"pID = %@ AND dID = %@",pID,dID];
+    }else if(pID) {
+        predicate = [NSPredicate predicateWithFormat:@"pID = %@",pID];
     }
-    if (pID) {
-        
-    }else {
-        abort();
-    }
-    predicate = [NSPredicate predicateWithFormat:@"pID = %@ AND dID = %@",pID,dID];
     
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[Patient entityName]];
     request.predicate = predicate;
@@ -572,9 +581,12 @@ static NSString *momdName = @"Model";
     
     if (tempArray.count == 0) {
         
-        [self patientCreateWithDict:dict];
-        
-        return [self patientFetchWithDict:dict];
+        if (isReturnNil) {
+            return nil;
+        }else {
+            [self patientCreateWithDict:dict];
+            return [self patientFetchWithDict:dict isReturnNil:YES];
+        }
         
     }else {
         patient = (Patient*)[tempArray firstObject];
@@ -623,8 +635,7 @@ static NSString *momdName = @"Model";
 }
 -(void)updatePatient:(Patient*)patient dataWithDict:(NSDictionary*)dict
 {
-    
-    
+
     if ([dict.allKeys containsObject:@"pAdmitDate"]) {
         patient.pAdmitDate = dict[@"pAdmitDate"];
     }

@@ -23,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSString *dID = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
+    NSString *dID = [TempDoctor setSharedDoctorWithDict:nil].dID;
     
     [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:2007 dictionary:@{@"did":dID} block:^(IHSockRequest *request) {
         

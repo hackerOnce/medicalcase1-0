@@ -220,10 +220,10 @@
             </objects>
             <point key="canvasLocation" x="1863" y="-901"/>
         </scene>
-        <!--Split View Controller-->
+        <!--Case Management Split View Controller-->
         <scene sceneID="Snc-c0-BBQ">
             <objects>
-                <splitViewController storyboardIdentifier="splitVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Oor-W5-HQs" sceneMemberID="viewController">
+                <splitViewController storyboardIdentifier="splitVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Oor-W5-HQs" customClass="CaseManagementSplitViewController" sceneMemberID="viewController">
                     <connections>
                         <segue destination="5Ck-TP-T9f" kind="relationship" relationship="masterViewController" id="ZYC-ET-f7p"/>
                         <segue destination="fY3-Iu-jIw" kind="relationship" relationship="detailViewController" id="ABS-MF-ChG"/>
@@ -337,6 +337,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="auditButton" destination="BdM-ve-giY" id="BoR-8Q-bUS"/>
                         <outlet property="commitButton" destination="BdM-ve-giY" id="tPL-6G-krQ"/>
                         <outlet property="tableView" destination="o8p-4h-wBZ" id="K94-U9-Zzf"/>
                     </connections>

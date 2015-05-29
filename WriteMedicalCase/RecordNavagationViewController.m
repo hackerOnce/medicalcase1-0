@@ -51,13 +51,13 @@
     return _socket;
 }
 
--(NSString *)logInDoctorID
-{
-    if (!_logInDoctorID) {
-        _logInDoctorID = @"11";
-    }
-    return _logInDoctorID;
-}
+//-(NSString *)logInDoctorID
+//{
+//    if (!_logInDoctorID) {
+//        _logInDoctorID = @"11";
+//    }
+//    return _logInDoctorID;
+//}
 #pragma  mask - property
 
 -(NSMutableDictionary *)patientDic
@@ -109,8 +109,12 @@
    //[self loadDoctorInfoWithDoctorID:@"2235"];
    // [self loadDoctorInfoWithDoctorID:@"2494"];
     //[self loadDoctorInfoWithDoctorID:@"2138"];
-    [self loadDoctorInfoWithDoctorID:@"2120"];
 
+    if (self.logInDoctorID) {
+        [self loadDoctorInfoWithDoctorID:self.logInDoctorID];
+    }else {
+        [self loadDoctorInfoWithDoctorID:@"2494"];
+    }
 }
 -(void)setUpTableView
 {

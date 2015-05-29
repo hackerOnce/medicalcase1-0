@@ -29,9 +29,9 @@
 
 -(void)saveFieldNodeListToCoreData;
 
--(RecordBaseInfo*)fetchRecordWithDict:(NSDictionary*)dict isReturnNil:(BOOL)isReturnNil;
+-(NSArray*)fetchRecordWithDict:(NSDictionary*)dict isReturnNil:(BOOL)isReturnNil;
 
--(Patient*)patientFetchWithDict:(NSDictionary*)dict;
+-(Patient*)patientFetchWithDict:(NSDictionary*)dict isReturnNil:(BOOL)isReturnNil;
 
 -(void)recordUpdatedWithDict:(NSDictionary*)dict;
 

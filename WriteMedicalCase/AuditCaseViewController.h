@@ -8,8 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "TempCaseBaseInfo.h"
+
+
+@protocol AuditCaseViewControllerDelegate <NSObject>
+
+-(void)didExitAuditCaseViewController;
+
+@end
 @interface AuditCaseViewController : UIViewController
 
 @property (nonatomic,strong) TempCaseBaseInfo *tempCaseInfo;
 @property (nonatomic,strong) RecordBaseInfo *recordBaseInfo;
+
+@property (weak,nonatomic) id<AuditCaseViewControllerDelegate> delegate;
 @end

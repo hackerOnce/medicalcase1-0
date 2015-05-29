@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CaseManagementSplitViewController : UIViewController
+@interface CaseManagementSplitViewController : UISplitViewController
 
 @end

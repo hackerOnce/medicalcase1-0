@@ -9,12 +9,14 @@
 #import "AuditCaseViewController.h"
 #import "CaseContent.h"
 #import "AuditCaseCell.h"
+#import "SelectCommitDoctorViewController.h"
 
-@interface AuditCaseViewController ()<UITableViewDataSource,UITableViewDelegate,NSFetchedResultsControllerDelegate,AuditCaseCellDelegate>
+@interface AuditCaseViewController ()<UITableViewDataSource,UITableViewDelegate,NSFetchedResultsControllerDelegate,AuditCaseCellDelegate,UIAlertViewDelegate,SelectCommitDoctorViewControllerDelegate>
 @property (nonatomic,strong) CoreDataStack *coreDataStack;
 
 @property (nonatomic,strong) NSMutableDictionary *viewDict;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *auditButton;
 
 
 @property (nonatomic,strong) NSFetchedResultsController *fetchResultController;
@@ -23,6 +25,9 @@
 @property (nonatomic) BOOL isResidentNote; //是入院记录
 
 @property (nonatomic,strong) NSMutableArray *auditCaseArray;
+
+@property (nonatomic) NSInteger resp;
+@property (nonatomic) NSInteger selectedSection;
 @end
 
 @implementation AuditCaseViewController
@@ -59,21 +64,23 @@
     TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
     self.auditCaseArray = [[NSMutableArray alloc] init];
     [MessageObject messageObjectWithUsrStr:doctor.dID pwdStr:@"test" iHMsgSocket:self.socket optInt:1503 dictionary:@{@"did":doctor.dID,@"pid":tempCaseInfo.pID} block:^(IHSockRequest *request) {
-        if ([request.responseData isKindOfClass:[NSArray class]]) {
-            NSArray *tempArray = (NSArray*)request.responseData;
-            
-            for (NSDictionary *recordDict in tempArray) {
-                NSDictionary *dict = [self parseCaseInfoWithDic:recordDict];
+        
+        if (request.resp == 0) {
+            if ([request.responseData isKindOfClass:[NSArray class]]) {
+                NSArray *tempArray = (NSArray*)request.responseData;
                 
-                RecordBaseInfo *recordBaseInfo = [self.coreDataStack fetchRecordWithDict:dict isReturnNil:NO];
-                [self.auditCaseArray addObject:recordBaseInfo];
-
-            }
-            
-            for (RecordBaseInfo *recordBaseInfo in self.auditCaseArray) {
-                if ([recordBaseInfo.caseType isEqualToString:@"入院记录"]) {
-                    self.recordBaseInfo = recordBaseInfo;
-                    break;
+                for (NSDictionary *recordDict in tempArray) {
+                    NSDictionary *dict = [self parseCaseInfoWithDic:recordDict];
+                    NSArray *recordCases = [self.coreDataStack fetchRecordWithDict:dict isReturnNil:NO];
+                    RecordBaseInfo *recordBaseInfo = [recordCases firstObject];
+                    [self.auditCaseArray addObject:recordBaseInfo];
+                }
+                
+                for (RecordBaseInfo *recordBaseInfo in self.auditCaseArray) {
+                    if ([recordBaseInfo.caseType isEqualToString:@"入院记录"]) {
+                        self.recordBaseInfo = recordBaseInfo;
+                        break;
+                    }
                 }
             }
         }
@@ -129,7 +136,6 @@
         NSLog(@"error: %@",error.description);
         abort();
     }else {
-        NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:section];
         [self.tableView reloadData];
     }
 }
@@ -145,7 +151,24 @@
     [self setUpTableView];
     
 }
-
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
+    
+    if ([doctor.dProfessionalTitle containsString:@"主治"]) {
+        [self.auditButton setTitle:@"提交"];
+    }else {
+        [self.auditButton setTitle:@"审核"];
+    }
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self.delegate didExitAuditCaseViewController];
+}
 -(void)setUpTableView
 {
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -161,8 +184,126 @@
 - (IBAction)commitButton:(UIBarButtonItem *)sender {
     
     
+    
+    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    
+    for (RecordBaseInfo *recordCase in self.auditCaseArray) {
+        if ([recordCase.caseType isEqualToString:@"入院记录"]) {
+            NSMutableDictionary *dict =[NSMutableDictionary dictionaryWithDictionary:[self auditNSDictionarForServer:YES isForReturn:NO]];
+            [tempArray addObject:dict];
+ 
+        }
+    }
+    
+    if ([sender.title  isEqualToString:@"提交"]) {
+        
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"WriteCaseStoryboard" bundle:nil];
+        SelectCommitDoctorViewController *commitDoctorVC = [storyBoard instantiateViewControllerWithIdentifier:@"selecteCommitDoctor"];
+        commitDoctorVC.delegate = self;
+        UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:commitDoctorVC];
+        [popover presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+        
+    }else if([sender.title  isEqualToString:@"审核"]) {
+        [MessageObject messageObjectWithUsrStr:[TempDoctor setSharedDoctorWithDict:nil].dID pwdStr:@"test" iHMsgSocket:self.socket optInt:1507 dictionary:@{@"key":tempArray} block:^(IHSockRequest *request){
+            
+            if (request.resp == 0) {
+                
+                [self dismissViewControllerAnimated:YES completion:nil];
+                
+            }else {
+            }
+            
+        } failConection:^(NSError *error) {
+            [self connectServerFailWithMessage:@"提交审核失败，服务器断开连接"];
+        }];
+    }
+    
 }
+#pragma mask -select a doctor to commit
+-(void)didSelectedDoctor:(TempDoctor *)doctor
+{
+    //住院医师提交多个病历到主任医师
+    
+    
+}
+#pragma mask - alert view delegate
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (self.resp == 0) {
+        
+        [self.auditCaseArray removeObjectAtIndex:self.selectedSection];
+        
+        if (self.auditCaseArray.count == 0) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }else {
+            [self.tableView reloadData];
+        }
+    }
+}
+-(void)headerViewButtonTapped:(UIButton*)sender
+{
+    //撤销
+    UIView *headerView = sender.superview;
+    
+    RecordBaseInfo *recordBaseInfo = [self.auditCaseArray objectAtIndex:headerView.tag-1];
+    self.selectedSection = headerView.tag - 1;
 
+    NSDictionary *dict;
+    if([recordBaseInfo.caseType isEqualToString:@"入院记录"]){
+        dict =[NSMutableDictionary dictionaryWithDictionary:[self auditNSDictionarForServer:YES isForReturn:YES]];
+
+    }
+    [MessageObject messageObjectWithUsrStr:[TempDoctor setSharedDoctorWithDict:nil].dID pwdStr:@"test" iHMsgSocket:self.socket optInt:1504 dictionary:dict block:^(IHSockRequest *request){
+        
+        NSString *message;
+            if (request.resp == 0) {
+                 self.resp = 0;
+                 message = @"退回成功";
+            }else {
+                 message = @"退回失败，服务器返回错误";
+            }
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:message message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
+        } failConection:^(NSError *error) {
+            [self connectServerFailWithMessage:@"退回失败，服务器断开连接"];
+        }];
+}
+-(void)connectServerFailWithMessage:(NSString *)message
+{
+   static dispatch_once_t predicate;
+    dispatch_once(&predicate, ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:message?message:@"服务器连接失败" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
+            
+        });
+    });
+    
+}
+-(NSDictionary*)auditNSDictionarForServer:(BOOL)isForServer isForReturn:(BOOL)isForReturn
+{
+    NSString *caseID = StringValue(self.recordBaseInfo.caseID);
+    NSString *doctorID =StringValue([TempDoctor setSharedDoctorWithDict:nil].dID);
+    NSMutableDictionary *caseContentDict = [[NSMutableDictionary alloc] init];
+    ParentNode *parentNode = [self.coreDataStack fetchParentNodeWithNodeEntityName:@"入院记录"];
+    for (int i=0; i< parentNode.nodes.count; i++) {
+        Node *tempNode = parentNode.nodes[i];
+        if (!tempNode.nodeContent) {
+            tempNode.nodeContent = @"";
+        }
+        [caseContentDict setObject:tempNode.nodeContent forKey:tempNode.nodeEnglish];
+        NSLog(@"nodeEnglish= %@,nodeContent= %@,nodeName=%@",tempNode.nodeEnglish,tempNode.nodeContent,tempNode.nodeName);
+    }
+    NSMutableDictionary *dict;
+    if (isForServer) {
+        dict =[NSMutableDictionary dictionaryWithDictionary:@{@"id":caseID,@"did":doctorID,@"content":caseContentDict,@"style":isForReturn?@(1):@(0)}];
+    }else {
+        dict = [NSMutableDictionary dictionaryWithDictionary:caseContentDict];
+    }
+    return dict;
+}
 
 #pragma mask - view dict for footer view and header view
 -(NSMutableDictionary *)viewDict
@@ -245,7 +386,7 @@
 {
     UIView *headerView = [[UIView alloc] init];
     
-    
+    headerView.tag = section+1;
     RecordBaseInfo *recordBaseInfo = [self.auditCaseArray objectAtIndex:section];
     
         headerView.backgroundColor = [UIColor whiteColor];
@@ -265,6 +406,8 @@
         headerButton.layer.borderWidth = 1;
         [headerButton setTitleColor:[UIColor colorWithRed:113/255.0 green:170/255.0 blue:236/255.0 alpha:1] forState:UIControlStateNormal];
         [headerButton setTitle:@"撤销" forState:UIControlStateNormal];
+        [headerButton setTitleColor:[UIColor colorWithRed:234/255.0 green:238/255.0 blue:242/255.0 alpha:1] forState:UIControlStateHighlighted];
+    
         [headerView addSubview:headerButton];
         headerButton.backgroundColor = [UIColor whiteColor];
         [headerButton addTarget:self action:@selector(headerViewButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -277,10 +420,7 @@
         return headerView;
     
 }
--(void)headerViewButtonTapped:(UIButton*)sender
-{
-    //撤销
-}
+
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     UIView *footerView = [self.viewDict objectForKey:@"footerView"];
@@ -491,11 +631,12 @@
 }
 -(NSString*)transformCaseStatus:(NSString*)caseStatusInt
 {
-    NSDictionary *tempDict= @{@"0":@"保存未提交",@"1":@"提交未审核",@"2":@"主治医师审核",@"3":@"（副）主任医师审核",@"4":@"主治医师审核未通过",@"5":@"副主任医师审核通过",@"6":@"副主任医师审核未通过",@"7":@"归档"   ,@"8":@"撤回"};
+    NSDictionary *tempDict= @{@"0":@"保存未提交",@"1":@"住院医师提交（审核）",@"2":@"主治医师提交（审核）",@"3":@"主任医师审核（提交）通过",@"4":@"归档"};
     if ([tempDict.allKeys containsObject:caseStatusInt]) {
         return tempDict[caseStatusInt];
     }else {
         return @"未创建";
     }
 }
+
 @end

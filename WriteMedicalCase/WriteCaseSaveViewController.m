@@ -93,13 +93,13 @@
     return _socket;
 }
 
--(NSString *)caseType
-{
-    if (!_caseType) {
-        _caseType = @"入院病历";
-    }
-    return _caseType;
-}
+//-(NSString *)caseType
+//{
+//    if (!_caseType) {
+//        _caseType = @"入院记录";
+//    }
+//    return _caseType;
+//}
 -(void)setIsHideRetreatButton:(BOOL)isHideRetreatButton
 {
     _isHideRetreatButton = isHideRetreatButton;
@@ -183,8 +183,8 @@
 ///fail type :保存 1，更新 2，提交 3，撤回 4
 -(void)connectServerFailWithMessage:(NSString*)failMessage failType:(NSInteger)failType
 {
-    dispatch_once_t *dispatchOnce;
-    dispatch_once(dispatchOnce, ^{
+    static  dispatch_once_t dispatchOnce;
+    dispatch_once(&dispatchOnce, ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             self.updateAlertView = [[UIAlertView alloc] initWithTitle:failMessage?failMessage:@"服务器断开连接" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [self.updateAlertView show];
@@ -218,7 +218,7 @@
             }
 
             case -3:{
-                message = @"提交失败，病历已在审核中";
+                message = @"撤销失败，病历已在审核中";
                 break;
             }
             default:
@@ -244,7 +244,7 @@
 }
 -(void)didSelectedDoctor:(TempDoctor *)doctor
 {
-    //2138
+    //2138 //2120
     NSString *caseID = self.recordBaseInfo.caseID;
     NSString *doctorID = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
     NSString *sid = doctor.dID;
@@ -469,9 +469,11 @@
 {
     return @[@"chiefComplaint",@"historyOfPresentillness",@"personHistory",@"pastHistory",@"familyHistory",@"obstericalHistory",@"physicalExamination",@"systemsReview",@"specializedExamination",@"tentativeDiagnosis",@"admittingDiagnosis",@"confirmedDiagnosis",];
 }
--(NSString*)transformCaseStatus:(NSString*)caseStatusString
+
+-(NSString *)transformCaseStatusString:(NSString*)caseStatusString
 {
-    NSDictionary *tempDict= @{@"保存未提交":@"0",@"提交未审核":@"1",@"主治医师审核":@"2",@"（副）主任医师审核":@"3",@"主治医师审核未通过":@"4",@"副主任医师审核通过":@"5",@"副主任医师审核未通过":@"6",@"归档":@"7",@"撤回":@"8"};
+    NSDictionary *tempDict= @{@"保存未提交":@"0",@"住院医师提交（审核）":@"1",@"主治医师提交（审核）":@"2",@"主任医师审核（提交）通过":@"3",@"归档":@"4"};
+    
     if ([tempDict.allKeys containsObject:caseStatusString]) {
         return tempDict[caseStatusString];
     }else {
@@ -482,8 +484,14 @@
 {
     _recordBaseInfo = recordBaseInfo;
     
-    NSString *caseStatusInt = [self transformCaseStatus:_recordBaseInfo.caseStatus];
     
+    NSString *caseStatusInt = [self transformCaseStatusString:_recordBaseInfo.caseStatus];
+    
+    BOOL isResidentDoctor = NO;
+    NSString *currentDoctordProfessionalTitle = [TempDoctor setSharedDoctorWithDict:nil].dProfessionalTitle;
+    if (!currentDoctordProfessionalTitle ||  [currentDoctordProfessionalTitle containsString:@"住院"]) {
+        isResidentDoctor = YES;
+    }
     switch ([caseStatusInt integerValue]) {
         case 0:{
             [self.saveButton setTitle:@"保存" forState:UIControlStateNormal ];
@@ -494,31 +502,21 @@
             break;
         }
         case 2:{
-            [self.saveButton setTitle:@"主治医师审核中" forState:UIControlStateNormal ];
-
+            if (isResidentDoctor) {
+                [self.saveButton setTitle:@"审核中" forState:UIControlStateNormal ];
+            }else {
+                [self.saveButton setTitle:@"撤回" forState:UIControlStateNormal ];
+            }
             break;
         }
         case 3:{
-            [self.saveButton setTitle:@"主治医师审核通过" forState:UIControlStateNormal ];
-            break;
-        }
-        case 4:{
-            [self.saveButton setTitle:@"主治医师审核未通过" forState:UIControlStateNormal ];
-            break;
-        }
-        case 5:{
-            [self.saveButton setTitle:@"主任医师审核通过" forState:UIControlStateNormal ];
-            break;
-        }
-        case 6:{
-            [self.saveButton setTitle:@"主任医师审核未通过" forState:UIControlStateNormal ];
-            break;
-        }
-        case 7:{
+            
             [self.saveButton setTitle:@"归档" forState:UIControlStateNormal ];
             break;
         }
+            
         default:
+            [self.saveButton setTitle:@"已归档" forState:UIControlStateNormal ];
             break;
     }
    

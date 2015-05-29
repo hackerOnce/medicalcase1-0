@@ -10,6 +10,7 @@
 #import "WriteCaseSaveViewController.h"
 #import "CaseManagementSplitViewController.h"
 #import "SplitViewController.h"
+#import "RecordNavagationViewController.h"
 
 @interface mainViewController ()
 
@@ -38,6 +39,18 @@
         
     }];
     
+}
+- (IBAction)auditButton:(UIButton *)sender {
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"CaseManagement" bundle:nil];
+    CaseManagementSplitViewController *caseVC = [storyBoard instantiateViewControllerWithIdentifier:@"splitVC"];
+    
+    
+    UINavigationController *recordNav = (UINavigationController*)[caseVC.viewControllers firstObject];
+    RecordNavagationViewController *record =(RecordNavagationViewController*) [recordNav.viewControllers firstObject];
+    record.logInDoctorID = @"2120";
+    [self presentViewController:caseVC animated:YES completion:^{
+        
+    }];
 }
 - (IBAction)managedCase:(UIButton *)sender
 {
