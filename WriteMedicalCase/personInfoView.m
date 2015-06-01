@@ -92,7 +92,7 @@
 -(void)setPatient:(Patient *)patient
 {
     _patient = patient;
-    NSString *nameStr = self.patient.pName?self.patient.pName:@" ";
+    NSString *nameStr =[NSString stringWithFormat:@"姓名: %@",self.patient.pName?self.patient.pName:@" "];
     NSString *genderStr = [NSString stringWithFormat:@"性别: %@",self.patient.pGender?self.patient.pGender:@" "];
     
     NSString *ageStr = [NSString stringWithFormat:@"年龄: %@",self.patient.pAge?self.patient.pAge:@" "];
@@ -218,7 +218,7 @@
             }
         }
     }
-    self.backgroundColor =[UIColor whiteColor];
+   // self.backgroundColor =[UIColor whiteColor];
     CGFloat subWidth = self.frame.size.width/6.0;
     CGFloat subHeight = (self.frame.size.height-16)/2.0;
     
@@ -227,8 +227,8 @@
         label.frame = CGRectMake(i*subWidth, 8, subWidth, 29);
         label.textAlignment = NSTextAlignmentLeft;
         [self.labelArray addObject:label];
-        label.textColor  =[UIColor darkGrayColor];
-        label.backgroundColor = [self randomColor];
+        //label.textColor  =[UIColor darkTextColor];
+        //label.backgroundColor = [UIColor whiteColor];
         [self addSubview:label];
     }
     
@@ -248,15 +248,16 @@
         for (int i=0; i<10; i++){
             UILabel  *label = [[UILabel alloc] init];
             label.textAlignment = NSTextAlignmentLeft;
-            label.backgroundColor = [self randomColor];
-            label.textColor  =[UIColor darkGrayColor];
+            //label.backgroundColor = [self randomColor];
+            //label.backgroundColor = [UIColor whiteColor];
+            //label.textColor  =[UIColor darkTextColor];
 
             if (i < 6) {
                 label.frame = CGRectMake(i*subWidth, 0, subWidth, 29);
             }else if(i == 8){
                 label.frame = CGRectMake((i-6)*subWidth, subHeight, 2 * subWidth, 29);
             }else if(i==9){
-                label.frame = CGRectMake((i-6)*subWidth+subWidth, subHeight, subWidth, 29);
+                label.frame = CGRectMake((i-6)*subWidth+subWidth, subHeight, subWidth+1, 29);
 
             }else{
                 label.frame = CGRectMake((i-6)*subWidth,subHeight, subWidth, 29);
@@ -366,15 +367,15 @@
 
 }
 
--(UIColor*)randomColor
-{
-    NSArray *colorArray =  @[[UIColor blackColor],[UIColor redColor],[UIColor yellowColor],[UIColor grayColor],[UIColor greenColor],[UIColor orangeColor]];
-    
-    NSInteger i = arc4random() % 6;
-    
-   // return (UIColor*)colorArray[i];
-    return [UIColor whiteColor];
-}
+//-(UIColor*)randomColor
+//{
+//    NSArray *colorArray =  @[[UIColor blackColor],[UIColor redColor],[UIColor yellowColor],[UIColor grayColor],[UIColor greenColor],[UIColor orangeColor]];
+//    
+//    NSInteger i = arc4random() % 6;
+//    
+//   // return (UIColor*)colorArray[i];
+//    return [UIColor whiteColor];
+//}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

@@ -129,10 +129,49 @@
         [self commitCaseToServerWithSender:sender];
     }else if([sender.titleLabel.text isEqualToString:@"撤回"]){
         [self cancelCommitCaseToServer];
+    }else if([sender.titleLabel.text isEqualToString:@"归档"]){
+        [self medicalCaseFiling];
     }
 }
 
-
+-(void)medicalCaseFiling
+{
+    NSString *caseID =[NSString stringWithFormat:@"%@",self.recordBaseInfo.caseID];
+    
+    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:2016 dictionary:@{@"id":caseID} block:^(IHSockRequest *request) {
+        NSInteger resp = request.resp;
+        self.resp = resp;
+        NSString *message;
+        NSString *caseStatus;
+        
+        switch (resp) {
+            case 0:{
+                message = @"归档成功";
+                caseStatus = @"归档";
+                break;
+            }
+            case -1:{
+                message = @"归档失败，没有权限";
+                break;
+            }
+            default:
+                break;
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+          UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:message message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alertView show];
+            
+//            if (caseStatus) {
+//                self.recordBaseInfo.caseStatus = caseStatus;
+//            }
+            
+        });
+        
+        
+    } failConection:^(NSError *error) {
+        [self connectServerFailWithMessage:@"2016,归档病历时，服务器断开连接" failType:4];
+    }];
+}
 -(void)updateCase
 {
     NSString *caseID = self.recordBaseInfo.caseID;
