@@ -138,7 +138,7 @@
 {
     NSString *caseID =[NSString stringWithFormat:@"%@",self.recordBaseInfo.caseID];
     
-    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:2016 dictionary:@{@"id":caseID} block:^(IHSockRequest *request) {
+    [MessageObject messageObjectWithUsrStr:@"1" pwdStr:@"test" iHMsgSocket:self.socket optInt:1506 dictionary:@{@"id":caseID} block:^(IHSockRequest *request) {
         NSInteger resp = request.resp;
         self.resp = resp;
         NSString *message;
@@ -169,7 +169,7 @@
         
         
     } failConection:^(NSError *error) {
-        [self connectServerFailWithMessage:@"2016,归档病历时，服务器断开连接" failType:4];
+        [self connectServerFailWithMessage:@"1506,归档病历时，服务器断开连接" failType:4];
     }];
 }
 -(void)updateCase
