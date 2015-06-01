@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="cN7-eP-VqZ">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="eGV-iz-IuY">
+            <objects>
+                <viewController id="cN7-eP-VqZ" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="SXu-MO-Hrw"/>
+                        <viewControllerLayoutGuide type="bottom" id="Cjl-AK-evA"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="F1d-tC-8hy">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MrN-iu-1xt">
+                                <rect key="frame" x="277" y="285" width="46" height="30"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="JUG-xk-LGZ" kind="presentation" modalPresentationStyle="formSheet" modalTransitionStyle="coverVertical" id="sNQ-El-x1K"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="MrN-iu-1xt" firstAttribute="centerX" secondItem="F1d-tC-8hy" secondAttribute="centerX" id="FeW-t4-1px"/>
+                            <constraint firstItem="MrN-iu-1xt" firstAttribute="centerY" secondItem="F1d-tC-8hy" secondAttribute="centerY" id="UqH-Kn-Qbe"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OWU-0q-Kkw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-824" y="602"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="QZg-Ce-6Qd">
+            <objects>
+                <navigationController modalPresentationStyle="pageSheet" toolbarHidden="NO" id="JUG-xk-LGZ" sceneMemberID="viewController">
+                    <value key="contentSizeForViewInPopover" type="size" width="600" height="600"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="mVe-Aw-OdW">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="7jN-rZ-N2U">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="Pws-TG-tdn" kind="relationship" relationship="rootViewController" id="95z-4z-Zqz"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Wre-8h-IwY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-55" y="609"/>
+        </scene>
+        <!--Record Note Create For Case View Controller-->
+        <scene sceneID="q4Q-wU-roI">
+            <objects>
+                <viewController id="Pws-TG-tdn" customClass="RecordNoteCreateForCaseViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="lGf-d4-1fZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="goI-W8-Vrh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="aUp-fb-gKV">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pDR-rr-veX">
+                                <rect key="frame" x="0.0" y="44" width="600" height="1"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cxW-1e-PQC">
+                                <rect key="frame" x="0.0" y="64" width="600" height="2"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="mmB-Hz-NGP"/>
+                                </constraints>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="CKG-mH-fVC">
+                                <rect key="frame" x="0.0" y="67" width="600" height="489"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="489" id="qmY-cW-KLL"/>
+                                </constraints>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="CKG-mH-fVC" firstAttribute="top" secondItem="cxW-1e-PQC" secondAttribute="bottom" constant="1" id="4xY-kq-dDt"/>
+                            <constraint firstItem="cxW-1e-PQC" firstAttribute="leading" secondItem="aUp-fb-gKV" secondAttribute="leading" id="5z5-sO-vKq"/>
+                            <constraint firstItem="cxW-1e-PQC" firstAttribute="leading" secondItem="aUp-fb-gKV" secondAttribute="leadingMargin" constant="-16" id="Ara-1e-MU9"/>
+                            <constraint firstItem="cxW-1e-PQC" firstAttribute="trailing" secondItem="pDR-rr-veX" secondAttribute="trailing" id="COI-aU-JIQ"/>
+                            <constraint firstItem="CKG-mH-fVC" firstAttribute="leading" secondItem="aUp-fb-gKV" secondAttribute="leadingMargin" constant="-16" id="E4w-1B-uIy"/>
+                            <constraint firstItem="goI-W8-Vrh" firstAttribute="top" secondItem="CKG-mH-fVC" secondAttribute="bottom" id="F7A-1H-ZsN"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="CKG-mH-fVC" secondAttribute="trailing" constant="-16" id="GR9-AA-6mc"/>
+                            <constraint firstAttribute="trailing" secondItem="cxW-1e-PQC" secondAttribute="trailing" id="GkU-BL-eYJ"/>
+                            <constraint firstItem="lGf-d4-1fZ" firstAttribute="top" secondItem="pDR-rr-veX" secondAttribute="bottom" constant="19" id="JDE-CO-DUp"/>
+                            <constraint firstItem="pDR-rr-veX" firstAttribute="top" secondItem="aUp-fb-gKV" secondAttribute="topMargin" constant="44" id="Ppi-mj-atH"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="cxW-1e-PQC" secondAttribute="trailing" constant="-16" id="gka-BU-q6Q"/>
+                            <constraint firstItem="cxW-1e-PQC" firstAttribute="top" secondItem="lGf-d4-1fZ" secondAttribute="bottom" id="iME-df-qYe"/>
+                            <constraint firstItem="cxW-1e-PQC" firstAttribute="leading" secondItem="pDR-rr-veX" secondAttribute="leading" id="pbh-gb-ABD"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Ara-1e-MU9"/>
+                                <exclude reference="gka-BU-q6Q"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="bIa-BJ-2lf"/>
+                        <barButtonItem title="Item1" id="lRp-II-bV8">
+                            <connections>
+                                <segue destination="EJs-IH-J18" kind="presentation" modalPresentationStyle="currentContext" modalTransitionStyle="flipHorizontal" id="DCl-X0-8Cr"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="sVk-7N-Ezy"/>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" id="KcE-oC-f5M">
+                        <nil key="title"/>
+                        <barButtonItem key="leftBarButtonItem" image="取消" id="moJ-Qe-0E1"/>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="cXc-nq-7Dh">
+                            <view key="customView" contentMode="scaleToFill" id="xuN-2h-hvp">
+                                <rect key="frame" x="364" y="5" width="206" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RnP-Ch-7cA">
+                                        <rect key="frame" x="0.0" y="3" width="30" height="30"/>
+                                        <state key="normal" title="camera" image="拍照"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u3H-v4-n1o">
+                                        <rect key="frame" x="88" y="3" width="30" height="30"/>
+                                        <state key="normal" title="warning" image="提醒">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uuE-8O-F7f">
+                                        <rect key="frame" x="132" y="3" width="30" height="30"/>
+                                        <state key="normal" title="share" image="共享">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JA8-fQ-Erg">
+                                        <rect key="frame" x="176" y="3" width="30" height="30"/>
+                                        <state key="normal" title="save" image="保存">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hvr-wQ-hbg">
+                                        <rect key="frame" x="44" y="3" width="28" height="27"/>
+                                        <state key="normal" title="voice" image="语音">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                            </view>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BYB-Kw-YCj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="614" y="609"/>
+        </scene>
+        <!--Reord Note Create View Controller-->
+        <scene sceneID="dmc-pC-bbb">
+            <objects>
+                <viewController id="WFf-eM-58j" customClass="ReordNoteCreateViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="GUr-4f-e4b"/>
+                        <viewControllerLayoutGuide type="bottom" id="3QP-bI-tFJ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2uY-KT-exv">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yxA-hJ-Ucr">
+                                <rect key="frame" x="0.0" y="64" width="600" height="2"/>
+                                <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="ujp-3a-VbA"/>
+                                </constraints>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="UMk-eu-PUQ">
+                                <rect key="frame" x="0.0" y="67" width="600" height="489"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="489" id="C0P-Yc-fYk"/>
+                                </constraints>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="UMk-eu-PUQ" firstAttribute="top" secondItem="yxA-hJ-Ucr" secondAttribute="bottom" constant="1" id="JNy-wf-SlV"/>
+                            <constraint firstItem="UMk-eu-PUQ" firstAttribute="leading" secondItem="2uY-KT-exv" secondAttribute="leadingMargin" constant="-16" id="LRD-r4-pV7"/>
+                            <constraint firstItem="3QP-bI-tFJ" firstAttribute="top" secondItem="UMk-eu-PUQ" secondAttribute="bottom" id="LoW-TB-S8U"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="UMk-eu-PUQ" secondAttribute="trailing" constant="-16" id="smP-hO-bQH"/>
+                            <constraint firstItem="yxA-hJ-Ucr" firstAttribute="top" secondItem="GUr-4f-e4b" secondAttribute="bottom" id="wy3-Uw-oG7"/>
+                            <constraint firstAttribute="trailing" secondItem="yxA-hJ-Ucr" secondAttribute="trailing" id="y5N-9u-qxD"/>
+                            <constraint firstItem="yxA-hJ-Ucr" firstAttribute="leading" secondItem="2uY-KT-exv" secondAttribute="leading" id="zcO-o3-YCc"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="jiH-ma-MgZ"/>
+                        <barButtonItem title="Item2" id="Mnv-li-m3h">
+                            <connections>
+                                <segue destination="JUG-xk-LGZ" kind="presentation" modalPresentationStyle="currentContext" modalTransitionStyle="flipHorizontal" id="iQa-df-fEZ"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="SAF-Uo-rJh"/>
+                    </toolbarItems>
+                    <navigationItem key="navigationItem" id="tJE-l5-bb4">
+                        <barButtonItem key="leftBarButtonItem" image="取消" id="Ybe-Ax-SlM"/>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="yNW-nA-BYn">
+                            <view key="customView" contentMode="scaleToFill" id="dXG-V2-kXc">
+                                <rect key="frame" x="127" y="184" width="206" height="33"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DPt-xb-v6z" userLabel="camera">
+                                        <rect key="frame" x="0.0" y="3" width="30" height="30"/>
+                                        <state key="normal" image="拍照"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZMP-Nt-TQP">
+                                        <rect key="frame" x="88" y="3" width="30" height="30"/>
+                                        <state key="normal" title="warning" image="提醒">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lrC-IT-si8">
+                                        <rect key="frame" x="132" y="3" width="30" height="30"/>
+                                        <state key="normal" title="share" image="共享">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JOx-hI-iu4">
+                                        <rect key="frame" x="176" y="3" width="30" height="30"/>
+                                        <state key="normal" title="save" image="保存">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JH4-oZ-CG2">
+                                        <rect key="frame" x="44" y="3" width="28" height="27"/>
+                                        <state key="normal" title="voice" image="语音">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                            </view>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9xI-4H-BNZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="614" y="1395"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="b8U-Di-MBw">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="EJs-IH-J18" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Lnh-eK-vIL">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Thq-Vh-mEw">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                    <connections>
+                        <segue destination="WFf-eM-58j" kind="relationship" relationship="rootViewController" id="cTk-7l-lzr"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="z16-Sn-AOg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-55" y="1395"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="保存" width="28" height="28"/>
+        <image name="共享" width="27" height="27"/>
+        <image name="取消" width="27" height="27"/>
+        <image name="拍照" width="28" height="27"/>
+        <image name="提醒" width="28" height="28"/>
+        <image name="语音" width="28" height="27"/>
+    </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="iQa-df-fEZ"/>
+    </inferredMetricsTieBreakers>
+</document>

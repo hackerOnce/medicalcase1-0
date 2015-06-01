@@ -68,9 +68,9 @@
 		4705F0C41AF10EE80050D47A /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4705F0C31AF10EE80050D47A /* libz.1.2.5.dylib */; };
 		4705F0CD1AF11B220050D47A /* WriteCaseSaveCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0CC1AF11B220050D47A /* WriteCaseSaveCell.m */; };
 		4705F0D01AF124C90050D47A /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0CE1AF124C90050D47A /* Model.xcdatamodeld */; };
-		4705F0D21AF12C320050D47A /* coreDataTestData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4705F0D11AF12C320050D47A /* coreDataTestData.plist */; };
 		4705F0D51AF130250050D47A /* personInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0D41AF130250050D47A /* personInfoView.m */; };
 		4705F0D81AF1312F0050D47A /* WriteCaseEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0D71AF1312F0050D47A /* WriteCaseEditViewController.m */; };
+		472631D41B1C660800857B22 /* RecordNoteCreateForCaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 472631D31B1C660800857B22 /* RecordNoteCreateForCaseViewController.m */; };
 		47301D011AFB2483005D42CC /* mainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D001AFB2483005D42CC /* mainViewController.m */; };
 		47301D041AFB36AB005D42CC /* CurrentDoctor.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D031AFB36AB005D42CC /* CurrentDoctor.m */; };
 		47301D071AFB4104005D42CC /* CurrentPatient.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D061AFB4104005D42CC /* CurrentPatient.m */; };
@@ -101,6 +101,9 @@
 		474D82B91AFC923E004A4151 /* HUDSubViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82B81AFC923E004A4151 /* HUDSubViewController.m */; };
 		474D82BC1AFC9381004A4151 /* ModelPlateConditionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82BB1AFC9381004A4151 /* ModelPlateConditionViewController.m */; };
 		474D82BF1AFC999A004A4151 /* TemplateDetailViewControllerOne.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82BE1AFC999A004A4151 /* TemplateDetailViewControllerOne.m */; };
+		475463711B1C257F0026E4AE /* RecordNote.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 475463701B1C257F0026E4AE /* RecordNote.storyboard */; };
+		475463751B1C26780026E4AE /* ReordNoteCreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 475463741B1C26780026E4AE /* ReordNoteCreateViewController.m */; };
+		475463781B1C32FB0026E4AE /* CustomPushAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 475463771B1C32FB0026E4AE /* CustomPushAnimation.m */; };
 		476474241B0202F1004AFDF1 /* ShowTemplateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 476474231B0202F1004AFDF1 /* ShowTemplateTableViewCell.m */; };
 		476474291B034B2B004AFDF1 /* SelectASharedTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 476474281B034B2B004AFDF1 /* SelectASharedTemplateViewController.m */; };
 		4764742F1B03593A004AFDF1 /* SelectedASharedTemplateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4764742E1B03593A004AFDF1 /* SelectedASharedTemplateTableViewCell.m */; };
@@ -265,11 +268,12 @@
 		4705F0CB1AF11B220050D47A /* WriteCaseSaveCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WriteCaseSaveCell.h; sourceTree = "<group>"; };
 		4705F0CC1AF11B220050D47A /* WriteCaseSaveCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WriteCaseSaveCell.m; sourceTree = "<group>"; };
 		4705F0CF1AF124C90050D47A /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		4705F0D11AF12C320050D47A /* coreDataTestData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = coreDataTestData.plist; sourceTree = "<group>"; };
 		4705F0D31AF130250050D47A /* personInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = personInfoView.h; sourceTree = "<group>"; };
 		4705F0D41AF130250050D47A /* personInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = personInfoView.m; sourceTree = "<group>"; };
 		4705F0D61AF1312F0050D47A /* WriteCaseEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WriteCaseEditViewController.h; sourceTree = "<group>"; };
 		4705F0D71AF1312F0050D47A /* WriteCaseEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WriteCaseEditViewController.m; sourceTree = "<group>"; };
+		472631D21B1C660800857B22 /* RecordNoteCreateForCaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordNoteCreateForCaseViewController.h; sourceTree = "<group>"; };
+		472631D31B1C660800857B22 /* RecordNoteCreateForCaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordNoteCreateForCaseViewController.m; sourceTree = "<group>"; };
 		47301CFF1AFB2483005D42CC /* mainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mainViewController.h; sourceTree = "<group>"; };
 		47301D001AFB2483005D42CC /* mainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mainViewController.m; sourceTree = "<group>"; };
 		47301D021AFB36AB005D42CC /* CurrentDoctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentDoctor.h; sourceTree = "<group>"; };
@@ -328,6 +332,11 @@
 		474D82BB1AFC9381004A4151 /* ModelPlateConditionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelPlateConditionViewController.m; sourceTree = "<group>"; };
 		474D82BD1AFC999A004A4151 /* TemplateDetailViewControllerOne.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateDetailViewControllerOne.h; sourceTree = "<group>"; };
 		474D82BE1AFC999A004A4151 /* TemplateDetailViewControllerOne.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TemplateDetailViewControllerOne.m; sourceTree = "<group>"; };
+		475463701B1C257F0026E4AE /* RecordNote.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = RecordNote.storyboard; sourceTree = "<group>"; };
+		475463731B1C26780026E4AE /* ReordNoteCreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReordNoteCreateViewController.h; sourceTree = "<group>"; };
+		475463741B1C26780026E4AE /* ReordNoteCreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReordNoteCreateViewController.m; sourceTree = "<group>"; };
+		475463761B1C32FB0026E4AE /* CustomPushAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPushAnimation.h; sourceTree = "<group>"; };
+		475463771B1C32FB0026E4AE /* CustomPushAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPushAnimation.m; sourceTree = "<group>"; };
 		476474221B0202F1004AFDF1 /* ShowTemplateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShowTemplateTableViewCell.h; path = ../ShowTemplateTableViewCell.h; sourceTree = "<group>"; };
 		476474231B0202F1004AFDF1 /* ShowTemplateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShowTemplateTableViewCell.m; path = ../ShowTemplateTableViewCell.m; sourceTree = "<group>"; };
 		476474271B034B2B004AFDF1 /* SelectASharedTemplateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectASharedTemplateViewController.h; sourceTree = "<group>"; };
@@ -430,11 +439,9 @@
 				4705F0511AF108410050D47A /* LoadXML */,
 				4705F0521AF108D50050D47A /* MultiTableView */,
 				4705F0A81AF10DBC0050D47A /* CoreData */,
+				475463721B1C26100026E4AE /* RecordNote */,
 				4705EFF11AF1044B0050D47A /* AppDelegate.m */,
 				4705EFF01AF1044B0050D47A /* AppDelegate.h */,
-				4705F0D31AF130250050D47A /* personInfoView.h */,
-				4705F0D41AF130250050D47A /* personInfoView.m */,
-				4705F0D11AF12C320050D47A /* coreDataTestData.plist */,
 				4705F0C01AF10E580050D47A /* KeyValueObserver.h */,
 				4705F0C11AF10E580050D47A /* KeyValueObserver.m */,
 				4705EFF31AF1044B0050D47A /* ViewController.h */,
@@ -493,6 +500,8 @@
 		4705F0141AF104A40050D47A /* WriteCase */ = {
 			isa = PBXGroup;
 			children = (
+				4705F0D31AF130250050D47A /* personInfoView.h */,
+				4705F0D41AF130250050D47A /* personInfoView.m */,
 				4705A4361AF31C67007FD2B9 /* RWLabel.h */,
 				4705A4371AF31C67007FD2B9 /* RWLabel.m */,
 				478858EA1AF1FD06002CD361 /* CustomSegue.h */,
@@ -755,6 +764,20 @@
 			path = CreateTemplate;
 			sourceTree = "<group>";
 		};
+		475463721B1C26100026E4AE /* RecordNote */ = {
+			isa = PBXGroup;
+			children = (
+				475463701B1C257F0026E4AE /* RecordNote.storyboard */,
+				475463731B1C26780026E4AE /* ReordNoteCreateViewController.h */,
+				475463741B1C26780026E4AE /* ReordNoteCreateViewController.m */,
+				472631D21B1C660800857B22 /* RecordNoteCreateForCaseViewController.h */,
+				472631D31B1C660800857B22 /* RecordNoteCreateForCaseViewController.m */,
+				475463761B1C32FB0026E4AE /* CustomPushAnimation.h */,
+				475463771B1C32FB0026E4AE /* CustomPushAnimation.m */,
+			);
+			name = RecordNote;
+			sourceTree = "<group>";
+		};
 		4764751C1B05C570004AFDF1 /* LeftNav */ = {
 			isa = PBXGroup;
 			children = (
@@ -906,7 +929,7 @@
 				47301D091AFC6548005D42CC /* CaseManagement.storyboard in Resources */,
 				4705EFFA1AF1044B0050D47A /* Images.xcassets in Resources */,
 				4764751B1B059CB7004AFDF1 /* FieldNodeList.plist in Resources */,
-				4705F0D21AF12C320050D47A /* coreDataTestData.plist in Resources */,
+				475463711B1C257F0026E4AE /* RecordNote.storyboard in Resources */,
 				4705F03B1AF1062C0050D47A /* MBProgressHUD.bundle in Resources */,
 				4705F04F1AF1082C0050D47A /* 病历.opml in Resources */,
 			);
@@ -932,6 +955,7 @@
 				47301D141AFC67EA005D42CC /* RecordNavagationViewController.m in Sources */,
 				4705F0781AF1094C0050D47A /* SBJsonWriter.m in Sources */,
 				4705F0321AF1062C0050D47A /* IHGCDSocket.m in Sources */,
+				475463781B1C32FB0026E4AE /* CustomPushAnimation.m in Sources */,
 				4705F0D01AF124C90050D47A /* Model.xcdatamodeld in Sources */,
 				4705F08D1AF109990050D47A /* WLKCase.m in Sources */,
 				4705A47E1AF48659007FD2B9 /* NSDate+Helper.m in Sources */,
@@ -953,6 +977,7 @@
 				4705F0351AF1062C0050D47A /* MessageObject.m in Sources */,
 				4705F0701AF1094C0050D47A /* SBJsonStreamParserAccumulator.m in Sources */,
 				476475631B09D4B1004AFDF1 /* RecordBaseInfo.m in Sources */,
+				475463751B1C26780026E4AE /* ReordNoteCreateViewController.m in Sources */,
 				4705F08E1AF109990050D47A /* WLKCaseNode.m in Sources */,
 				474D82AC1AFC90FA004A4151 /* ShowTemplateViewController.m in Sources */,
 				4705A4381AF31C67007FD2B9 /* RWLabel.m in Sources */,
@@ -969,6 +994,7 @@
 				4705F0731AF1094C0050D47A /* SBJsonStreamWriter.m in Sources */,
 				474D82A81AFC90FA004A4151 /* ConditionTemplateViewController.m in Sources */,
 				4705F0901AF109990050D47A /* WLKTemplate.m in Sources */,
+				472631D41B1C660800857B22 /* RecordNoteCreateForCaseViewController.m in Sources */,
 				4705F0451AF107360050D47A /* CoreDataStack.m in Sources */,
 				474D82B01AFC90FA004A4151 /* TemplateLeftDetailFirstViewController.m in Sources */,
 				478859081AF71A70002CD361 /* TempDoctor.m in Sources */,
