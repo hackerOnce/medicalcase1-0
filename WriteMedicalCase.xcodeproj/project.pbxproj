@@ -71,6 +71,8 @@
 		4705F0D51AF130250050D47A /* personInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0D41AF130250050D47A /* personInfoView.m */; };
 		4705F0D81AF1312F0050D47A /* WriteCaseEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0D71AF1312F0050D47A /* WriteCaseEditViewController.m */; };
 		472631D41B1C660800857B22 /* RecordNoteCreateForCaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 472631D31B1C660800857B22 /* RecordNoteCreateForCaseViewController.m */; };
+		472631D71B1D3CBD00857B22 /* RecordNoteCreateCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 472631D61B1D3CBD00857B22 /* RecordNoteCreateCellTableViewCell.m */; };
+		472631DA1B1D874C00857B22 /* RecordNoteWarningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 472631D91B1D874C00857B22 /* RecordNoteWarningViewController.m */; };
 		47301D011AFB2483005D42CC /* mainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D001AFB2483005D42CC /* mainViewController.m */; };
 		47301D041AFB36AB005D42CC /* CurrentDoctor.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D031AFB36AB005D42CC /* CurrentDoctor.m */; };
 		47301D071AFB4104005D42CC /* CurrentPatient.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D061AFB4104005D42CC /* CurrentPatient.m */; };
@@ -274,6 +276,10 @@
 		4705F0D71AF1312F0050D47A /* WriteCaseEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WriteCaseEditViewController.m; sourceTree = "<group>"; };
 		472631D21B1C660800857B22 /* RecordNoteCreateForCaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordNoteCreateForCaseViewController.h; sourceTree = "<group>"; };
 		472631D31B1C660800857B22 /* RecordNoteCreateForCaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordNoteCreateForCaseViewController.m; sourceTree = "<group>"; };
+		472631D51B1D3CBD00857B22 /* RecordNoteCreateCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordNoteCreateCellTableViewCell.h; sourceTree = "<group>"; };
+		472631D61B1D3CBD00857B22 /* RecordNoteCreateCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordNoteCreateCellTableViewCell.m; sourceTree = "<group>"; };
+		472631D81B1D874C00857B22 /* RecordNoteWarningViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordNoteWarningViewController.h; sourceTree = "<group>"; };
+		472631D91B1D874C00857B22 /* RecordNoteWarningViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordNoteWarningViewController.m; sourceTree = "<group>"; };
 		47301CFF1AFB2483005D42CC /* mainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mainViewController.h; sourceTree = "<group>"; };
 		47301D001AFB2483005D42CC /* mainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mainViewController.m; sourceTree = "<group>"; };
 		47301D021AFB36AB005D42CC /* CurrentDoctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentDoctor.h; sourceTree = "<group>"; };
@@ -768,6 +774,10 @@
 			isa = PBXGroup;
 			children = (
 				475463701B1C257F0026E4AE /* RecordNote.storyboard */,
+				472631D81B1D874C00857B22 /* RecordNoteWarningViewController.h */,
+				472631D91B1D874C00857B22 /* RecordNoteWarningViewController.m */,
+				472631D51B1D3CBD00857B22 /* RecordNoteCreateCellTableViewCell.h */,
+				472631D61B1D3CBD00857B22 /* RecordNoteCreateCellTableViewCell.m */,
 				475463731B1C26780026E4AE /* ReordNoteCreateViewController.h */,
 				475463741B1C26780026E4AE /* ReordNoteCreateViewController.m */,
 				472631D21B1C660800857B22 /* RecordNoteCreateForCaseViewController.h */,
@@ -1014,6 +1024,7 @@
 				474D82AD1AFC90FA004A4151 /* ShowTemplateViewControllerTwo.m in Sources */,
 				47301D161AFC67EA005D42CC /* RecordManagedCellTableViewCell.m in Sources */,
 				478858F81AF7130D002CD361 /* TempCaseBaseInfo.m in Sources */,
+				472631D71B1D3CBD00857B22 /* RecordNoteCreateCellTableViewCell.m in Sources */,
 				474D82B21AFC90FA004A4151 /* TemplateLeftDetailViewController.m in Sources */,
 				4705F0381AF1062C0050D47A /* UIView+DY.m in Sources */,
 				474D82B11AFC90FA004A4151 /* TemplateLeftDetailSecondViewController.m in Sources */,
@@ -1060,6 +1071,7 @@
 				474D82AE1AFC90FA004A4151 /* TemplateConditionSelectedViewController.m in Sources */,
 				4705F0841AF109870050D47A /* WLKCaseNodeTableViewConfig.m in Sources */,
 				47301D151AFC67EA005D42CC /* RecordManagedViewController.m in Sources */,
+				472631DA1B1D874C00857B22 /* RecordNoteWarningViewController.m in Sources */,
 				4705F03C1AF1062C0050D47A /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
