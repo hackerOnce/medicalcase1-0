@@ -24,8 +24,11 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd HH-mm-ss"];
     
+    NSDate *minDate = [formatter dateFromString:@"1900-01-01 00:00:00"];
+    NSDate *maxDate = [formatter dateFromString:@"2099-01-01 00:00:00"];
+    self.datePicker.minimumDate = minDate;
+    self.datePicker.maximumDate = maxDate;
     
-     
 }
 -(void)viewWillAppear:(BOOL)animated
 {
