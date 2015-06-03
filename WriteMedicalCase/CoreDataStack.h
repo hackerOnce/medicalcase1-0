@@ -10,6 +10,7 @@
 #import <CoreData/CoreData.h>
 #import "RecordBaseInfo.h"
 #import "ParentNode.h"
+#import "NoteBook.h"
 
 @interface CoreDataStack : NSObject
 
@@ -20,6 +21,9 @@
 
 @property (nonatomic) NSInteger nodeRow;
 @property (nonatomic) NSInteger nodeSection;
+
+-(NoteBook*)fetchNoteBookWithDict:(NSDictionary*)dict;
+
 
 - (void)saveContext;
 

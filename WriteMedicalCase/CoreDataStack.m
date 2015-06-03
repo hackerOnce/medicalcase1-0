@@ -705,7 +705,61 @@ static NSString *momdName = @"Model";
 
 
 ///for note book
--(void)noteBookCreateWithDict:(NSDictionary*)dict
+-(NoteBook*)fetchNoteBookWithDict:(NSDictionary*)dict
+{
+    NSString *noteID;
+    NSPredicate *predicate;
+    
+    if ([dict.allKeys containsObject:@"noteID"]) {
+        noteID = [dict objectForKey:@"noteID"];
+    }else {
+        abort();
+    }
+    
+    predicate = [NSPredicate predicateWithFormat:@"noteID = %@",noteID];
+
+   NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[NoteBook entityName]];
+   request.predicate = predicate;
+
+    NSError *error;
+    NSArray *tempArray = [self.managedObjectContext executeFetchRequest:request error:&error];
+    
+    if(error){
+        NSLog(@"fetch error %@",error.description);
+    }
+    
+    if (tempArray.count == 0) {
+        return [self noteBookCreateWithDict:dict];
+    }else {
+        if (tempArray.count == 1) {
+            NoteBook *note = (NoteBook*)[tempArray firstObject];
+            [self updateNote:note withDict:dict];
+            [self saveContext];
+            return note;
+        }else {
+            abort();
+        }
+    }
+}
+-(NSArray*)fetchNoteBookWithDoctorID:(NSString*)doctorID
+{
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"doctorID = %@",doctorID];
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[NoteBook entityName]];
+    request.predicate = predicate;
+    
+    NSError *error;
+    NSArray *tempArray = [self.managedObjectContext executeFetchRequest:request error:&error];
+    
+    if(error){
+        NSLog(@"fetch error %@",error.description);
+    }
+    return tempArray;
+    
+}
+
+-(NoteBook*)noteBookCreateWithDict:(NSDictionary*)dict
 {
     NSString *dID;
     
@@ -715,25 +769,97 @@ static NSString *momdName = @"Model";
         NSLog(@"创建笔记必须包含医生ID");
         abort();
     }
-    NoteIndex *nodeIndex = [self nodeIndexFetchWithDict:dict];
     
-    if (nodeIndex) {
-        nodeIndex.index =[NSNumber numberWithInteger:[[nodeIndex.index integerValue] + 1 ]];
-        [self saveContext];
-        
-        
-        
-        NSEntityDescription *entityDesc = [NSEntityDescription entityForName: [NoteBook entityName]inManagedObjectContext:self.managedObjectContext];
-        NoteBook *note = [[NoteBook alloc] initWithEntity:entityDesc insertIntoManagedObjectContext:self.managedObjectContext];
-        note.noteIndex = nodeIndex.index;
-        
-        [self updateNote:note withDict:dict];
+    NSEntityDescription *entityDesc = [NSEntityDescription entityForName: [NoteBook entityName]inManagedObjectContext:self.managedObjectContext];
+    NoteBook *note = [[NoteBook alloc] initWithEntity:entityDesc insertIntoManagedObjectContext:self.managedObjectContext];
+    
+    [self updateNote:note withDict:dict];
+    
+    
+    NSMutableOrderedSet *contents = [[NSMutableOrderedSet alloc] initWithOrderedSet:note.contents];
 
+    if ([dict.allKeys containsObject:@"contentTypeS"]) {
+        NSDictionary *contentsDict = dict[@"contentTypeS"];
+        
+        NoteContent *noteContent = [self noteContentCreateWithDict:contentsDict];
+        [contents addObject:noteContent];
+    }
+    
+    if ([dict.allKeys containsObject:@"contentTypeO"]) {
+        NSDictionary *contentsDict = dict[@"contentTypeO"];
+        
+        NoteContent *noteContent = [self noteContentCreateWithDict:contentsDict];
+        [contents addObject:noteContent];
+    }
+    if ([dict.allKeys containsObject:@"contentTypeA"]) {
+        NSDictionary *contentsDict = dict[@"contentTypeA"];
+        
+        NoteContent *noteContent = [self noteContentCreateWithDict:contentsDict];
+        [contents addObject:noteContent];
+    }
+    
+    if ([dict.allKeys containsObject:@"contentTypeP"]) {
+        NSDictionary *contentsDict = dict[@"contentTypeP"];
+        
+        NoteContent *noteContent = [self noteContentCreateWithDict:contentsDict];
+        [contents addObject:noteContent];
     }
     
     
-    
     [self saveContext];
+    
+    return note;
+    
+}
+-(NoteContent*)noteContentCreateWithDict:(NSDictionary*)dict
+{
+    NSEntityDescription *entityDesc = [NSEntityDescription entityForName: [NoteContent entityName]inManagedObjectContext:self.managedObjectContext];
+    NoteContent *noteContent = [[NoteContent alloc] initWithEntity:entityDesc insertIntoManagedObjectContext:self.managedObjectContext];
+    if ([dict.allKeys containsObject:@"content"]) {
+        noteContent.content = dict[@"content"];
+    }
+    if ([dict.allKeys containsObject:@"contentType"]) {
+        noteContent.contentType = dict[@"contentType"];
+    }
+    
+    NSMutableSet *medias = [[NSMutableSet alloc] initWithSet:noteContent.medias];
+
+    if ([dict.allKeys containsObject:@"medias"]) {
+        NSArray *mediasArray = dict[@"medias"];
+        
+        for (NSDictionary *mediaDict in mediasArray) {
+          MediaData *mediaData = [self mediaDataCreateWithDict:mediaDict];
+            [medias addObject:mediaData];
+        }
+        
+        noteContent.medias =[[NSSet alloc] initWithSet:medias];
+        
+    }
+    [self saveContext];
+    
+    return noteContent;
+}
+-(MediaData*)mediaDataCreateWithDict:(NSDictionary*)dict
+{
+    NSEntityDescription *mediaDataDesc = [NSEntityDescription entityForName: [MediaData entityName]inManagedObjectContext:self.managedObjectContext];
+    MediaData *mediaData = [[MediaData alloc] initWithEntity:mediaDataDesc insertIntoManagedObjectContext:self.managedObjectContext];
+    [self updateMediaData:mediaData withDict:dict];
+    return mediaData;
+}
+-(void)updateMediaData:(MediaData*)mediaData withDict:(NSDictionary*)dict
+{
+    if ([dict.allKeys containsObject:@"dataType"]) {//照片还是音频 0/1
+        mediaData.dataType = dict[@"dataType"];
+    }
+    if ([dict.allKeys containsObject:@"location"]) {
+        mediaData.location = dict[@"location"];
+    }
+    if ([dict.allKeys containsObject:@"noteID"]) {
+        mediaData.noteID = dict[@"noteID"];
+    }
+    if ([dict.allKeys containsObject:@"data"]) {
+        mediaData.data = dict[@"data"];
+    }
     
 }
 -(NoteIndex*)noteIndexCreateWithDict:(NSDictionary*)dict
@@ -758,44 +884,44 @@ static NSString *momdName = @"Model";
     
     return noteIndex;
 }
--(NoteIndex*)nodeIndexFetchWithDict:(NSDictionary*)dict
-{
-    NSString *dID;
-    
-    if ([dict.allKeys containsObject:@"dID"]) {
-        dID = [dict objectForKey:@"dID"];
-    }else {
-        NSLog(@"必须包含医生ID");
-        abort();
-    }
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dID = %@",dID];
-
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[NoteIndex entityName]];
-    request.predicate = predicate;
-
-    NSError *error;
-    NSArray *tempArray = [self.managedObjectContext executeFetchRequest:request error:&error];
-
-    if(error){
-       NSLog(@"fetch error %@",error.description);
-    }
-    if (tempArray.count == 0) {
-       return [self noteIndexCreateWithDict:dict];
-    }else {
-        if (tempArray.count == 1) {
-            NoteIndex *tempIndex = (NoteIndex*)[tempArray firstObject];
-            if ([dict.allKeys containsObject:@"index"]) {
-                tempIndex.index =[NSNumber numberWithInteger:[dict[@"index"] integerValue]];
-            }
-            [self saveContext];
-            return tempIndex;
-        }else {
-            return nil;
-        }
-        
-    }
-
-}
+//-(NoteIndex*)nodeIndexFetchWithDict:(NSDictionary*)dict
+//{
+//    NSString *dID;
+//    
+//    if ([dict.allKeys containsObject:@"dID"]) {
+//        dID = [dict objectForKey:@"dID"];
+//    }else {
+//        NSLog(@"必须包含医生ID");
+//        abort();
+//    }
+//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dID = %@",dID];
+//
+//    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[NoteIndex entityName]];
+//    request.predicate = predicate;
+//
+//    NSError *error;
+//    NSArray *tempArray = [self.managedObjectContext executeFetchRequest:request error:&error];
+//
+//    if(error){
+//       NSLog(@"fetch error %@",error.description);
+//    }
+//    if (tempArray.count == 0) {
+//       return [self noteIndexCreateWithDict:dict];
+//    }else {
+//        if (tempArray.count == 1) {
+//            NoteIndex *tempIndex = (NoteIndex*)[tempArray firstObject];
+//            if ([dict.allKeys containsObject:@"index"]) {
+//                tempIndex.index =[NSNumber numberWithInteger:[dict[@"index"] integerValue]];
+//            }
+//            [self saveContext];
+//            return tempIndex;
+//        }else {
+//            return nil;
+//        }
+//        
+//    }
+//
+//}
 -(void)updateNote:(NoteBook*)note withDict:(NSDictionary*)dict
 {
     if ([dict.allKeys containsObject:@"noteType"]) { //为某个病人写或随笔
