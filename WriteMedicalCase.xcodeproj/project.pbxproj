@@ -75,6 +75,10 @@
 		472631DA1B1D874C00857B22 /* RecordNoteWarningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 472631D91B1D874C00857B22 /* RecordNoteWarningViewController.m */; };
 		472631DD1B1EC5EA00857B22 /* TempNote.m in Sources */ = {isa = PBXBuildFile; fileRef = 472631DC1B1EC5EA00857B22 /* TempNote.m */; };
 		472631E01B1EEA1100857B22 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 472631DF1B1EEA1100857B22 /* TestViewController.m */; };
+		472632071B1F086000857B22 /* NoteContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 472632061B1F086000857B22 /* NoteContent.m */; };
+		4726320A1B1F086100857B22 /* MediaData.m in Sources */ = {isa = PBXBuildFile; fileRef = 472632091B1F086100857B22 /* MediaData.m */; };
+		4726320D1B1F086100857B22 /* NoteIndex.m in Sources */ = {isa = PBXBuildFile; fileRef = 4726320C1B1F086100857B22 /* NoteIndex.m */; };
+		472632101B1F086100857B22 /* NoteBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 4726320F1B1F086100857B22 /* NoteBook.m */; };
 		47301D011AFB2483005D42CC /* mainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D001AFB2483005D42CC /* mainViewController.m */; };
 		47301D041AFB36AB005D42CC /* CurrentDoctor.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D031AFB36AB005D42CC /* CurrentDoctor.m */; };
 		47301D071AFB4104005D42CC /* CurrentPatient.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D061AFB4104005D42CC /* CurrentPatient.m */; };
@@ -285,6 +289,14 @@
 		472631DC1B1EC5EA00857B22 /* TempNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempNote.m; sourceTree = "<group>"; };
 		472631DE1B1EEA1100857B22 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
 		472631DF1B1EEA1100857B22 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
+		472632051B1F086000857B22 /* NoteContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteContent.h; sourceTree = "<group>"; };
+		472632061B1F086000857B22 /* NoteContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteContent.m; sourceTree = "<group>"; };
+		472632081B1F086100857B22 /* MediaData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaData.h; sourceTree = "<group>"; };
+		472632091B1F086100857B22 /* MediaData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaData.m; sourceTree = "<group>"; };
+		4726320B1B1F086100857B22 /* NoteIndex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteIndex.h; sourceTree = "<group>"; };
+		4726320C1B1F086100857B22 /* NoteIndex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteIndex.m; sourceTree = "<group>"; };
+		4726320E1B1F086100857B22 /* NoteBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteBook.h; sourceTree = "<group>"; };
+		4726320F1B1F086100857B22 /* NoteBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteBook.m; sourceTree = "<group>"; };
 		47301CFF1AFB2483005D42CC /* mainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mainViewController.h; sourceTree = "<group>"; };
 		47301D001AFB2483005D42CC /* mainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mainViewController.m; sourceTree = "<group>"; };
 		47301D021AFB36AB005D42CC /* CurrentDoctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentDoctor.h; sourceTree = "<group>"; };
@@ -672,6 +684,14 @@
 		4705F0A81AF10DBC0050D47A /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				4726320E1B1F086100857B22 /* NoteBook.h */,
+				4726320F1B1F086100857B22 /* NoteBook.m */,
+				4726320B1B1F086100857B22 /* NoteIndex.h */,
+				4726320C1B1F086100857B22 /* NoteIndex.m */,
+				472632081B1F086100857B22 /* MediaData.h */,
+				472632091B1F086100857B22 /* MediaData.m */,
+				472632051B1F086000857B22 /* NoteContent.h */,
+				472632061B1F086000857B22 /* NoteContent.m */,
 				476475671B09D4B1004AFDF1 /* CaseContent.h */,
 				476475681B09D4B1004AFDF1 /* CaseContent.m */,
 				476475641B09D4B1004AFDF1 /* ParentNode.h */,
@@ -967,6 +987,7 @@
 				4705F0751AF1094C0050D47A /* SBJsonStreamWriterState.m in Sources */,
 				474D82B31AFC90FA004A4151 /* TemplateManagementViewController.m in Sources */,
 				4705A43B1AF32BD7007FD2B9 /* TemplateDetailViewController.m in Sources */,
+				472632101B1F086100857B22 /* NoteBook.m in Sources */,
 				47301D141AFC67EA005D42CC /* RecordNavagationViewController.m in Sources */,
 				4705F0781AF1094C0050D47A /* SBJsonWriter.m in Sources */,
 				4705F0321AF1062C0050D47A /* IHGCDSocket.m in Sources */,
@@ -982,6 +1003,7 @@
 				476474241B0202F1004AFDF1 /* ShowTemplateTableViewCell.m in Sources */,
 				4705F0801AF109770050D47A /* WLKCaseNodeTableView.m in Sources */,
 				474D82A71AFC90FA004A4151 /* ConditionTemplateVCTableViewCell.m in Sources */,
+				4726320D1B1F086100857B22 /* NoteIndex.m in Sources */,
 				4705F0311AF1062C0050D47A /* IHGCDReconnect.m in Sources */,
 				4705F0501AF1082C0050D47A /* ParseXML.m in Sources */,
 				47301D071AFB4104005D42CC /* CurrentPatient.m in Sources */,
@@ -1020,6 +1042,7 @@
 				4705F06D1AF1094C0050D47A /* NSObject+SBJson.m in Sources */,
 				476474291B034B2B004AFDF1 /* SelectASharedTemplateViewController.m in Sources */,
 				4705F0CD1AF11B220050D47A /* WriteCaseSaveCell.m in Sources */,
+				4726320A1B1F086100857B22 /* MediaData.m in Sources */,
 				4705F0991AF109C10050D47A /* WLKView.m in Sources */,
 				4705F07F1AF109770050D47A /* WLKCaseNodeCell.m in Sources */,
 				4705F0301AF1062C0050D47A /* GCDAsyncSocket.m in Sources */,
@@ -1053,6 +1076,7 @@
 				473C912C1B004ED90069ECE4 /* TemplateModel.m in Sources */,
 				473C91291AFCA8FF0069ECE4 /* CreateTemplateViewController.m in Sources */,
 				4705F08F1AF109990050D47A /* WLKPatient.m in Sources */,
+				472632071B1F086000857B22 /* NoteContent.m in Sources */,
 				476474321B0437C7004AFDF1 /* SelectedDoctorViewController.m in Sources */,
 				4705F0D51AF130250050D47A /* personInfoView.m in Sources */,
 				478858EC1AF1FD06002CD361 /* CustomSegue.m in Sources */,

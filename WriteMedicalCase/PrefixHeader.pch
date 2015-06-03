@@ -57,6 +57,11 @@
 #import "Node.h"
 #import "ParentNode.h"
 
+#import "NoteBook.h"
+#import "NoteContent.h"
+#import "MediaData.h"
+#import "NoteIndex.h"
+
 
 #pragma mark - hud
 //#import "KVNProgress.h"

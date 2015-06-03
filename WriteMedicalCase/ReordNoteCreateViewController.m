@@ -58,6 +58,8 @@
     }
     
     NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
+    
+    
     [MessageObject messageObjectWithUsrStr:doctor.dID pwdStr:@"test"iHMsgSocket:self.socket optInt:1509 sync_version:1.0 dictionary:dict block:^(IHSockRequest *request) {
         
     } failConection:^(NSError *error) {

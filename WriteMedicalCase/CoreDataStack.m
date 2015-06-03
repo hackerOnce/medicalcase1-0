@@ -702,4 +702,138 @@ static NSString *momdName = @"Model";
         patient.dName = dict[@"dName"];
     }
 }
+
+
+///for note book
+-(void)noteBookCreateWithDict:(NSDictionary*)dict
+{
+    NSString *dID;
+    
+    if ([dict.allKeys containsObject:@"dID"]) {
+        dID = [dict objectForKey:@"dID"];
+    }else {
+        NSLog(@"创建笔记必须包含医生ID");
+        abort();
+    }
+    NoteIndex *nodeIndex = [self nodeIndexFetchWithDict:dict];
+    
+    if (nodeIndex) {
+        nodeIndex.index =[NSNumber numberWithInteger:[[nodeIndex.index integerValue] + 1 ]];
+        [self saveContext];
+        
+        
+        
+        NSEntityDescription *entityDesc = [NSEntityDescription entityForName: [NoteBook entityName]inManagedObjectContext:self.managedObjectContext];
+        NoteBook *note = [[NoteBook alloc] initWithEntity:entityDesc insertIntoManagedObjectContext:self.managedObjectContext];
+        note.noteIndex = nodeIndex.index;
+        
+        [self updateNote:note withDict:dict];
+
+    }
+    
+    
+    
+    [self saveContext];
+    
+}
+-(NoteIndex*)noteIndexCreateWithDict:(NSDictionary*)dict
+{
+    NSString *dID;
+    
+    if ([dict.allKeys containsObject:@"dID"]) {
+        dID = [dict objectForKey:@"dID"];
+    }else {
+        NSLog(@"创建笔记必须包含医生ID");
+        abort();
+    }
+    NSEntityDescription *entityDesc = [NSEntityDescription entityForName: [NoteIndex entityName]inManagedObjectContext:self.managedObjectContext];
+    NoteIndex *noteIndex = [[NoteIndex alloc] initWithEntity:entityDesc insertIntoManagedObjectContext:self.managedObjectContext];
+    
+    if ([dict.allKeys containsObject:@"dID"]) {
+        noteIndex.dID = dict[@"dID"];
+    }
+     noteIndex.index = @(0);
+    
+    [self saveContext];
+    
+    return noteIndex;
+}
+-(NoteIndex*)nodeIndexFetchWithDict:(NSDictionary*)dict
+{
+    NSString *dID;
+    
+    if ([dict.allKeys containsObject:@"dID"]) {
+        dID = [dict objectForKey:@"dID"];
+    }else {
+        NSLog(@"必须包含医生ID");
+        abort();
+    }
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dID = %@",dID];
+
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[NoteIndex entityName]];
+    request.predicate = predicate;
+
+    NSError *error;
+    NSArray *tempArray = [self.managedObjectContext executeFetchRequest:request error:&error];
+
+    if(error){
+       NSLog(@"fetch error %@",error.description);
+    }
+    if (tempArray.count == 0) {
+       return [self noteIndexCreateWithDict:dict];
+    }else {
+        if (tempArray.count == 1) {
+            NoteIndex *tempIndex = (NoteIndex*)[tempArray firstObject];
+            if ([dict.allKeys containsObject:@"index"]) {
+                tempIndex.index =[NSNumber numberWithInteger:[dict[@"index"] integerValue]];
+            }
+            [self saveContext];
+            return tempIndex;
+        }else {
+            return nil;
+        }
+        
+    }
+
+}
+-(void)updateNote:(NoteBook*)note withDict:(NSDictionary*)dict
+{
+    if ([dict.allKeys containsObject:@"noteType"]) { //为某个病人写或随笔
+        note.noteType = [dict objectForKey:@"noteType"];
+    }
+    if ([dict.allKeys containsObject:@"noteTitle"]){
+        note.noteTitle = [dict objectForKey:@"noteTitle"];
+    }
+    if ([dict.allKeys containsObject:@"notePatientName"]) {
+        note.notePatientName = [dict objectForKey:@"notePatientName"];
+    }
+    if ([dict.allKeys containsObject:@"noteID"]){
+        note.noteID = [dict objectForKey:@"noteID"];
+    }
+    if ([dict.allKeys containsObject:@"notePatientID"]) {
+        note.notePatientID = [dict objectForKey:@"notePatientID"];
+    }
+    
+    if ([dict.allKeys containsObject:@"dID"]){
+        note.dID = [dict objectForKey:@"dID"];
+    }
+    if ([dict.allKeys containsObject:@"dName"]) {
+        note.dName = [dict objectForKey:@"dName"];
+    }
+    
+    if ([dict.allKeys containsObject:@"createDate"]){
+        note.createDate = [dict objectForKey:@"createDate"];
+    }
+    if ([dict.allKeys containsObject:@"updateDate"]) {
+        note.updateDate = [dict objectForKey:@"updateDate"];
+    }
+    
+    if ([dict.allKeys containsObject:@"createDate"]){
+        note.createDate = [dict objectForKey:@"createDate"];
+    }
+    if ([dict.allKeys containsObject:@"contents"]) {
+        note.contents = [dict objectForKey:@"contents"];
+    }
+    
+}
 @end

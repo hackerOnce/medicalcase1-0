@@ -357,7 +357,7 @@
     
     UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, line.frame.origin.y+4, 20, 20)];
     dateLabel.textColor = [UIColor blueColor];
-    dateLabel.text = @"2015年12月18号 11:37";
+    dateLabel.text = [self currentDateString];
     dateLabel.font = [UIFont systemFontOfSize:14];
     [dateLabel sizeToFit];
     
@@ -384,6 +384,15 @@
         expectedViewController =(UIViewController*) [nav.viewControllers firstObject];
     }
     return expectedViewController;
+}
+
+#pragma mask - helper
+-(NSString*)currentDateString
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy年MM月dd日 HH:mm"];
+    
+    return [formatter stringFromDate:[NSDate new]];
 }
 #pragma mask - property
 -(NSArray *)keyArray
