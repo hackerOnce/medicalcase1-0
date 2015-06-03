@@ -5,10 +5,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Test View Controller-->
         <scene sceneID="eGV-iz-IuY">
             <objects>
-                <viewController storyboardIdentifier="NoteFirstVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="cN7-eP-VqZ" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NoteFirstVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="cN7-eP-VqZ" customClass="TestViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="SXu-MO-Hrw"/>
                         <viewControllerLayoutGuide type="bottom" id="Cjl-AK-evA"/>
@@ -43,6 +43,7 @@
             <objects>
                 <navigationController modalPresentationStyle="pageSheet" toolbarHidden="NO" id="JUG-xk-LGZ" sceneMemberID="viewController">
                     <value key="contentSizeForViewInPopover" type="size" width="600" height="600"/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="mVe-Aw-OdW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -164,7 +165,7 @@
                         <nil key="title"/>
                         <barButtonItem key="leftBarButtonItem" image="取消" id="moJ-Qe-0E1">
                             <connections>
-                                <action selector="cancel:" destination="Pws-TG-tdn" id="RhT-Dt-RGO"/>
+                                <segue destination="VcM-yQ-D6k" kind="unwind" unwindAction="createNoteCancel:" id="CVb-h2-6sI"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="cXc-nq-7Dh">
@@ -215,11 +216,13 @@
                             </view>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="CKG-mH-fVC" id="8G7-KC-7PQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BYB-Kw-YCj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="VcM-yQ-D6k" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="614" y="609"/>
         </scene>
@@ -312,7 +315,7 @@
                     <navigationItem key="navigationItem" id="tJE-l5-bb4">
                         <barButtonItem key="leftBarButtonItem" image="取消" id="Ybe-Ax-SlM">
                             <connections>
-                                <action selector="cancel:" destination="WFf-eM-58j" id="XRf-wl-teJ"/>
+                                <segue destination="tw5-fg-jm2" kind="unwind" unwindAction="createNoteCancel:" id="RNd-bs-rcA"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="yNW-nA-BYn">
@@ -363,11 +366,13 @@
                             </view>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="UMk-eu-PUQ" id="dkl-Hy-ygz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9xI-4H-BNZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="tw5-fg-jm2" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="614" y="1395"/>
         </scene>
@@ -376,6 +381,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="EJs-IH-J18" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Lnh-eK-vIL">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -572,7 +578,7 @@
         <image name="语音" width="28" height="27"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="sNQ-El-x1K"/>
-        <segue reference="BiE-IG-DGr"/>
+        <segue reference="iQa-df-fEZ"/>
+        <segue reference="cZF-K1-2Q2"/>
     </inferredMetricsTieBreakers>
 </document>
