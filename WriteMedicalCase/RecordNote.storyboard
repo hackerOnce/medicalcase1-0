@@ -178,7 +178,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <segue destination="yLf-pS-K8P" kind="popoverPresentation" popoverAnchorView="u3H-v4-n1o" id="BiE-IG-DGr">
+                                            <segue destination="yLf-pS-K8P" kind="popoverPresentation" identifier="patientWarningSegue" popoverAnchorView="u3H-v4-n1o" id="BiE-IG-DGr">
                                                 <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                             </segue>
                                         </connections>
@@ -238,6 +238,45 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="489" id="C0P-Yc-fYk"/>
                                 </constraints>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="noteCreateCell" rowHeight="52" id="HrP-0K-L7L" customClass="RecordNoteCreateCellTableViewCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HrP-0K-L7L" id="qvx-k6-Ted">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1002" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tOo-wz-AOj">
+                                                    <rect key="frame" x="8" y="12" width="584" height="30"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="faA-sD-qAc"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
+                                                <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xxd-xQ-Y5T">
+                                                    <rect key="frame" x="8" y="12" width="584" height="30"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="xxd-xQ-Y5T" firstAttribute="trailing" secondItem="qvx-k6-Ted" secondAttribute="trailingMargin" id="04e-cF-D0M"/>
+                                                <constraint firstItem="tOo-wz-AOj" firstAttribute="top" secondItem="qvx-k6-Ted" secondAttribute="topMargin" constant="4" id="0cC-T2-fw4"/>
+                                                <constraint firstItem="xxd-xQ-Y5T" firstAttribute="leading" secondItem="qvx-k6-Ted" secondAttribute="leadingMargin" id="6AC-L8-IcH"/>
+                                                <constraint firstItem="tOo-wz-AOj" firstAttribute="leading" secondItem="qvx-k6-Ted" secondAttribute="leadingMargin" id="9FE-az-3b4"/>
+                                                <constraint firstItem="tOo-wz-AOj" firstAttribute="trailing" secondItem="qvx-k6-Ted" secondAttribute="trailingMargin" id="Mtg-Kv-Pvt"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="tOo-wz-AOj" secondAttribute="bottom" constant="1" id="YE1-JB-OPH"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="xxd-xQ-Y5T" secondAttribute="bottom" constant="1" id="gQb-PU-Coc"/>
+                                                <constraint firstItem="xxd-xQ-Y5T" firstAttribute="top" secondItem="qvx-k6-Ted" secondAttribute="topMargin" constant="4" id="kwP-Ws-34x"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="WFf-eM-58j" id="BgE-iU-T7J"/>
+                                    <outlet property="delegate" destination="WFf-eM-58j" id="9iA-mH-v1n"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -276,6 +315,11 @@
                                         <state key="normal" title="warning" image="提醒">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <segue destination="yLf-pS-K8P" kind="popoverPresentation" identifier="originalWarningSegue" popoverAnchorView="ZMP-Nt-TQP" id="cZF-K1-2Q2">
+                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                            </segue>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lrC-IT-si8">
                                         <rect key="frame" x="132" y="3" width="30" height="30"/>
@@ -299,6 +343,9 @@
                             </view>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="UMk-eu-PUQ" id="dkl-Hy-ygz"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9xI-4H-BNZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -408,7 +455,7 @@
                                     <constraint firstAttribute="height" constant="30" id="EaQ-A0-1cS"/>
                                 </constraints>
                             </view>
-                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="w4w-p8-Z3j">
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="5" useCurrentDate="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w4w-p8-Z3j">
                                 <rect key="frame" x="0.0" y="230" width="600" height="216"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="215" id="WY4-Zm-xxm"/>
@@ -416,6 +463,13 @@
                                 <date key="date" timeIntervalSinceReferenceDate="454930760.64770699">
                                     <!--2015-06-02 09:39:20 +0000-->
                                 </date>
+                                <date key="minimumDate" timeIntervalSinceReferenceDate="441802800">
+                                    <!--2015-01-01 11:00:00 +0000-->
+                                </date>
+                                <date key="maximumDate" timeIntervalSinceReferenceDate="473252400">
+                                    <!--2015-12-31 11:00:00 +0000-->
+                                </date>
+                                <locale key="locale" localeIdentifier="zh_CN"/>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="WY4-Zm-xxm"/>
@@ -486,7 +540,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wgf-Te-c44" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1265" y="609"/>
+            <point key="canvasLocation" x="1329" y="609"/>
         </scene>
     </scenes>
     <resources>
@@ -499,5 +553,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="iQa-df-fEZ"/>
+        <segue reference="BiE-IG-DGr"/>
     </inferredMetricsTieBreakers>
 </document>

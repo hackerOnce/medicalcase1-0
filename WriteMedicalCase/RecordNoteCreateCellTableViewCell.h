@@ -8,14 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol  RecordNoteCreateCellTableViewCell;
+@protocol  RecordNoteCreateCellTableViewCellDelegate;
 
 @interface RecordNoteCreateCellTableViewCell : UITableViewCell<UITextViewDelegate>
-@property (weak,nonatomic) id <RecordNoteCreateCellTableViewCell> delegate;
+@property (weak,nonatomic) id <RecordNoteCreateCellTableViewCellDelegate> delegate;
 
 @end
 
-@protocol RecordNoteCreateCellTableViewCell <NSObject>
+@protocol RecordNoteCreateCellTableViewCellDelegate <NSObject>
 
 -(void)textViewCell:(RecordNoteCreateCellTableViewCell*)cell didChangeText:(NSString*)text;
 -(void)textViewDidBeginEditing:(UITextView*)textView withCellIndexPath:(NSIndexPath*)indexPath;

@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RecordNoteWarningViewController : UIViewController
+@protocol RecordNoteWarningViewControllerDelegate <NSObject>
 
+-(void)didSelectedDateString:(NSDictionary*)dict;
+
+@end
+@interface RecordNoteWarningViewController : UIViewController
+@property (nonatomic,weak) id<RecordNoteWarningViewControllerDelegate> delegate;
 @end

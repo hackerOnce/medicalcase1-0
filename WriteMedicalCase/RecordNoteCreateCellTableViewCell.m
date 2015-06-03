@@ -1,4 +1,3 @@
-//
 //  RecordNoteCreateCellTableViewCell.m
 //  WriteMedicalCase
 //

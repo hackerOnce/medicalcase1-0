@@ -105,7 +105,6 @@
 		474D82BF1AFC999A004A4151 /* TemplateDetailViewControllerOne.m in Sources */ = {isa = PBXBuildFile; fileRef = 474D82BE1AFC999A004A4151 /* TemplateDetailViewControllerOne.m */; };
 		475463711B1C257F0026E4AE /* RecordNote.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 475463701B1C257F0026E4AE /* RecordNote.storyboard */; };
 		475463751B1C26780026E4AE /* ReordNoteCreateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 475463741B1C26780026E4AE /* ReordNoteCreateViewController.m */; };
-		475463781B1C32FB0026E4AE /* CustomPushAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 475463771B1C32FB0026E4AE /* CustomPushAnimation.m */; };
 		476474241B0202F1004AFDF1 /* ShowTemplateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 476474231B0202F1004AFDF1 /* ShowTemplateTableViewCell.m */; };
 		476474291B034B2B004AFDF1 /* SelectASharedTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 476474281B034B2B004AFDF1 /* SelectASharedTemplateViewController.m */; };
 		4764742F1B03593A004AFDF1 /* SelectedASharedTemplateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4764742E1B03593A004AFDF1 /* SelectedASharedTemplateTableViewCell.m */; };
@@ -341,8 +340,6 @@
 		475463701B1C257F0026E4AE /* RecordNote.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = RecordNote.storyboard; sourceTree = "<group>"; };
 		475463731B1C26780026E4AE /* ReordNoteCreateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReordNoteCreateViewController.h; sourceTree = "<group>"; };
 		475463741B1C26780026E4AE /* ReordNoteCreateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReordNoteCreateViewController.m; sourceTree = "<group>"; };
-		475463761B1C32FB0026E4AE /* CustomPushAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPushAnimation.h; sourceTree = "<group>"; };
-		475463771B1C32FB0026E4AE /* CustomPushAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPushAnimation.m; sourceTree = "<group>"; };
 		476474221B0202F1004AFDF1 /* ShowTemplateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShowTemplateTableViewCell.h; path = ../ShowTemplateTableViewCell.h; sourceTree = "<group>"; };
 		476474231B0202F1004AFDF1 /* ShowTemplateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShowTemplateTableViewCell.m; path = ../ShowTemplateTableViewCell.m; sourceTree = "<group>"; };
 		476474271B034B2B004AFDF1 /* SelectASharedTemplateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectASharedTemplateViewController.h; sourceTree = "<group>"; };
@@ -782,8 +779,6 @@
 				475463741B1C26780026E4AE /* ReordNoteCreateViewController.m */,
 				472631D21B1C660800857B22 /* RecordNoteCreateForCaseViewController.h */,
 				472631D31B1C660800857B22 /* RecordNoteCreateForCaseViewController.m */,
-				475463761B1C32FB0026E4AE /* CustomPushAnimation.h */,
-				475463771B1C32FB0026E4AE /* CustomPushAnimation.m */,
 			);
 			name = RecordNote;
 			sourceTree = "<group>";
@@ -965,7 +960,6 @@
 				47301D141AFC67EA005D42CC /* RecordNavagationViewController.m in Sources */,
 				4705F0781AF1094C0050D47A /* SBJsonWriter.m in Sources */,
 				4705F0321AF1062C0050D47A /* IHGCDSocket.m in Sources */,
-				475463781B1C32FB0026E4AE /* CustomPushAnimation.m in Sources */,
 				4705F0D01AF124C90050D47A /* Model.xcdatamodeld in Sources */,
 				4705F08D1AF109990050D47A /* WLKCase.m in Sources */,
 				4705A47E1AF48659007FD2B9 /* NSDate+Helper.m in Sources */,

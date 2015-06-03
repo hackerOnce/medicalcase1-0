@@ -8,8 +8,9 @@
 
 #import "RecordNoteCreateForCaseViewController.h"
 #import "RecordNoteCreateCellTableViewCell.h"
+#import "RecordNoteWarningViewController.h"
 
-@interface RecordNoteCreateForCaseViewController ()<RecordNoteCreateCellTableViewCell,UITableViewDataSource,UITableViewDelegate>
+@interface RecordNoteCreateForCaseViewController ()<RecordNoteCreateCellTableViewCellDelegate,UITableViewDataSource,UITableViewDelegate,RecordNoteWarningViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic,strong) NSMutableDictionary *dataSourceDict;
@@ -19,6 +20,9 @@
 @property (nonatomic,strong) UITextView *currentTextView;
 @property (nonatomic,strong) NSIndexPath *currentIndexPath;
 @property (nonatomic) BOOL keyboardShow;
+
+@property (nonatomic,strong) NSString *noteType;
+
 @end
 
 @implementation RecordNoteCreateForCaseViewController
@@ -200,6 +204,7 @@
 {
     static NSString *cellIdentifier = @"noteCreatePatientCell";
     RecordNoteCreateCellTableViewCell *tableViewCell =(RecordNoteCreateCellTableViewCell*) [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    tableViewCell.delegate = self;
     [self configCell:tableViewCell atIndexPath:indexPath];
     return tableViewCell;
 }
@@ -257,10 +262,28 @@
     [headerView addSubview:dateLabel];
 }
 
-#pragma mask -segue
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+#pragma mask - warning delegate
+-(void)didSelectedDateString:(NSDictionary *)dict
 {
     
+}
+#pragma mark - Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"patientWarningSegue"]) {
+        
+        RecordNoteWarningViewController *recordWarningVC =(RecordNoteWarningViewController*) [self expectedViewController:segue.destinationViewController];
+        recordWarningVC.delegate = self;
+    }
+}
+-(UIViewController*)expectedViewController:(UIViewController*)viewController
+{
+    UIViewController *expectedViewController = viewController;
+    if ([expectedViewController isMemberOfClass:[UINavigationController class]]) {
+        UINavigationController *nav = (UINavigationController*)viewController;
+        expectedViewController =(UIViewController*) [nav.viewControllers firstObject];
+    }
+    return expectedViewController;
 }
 #pragma mask - property
 -(NSArray *)keyArray
@@ -280,5 +303,12 @@
         }
     }
     return _dataSourceDict;
+}
+-(NSString *)noteType
+{
+    if (!_noteType) {
+        _noteType = @"0";
+    }
+    return _noteType;
 }
 @end
