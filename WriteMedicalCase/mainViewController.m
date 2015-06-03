@@ -32,8 +32,18 @@
         
     }];
 }
+- (IBAction)textNote:(UIButton *)sender
+{
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"RecordNote" bundle:nil];
+    UIViewController *noteFirstVC = [storyBoard instantiateViewControllerWithIdentifier:@"NoteFirstVC"];
+    [self presentViewController:noteFirstVC animated:YES completion:^{
+        
+    }];
+
+}
 - (IBAction)modelButton:(UIButton *)sender
-{UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"CreateTemplateStoryboard" bundle:nil];
+{
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"CreateTemplateStoryboard" bundle:nil];
     SplitViewController *caseVC = [storyBoard instantiateViewControllerWithIdentifier:@"createTemplate"];
     [self presentViewController:caseVC animated:YES completion:^{
         

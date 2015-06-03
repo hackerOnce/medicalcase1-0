@@ -8,7 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol SelectedDoctorViewControllerDelegate <NSObject>
+
+-(void)didSelectedDoctor:(NSDictionary*)sharedUser;
+
+@end
+
 @interface SelectedDoctorViewController : UIViewController
+
+@property (nonatomic,weak) id<SelectedDoctorViewControllerDelegate> delegate;
+@property (nonatomic) BOOL isForOthers;
 @property (nonatomic,strong) NSMutableArray *selectedTemplates;
 @property (nonatomic,strong) NSString *selectedSharedStyle;
 @end

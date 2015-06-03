@@ -8,7 +8,7 @@
         <!--View Controller-->
         <scene sceneID="eGV-iz-IuY">
             <objects>
-                <viewController id="cN7-eP-VqZ" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NoteFirstVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="cN7-eP-VqZ" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="SXu-MO-Hrw"/>
                         <viewControllerLayoutGuide type="bottom" id="Cjl-AK-evA"/>
@@ -162,7 +162,11 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="KcE-oC-f5M">
                         <nil key="title"/>
-                        <barButtonItem key="leftBarButtonItem" image="取消" id="moJ-Qe-0E1"/>
+                        <barButtonItem key="leftBarButtonItem" image="取消" id="moJ-Qe-0E1">
+                            <connections>
+                                <action selector="cancel:" destination="Pws-TG-tdn" id="RhT-Dt-RGO"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="cXc-nq-7Dh">
                             <view key="customView" contentMode="scaleToFill" id="xuN-2h-hvp">
                                 <rect key="frame" x="364" y="5" width="206" height="33"/>
@@ -188,12 +192,18 @@
                                         <state key="normal" title="share" image="共享">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="sharedClicked:" destination="Pws-TG-tdn" eventType="touchUpInside" id="dpD-rE-6Mv"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JA8-fQ-Erg">
                                         <rect key="frame" x="176" y="3" width="30" height="30"/>
                                         <state key="normal" title="save" image="保存">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="save:" destination="Pws-TG-tdn" eventType="touchUpInside" id="9Ed-PA-jZQ"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hvr-wQ-hbg">
                                         <rect key="frame" x="44" y="3" width="28" height="27"/>
@@ -300,7 +310,11 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="SAF-Uo-rJh"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" id="tJE-l5-bb4">
-                        <barButtonItem key="leftBarButtonItem" image="取消" id="Ybe-Ax-SlM"/>
+                        <barButtonItem key="leftBarButtonItem" image="取消" id="Ybe-Ax-SlM">
+                            <connections>
+                                <action selector="cancel:" destination="WFf-eM-58j" id="XRf-wl-teJ"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="yNW-nA-BYn">
                             <view key="customView" contentMode="scaleToFill" id="dXG-V2-kXc">
                                 <rect key="frame" x="127" y="184" width="206" height="33"/>
@@ -326,12 +340,18 @@
                                         <state key="normal" title="share" image="共享">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="sharedButton:" destination="WFf-eM-58j" eventType="touchUpInside" id="hai-WX-dKv"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JOx-hI-iu4">
                                         <rect key="frame" x="176" y="3" width="30" height="30"/>
                                         <state key="normal" title="save" image="保存">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="save:" destination="WFf-eM-58j" eventType="touchUpInside" id="ii6-VM-Gb7"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JH4-oZ-CG2">
                                         <rect key="frame" x="44" y="3" width="28" height="27"/>
@@ -552,7 +572,7 @@
         <image name="语音" width="28" height="27"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="iQa-df-fEZ"/>
+        <segue reference="sNQ-El-x1K"/>
         <segue reference="BiE-IG-DGr"/>
     </inferredMetricsTieBreakers>
 </document>

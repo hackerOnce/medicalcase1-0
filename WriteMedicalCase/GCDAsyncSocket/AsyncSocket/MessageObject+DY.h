@@ -13,7 +13,7 @@
 
 +(void)connectServerSucess:(void (^)(IHMsgSocket *))sucess failConection:(void (^)(NSError *))fail;
 
-
++(void)messageObjectWithUsrStr:(NSString *)usrStr pwdStr:(NSString *)pwdStr iHMsgSocket:(IHMsgSocket *)socket optInt:(NSInteger)optInt sync_version:(NSUInteger)sync_version dictionary:(NSDictionary *)dicM block:(void (^)(IHSockRequest *))block failConection:(void (^)(NSError *error))fail;
 /**
  *  请求数据方法
  *

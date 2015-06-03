@@ -9,7 +9,7 @@
 #import "SelectedShareRangeViewController.h"
 #import "SelectedDoctorViewController.h"
 
-@interface SelectedShareRangeViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface SelectedShareRangeViewController ()<UITableViewDataSource,UITableViewDelegate,SelectedDoctorViewControllerDelegate>
 @property (nonatomic,strong) NSArray *dataArray;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -60,6 +60,12 @@
     
     [self performSegueWithIdentifier:@"showDoctorSegue" sender:nil];
 }
+#pragma mask -SelectedDoctorViewControllerDelegate
+-(void)didSelectedDoctor:(NSDictionary *)sharedUser
+{
+    [self.delegate didSelectedSharedUsers:sharedUser];
+
+}
 
 #pragma mark - Navigation
 
@@ -70,6 +76,8 @@
         SelectedDoctorViewController *selectedDoctor = (SelectedDoctorViewController*)segue.destinationViewController;
         selectedDoctor.selectedTemplates = [NSMutableArray arrayWithArray:self.selectedTemplates];
         selectedDoctor.selectedSharedStyle =[NSString stringWithFormat:@"%@",self.sharedStyle];
+        selectedDoctor.delegate = self;
+        selectedDoctor.isForOthers = self.isForOthers;
         
     }
 }

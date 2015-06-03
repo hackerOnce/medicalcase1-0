@@ -8,7 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol SelectedShareRangeViewControllerDelegate <NSObject>
+
+-(void)didSelectedSharedUsers:(NSDictionary*)sharedUser;
+
+@end
 @interface SelectedShareRangeViewController : UIViewController
 @property (nonatomic,strong) NSMutableArray *selectedTemplates;
-
+@property (nonatomic,weak) id<SelectedShareRangeViewControllerDelegate> delegate;
+@property (nonatomic) BOOL isForOthers;
 @end

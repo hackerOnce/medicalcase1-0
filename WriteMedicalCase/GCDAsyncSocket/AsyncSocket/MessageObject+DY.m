@@ -38,6 +38,25 @@
     }
 
 }
++(void)messageObjectWithUsrStr:(NSString *)usrStr pwdStr:(NSString *)pwdStr iHMsgSocket:(IHMsgSocket *)socket optInt:(NSInteger)optInt sync_version:(NSUInteger)sync_version dictionary:(NSDictionary *)dicM block:(void (^)(IHSockRequest *))block failConection:(void (^)(NSError *error))fail
+{
+    if ([self isConnectionAvailable]) {
+        MessageObject *messageObject = [[MessageObject alloc]init];
+        messageObject.sync_usrStr = usrStr;
+        messageObject.sync_pwdStr = pwdStr;
+        messageObject.sync_optInt = optInt;
+        messageObject.sync_snStr = @"1234";
+        messageObject.sync_data = dicM;
+        messageObject.sync_versionInt = sync_version;
+        messageObject.sync_appStr = @"";
+        
+        [socket sendMsg:messageObject completed:block failConnection:fail];
+    }else {
+        NSError *error;
+        fail(error);
+    }
+    
+}
 
 +(void)messageObjectWithUsrStr:(NSString *)usrStr pwdStr:(NSString *)pwdStr view:(UIView *)view iHMsgSocket:(IHMsgSocket *)socket optInt:(NSInteger)optInt dictionary:(NSMutableDictionary *)dicM block:(void (^)(IHSockRequest *))block failConection:(void (^)(NSError *))fail
 {

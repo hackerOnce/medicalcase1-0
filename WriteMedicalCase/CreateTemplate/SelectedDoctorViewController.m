@@ -42,6 +42,7 @@
 @implementation SelectedDoctorViewController
 - (IBAction)confirm:(UIButton *)sender
 {
+
     for (NSIndexPath *inde in [self.tableView indexPathsForSelectedRows]) {
         NSLog(@" %@ - %@",@(inde.section),@(inde.row));
     }
@@ -63,51 +64,58 @@
             [sharedUsers addObject:doctor.dID];
         }
     }
-    
-    
-    NSString *doctorID = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
-    NSString *sharedStyle = [self refrenceStyleWith:self.selectedSharedStyle];
-    TemplateModel *template =[[TemplateModel alloc] initWithTemplate:(TemplateModel*)[self.selectedTemplates firstObject]];
-    
-    NSLog(@"%@",template.content);
-    [MessageObject messageObjectWithUsrStr:@"2225" pwdStr:@"test" iHMsgSocket:self.socket optInt:2005 dictionary:@{@"did":doctorID,@"uid":sharedUsers,@"style":@([sharedStyle integerValue]),@"id":template.templateID} block:^(IHSockRequest *request) {
-        NSInteger count = request.resp;
+    NSDictionary *tempDict = @{@"sharedType":@(self.isOnlySelectedDepartment),@"sharedUser":sharedUsers};
+    if (self.isForOthers) {
+        [self.delegate didSelectedDoctor:tempDict];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }else {
         
-        switch (count) {
-            case 0:{
-                //成功
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"成功分享模板" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                    [alert show];
-                });
-                break;
+        NSString *doctorID = [[NSUserDefaults standardUserDefaults] objectForKey:@"dID"];
+        NSString *sharedStyle = [self refrenceStyleWith:self.selectedSharedStyle];
+        TemplateModel *template =[[TemplateModel alloc] initWithTemplate:(TemplateModel*)[self.selectedTemplates firstObject]];
+        
+        NSLog(@"%@",template.content);
+        [MessageObject messageObjectWithUsrStr:@"2225" pwdStr:@"test" iHMsgSocket:self.socket optInt:2005 dictionary:@{@"did":doctorID,@"uid":sharedUsers,@"style":@([sharedStyle integerValue]),@"id":template.templateID} block:^(IHSockRequest *request) {
+            NSInteger count = request.resp;
+            
+            switch (count) {
+                case 0:{
+                    //成功
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"成功分享模板" message:nil delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                        [alert show];
+                    });
+                    break;
+                }
+                case -1:{
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"没有分享权限" message:nil delegate:nil cancelButtonTitle:@"OK"otherButtonTitles:nil];
+                        [alert show];
+                    });
+                    break;
+                }
+                case -2:{
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"模板不存在" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                        [alert show];
+                    });
+                    break;
+                }
+                default:
+                    break;
             }
-            case -1:{
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"没有分享权限" message:nil delegate:nil cancelButtonTitle:@"OK"otherButtonTitles:nil];
-                    [alert show];
-                });
-                break;
-            }
-            case -2:{
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"模板不存在" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-                    [alert show];
-                });
-                break;
-            }
-            default:
-                break;
-        }
-    } failConection:^(NSError *error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"服务器端出错" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-            [alert show];
-        });
-
-    }];
+        } failConection:^(NSError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"服务器端出错" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                [alert show];
+            });
+            
+        }];
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+   
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -118,7 +126,12 @@
 - (IBAction)cancelButton:(UIBarButtonItem *)sender {
     
     self.orderSet = nil;
-    [self.navigationController popViewControllerAnimated:YES];
+    
+    NSDictionary *sharedUser = @{};
+    [self.delegate didSelectedDoctor:sharedUser];
+
+    [self dismissViewControllerAnimated:YES completion:nil];
+    //[self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)setSelectedSharedStyle:(NSString *)selectedSharedStyle

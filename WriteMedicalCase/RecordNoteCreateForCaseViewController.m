@@ -9,8 +9,9 @@
 #import "RecordNoteCreateForCaseViewController.h"
 #import "RecordNoteCreateCellTableViewCell.h"
 #import "RecordNoteWarningViewController.h"
+#import "SelectedShareRangeViewController.h"
 
-@interface RecordNoteCreateForCaseViewController ()<RecordNoteCreateCellTableViewCellDelegate,UITableViewDataSource,UITableViewDelegate,RecordNoteWarningViewControllerDelegate>
+@interface RecordNoteCreateForCaseViewController ()<RecordNoteCreateCellTableViewCellDelegate,UITableViewDataSource,UITableViewDelegate,RecordNoteWarningViewControllerDelegate,SelectedShareRangeViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic,strong) NSMutableDictionary *dataSourceDict;
@@ -23,9 +24,113 @@
 
 @property (nonatomic,strong) NSString *noteType;
 
+@property (nonatomic,strong) IHMsgSocket *socket;
+
+//prepare for save note
+@property (nonatomic,strong) NSDictionary *sharedUser;
+@property (nonatomic,strong) NSDictionary *warningDict;
 @end
 
 @implementation RecordNoteCreateForCaseViewController
+
+- (IBAction)sharedClicked:(UIButton *)sender
+{
+   UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"CreateTemplateStoryboard" bundle:nil];
+
+    UINavigationController *shareRangeVC = [storyBoard instantiateViewControllerWithIdentifier:@"SelectedShareRangeNav"];
+    SelectedShareRangeViewController *rangeVC = (SelectedShareRangeViewController*)[shareRangeVC.viewControllers firstObject];
+    rangeVC.isForOthers = YES;
+    rangeVC.delegate = self;
+    
+    UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:shareRangeVC];
+    
+    UIBarButtonItem *barButtonItem =[[UIBarButtonItem alloc] initWithCustomView:sender];
+    [popover presentPopoverFromBarButtonItem:barButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+
+}
+- (IBAction)cancel:(UIBarButtonItem *)sender
+{
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+- (IBAction)save:(UIButton *)sender
+{
+    TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
+   NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
+    [MessageObject messageObjectWithUsrStr:doctor.dID pwdStr:@"test"iHMsgSocket:self.socket optInt:1509 sync_version:1.0 dictionary:dict block:^(IHSockRequest *request) {
+        
+    } failConection:^(NSError *error) {
+        
+    }];
+   
+}
+-(NSDictionary*)prepareForSave
+{
+    //doctor
+    TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
+    NSString *dID = StringValue(doctor.dID);
+    NSString *dName = StringValue(doctor.dName);
+    NSString *dProfessionalTitle= StringValue(doctor.dProfessionalTitle);
+    NSString *dept = StringValue(doctor.dept);
+    NSString *medicalTeam = StringValue(doctor.medicalTeam);
+    
+    
+    NSString *sharedType;
+    NSArray *sharedUser = @[];
+    NSArray *sharedDept = @[];
+    if (self.sharedUser.count == 0) {
+        sharedType = @"";
+        sharedUser = @[];
+    }else {
+        sharedType = [self.sharedUser objectForKey:@"sharedType"];
+        if ([sharedType integerValue]) {
+            sharedDept = [NSArray arrayWithArray:[self.sharedUser objectForKey:@"sharedUser"]];
+        }else {
+            sharedUser = [NSArray arrayWithArray:[self.sharedUser objectForKey:@"sharedUser"]];
+        }
+    }
+    
+    NSString *commit = [self.warningDict objectForKey:@"commit"];
+    NSString *detailInfoText = [self.warningDict objectForKey:@"detailInfoText"];
+    NSString *warningDate = [self.warningDict objectForKey:@"warningDate"];
+    
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:dID forKey:@"ih_doctor_id"];
+    [dict setObject:dName forKey:@"ih_doctor_nam"];
+    [dict setObject:dProfessionalTitle forKey:@"ih_doctor_pro"];
+    [dict setObject:dept forKey:@"ih_doctor_dept"];
+    [dict setObject:medicalTeam forKey:@"ih_doctor_med"];
+    
+    [dict setObject:sharedType forKey:@"ih_sharedtyp"];
+    [dict setObject:sharedUser forKey:@"ih_sharedusr"];
+    
+    [dict setObject:warningDate forKey:@"ih_alert_time"];
+    [dict setObject:detailInfoText forKey:@"ih_alert_cont"];
+    [dict setObject:commit forKey:@"ih_alert_com"];
+    
+    [dict setObject:dID forKey:@"ih_alert_usr"];
+    
+    [dict setObject:self.noteType forKey:@"ih_note_type"];
+    
+   //NSDictionary *noteContentDict = @{@"ih_note_text":self.noteContent};
+   //[dict setObject:noteContentDict forKey:@"ih_contents"];
+    
+    return dict;
+}
+#pragma mask - SelectedShareRangeViewControllerDelegate
+-(void)didSelectedSharedUsers:(NSDictionary *)sharedUser
+{
+    //分享
+    self.sharedUser = [NSDictionary dictionaryWithDictionary:sharedUser];
+
+}
+#pragma mask - warning delegate
+-(void)didSelectedDateString:(NSDictionary *)dict
+{
+    //提醒
+    self.warningDict = [[NSDictionary alloc] initWithDictionary:dict];
+
+}
 
 #pragma mask - view controller life cycle
 - (void)viewDidLoad {
@@ -262,11 +367,6 @@
     [headerView addSubview:dateLabel];
 }
 
-#pragma mask - warning delegate
--(void)didSelectedDateString:(NSDictionary *)dict
-{
-    
-}
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -311,4 +411,14 @@
     }
     return _noteType;
 }
+    -(IHMsgSocket *)socket
+    {
+        if (!_socket) {
+            _socket = [IHMsgSocket sharedRequest];
+            if (![[_socket IHGCDSocket].asyncSocket isConnected]) {
+                [_socket connectToHost:@"192.168.10.106" onPort:2323];
+            }
+        }
+        return _socket;
+    }
 @end

@@ -58,9 +58,21 @@
                                     <action selector="auditButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="a1w-p5-Tn4"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jir-Aq-sXg">
+                                <rect key="frame" x="277" y="410" width="60" height="30"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" title="测试笔记">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="textNote:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8fR-8H-TxC"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="jir-Aq-sXg" firstAttribute="leading" secondItem="IWS-04-xBZ" secondAttribute="leading" id="86N-JU-va2"/>
+                            <constraint firstItem="jir-Aq-sXg" firstAttribute="top" secondItem="DKC-Z3-ceE" secondAttribute="bottom" constant="35" id="Ed2-3G-3kR"/>
                             <constraint firstAttribute="centerY" secondItem="67N-jK-FLq" secondAttribute="centerY" constant="-1.5" id="LLF-Da-qmM"/>
                             <constraint firstAttribute="centerX" secondItem="DKC-Z3-ceE" secondAttribute="centerX" id="OhV-7M-vqg"/>
                             <constraint firstItem="iTh-M3-N6U" firstAttribute="leading" secondItem="67N-jK-FLq" secondAttribute="trailing" constant="37" id="QHU-jj-Riz"/>
