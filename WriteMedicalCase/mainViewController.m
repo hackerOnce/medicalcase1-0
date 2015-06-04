@@ -13,7 +13,7 @@
 #import "RecordNavagationViewController.h"
 
 @interface mainViewController ()
-
+@property (nonatomic,strong) NSMutableArray *array;
 @end
 
 @implementation mainViewController
@@ -75,8 +75,27 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.array = [[NSMutableArray alloc] init];
+    [self pathForTemporaryFileWithPrefix:@"XXX"];
+    [self pathForTemporaryFileWithPrefix:@"XXX"];
+
+}
+- (NSString *)pathForTemporaryFileWithPrefix:(NSString *)prefix
+{
+    NSString *  result;
+    CFUUIDRef   uuid;
+    CFStringRef uuidStr;
+    
+    uuid = CFUUIDCreate(NULL);
+    assert(uuid != NULL);
+    
+    uuidStr = CFUUIDCreateString(NULL, uuid);
+    assert(uuidStr != NULL);
+    
+    result = [NSString stringWithFormat:@"%@",uuidStr];
+    
+    return result;
     
 }
-
 
 @end

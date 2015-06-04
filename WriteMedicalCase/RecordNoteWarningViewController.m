@@ -13,6 +13,10 @@
 @property (weak, nonatomic) IBOutlet UITextView *detailInfoTextView;
 
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *commitTextViewHeightContraintes;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *detailTextViewHeightConstraints;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *datePickerHeightConstraints;
+
 
 @property (nonatomic,strong) NSString *selectedDateString;
 
@@ -51,6 +55,10 @@
 -(void)keyBoardWillHide:(NSNotification*)notificaion
 {
     self.datePicker.hidden = NO;
+    self.datePickerHeightConstraints.constant = 216;
+    self.detailTextViewHeightConstraints.constant = 103;
+    self.commitTextViewHeightContraintes.constant = 103;
+
 }
 
 - (IBAction)cancel:(UIBarButtonItem *)sender
@@ -83,10 +91,18 @@
 }
 -(BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
+    
+    if (textView == self.commentsTextView) {
+        self.datePickerHeightConstraints.constant = 0;
+        self.detailTextViewHeightConstraints.constant = 0;
+    }else {
+        self.datePickerHeightConstraints.constant = 0;
+        self.commitTextViewHeightContraintes.constant = 0;
+
+    }
     self.datePicker.hidden = YES;
     return YES;
 }
-
 /*
 #pragma mark - Navigation
 

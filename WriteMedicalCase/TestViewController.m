@@ -17,6 +17,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSDictionary *dict = @{@"dID":@"2343",@"dName":@"王XX"};
+
+    [TempDoctor setSharedDoctorWithDict:dict];
 }
 
 - (void)didReceiveMemoryWarning {

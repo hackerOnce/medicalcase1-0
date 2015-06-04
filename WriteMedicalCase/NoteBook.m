@@ -2,13 +2,12 @@
 //  NoteBook.m
 //  WriteMedicalCase
 //
-//  Created by ihefe-JF on 15/6/3.
+//  Created by ihefe-JF on 15/6/4.
 //  Copyright (c) 2015年 GK. All rights reserved.
 //
 
 #import "NoteBook.h"
 #import "NoteContent.h"
-#import "NoteIndex.h"
 
 
 @implementation NoteBook
@@ -22,11 +21,10 @@
 @dynamic dName;
 @dynamic createDate;
 @dynamic updateDate;
-@dynamic noteIndex;
+@dynamic noteUUID;
 @dynamic contents;
 +(NSString*)entityName
 {
     return @"NoteBook";
 }
-
 @end

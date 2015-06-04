@@ -10,6 +10,7 @@
 #import "RecordNoteCreateCellTableViewCell.h"
 #import "RecordNoteWarningViewController.h"
 #import "SelectedShareRangeViewController.h"
+#import "TemplateNoteContent.h"
 
 @interface RecordNoteCreateForCaseViewController ()<RecordNoteCreateCellTableViewCellDelegate,UITableViewDataSource,UITableViewDelegate,RecordNoteWarningViewControllerDelegate,SelectedShareRangeViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -29,10 +30,23 @@
 //prepare for save note
 @property (nonatomic,strong) NSDictionary *sharedUser;
 @property (nonatomic,strong) NSDictionary *warningDict;
+
+@property (nonatomic,strong) NSDictionary *contentDict;
+
+@property (nonatomic,strong) NoteBook *note;
+
+@property (nonatomic,strong) CoreDataStack *coreDataStack;
 @end
 
 @implementation RecordNoteCreateForCaseViewController
 
+
+#pragma mask - core data stack
+-(CoreDataStack *)coreDataStack
+{
+    _coreDataStack = [[CoreDataStack alloc] init];
+    return _coreDataStack;
+}
 - (IBAction)sharedClicked:(UIButton *)sender
 {
    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"CreateTemplateStoryboard" bundle:nil];
@@ -51,7 +65,7 @@
 - (IBAction)cancel:(UIBarButtonItem *)sender
 {
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+  //  [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (IBAction)save:(UIButton *)sender
 {
@@ -67,13 +81,13 @@
 -(NSDictionary*)prepareForSave
 {
     //doctor
+    
     TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
     NSString *dID = StringValue(doctor.dID);
     NSString *dName = StringValue(doctor.dName);
     NSString *dProfessionalTitle= StringValue(doctor.dProfessionalTitle);
     NSString *dept = StringValue(doctor.dept);
     NSString *medicalTeam = StringValue(doctor.medicalTeam);
-    
     
     NSString *sharedType;
     NSArray *sharedUser = @[];
@@ -90,9 +104,18 @@
         }
     }
     
-    NSString *commit = [self.warningDict objectForKey:@"commit"];
-    NSString *detailInfoText = [self.warningDict objectForKey:@"detailInfoText"];
-    NSString *warningDate = [self.warningDict objectForKey:@"warningDate"];
+    NSString *commit;
+    NSString *detailInfoText;
+    NSString *warningDate;
+    if (self.warningDict) {
+        commit = [self.warningDict objectForKey:@"commit"];
+        detailInfoText = [self.warningDict objectForKey:@"detailInfoText"];
+        warningDate = [self.warningDict objectForKey:@"warningDate"];
+    }else {
+        commit = @"";
+        detailInfoText=@"";
+        warningDate = @"";
+    }
     
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     [dict setObject:dID forKey:@"ih_doctor_id"];
@@ -112,11 +135,19 @@
     
     [dict setObject:self.noteType forKey:@"ih_note_type"];
     
-   //NSDictionary *noteContentDict = @{@"ih_note_text":self.noteContent};
-   //[dict setObject:noteContentDict forKey:@"ih_contents"];
+    //NSDictionary *noteContentDict = @{@"ih_note_text":self.noteContent,@"audio":@"",@"images":@""};
+    
+    
+    //[dict setObject:noteContentDict forKey:@"ih_contents"];
+    
+    [dict setObject:@"" forKey:@"ih_contento"];
+    [dict setObject:@"" forKey:@"ih_contenta"];
+    [dict setObject:@"" forKey:@"ih_contentp"];
+    
     
     return dict;
 }
+
 #pragma mask - SelectedShareRangeViewControllerDelegate
 -(void)didSelectedSharedUsers:(NSDictionary *)sharedUser
 {
@@ -137,6 +168,21 @@
     [super viewDidLoad];
     
     [self setUpTableView];
+
+    NSMutableDictionary *createDict =[[NSMutableDictionary alloc] init];
+    [createDict setObject:@"2334" forKey:@"dID"];
+    [createDict setObject:@"" forKey:@"caseContentS"];
+    
+    for (NSString *value in @[@"S",@"O",@"A",@"P"]) {
+        NSMutableDictionary *tempDict = [[NSMutableDictionary alloc] init];
+        [tempDict setObject:@"" forKey:@"content"];
+        [tempDict setObject:value forKey:@"contentType"];
+        [createDict setObject:tempDict forKey:[NSString stringWithFormat:@"noteContent%@",value]];
+    }
+    self.note = [self.coreDataStack noteBookFetchWithDict:createDict];
+    if (self.note) {
+        [self.tableView reloadData];
+    }
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -284,8 +330,12 @@
 -(void)textViewCell:(RecordNoteCreateCellTableViewCell *)cell didChangeText:(NSString *)text
 {
     NSIndexPath *indexPath = [[self tableView] indexPathForCell:cell];
-    NSString *keyString = [self.keyArray objectAtIndex:indexPath.row];
-    [self.dataSourceDict setObject:text forKey:keyString];
+    
+    NoteContent *noteContent = [self.note.contents objectAtIndex:indexPath.row];
+    noteContent.updatedContent = text;
+    [self.coreDataStack saveContext];
+   // NSString *keyString = [self.keyArray objectAtIndex:indexPath.row];
+   // [self.dataSourceDict setObject:text forKey:keyString];
 }
 -(void)textViewDidBeginEditing:(UITextView *)textView withCellIndexPath:(NSIndexPath *)indexPath
 {
@@ -303,7 +353,7 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-   return self.dataSourceDict.count;
+   return self.note.contents.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -317,12 +367,14 @@
 {
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     UITextView *textView = (UITextView*)[cell viewWithTag:1002];
-    NSString *keyString = [self.keyArray objectAtIndex:indexPath.row];
+  //  NSString *keyString = [self.keyArray objectAtIndex:indexPath.row];
     UITextField *placeHolder =(UITextField*)[cell viewWithTag:1001];
     NSString *placeHolderString =[self.keyArray objectAtIndex:indexPath.row];
     placeHolder.placeholder = placeHolderString;
-
-    textView.text = StringValue([self.dataSourceDict objectForKey:keyString]);
+    
+    //textView.text = StringValue([self.dataSourceDict objectForKey:keyString]);
+    NoteContent *noteContent = [self.note.contents objectAtIndex:indexPath.row];
+    textView.text = StringValue(noteContent.updatedContent);
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -374,6 +426,7 @@
         
         RecordNoteWarningViewController *recordWarningVC =(RecordNoteWarningViewController*) [self expectedViewController:segue.destinationViewController];
         recordWarningVC.delegate = self;
+        recordWarningVC.preferredContentSize = CGSizeMake(320, 500);
     }
 }
 -(UIViewController*)expectedViewController:(UIViewController*)viewController
@@ -420,14 +473,28 @@
     }
     return _noteType;
 }
-    -(IHMsgSocket *)socket
-    {
-        if (!_socket) {
-            _socket = [IHMsgSocket sharedRequest];
-            if (![[_socket IHGCDSocket].asyncSocket isConnected]) {
-                [_socket connectToHost:@"192.168.10.106" onPort:2323];
-            }
+-(IHMsgSocket *)socket
+{
+    if (!_socket) {
+        _socket = [IHMsgSocket sharedRequest];
+        if (![[_socket IHGCDSocket].asyncSocket isConnected]) {
+            [_socket connectToHost:@"192.168.10.106" onPort:2323];
         }
-        return _socket;
     }
+    return _socket;
+}
+-(NSDictionary *)contentDict
+{
+    if (!_contentDict) {
+        
+         //NSArray *tempArray = [[NSArray alloc] initWithArray:[self noteKeyArray];
+        
+                              
+    }
+    return _contentDict;
+}
+-(NSArray*)noteKeyArray
+{
+    return @[@"noteContentS",@"noteContentO",@"noteContentP",@"noteContentA"];
+}
 @end

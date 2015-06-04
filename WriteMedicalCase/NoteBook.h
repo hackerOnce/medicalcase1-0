@@ -2,14 +2,14 @@
 //  NoteBook.h
 //  WriteMedicalCase
 //
-//  Created by ihefe-JF on 15/6/3.
+//  Created by ihefe-JF on 15/6/4.
 //  Copyright (c) 2015年 GK. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class NoteContent, NoteIndex;
+@class NoteContent;
 
 @interface NoteBook : NSManagedObject
 
@@ -22,8 +22,9 @@
 @property (nonatomic, retain) NSString * dName;
 @property (nonatomic, retain) NSString * createDate;
 @property (nonatomic, retain) NSString * updateDate;
-@property (nonatomic, retain) NSNumber * noteIndex;
+@property (nonatomic, retain) NSString * noteUUID;
 @property (nonatomic, retain) NSOrderedSet *contents;
+
 @end
 
 @interface NoteBook (CoreDataGeneratedAccessors)

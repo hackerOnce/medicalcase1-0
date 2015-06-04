@@ -33,6 +33,9 @@
         <attribute name="data" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="dataType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mediaID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mediaNameString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mediaURLString" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="noteID" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NoteContent" inverseName="medias" inverseEntity="NoteContent" syncable="YES"/>
     </entity>
@@ -53,23 +56,21 @@
         <attribute name="dID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="noteID" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="noteIndex" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="notePatientID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="notePatientName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="noteTitle" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="noteType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="noteUUID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="updateDate" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="contents" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="NoteContent" inverseName="noteBook" inverseEntity="NoteContent" syncable="YES"/>
     </entity>
     <entity name="NoteContent" representedClassName="NoteContent" syncable="YES">
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="contentIndex" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contentType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updatedContent" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="medias" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="MediaData" inverseName="owner" inverseEntity="MediaData" syncable="YES"/>
         <relationship name="noteBook" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NoteBook" inverseName="contents" inverseEntity="NoteBook" syncable="YES"/>
-    </entity>
-    <entity name="NoteIndex" representedClassName="NoteIndex" syncable="YES">
-        <attribute name="dID" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="index" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
     </entity>
     <entity name="ParentNode" representedClassName="ParentNode" syncable="YES">
         <attribute name="nodeName" optional="YES" attributeType="String" syncable="YES"/>
@@ -154,8 +155,7 @@
         <element name="SharedUser" positionX="36" positionY="189" width="128" height="75"/>
         <element name="Template" positionX="18" positionY="63" width="128" height="240"/>
         <element name="NoteBook" positionX="-9" positionY="135" width="128" height="210"/>
-        <element name="NoteContent" positionX="0" positionY="144" width="128" height="105"/>
-        <element name="MediaData" positionX="9" positionY="153" width="128" height="120"/>
-        <element name="NoteIndex" positionX="18" positionY="162" width="128" height="75"/>
+        <element name="NoteContent" positionX="0" positionY="144" width="128" height="135"/>
+        <element name="MediaData" positionX="9" positionY="153" width="128" height="165"/>
     </elements>
 </model>

@@ -60,7 +60,6 @@
 #import "NoteBook.h"
 #import "NoteContent.h"
 #import "MediaData.h"
-#import "NoteIndex.h"
 
 
 #pragma mark - hud

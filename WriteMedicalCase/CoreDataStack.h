@@ -10,7 +10,8 @@
 #import <CoreData/CoreData.h>
 #import "RecordBaseInfo.h"
 #import "ParentNode.h"
-
+#import "MediaData.h"
+#import "NoteBook.h"
 @interface CoreDataStack : NSObject
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
@@ -37,5 +38,8 @@
 
 -(void)updateCaseContent:(CaseContent*)caseContent dataWithDict:(NSDictionary*)dict;
 
+
+-(MediaData*)mediaDataCreateWithDict:(NSDictionary*)dict;
+-(NoteBook*)noteBookFetchWithDict:(NSDictionary*)dict;
 
 @end

@@ -2,7 +2,7 @@
 //  MediaData.m
 //  WriteMedicalCase
 //
-//  Created by ihefe-JF on 15/6/3.
+//  Created by ihefe-JF on 15/6/4.
 //  Copyright (c) 2015年 GK. All rights reserved.
 //
 
@@ -17,6 +17,9 @@
 @dynamic noteID;
 @dynamic data;
 @dynamic owner;
+@dynamic mediaURLString;
+@dynamic mediaNameString;
+@dynamic mediaID;
 +(NSString*)entityName
 {
     return @"MediaData";

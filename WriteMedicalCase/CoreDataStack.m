@@ -705,96 +705,204 @@ static NSString *momdName = @"Model";
 
 
 ///for note book
--(void)noteBookCreateWithDict:(NSDictionary*)dict
+-(NoteBook*)noteBookFetchWithDict:(NSDictionary*)dict
 {
     NSString *dID;
+    NSString *noteUUID;
+    NSString *noteID;
+    NSPredicate *predicate;
     
     if ([dict.allKeys containsObject:@"dID"]) {
         dID = [dict objectForKey:@"dID"];
-    }else {
-        NSLog(@"创建笔记必须包含医生ID");
-        abort();
     }
-    NoteIndex *nodeIndex = [self nodeIndexFetchWithDict:dict];
-    
-    if (nodeIndex) {
-        nodeIndex.index =[NSNumber numberWithInteger:[[nodeIndex.index integerValue] + 1 ]];
-        [self saveContext];
-        
-        
-        
-        NSEntityDescription *entityDesc = [NSEntityDescription entityForName: [NoteBook entityName]inManagedObjectContext:self.managedObjectContext];
-        NoteBook *note = [[NoteBook alloc] initWithEntity:entityDesc insertIntoManagedObjectContext:self.managedObjectContext];
-        note.noteIndex = nodeIndex.index;
-        
-        [self updateNote:note withDict:dict];
+    assert(dID != nil);
 
-    }
-    
-    
-    
-    [self saveContext];
-    
-}
--(NoteIndex*)noteIndexCreateWithDict:(NSDictionary*)dict
-{
-    NSString *dID;
-    
-    if ([dict.allKeys containsObject:@"dID"]) {
-        dID = [dict objectForKey:@"dID"];
-    }else {
-        NSLog(@"创建笔记必须包含医生ID");
-        abort();
-    }
-    NSEntityDescription *entityDesc = [NSEntityDescription entityForName: [NoteIndex entityName]inManagedObjectContext:self.managedObjectContext];
-    NoteIndex *noteIndex = [[NoteIndex alloc] initWithEntity:entityDesc insertIntoManagedObjectContext:self.managedObjectContext];
-    
-    if ([dict.allKeys containsObject:@"dID"]) {
-        noteIndex.dID = dict[@"dID"];
-    }
-     noteIndex.index = @(0);
-    
-    [self saveContext];
-    
-    return noteIndex;
-}
--(NoteIndex*)nodeIndexFetchWithDict:(NSDictionary*)dict
-{
-    NSString *dID;
-    
-    if ([dict.allKeys containsObject:@"dID"]) {
-        dID = [dict objectForKey:@"dID"];
-    }else {
-        NSLog(@"必须包含医生ID");
-        abort();
-    }
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dID = %@",dID];
+    NSMutableDictionary *tempDict = [[NSMutableDictionary alloc] initWithDictionary:dict];
 
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[NoteIndex entityName]];
+    if ([dict.allKeys containsObject:@"noteID"]) {
+        
+        noteID = dict[@"noteID"];
+        assert(noteID!=nil);
+        predicate = [NSPredicate predicateWithFormat:@"dID=%@ AND noteID=%@",dID,noteID];
+
+    }else {
+        noteUUID = [self noteUUIDForNoteIdentifier];
+        assert(noteUUID != nil);
+
+        predicate = [NSPredicate predicateWithFormat:@"dID=%@ AND noteUUID=%@",dID,noteUUID];
+        [tempDict setObject:tempDict forKey:@"noteUUID"];
+    }
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[NoteBook entityName]];
     request.predicate = predicate;
-
+    
     NSError *error;
     NSArray *tempArray = [self.managedObjectContext executeFetchRequest:request error:&error];
-
-    if(error){
-       NSLog(@"fetch error %@",error.description);
-    }
     if (tempArray.count == 0) {
-       return [self noteIndexCreateWithDict:dict];
+       return [self noteBookCreateWithDict:tempDict];
     }else {
-        if (tempArray.count == 1) {
-            NoteIndex *tempIndex = (NoteIndex*)[tempArray firstObject];
-            if ([dict.allKeys containsObject:@"index"]) {
-                tempIndex.index =[NSNumber numberWithInteger:[dict[@"index"] integerValue]];
-            }
-            [self saveContext];
-            return tempIndex;
-        }else {
-            return nil;
-        }
+        assert(tempArray.count == 1);
+        NoteBook *note = (NoteBook*)[tempArray firstObject];
         
+        [self updateNote:note withDict:tempDict];
+        for (NoteContent *noteContent in note.contents) {
+            
+            if ([tempDict.allKeys containsObject:noteContent.contentType]) {
+                NSDictionary *noteContentDict = tempDict[noteContent.contentType];
+                [self updateNoteContent:noteContent WithDict:noteContentDict];
+                
+            }
+            
+        }
+        return note;
     }
+    
+}
 
+-(NoteBook*)noteBookCreateWithDict:(NSDictionary*)dict
+{
+    NSString *dID;
+    NSString *noteUUID;
+    
+    if ([dict.allKeys containsObject:@"dID"]) {
+        dID = [dict objectForKey:@"dID"];
+    }
+    assert(dID);
+
+    if ([dict.allKeys containsObject:@"noteUUID"]) {
+        noteUUID = [dict objectForKey:@"noteUUID"];
+        assert(noteUUID != nil);
+
+    }
+    
+    NSEntityDescription *entityDesc = [NSEntityDescription entityForName: [NoteBook entityName]inManagedObjectContext:self.managedObjectContext];
+    NoteBook *note = [[NoteBook alloc] initWithEntity:entityDesc insertIntoManagedObjectContext:self.managedObjectContext];
+    
+    NSMutableOrderedSet *orderSet = [[NSMutableOrderedSet alloc] initWithOrderedSet:note.contents];
+    
+    
+    if ([dict.allKeys containsObject:@"noteContentS"]) {
+        NSDictionary *tempDict = dict[@"noteContentS"];
+        NoteContent *noteContent = [self noteContentCreateWithDict:tempDict];
+        [orderSet addObject:noteContent];
+    }
+    if ([dict.allKeys containsObject:@"noteContentO"]) {
+        NSDictionary *tempDict = dict[@"noteContentO"];
+        NoteContent *noteContent = [self noteContentCreateWithDict:tempDict];
+        [orderSet addObject:noteContent];
+    }
+    if ([dict.allKeys containsObject:@"noteContentA"]) {
+        NSDictionary *tempDict = dict[@"noteContentA"];
+        NoteContent *noteContent = [self noteContentCreateWithDict:tempDict];
+        [orderSet addObject:noteContent];
+    }
+    if ([dict.allKeys containsObject:@"noteContentP"]) {
+        NSDictionary *tempDict = dict[@"noteContentP"];
+        NoteContent *noteContent = [self noteContentCreateWithDict:tempDict];
+        [orderSet addObject:noteContent];
+      //  noteContent.noteBook = note;
+    }
+    
+    
+    note.contents = [[NSOrderedSet alloc] initWithOrderedSet:orderSet];
+   
+    
+    [self updateNote:note withDict:dict];
+    
+    [self saveContext];
+    
+    return note;
+    
+}
+-(NoteContent*)noteContentCreateWithDict:(NSDictionary*)dict
+{
+    NSEntityDescription *entityContent = [NSEntityDescription entityForName: [NoteContent entityName]inManagedObjectContext:self.managedObjectContext];
+    NoteContent *noteContent = [[NoteContent alloc] initWithEntity:entityContent insertIntoManagedObjectContext:self.managedObjectContext];
+    [self updateNoteContent:noteContent WithDict:dict];
+    
+    if ([dict.allKeys containsObject:@"medias"]) {
+        
+        NSArray *tempArray = (NSArray*)dict[@"medias"];
+        for (NSDictionary *medict in tempArray) {
+           MediaData *mediaData = [self mediaDataCreateWithDict:medict];
+            mediaData.owner = noteContent;
+        }
+    }
+    
+    [self saveContext];
+    
+    return noteContent;
+}
+-(MediaData*)mediaDataCreateWithDict:(NSDictionary*)dict
+{
+    NSEntityDescription *entityContent = [NSEntityDescription entityForName: [MediaData entityName]inManagedObjectContext:self.managedObjectContext];
+    MediaData *mediaData = [[MediaData alloc] initWithEntity:entityContent insertIntoManagedObjectContext:self.managedObjectContext];
+    [self updateMediaData:mediaData withDict:dict];
+    [self saveContext];
+    
+    return mediaData;
+}
+-(void)updateMediaData:(MediaData*)mediaData withDict:(NSDictionary*)dict
+{
+    if ([dict.allKeys containsObject:@"dataType"]) {
+        mediaData.dataType = dict[@"dataType"];
+    }
+    if ([dict.allKeys containsObject:@"location"]) {
+        mediaData.location = dict[@"location"];
+    }
+    if ([dict.allKeys containsObject:@"data"]) {
+        mediaData.data = dict[@"data"];
+    }
+    if ([dict.allKeys containsObject:@"noteID"]) {
+        mediaData.noteID = dict[@"noteID"];
+    }
+    if ([dict.allKeys containsObject:@"mediaURLString"]) {
+        mediaData.mediaURLString = dict[@"mediaURLString"];
+    }
+    if ([dict.allKeys containsObject:@"mediaNameString"]) {
+        mediaData.mediaURLString = dict[@"mediaNameString"];
+    }
+    if ([dict.allKeys containsObject:@"mediaID"]) {
+        mediaData.mediaID = dict[@"mediaID"];
+    }
+    
+}
+-(void)updateNoteContent:(NoteContent*)noteContent WithDict:(NSDictionary*)dict
+{
+    if ([dict.allKeys containsObject:@"content"]){
+        noteContent.content = [dict objectForKey:@"content"];
+    }
+    if ([dict.allKeys containsObject:@"contentType"]) {
+        noteContent.contentType = [dict objectForKey:@"contentType"];
+        noteContent.contentIndex = [[self contentIndexDict] objectForKey:@"contentType"];
+    }
+    if ([dict.allKeys containsObject:@"updatedContent"]){
+        noteContent.updatedContent = [dict objectForKey:@"updatedContent"];
+    }else {
+        noteContent.updatedContent = noteContent.content;
+    }
+}
+-(NSDictionary*)contentIndexDict
+{
+    return @{@"S":@(0),@"O":@(1),@"A":@(2),@"P":@(3)};
+}
+- (NSString *)noteUUIDForNoteIdentifier
+{
+    NSString *  result;
+    CFUUIDRef   uuid;
+    CFStringRef uuidStr;
+    
+    uuid = CFUUIDCreate(NULL);
+    assert(uuid != NULL);
+    
+    uuidStr = CFUUIDCreateString(NULL, uuid);
+    assert(uuidStr != NULL);
+    
+    result = [NSString stringWithFormat:@"%@",uuidStr];
+    
+    assert(result != nil);
+    return result;
+    
 }
 -(void)updateNote:(NoteBook*)note withDict:(NSDictionary*)dict
 {
@@ -835,5 +943,8 @@ static NSString *momdName = @"Model";
         note.contents = [dict objectForKey:@"contents"];
     }
     
+    if ([dict.allKeys containsObject:@"noteUUID"]) {
+        note.noteUUID = [dict objectForKey:@"noteUUID"];
+    }
 }
 @end
