@@ -726,12 +726,15 @@ static NSString *momdName = @"Model";
         predicate = [NSPredicate predicateWithFormat:@"dID=%@ AND noteID=%@",dID,noteID];
 
     }else {
+        
         noteUUID = [self noteUUIDForNoteIdentifier];
         assert(noteUUID != nil);
-
+        
         predicate = [NSPredicate predicateWithFormat:@"dID=%@ AND noteUUID=%@",dID,noteUUID];
-        [tempDict setObject:tempDict forKey:@"noteUUID"];
+        [tempDict setObject:noteUUID forKey:@"noteUUID"];
     }
+    
+    [[NSUserDefaults standardUserDefaults] setObject:noteUUID forKey:@"noteUUID"];
     
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[NoteBook entityName]];
     request.predicate = predicate;
@@ -750,13 +753,10 @@ static NSString *momdName = @"Model";
             if ([tempDict.allKeys containsObject:noteContent.contentType]) {
                 NSDictionary *noteContentDict = tempDict[noteContent.contentType];
                 [self updateNoteContent:noteContent WithDict:noteContentDict];
-                
             }
-            
         }
         return note;
     }
-    
 }
 
 -(NoteBook*)noteBookCreateWithDict:(NSDictionary*)dict
@@ -800,13 +800,11 @@ static NSString *momdName = @"Model";
         NSDictionary *tempDict = dict[@"noteContentP"];
         NoteContent *noteContent = [self noteContentCreateWithDict:tempDict];
         [orderSet addObject:noteContent];
-      //  noteContent.noteBook = note;
+      //noteContent.noteBook = note;
     }
-    
     
     note.contents = [[NSOrderedSet alloc] initWithOrderedSet:orderSet];
    
-    
     [self updateNote:note withDict:dict];
     
     [self saveContext];

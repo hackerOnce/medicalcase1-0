@@ -69,13 +69,13 @@
 }
 - (IBAction)save:(UIButton *)sender
 {
-    TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
-   NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
-    [MessageObject messageObjectWithUsrStr:doctor.dID pwdStr:@"test"iHMsgSocket:self.socket optInt:1509 sync_version:1.0 dictionary:dict block:^(IHSockRequest *request) {
-        
-    } failConection:^(NSError *error) {
-        
-    }];
+//   TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
+//   NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
+//    [MessageObject messageObjectWithUsrStr:doctor.dID pwdStr:@"test"iHMsgSocket:self.socket optInt:1509 sync_version:1.0 dictionary:dict block:^(IHSockRequest *request) {
+//        
+//    } failConection:^(NSError *error) {
+//        
+//    }];
    
 }
 -(NSDictionary*)prepareForSave
@@ -139,11 +139,9 @@
     
     
     //[dict setObject:noteContentDict forKey:@"ih_contents"];
-    
     [dict setObject:@"" forKey:@"ih_contento"];
     [dict setObject:@"" forKey:@"ih_contenta"];
     [dict setObject:@"" forKey:@"ih_contentp"];
-    
     
     return dict;
 }
@@ -179,6 +177,7 @@
         [tempDict setObject:value forKey:@"contentType"];
         [createDict setObject:tempDict forKey:[NSString stringWithFormat:@"noteContent%@",value]];
     }
+    
     self.note = [self.coreDataStack noteBookFetchWithDict:createDict];
     if (self.note) {
         [self.tableView reloadData];
@@ -367,7 +366,7 @@
 {
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     UITextView *textView = (UITextView*)[cell viewWithTag:1002];
-  //  NSString *keyString = [self.keyArray objectAtIndex:indexPath.row];
+    //NSString *keyString = [self.keyArray objectAtIndex:indexPath.row];
     UITextField *placeHolder =(UITextField*)[cell viewWithTag:1001];
     NSString *placeHolderString =[self.keyArray objectAtIndex:indexPath.row];
     placeHolder.placeholder = placeHolderString;
