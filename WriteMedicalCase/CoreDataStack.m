@@ -124,6 +124,7 @@ static NSString *momdName = @"Model";
     NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
     if (managedObjectContext != nil) {
         NSError *error = nil;
+        NSLog(@"changed:%@",@([managedObjectContext hasChanges]));
         if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
             // Replace this implementation with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -757,6 +758,9 @@ static NSString *momdName = @"Model";
         assert(noteID!=nil);
         predicate = [NSPredicate predicateWithFormat:@"dID=%@ AND noteID=%@",dID,noteID];
 
+    }else if([dict.allKeys containsObject:@"noteUUID"]){
+        noteUUID = dict[@"noteUUID"];
+        predicate = [NSPredicate predicateWithFormat:@"dID=%@ AND noteUUID=%@",dID,noteUUID];
     }else {
         
         noteUUID = [self noteUUIDForNoteIdentifier];
@@ -817,21 +821,25 @@ static NSString *momdName = @"Model";
         NSDictionary *tempDict = dict[@"noteContentS"];
         NoteContent *noteContent = [self noteContentCreateWithDict:tempDict];
         [orderSet addObject:noteContent];
+        noteContent.noteBook = note;
     }
     if ([dict.allKeys containsObject:@"noteContentO"]) {
         NSDictionary *tempDict = dict[@"noteContentO"];
         NoteContent *noteContent = [self noteContentCreateWithDict:tempDict];
         [orderSet addObject:noteContent];
+        noteContent.noteBook = note;
     }
     if ([dict.allKeys containsObject:@"noteContentA"]) {
         NSDictionary *tempDict = dict[@"noteContentA"];
         NoteContent *noteContent = [self noteContentCreateWithDict:tempDict];
         [orderSet addObject:noteContent];
+        noteContent.noteBook = note;
     }
     if ([dict.allKeys containsObject:@"noteContentP"]) {
         NSDictionary *tempDict = dict[@"noteContentP"];
         NoteContent *noteContent = [self noteContentCreateWithDict:tempDict];
         [orderSet addObject:noteContent];
+        noteContent.noteBook = note;
       //noteContent.noteBook = note;
     }
     

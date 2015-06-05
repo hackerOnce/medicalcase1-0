@@ -9,6 +9,16 @@
 
 @implementation RecordNoteCreateCellTableViewCell
 
+-(id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        UITextView *textView = (UITextView*)[self viewWithTag:1002];
+        textView.delegate = self;
+        NSLog(@"text view:%@",textView.delegate);
+    }
+    return self;
+}
 -(void)layoutSubviews
 {
     [super layoutSubviews];
@@ -16,8 +26,15 @@
     [self.contentView layoutIfNeeded];
     
     UITextView *textView = (UITextView*)[self viewWithTag:1002];
-    textView.delegate = self;
-    //textView.userInteractionEnabled  = NO;
+
+    UITextField *placeHolder = (UITextField*)[self viewWithTag:1001];
+
+    NSString *textViewText = [textView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if ([StringValue(textViewText) isEqualToString:@""]) {
+        placeHolder.hidden = NO;
+    }else {
+        placeHolder.hidden = YES;
+    }
 }
 
 -(void)textViewDidChange:(UITextView *)textView
@@ -42,21 +59,26 @@
     [tableView beginUpdates];
     [tableView endUpdates];
     
+    UITextField *placeHolder = (UITextField*)[self viewWithTag:1001];
+
     if ([textView.text isEqualToString:@""]) {
-        UITextField *placeHolder = (UITextField*)[self viewWithTag:1001];
 
         placeHolder.hidden = NO;
+    }else {
+        placeHolder.hidden = YES;
     }
     
 }
 -(void)textViewDidEndEditing:(UITextView *)textView
 {
+    UITextField *placeHolder = (UITextField*)[self viewWithTag:1001];
+
     if ([textView.text isEqualToString:@""]) {
-        UITextField *placeHolder = (UITextField*)[self viewWithTag:1001];
         placeHolder.hidden = NO;
+    }else {
+        placeHolder.hidden = YES;
+
     }
-   
-    
 }
 
 -(void)textViewDidBeginEditing:(UITextView *)textView

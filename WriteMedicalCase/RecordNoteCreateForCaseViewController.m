@@ -76,6 +76,13 @@
 //  }failConection:^(NSError *error) {
 //        
 //  }];
+    for (NoteContent *noteContent in self.note.contents) {
+        noteContent.content = noteContent.updatedContent;
+        NSLog(@"content:%@",noteContent.updatedContent);
+    }
+    
+    [self.coreDataStack saveContext];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(NSDictionary*)prepareForSave
 {
@@ -165,14 +172,16 @@
 
     NSMutableDictionary *createDict =[[NSMutableDictionary alloc] init];
     [createDict setObject:@"2334" forKey:@"dID"];
-    [createDict setObject:@"" forKey:@"caseContentS"];
+     //[createDict setObject:@"" forKey:@"caseContentS"];
     
     for (NSString *value in @[@"S",@"O",@"A",@"P"]) {
         NSMutableDictionary *tempDict = [[NSMutableDictionary alloc] init];
-        [tempDict setObject:@"" forKey:@"content"];
+        [tempDict setObject:@" " forKey:@"content"];
         [tempDict setObject:value forKey:@"contentType"];
         
         [createDict setObject:tempDict forKey:[NSString stringWithFormat:@"noteContent%@",value]];
+        
+        NSLog(@"noteContent:%@",[NSString stringWithFormat:@"noteContent%@",value]);
     }
     
     self.note = [self.coreDataStack noteBookFetchWithDict:createDict];
@@ -329,8 +338,7 @@
     
     NoteContent *noteContent = [self.note.contents objectAtIndex:indexPath.row];
     noteContent.updatedContent = text;
-    [self.coreDataStack saveContext];
-    
+    NSLog(@"note content:%@",noteContent.updatedContent);
 }
 -(void)textViewDidBeginEditing:(UITextView *)textView withCellIndexPath:(NSIndexPath *)indexPath
 {

@@ -43,13 +43,20 @@
     [super viewDidLoad];
     
     self.noteTitleArray = [[NSMutableArray alloc] initWithArray:[self.coreDataStack fetchNoteBooksWithDoctorID:@"2334"]];
+    
+    for (NoteBook *noteBook in self.noteTitleArray) {
+        
+        for (NoteContent *content in noteBook.contents) {
+            NSLog(@"content:%@",content.updatedContent);
+        }
+    }
     [self.tableView reloadData];
 }
 
 #pragma mask - table view delegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return self.noteTitleArray.count == 0?0:1;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -72,17 +79,18 @@
     NoteBook *note = (NoteBook*)[self.noteTitleArray objectAtIndex:indexPath.row];
     
     titleLabel.text = note.noteTitle;
-    createTimeLabel.text = @"5月28";
+    createTimeLabel.text = @"10:18";
+    [createTimeLabel sizeToFit];
     
-    NSLog(@"note title: %@,noteContent: %@,counts:%@",note.noteTitle,note.noteUUID,@(note.contents.count));
+    NSLog(@"note title: %@,noteContent: %@,counts:%@,UUID:%@",note.noteTitle,note.noteUUID,@(note.contents.count),note.noteUUID);
     
     NoteContent *noteContent = (NoteContent*)[note.contents objectAtIndex:0];
 
     NSString *contentString;
-    if (noteContent.content.length > 60) {
-        contentString =[NSString stringWithFormat:@"%@...",[noteContent.content substringToIndex:60]];
+    if (noteContent.updatedContent.length > 60) {
+        contentString =[NSString stringWithFormat:@"%@...",[noteContent.updatedContent substringToIndex:60]];
     }else {
-        contentString = noteContent.content;
+        contentString = noteContent.updatedContent;
     }
     contentPartLabel.text = contentString;
 }
@@ -102,7 +110,10 @@
 {
     return 30;
 }
-
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 60;
+}
 
 
 @end

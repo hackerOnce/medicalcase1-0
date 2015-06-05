@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-
 @interface RecordNoteCreateForCaseViewController : UIViewController
 
 @end

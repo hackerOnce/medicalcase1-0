@@ -71,7 +71,7 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="M7A-La-Xky" id="lpg-pR-AhG">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wDa-KA-AgH">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1002" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wDa-KA-AgH">
                                                     <rect key="frame" x="0.0" y="8" width="600" height="37"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -80,7 +80,7 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
-                                                <textField opaque="NO" clipsSubviews="YES" tag="1001" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="v7d-vc-5cB">
+                                                <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="v7d-vc-5cB">
                                                     <rect key="frame" x="8" y="12" width="584" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -194,39 +194,43 @@
                                 <rect key="frame" x="0.0" y="108" width="600" height="492"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="noteTitleCell" rowHeight="68" id="eGx-R1-IUR">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="noteTitleCell" rowHeight="60" id="eGx-R1-IUR">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eGx-R1-IUR" id="j33-6c-nSh">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="记事本标题" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aLf-cz-WdH">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="记事本标题" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aLf-cz-WdH" customClass="RWLabel">
                                                     <rect key="frame" x="8" y="8" width="85" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="21" id="A9y-PZ-5DF"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" red="0.34901960784313724" green="0.34901960784313724" blue="0.34901960784313724" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15：30" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rw2-By-r5d">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15：30" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rw2-By-r5d" customClass="RWLabel">
                                                     <rect key="frame" x="536" y="8" width="56" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.44313725490196076" green="0.66666666666666663" blue="0.92549019607843142" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cZ7-kq-7lg">
-                                                    <rect key="frame" x="8" y="37" width="584" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="1003" contentMode="left" horizontalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cZ7-kq-7lg" customClass="RWLabel">
+                                                    <rect key="frame" x="8" y="30" width="584" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" red="0.6470588235294118" green="0.6470588235294118" blue="0.6470588235294118" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="cZ7-kq-7lg" firstAttribute="leading" secondItem="j33-6c-nSh" secondAttribute="leadingMargin" id="2Km-2Y-7Ya"/>
-                                                <constraint firstItem="cZ7-kq-7lg" firstAttribute="top" secondItem="aLf-cz-WdH" secondAttribute="bottom" constant="8" id="L7W-W7-30l"/>
-                                                <constraint firstItem="aLf-cz-WdH" firstAttribute="top" secondItem="j33-6c-nSh" secondAttribute="topMargin" id="NW9-uH-8HQ"/>
-                                                <constraint firstItem="Rw2-By-r5d" firstAttribute="trailing" secondItem="j33-6c-nSh" secondAttribute="trailingMargin" id="WlT-lM-5jo"/>
-                                                <constraint firstItem="Rw2-By-r5d" firstAttribute="top" secondItem="j33-6c-nSh" secondAttribute="topMargin" id="XSH-eP-Ida"/>
-                                                <constraint firstItem="aLf-cz-WdH" firstAttribute="leading" secondItem="j33-6c-nSh" secondAttribute="leadingMargin" id="Zbi-f8-XSb"/>
-                                                <constraint firstItem="cZ7-kq-7lg" firstAttribute="trailing" secondItem="j33-6c-nSh" secondAttribute="trailingMargin" id="hAg-6d-06S"/>
+                                                <constraint firstItem="cZ7-kq-7lg" firstAttribute="leading" secondItem="j33-6c-nSh" secondAttribute="leadingMargin" id="6lK-QI-xcH"/>
+                                                <constraint firstItem="aLf-cz-WdH" firstAttribute="leading" secondItem="j33-6c-nSh" secondAttribute="leadingMargin" id="6w5-9Q-ksP"/>
+                                                <constraint firstItem="cZ7-kq-7lg" firstAttribute="trailing" secondItem="j33-6c-nSh" secondAttribute="trailingMargin" id="BAj-7m-Qbs"/>
+                                                <constraint firstItem="Rw2-By-r5d" firstAttribute="top" secondItem="j33-6c-nSh" secondAttribute="topMargin" id="d17-qU-GmR"/>
+                                                <constraint firstItem="cZ7-kq-7lg" firstAttribute="bottom" secondItem="j33-6c-nSh" secondAttribute="bottomMargin" id="fZb-0v-5jc"/>
+                                                <constraint firstItem="Rw2-By-r5d" firstAttribute="trailing" secondItem="j33-6c-nSh" secondAttribute="trailingMargin" id="jXC-VR-Znh"/>
+                                                <constraint firstItem="cZ7-kq-7lg" firstAttribute="top" secondItem="aLf-cz-WdH" secondAttribute="bottom" constant="1" id="pSM-Oc-0oA"/>
+                                                <constraint firstItem="aLf-cz-WdH" firstAttribute="top" secondItem="j33-6c-nSh" secondAttribute="topMargin" id="zih-vt-KiR"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -357,7 +361,7 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
-                                                <textField opaque="NO" clipsSubviews="YES" tag="1001" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pqE-3k-X4C">
+                                                <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1001" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pqE-3k-X4C">
                                                     <rect key="frame" x="8" y="12" width="584" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -850,7 +854,7 @@
         <image name="语音" width="28" height="27"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="2lp-wq-LHv"/>
         <segue reference="iQa-df-fEZ"/>
-        <segue reference="cZF-K1-2Q2"/>
     </inferredMetricsTieBreakers>
 </document>

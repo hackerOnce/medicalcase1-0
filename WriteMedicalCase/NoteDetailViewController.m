@@ -147,7 +147,13 @@
 #pragma mask - note show view controller delegate
 -(void)didSelectedANoteWithNoteID:(NSString *)noteID andCreateDoctorID:(NSString *)dID
 {
-    self.note = [self.coreDataStack noteBookFetchWithDict:@{@"noteID":noteID,@"dID":dID}];
+    self.note = [self.coreDataStack noteBookFetchWithDict:@{@"noteUUID":noteID,@"dID":dID}];
+    for (NoteContent *content in self.note.contents) {
+        NSLog(@"contentType: %@",content.contentType);
+        NSLog(@"contentType: %@",content.updatedContent);
+
+    }
+    NSLog(@"note UUID:%@",self.note.noteUUID);
     [self.tableView reloadData];
 }
 #pragma mask - SelectedShareRangeViewControllerDelegate
@@ -354,7 +360,7 @@
 #pragma mask - table view delegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return self.note.contents.count == 0? 0:1;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -381,6 +387,9 @@
     //textView.text = StringValue([self.dataSourceDict objectForKey:keyString]);
     NoteContent *noteContent = [self.note.contents objectAtIndex:indexPath.row];
     textView.text = StringValue(noteContent.updatedContent);
+    
+    [textView layoutSubviews];
+    NSLog(@"text: %@",textView.text);
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
