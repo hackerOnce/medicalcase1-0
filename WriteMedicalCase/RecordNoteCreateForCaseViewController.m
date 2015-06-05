@@ -140,15 +140,29 @@
     
     [dict setObject:self.noteType forKey:@"ih_note_type"];
     
-    //NSDictionary *noteContentDict = @{@"ih_note_text":self.noteContent,@"audio":@"",@"images":@""};
-    //[dict setObject:noteContentDict forKey:@"ih_contents"];
+    
+    
+    for (NoteContent *noteContent in self.note.contents) {
+        NSMutableDictionary *tempDict = [[NSMutableDictionary alloc] init];
+        [tempDict setObject:noteContent.updatedContent forKey:@"ih_note_text"];
+        [tempDict setObject:nil forKey:@"audio"];
+        [tempDict setObject:nil forKey:@"audio"];
+
+        noteContent.content = noteContent.updatedContent;
+        NSLog(@"content:%@",noteContent.updatedContent);
+    }
+
     [dict setObject:@"" forKey:@"ih_contento"];
     [dict setObject:@"" forKey:@"ih_contenta"];
     [dict setObject:@"" forKey:@"ih_contentp"];
     
     return dict;
 }
-
+-(NSString*)contentTypeTransform:(NSString*)contents
+{
+    NSDictionary *contentDict = @{@"noteContentS":@"ih_contents",@"noteContentO":@"ih_contento",@"noteContentA":@"ih_contenta",@"noteContentP":@"ih_contentp"};
+    return contentDict[contents];
+}
 #pragma mask - SelectedShareRangeViewControllerDelegate
 -(void)didSelectedSharedUsers:(NSDictionary *)sharedUser
 {
@@ -370,12 +384,10 @@
 {
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     UITextView *textView = (UITextView*)[cell viewWithTag:1002];
-    //NSString *keyString = [self.keyArray objectAtIndex:indexPath.row];
     UITextField *placeHolder =(UITextField*)[cell viewWithTag:1001];
     NSString *placeHolderString =[self.keyArray objectAtIndex:indexPath.row];
     placeHolder.placeholder = placeHolderString;
     
-    //textView.text = StringValue([self.dataSourceDict objectForKey:keyString]);
     NoteContent *noteContent = [self.note.contents objectAtIndex:indexPath.row];
     textView.text = StringValue(noteContent.updatedContent);
 }
