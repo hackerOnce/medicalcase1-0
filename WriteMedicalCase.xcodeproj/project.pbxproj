@@ -80,6 +80,8 @@
 		472632221B20191300857B22 /* NoteContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 472632211B20191300857B22 /* NoteContent.m */; };
 		472632251B20191400857B22 /* MediaData.m in Sources */ = {isa = PBXBuildFile; fileRef = 472632241B20191400857B22 /* MediaData.m */; };
 		472632281B20191500857B22 /* NoteBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 472632271B20191500857B22 /* NoteBook.m */; };
+		4726322B1B21687F00857B22 /* NoteShowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4726322A1B21687F00857B22 /* NoteShowViewController.m */; };
+		4726322E1B21689800857B22 /* NoteDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4726322D1B21689800857B22 /* NoteDetailViewController.m */; };
 		47301D011AFB2483005D42CC /* mainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D001AFB2483005D42CC /* mainViewController.m */; };
 		47301D041AFB36AB005D42CC /* CurrentDoctor.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D031AFB36AB005D42CC /* CurrentDoctor.m */; };
 		47301D071AFB4104005D42CC /* CurrentPatient.m in Sources */ = {isa = PBXBuildFile; fileRef = 47301D061AFB4104005D42CC /* CurrentPatient.m */; };
@@ -300,6 +302,10 @@
 		472632241B20191400857B22 /* MediaData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaData.m; sourceTree = "<group>"; };
 		472632261B20191500857B22 /* NoteBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteBook.h; sourceTree = "<group>"; };
 		472632271B20191500857B22 /* NoteBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteBook.m; sourceTree = "<group>"; };
+		472632291B21687F00857B22 /* NoteShowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteShowViewController.h; sourceTree = "<group>"; };
+		4726322A1B21687F00857B22 /* NoteShowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteShowViewController.m; sourceTree = "<group>"; };
+		4726322C1B21689800857B22 /* NoteDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteDetailViewController.h; sourceTree = "<group>"; };
+		4726322D1B21689800857B22 /* NoteDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoteDetailViewController.m; sourceTree = "<group>"; };
 		47301CFF1AFB2483005D42CC /* mainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mainViewController.h; sourceTree = "<group>"; };
 		47301D001AFB2483005D42CC /* mainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mainViewController.m; sourceTree = "<group>"; };
 		47301D021AFB36AB005D42CC /* CurrentDoctor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentDoctor.h; sourceTree = "<group>"; };
@@ -800,6 +806,10 @@
 				472631DB1B1EC5EA00857B22 /* TempNote.h */,
 				472631DC1B1EC5EA00857B22 /* TempNote.m */,
 				475463701B1C257F0026E4AE /* RecordNote.storyboard */,
+				472632291B21687F00857B22 /* NoteShowViewController.h */,
+				4726322A1B21687F00857B22 /* NoteShowViewController.m */,
+				4726322C1B21689800857B22 /* NoteDetailViewController.h */,
+				4726322D1B21689800857B22 /* NoteDetailViewController.m */,
 				472631DE1B1EEA1100857B22 /* TestViewController.h */,
 				472631DF1B1EEA1100857B22 /* TestViewController.m */,
 				472631D81B1D874C00857B22 /* RecordNoteWarningViewController.h */,
@@ -991,6 +1001,7 @@
 			files = (
 				4705F0751AF1094C0050D47A /* SBJsonStreamWriterState.m in Sources */,
 				474D82B31AFC90FA004A4151 /* TemplateManagementViewController.m in Sources */,
+				4726322B1B21687F00857B22 /* NoteShowViewController.m in Sources */,
 				4705A43B1AF32BD7007FD2B9 /* TemplateDetailViewController.m in Sources */,
 				47301D141AFC67EA005D42CC /* RecordNavagationViewController.m in Sources */,
 				4705F0781AF1094C0050D47A /* SBJsonWriter.m in Sources */,
@@ -1099,6 +1110,7 @@
 				478858F21AF203B8002CD361 /* WriteCaseShowTemplateCell.m in Sources */,
 				4705F0721AF1094C0050D47A /* SBJsonStreamParserState.m in Sources */,
 				47301D041AFB36AB005D42CC /* CurrentDoctor.m in Sources */,
+				4726322E1B21689800857B22 /* NoteDetailViewController.m in Sources */,
 				4705F04D1AF1082C0050D47A /* RawDataProcess.m in Sources */,
 				4705A4811AF4B41A007FD2B9 /* writeCaseFirstItemViewController.m in Sources */,
 				47301D131AFC67EA005D42CC /* HeadView.m in Sources */,

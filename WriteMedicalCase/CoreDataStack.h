@@ -38,8 +38,10 @@
 
 -(void)updateCaseContent:(CaseContent*)caseContent dataWithDict:(NSDictionary*)dict;
 
+-(void)noteBookDeleteWithID:(NSString *)noteID;
 
 -(MediaData*)mediaDataCreateWithDict:(NSDictionary*)dict;
 -(NoteBook*)noteBookFetchWithDict:(NSDictionary*)dict;
+-(NSArray*)fetchNoteBooksWithDoctorID:(NSString*)dID;
 
 @end

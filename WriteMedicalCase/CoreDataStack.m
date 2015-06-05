@@ -703,8 +703,40 @@ static NSString *momdName = @"Model";
     }
 }
 
-
+-(NSArray*)fetchNoteBooksWithDoctorID:(NSString*)dID
+{
+    assert(dID != 0);
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dID=%@",dID];
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[NoteBook entityName]];
+    request.predicate = predicate;
+    
+    NSError *error;
+    NSArray *tempArray = [self.managedObjectContext executeFetchRequest:request error:&error];
+   
+    return tempArray;
+}
 ///for note book
+
+-(void)noteBookDeleteWithID:(NSString *)noteID
+{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"noteUUID=%@",noteID];
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[NoteBook entityName]];
+    request.predicate = predicate;
+    
+    NSError *error;
+    NSArray *tempArray = [self.managedObjectContext executeFetchRequest:request error:&error];
+    if (tempArray.count == 0) {
+        
+    }else {
+        if (tempArray.count == 1) {
+            [self.managedObjectContext deleteObject:[tempArray firstObject]];
+        }else {
+            abort();
+        }
+    }
+
+}
 -(NoteBook*)noteBookFetchWithDict:(NSDictionary*)dict
 {
     NSString *dID;
@@ -734,7 +766,7 @@ static NSString *momdName = @"Model";
         [tempDict setObject:noteUUID forKey:@"noteUUID"];
     }
     
-    [[NSUserDefaults standardUserDefaults] setObject:noteUUID forKey:@"noteUUID"];
+   // [[NSUserDefaults standardUserDefaults] setObject:noteUUID forKey:@"noteUUID"];
     
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[NoteBook entityName]];
     request.predicate = predicate;
@@ -805,10 +837,13 @@ static NSString *momdName = @"Model";
     
     note.contents = [[NSOrderedSet alloc] initWithOrderedSet:orderSet];
    
+    NSLog(@"note contents count:%@",@(note.contents.count));
     [self updateNote:note withDict:dict];
     
     [self saveContext];
     
+    NSLog(@"note contents count:%@",@(note.contents.count));
+
     return note;
     
 }

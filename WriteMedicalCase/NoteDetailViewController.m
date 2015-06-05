@@ -1,23 +1,20 @@
 //
-//  ReordNoteCreateViewController.m
+//  NoteDetailViewController.m
 //  WriteMedicalCase
 //
-//  Created by ihefe-JF on 15/6/1.
+//  Created by ihefe-JF on 15/6/5.
 //  Copyright (c) 2015年 GK. All rights reserved.
 //
 
-#import "ReordNoteCreateViewController.h"
+#import "NoteDetailViewController.h"
 #import "RecordNoteCreateCellTableViewCell.h"
 #import "RecordNoteWarningViewController.h"
 #import "SelectedShareRangeViewController.h"
 #import "CaseContent.h"
+#import "NoteShowViewController.h"
 
-//for test
-#import "TempDoctor.h"
-
-@interface ReordNoteCreateViewController ()<UINavigationControllerDelegate,RecordNoteCreateCellTableViewCellDelegate,RecordNoteWarningViewControllerDelegate,SelectedShareRangeViewControllerDelegate>
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-
+@interface NoteDetailViewController ()<RecordNoteCreateCellTableViewCellDelegate,RecordNoteWarningViewControllerDelegate,SelectedShareRangeViewControllerDelegate,NoteShowViewControllerDelegate
+>
 @property (nonatomic) CGFloat keyboardOverlap;
 @property (nonatomic,strong) UITextView *currentTextView;
 @property (nonatomic,strong) NSIndexPath *currentIndexPath;
@@ -25,6 +22,7 @@
 
 @property (nonatomic,strong) NSString *noteContent;
 @property (nonatomic,strong) NSString *noteType;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 //prepare for save note
 @property (nonatomic,strong) NSDictionary *sharedUser;
@@ -34,16 +32,18 @@
 
 @property (nonatomic,strong) CoreDataStack *coreDataStack;
 @property (nonatomic) NoteBook *note;
+
+@property (nonatomic,strong) NSArray *keyArray;
 @end
 
-@implementation ReordNoteCreateViewController
+@implementation NoteDetailViewController
+
 #pragma mask - core data stack
 -(CoreDataStack *)coreDataStack
 {
     _coreDataStack = [[CoreDataStack alloc] init];
     return _coreDataStack;
 }
-
 - (IBAction)sharedButton:(UIButton *)sender
 {
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"CreateTemplateStoryboard" bundle:nil];
@@ -57,7 +57,6 @@
     
     UIBarButtonItem *barButtonItem =[[UIBarButtonItem alloc] initWithCustomView:sender];
     [popover presentPopoverFromBarButtonItem:barButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    
 }
 - (IBAction)save:(UIButton *)sender
 {
@@ -78,8 +77,9 @@
 }
 - (IBAction)cancel:(UIBarButtonItem *)sender
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    
 }
+
 -(NSDictionary*)prepareForSave
 {
     //doctor
@@ -89,7 +89,6 @@
     NSString *dProfessionalTitle= StringValue(doctor.dProfessionalTitle);
     NSString *dept = StringValue(doctor.dept);
     NSString *medicalTeam = StringValue(doctor.medicalTeam);
-    
     
     NSString *sharedType;
     NSArray *sharedUser = @[];
@@ -118,7 +117,6 @@
         detailInfoText=@"";
         warningDate = @"";
     }
-   
     
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     [dict setObject:dID forKey:@"ih_doctor_id"];
@@ -133,36 +131,38 @@
     [dict setObject:warningDate forKey:@"ih_alert_time"];
     [dict setObject:detailInfoText forKey:@"ih_alert_cont"];
     [dict setObject:commit forKey:@"ih_alert_com"];
-
+    
     [dict setObject:dID forKey:@"ih_alert_usr"];
-   
+    
     [dict setObject:self.noteType forKey:@"ih_note_type"];
     
-    NSDictionary *noteContentDict = @{@"ih_note_text":self.noteContent,@"audio":@"",@"images":@""};
-    
-    
-    [dict setObject:noteContentDict forKey:@"ih_contents"];
-    
-    
+    //NSDictionary *noteContentDict = @{@"ih_note_text":self.noteContent,@"audio":@"",@"images":@""};
+    //[dict setObject:noteContentDict forKey:@"ih_contents"];
     [dict setObject:@"" forKey:@"ih_contento"];
     [dict setObject:@"" forKey:@"ih_contenta"];
     [dict setObject:@"" forKey:@"ih_contentp"];
-
     
     return dict;
+}
+#pragma mask - note show view controller delegate
+-(void)didSelectedANoteWithNoteID:(NSString *)noteID andCreateDoctorID:(NSString *)dID
+{
+    self.note = [self.coreDataStack noteBookFetchWithDict:@{@"noteID":noteID,@"dID":dID}];
+    [self.tableView reloadData];
 }
 #pragma mask - SelectedShareRangeViewControllerDelegate
 -(void)didSelectedSharedUsers:(NSDictionary *)sharedUser
 {
     //分享
-    
     self.sharedUser = [NSDictionary dictionaryWithDictionary:sharedUser];
+    
 }
 #pragma mask - warning delegate
 -(void)didSelectedDateString:(NSDictionary *)dict
 {
     //提醒
     self.warningDict = [[NSDictionary alloc] initWithDictionary:dict];
+    
 }
 
 #pragma mask - view controller life cycle
@@ -170,21 +170,25 @@
     [super viewDidLoad];
     
     [self setUpTableView];
-    
-    NSMutableDictionary *createDict =[[NSMutableDictionary alloc] init];
-    [createDict setObject:@"2334" forKey:@"dID"];
-    [createDict setObject:@"" forKey:@"caseContentS"];
-    
-    NSMutableDictionary *tempDict = [[NSMutableDictionary alloc] init];
-    [tempDict setObject:@"" forKey:@"content"];
-    [tempDict setObject:@"S" forKey:@"contentType"];
-    [createDict setObject:tempDict forKey:[NSString stringWithFormat:@"noteContent%@",@"S"]];
-    
-    self.note = [self.coreDataStack noteBookFetchWithDict:createDict];
-    if (self.note) {
-        [self.tableView reloadData];
-    }
-    
+    UISplitViewController *splitVC = self.splitViewController;
+    UINavigationController *navgVC = (UINavigationController*)([[splitVC viewControllers] firstObject]);
+    NoteShowViewController *showVC = (NoteShowViewController*)[navgVC.viewControllers firstObject];
+    showVC.delegate = self;
+//    NSMutableDictionary *createDict =[[NSMutableDictionary alloc] init];
+//    [createDict setObject:@"2334" forKey:@"dID"];
+//    [createDict setObject:@"" forKey:@"caseContentS"];
+//    
+//    for (NSString *value in @[@"S",@"O",@"A",@"P"]) {
+//        NSMutableDictionary *tempDict = [[NSMutableDictionary alloc] init];
+//        [tempDict setObject:@"" forKey:@"content"];
+//        [tempDict setObject:value forKey:@"contentType"];
+//        [createDict setObject:tempDict forKey:[NSString stringWithFormat:@"noteContent%@",value]];
+//    }
+//    
+//    self.note = [self.coreDataStack noteBookFetchWithDict:createDict];
+//    if (self.note) {
+//        [self.tableView reloadData];
+//    }
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -332,12 +336,11 @@
 -(void)textViewCell:(RecordNoteCreateCellTableViewCell *)cell didChangeText:(NSString *)text
 {
     NSIndexPath *indexPath = [[self tableView] indexPathForCell:cell];
-    NSOrderedSet *orderSet = (NSOrderedSet*)self.note.contents;
-
-    NoteContent *noteContent = [orderSet objectAtIndex:indexPath.row];
+    
+    NoteContent *noteContent = [self.note.contents objectAtIndex:indexPath.row];
     noteContent.updatedContent = text;
-   // self.noteContent = text;
-   [self.coreDataStack saveContext];
+    [self.coreDataStack saveContext];
+    
 }
 -(void)textViewDidBeginEditing:(UITextView *)textView withCellIndexPath:(NSIndexPath *)indexPath
 {
@@ -355,11 +358,12 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    NSLog(@"count:%@",@(self.note.contents.count));
+    return self.note.contents.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellIdentifier = @"noteCreateCell";
+    static NSString *cellIdentifier = @"showNoteCell";
     RecordNoteCreateCellTableViewCell *tableViewCell =(RecordNoteCreateCellTableViewCell*) [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     tableViewCell.delegate = self;
     [self configCell:tableViewCell atIndexPath:indexPath];
@@ -369,16 +373,14 @@
 {
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     UITextView *textView = (UITextView*)[cell viewWithTag:1002];
-   //textView.text = self.noteContent;
-    
+    //NSString *keyString = [self.keyArray objectAtIndex:indexPath.row];
     UITextField *placeHolder =(UITextField*)[cell viewWithTag:1001];
-    NSString *placeHolderString = @"请输入内容";
+    NSString *placeHolderString =[self.keyArray objectAtIndex:indexPath.row];
     placeHolder.placeholder = placeHolderString;
     
-    NSOrderedSet *orderSet = (NSOrderedSet*)self.note.contents;
-    NoteContent *noteContent = [orderSet objectAtIndex:indexPath.row];
-    
-    textView.text = noteContent.updatedContent;
+    //textView.text = StringValue([self.dataSourceDict objectForKey:keyString]);
+    NoteContent *noteContent = [self.note.contents objectAtIndex:indexPath.row];
+    textView.text = StringValue(noteContent.updatedContent);
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -386,36 +388,94 @@
     
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 80;
+}
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    CGRect headerViewFrame = CGRectMake(0, 0, tableView.frame.size.width, tableView.frame.size.height);
+    UIView *headerView = [[UIView alloc] initWithFrame:headerViewFrame];
+    headerView.backgroundColor = [UIColor whiteColor];
+    [self addSubViewToHeaderView:headerView];
+    return headerView;
+}
+-(void)addSubViewToHeaderView:(UIView*)headerView
+{
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 8, 0, 21)];
+    titleLabel.text = @"新入院";
+    [titleLabel sizeToFit];
+    
+    UITextField *subTitleField = [[UITextField alloc] initWithFrame:CGRectMake(titleLabel.frame.size.width+10, 8, headerView.frame.size.width - titleLabel.frame.size.width - 8 - 8, 21)];
+    subTitleField.placeholder = @"输入子标题";
+    subTitleField.font = [UIFont systemFontOfSize:15];
+    
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(8, 21+9, headerView.frame.size.width - 8, 1)];
+    line.backgroundColor = [UIColor blueColor];
+    
+    UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, line.frame.origin.y+4, 20, 20)];
+    dateLabel.textColor = [UIColor blueColor];
+    dateLabel.text = [self currentDateString];
+    dateLabel.font = [UIFont systemFontOfSize:14];
+    [dateLabel sizeToFit];
+    
+    [headerView addSubview:titleLabel];
+    [headerView addSubview:subTitleField];
+    [headerView addSubview:line];
+    [headerView addSubview:dateLabel];
+}
+
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"originalWarningSegue"]) {
+    if ([segue.identifier isEqualToString:@"showNoteWarningSegue"]) {
         
         RecordNoteWarningViewController *recordWarningVC =(RecordNoteWarningViewController*) [self expectedViewController:segue.destinationViewController];
         recordWarningVC.delegate = self;
+        recordWarningVC.preferredContentSize = CGSizeMake(320, 500);
     }
-    if ([segue.identifier isEqualToString:@"OriginalNoteCancel"]) {
-        
-        // 取消创建
-        [self.coreDataStack noteBookDeleteWithID:self.note.noteUUID];
-        [self.coreDataStack saveContext];
-    }
-
 }
-
-
-#pragma mask - property 
--(NSString *)noteContent
+-(UIViewController*)expectedViewController:(UIViewController*)viewController
 {
-    if (!_noteContent) {
-        _noteContent = @"";
+    UIViewController *expectedViewController = viewController;
+    if ([expectedViewController isMemberOfClass:[UINavigationController class]]) {
+        UINavigationController *nav = (UINavigationController*)viewController;
+        expectedViewController =(UIViewController*) [nav.viewControllers firstObject];
     }
-    return _noteContent;
+    return expectedViewController;
 }
+
+#pragma mask - helper
+-(NSString*)currentDateString
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy年MM月dd日 HH:mm"];
+    
+    return [formatter stringFromDate:[NSDate new]];
+}
+#pragma mask - property
+-(NSArray *)keyArray
+{
+    if (!_keyArray) {
+        _keyArray = @[@"主观性资料",@"客观性资料",@"评估",@"治疗方案"];
+    }
+    return _keyArray;
+}
+//-(NSMutableDictionary *)dataSourceDict
+//{
+//    if (!_dataSourceDict) {
+//        _dataSourceDict = [[NSMutableDictionary alloc] init];
+//        for (NSString *key in self.keyArray) {
+//            NSString *dataString = @"";
+//            [_dataSourceDict setObject:dataString forKey:key];
+//        }
+//    }
+//    return _dataSourceDict;
+//}
 -(NSString *)noteType
 {
     if (!_noteType) {
-       _noteType = @"0";
+        _noteType = @"0";
     }
     return _noteType;
 }
@@ -429,14 +489,9 @@
     }
     return _socket;
 }
--(UIViewController*)expectedViewController:(UIViewController*)viewController
-{
-    UIViewController *expectedViewController = viewController;
-    if ([expectedViewController isMemberOfClass:[UINavigationController class]]) {
-        UINavigationController *nav = (UINavigationController*)viewController;
-        expectedViewController =(UIViewController*) [nav.viewControllers firstObject];
-    }
-    return expectedViewController;
-}
 
+-(NSArray*)noteKeyArray
+{
+    return @[@"noteContentS",@"noteContentO",@"noteContentP",@"noteContentA"];
+}
 @end
