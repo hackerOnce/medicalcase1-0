@@ -12,6 +12,7 @@
 
 @implementation NoteBook
 
+@dynamic isCurrentNote;
 @dynamic noteType;
 @dynamic noteTitle;
 @dynamic notePatientName;

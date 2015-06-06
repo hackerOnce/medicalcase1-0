@@ -43,5 +43,6 @@
 -(MediaData*)mediaDataCreateWithDict:(NSDictionary*)dict;
 -(NoteBook*)noteBookFetchWithDict:(NSDictionary*)dict;
 -(NSArray*)fetchNoteBooksWithDoctorID:(NSString*)dID;
+-(NoteBook*)noteBookFetchWithDoctorID:(NSString*)dID noteType:(NSString*)noteType isCurrentNote:(NSNumber*)isCurrentNote;
 
 @end

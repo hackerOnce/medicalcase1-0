@@ -13,6 +13,8 @@
 
 @interface NoteBook : NSManagedObject
 
+@property (nonatomic, retain) NSNumber *isCurrentNote;
+
 @property (nonatomic, retain) NSString * noteType;
 @property (nonatomic, retain) NSString * noteTitle;
 @property (nonatomic, retain) NSString * notePatientName;

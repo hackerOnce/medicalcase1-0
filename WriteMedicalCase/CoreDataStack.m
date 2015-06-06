@@ -738,6 +738,26 @@ static NSString *momdName = @"Model";
     }
 
 }
+-(NoteBook*)noteBookFetchWithDoctorID:(NSString*)dID noteType:(NSString*)noteType isCurrentNote:(NSNumber*)isCurrentNote
+{
+    //isCurrentNote=YE;
+    assert(dID!=nil);
+    assert(noteType!=nil);
+    assert(isCurrentNote!=nil);
+    assert([isCurrentNote boolValue] == YES);
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dID=%@ AND noteType=%@ AND isCurrentNote=%@",dID,noteType,isCurrentNote];
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[NoteBook entityName]];
+    request.predicate = predicate;
+    
+    NSError *error;
+    NSArray *tempArray = [self.managedObjectContext executeFetchRequest:request error:&error];
+    if (tempArray.count == 1) {
+        return (NoteBook*)[tempArray firstObject];
+    }else {
+        return nil;
+    }
+}
 -(NoteBook*)noteBookFetchWithDict:(NSDictionary*)dict
 {
     NSString *dID;
@@ -757,16 +777,17 @@ static NSString *momdName = @"Model";
         noteID = dict[@"noteID"];
         assert(noteID!=nil);
         predicate = [NSPredicate predicateWithFormat:@"dID=%@ AND noteID=%@",dID,noteID];
-
     }else if([dict.allKeys containsObject:@"noteUUID"]){
         noteUUID = dict[@"noteUUID"];
         predicate = [NSPredicate predicateWithFormat:@"dID=%@ AND noteUUID=%@",dID,noteUUID];
+        
     }else {
         
         noteUUID = [self noteUUIDForNoteIdentifier];
         assert(noteUUID != nil);
         
         predicate = [NSPredicate predicateWithFormat:@"dID=%@ AND noteUUID=%@",dID,noteUUID];
+        
         [tempDict setObject:noteUUID forKey:@"noteUUID"];
     }
     
@@ -910,18 +931,29 @@ static NSString *momdName = @"Model";
 }
 -(void)updateNoteContent:(NoteContent*)noteContent WithDict:(NSDictionary*)dict
 {
-    if ([dict.allKeys containsObject:@"content"]){
-        noteContent.content = [dict objectForKey:@"content"];
+    
+    if ([dict.allKeys containsObject:@"updatedContent"]){
+        noteContent.updatedContent = [dict objectForKey:@"updatedContent"];
     }
+    
+    NSNumber *isCurrentNote = noteContent.noteBook.isCurrentNote;
+    if ([isCurrentNote boolValue]) {
+//        if ([dict.allKeys containsObject:@"content"]){
+//            noteContent.content = [dict objectForKey:@"content"];
+//            noteContent.updatedContent = noteContent.content;
+//        }
+    }else {
+        if ([dict.allKeys containsObject:@"content"]){
+            noteContent.content = [dict objectForKey:@"content"];
+            noteContent.updatedContent = noteContent.content;
+        }
+    }
+    
     if ([dict.allKeys containsObject:@"contentType"]) {
         noteContent.contentType = [dict objectForKey:@"contentType"];
         noteContent.contentIndex = [[self contentIndexDict] objectForKey:@"contentType"];
     }
-    if ([dict.allKeys containsObject:@"updatedContent"]){
-        noteContent.updatedContent = [dict objectForKey:@"updatedContent"];
-    }else {
-        noteContent.updatedContent = noteContent.content;
-    }
+    
 }
 -(NSDictionary*)contentIndexDict
 {
@@ -947,12 +979,17 @@ static NSString *momdName = @"Model";
 }
 -(void)updateNote:(NoteBook*)note withDict:(NSDictionary*)dict
 {
+    if ([dict.allKeys containsObject:@"isCurrentNote"]){
+        note.isCurrentNote = [dict objectForKey:@"isCurrentNote"];
+    }
+    
     if ([dict.allKeys containsObject:@"noteType"]) { //为某个病人写或随笔
         note.noteType = [dict objectForKey:@"noteType"];
     }
     if ([dict.allKeys containsObject:@"noteTitle"]){
         note.noteTitle = [dict objectForKey:@"noteTitle"];
     }
+    
     if ([dict.allKeys containsObject:@"notePatientName"]) {
         note.notePatientName = [dict objectForKey:@"notePatientName"];
     }

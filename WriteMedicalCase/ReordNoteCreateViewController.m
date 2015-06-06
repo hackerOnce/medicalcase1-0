@@ -61,20 +61,31 @@
 }
 - (IBAction)save:(UIButton *)sender
 {
-    TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
-    if ([StringValue(self.noteContent) isEqualToString:@""] ) {
-        //笔记内容不允许为空
-        return;
+//    TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
+//    if ([StringValue(self.noteContent) isEqualToString:@""] ) {
+//        //笔记内容不允许为空
+//        return;
+//    }
+//    
+//    NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
+//    
+//    
+//    [MessageObject messageObjectWithUsrStr:doctor.dID pwdStr:@"test"iHMsgSocket:self.socket optInt:1509 sync_version:1.0 dictionary:dict block:^(IHSockRequest *request) {
+//        
+//    } failConection:^(NSError *error) {
+//        
+//    }];
+    for (NoteContent *noteContent in self.note.contents) {
+        noteContent.content = noteContent.updatedContent;
+        NSLog(@"content:%@",noteContent.updatedContent);
     }
     
-    NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
+    self.note.updateDate = [self currentDate];
+    // 只有从服务器保存成功以后才能设定
+    //self.note.isCurrentNote = NO;
     
-    
-    [MessageObject messageObjectWithUsrStr:doctor.dID pwdStr:@"test"iHMsgSocket:self.socket optInt:1509 sync_version:1.0 dictionary:dict block:^(IHSockRequest *request) {
-        
-    } failConection:^(NSError *error) {
-        
-    }];
+    [self.coreDataStack saveContext];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (IBAction)cancel:(UIBarButtonItem *)sender
 {
@@ -171,20 +182,38 @@
     
     [self setUpTableView];
     
+    self.note = [self.coreDataStack noteBookFetchWithDoctorID:@"2334" noteType:self.noteType isCurrentNote:[NSNumber numberWithBool:YES]];
+    if (self.note) {
+        [self.tableView reloadData];
+    }else {
+        self.note = [self.coreDataStack noteBookFetchWithDict:[self prepareForCreate]];
+        
+        if (self.note) {
+            [self.tableView reloadData];
+        }
+    }
+    
+}
+-(NSDictionary*)prepareForCreate
+{
     NSMutableDictionary *createDict =[[NSMutableDictionary alloc] init];
     [createDict setObject:@"2334" forKey:@"dID"];
-    [createDict setObject:@"" forKey:@"caseContentS"];
+    [createDict setObject:@"医生姓名" forKey:@"dName"];
+    //[createDict setObject:@"" forKey:@"caseContentS"];
     
     NSMutableDictionary *tempDict = [[NSMutableDictionary alloc] init];
     [tempDict setObject:@"" forKey:@"content"];
     [tempDict setObject:@"S" forKey:@"contentType"];
     [createDict setObject:tempDict forKey:[NSString stringWithFormat:@"noteContent%@",@"S"]];
     
-    self.note = [self.coreDataStack noteBookFetchWithDict:createDict];
-    if (self.note) {
-        [self.tableView reloadData];
-    }
+    [createDict setObject:[NSNumber numberWithBool:YES] forKey:@"isCurrentNote"];
     
+    [createDict setObject:self.noteType forKey:@"noteType"];
+    [createDict setObject:@"patientName" forKey:@"notePatientName"];
+    [createDict setObject:@"patientID" forKey:@"notePatientID"];
+    [createDict setObject:[self currentDate] forKey:@"createDate"];
+    
+    return createDict;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -415,7 +444,7 @@
 -(NSString *)noteType
 {
     if (!_noteType) {
-       _noteType = @"0";
+       _noteType = @"1";//for origin note
     }
     return _noteType;
 }
@@ -437,6 +466,14 @@
         expectedViewController =(UIViewController*) [nav.viewControllers firstObject];
     }
     return expectedViewController;
+}
+-(NSString*)currentDate
+{
+    NSString *dateString;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH-mm-ss"];
+    dateString = [formatter stringFromDate:[NSDate new]];
+    return dateString;
 }
 
 @end

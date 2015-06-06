@@ -76,10 +76,15 @@
 //  }failConection:^(NSError *error) {
 //        
 //  }];
+    
     for (NoteContent *noteContent in self.note.contents) {
         noteContent.content = noteContent.updatedContent;
         NSLog(@"content:%@",noteContent.updatedContent);
     }
+    
+    self.note.updateDate = [self currentDate];
+    // 只有从服务器保存成功以后才能设定
+    //self.note.isCurrentNote = NO;
     
     [self.coreDataStack saveContext];
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -184,24 +189,41 @@
     
     [self setUpTableView];
 
+    self.note = [self.coreDataStack noteBookFetchWithDoctorID:@"2334" noteType:self.noteType isCurrentNote:[NSNumber numberWithBool:YES]];
+    if (self.note) {
+        [self.tableView reloadData];
+    }else {
+        self.note = [self.coreDataStack noteBookFetchWithDict:[self prepareForCreate]];
+
+        if (self.note) {
+            [self.tableView reloadData];
+        }
+    }
+    
+}
+-(NSDictionary*)prepareForCreate
+{
     NSMutableDictionary *createDict =[[NSMutableDictionary alloc] init];
     [createDict setObject:@"2334" forKey:@"dID"];
-     //[createDict setObject:@"" forKey:@"caseContentS"];
+    [createDict setObject:@"医生姓名" forKey:@"dName"];
+    //[createDict setObject:@"" forKey:@"caseContentS"];
     
     for (NSString *value in @[@"S",@"O",@"A",@"P"]) {
         NSMutableDictionary *tempDict = [[NSMutableDictionary alloc] init];
-        [tempDict setObject:@" " forKey:@"content"];
+        [tempDict setObject:@"" forKey:@"content"];
         [tempDict setObject:value forKey:@"contentType"];
         
         [createDict setObject:tempDict forKey:[NSString stringWithFormat:@"noteContent%@",value]];
         
         NSLog(@"noteContent:%@",[NSString stringWithFormat:@"noteContent%@",value]);
     }
-    
-    self.note = [self.coreDataStack noteBookFetchWithDict:createDict];
-    if (self.note) {
-        [self.tableView reloadData];
-    }
+    [createDict setObject:[NSNumber numberWithBool:YES] forKey:@"isCurrentNote"];
+    [createDict setObject:self.noteType forKey:@"noteType"];
+    [createDict setObject:@"patientName" forKey:@"notePatientName"];
+    [createDict setObject:@"patientID" forKey:@"notePatientID"];
+    [createDict setObject:[self currentDate] forKey:@"createDate"];
+
+    return createDict;
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -352,6 +374,10 @@
     
     NoteContent *noteContent = [self.note.contents objectAtIndex:indexPath.row];
     noteContent.updatedContent = text;
+    self.note.updateDate = [self currentDate];
+    
+    [self.coreDataStack saveContext];
+    
     NSLog(@"note content:%@",noteContent.updatedContent);
 }
 -(void)textViewDidBeginEditing:(UITextView *)textView withCellIndexPath:(NSIndexPath *)indexPath
@@ -490,7 +516,7 @@
 -(NSString *)noteType
 {
     if (!_noteType) {
-        _noteType = @"0";
+        _noteType = @"0";//for patient
     }
     return _noteType;
 }
@@ -517,5 +543,13 @@
 -(NSArray*)noteKeyArray
 {
     return @[@"noteContentS",@"noteContentO",@"noteContentP",@"noteContentA"];
+}
+-(NSString*)currentDate
+{
+    NSString *dateString;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH-mm-ss"];
+    dateString = [formatter stringFromDate:[NSDate new]];
+    return dateString;
 }
 @end

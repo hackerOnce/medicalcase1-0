@@ -19,6 +19,7 @@
 @property (nonatomic, retain) NSString * contentType;
 @property (nonatomic, retain) NSSet *medias;
 @property (nonatomic, retain) NoteBook *noteBook;
+
 @end
 
 @interface NoteContent (CoreDataGeneratedAccessors)
