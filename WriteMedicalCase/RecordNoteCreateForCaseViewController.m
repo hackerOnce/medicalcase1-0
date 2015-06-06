@@ -13,7 +13,7 @@
 #import "TemplateNoteContent.h"
 #import "TestViewController.h"
 
-@interface RecordNoteCreateForCaseViewController ()<RecordNoteCreateCellTableViewCellDelegate,UITableViewDataSource,UITableViewDelegate,RecordNoteWarningViewControllerDelegate,SelectedShareRangeViewControllerDelegate>
+@interface RecordNoteCreateForCaseViewController ()<RecordNoteCreateCellTableViewCellDelegate,UITableViewDataSource,UITableViewDelegate,RecordNoteWarningViewControllerDelegate,SelectedShareRangeViewControllerDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic,strong) NSMutableDictionary *dataSourceDict;
@@ -28,6 +28,8 @@
 
 @property (nonatomic,strong) IHMsgSocket *socket;
 
+@property (nonatomic,strong) UITextField *titeTextField;
+@property (nonatomic,strong) UILabel *titleLabel;
 //prepare for save note
 @property (nonatomic,strong) NSDictionary *sharedUser;
 @property (nonatomic,strong) NSDictionary *warningDict;
@@ -70,7 +72,7 @@
 - (IBAction)save:(UIButton *)sender
 {
 //  TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
-//   NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
+   NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
 //  [MessageObject messageObjectWithUsrStr:doctor.dID pwdStr:@"test"iHMsgSocket:self.socket optInt:1509 sync_version:1.0 dictionary:dict block:^(IHSockRequest *request) {
 //        
 //  }failConection:^(NSError *error) {
@@ -145,23 +147,60 @@
     
     [dict setObject:self.noteType forKey:@"ih_note_type"];
     
-    
-    
     for (NoteContent *noteContent in self.note.contents) {
-        NSMutableDictionary *tempDict = [[NSMutableDictionary alloc] init];
-        [tempDict setObject:noteContent.updatedContent forKey:@"ih_note_text"];
-        [tempDict setObject:nil forKey:@"audio"];
-        [tempDict setObject:nil forKey:@"audio"];
-
-        noteContent.content = noteContent.updatedContent;
-        NSLog(@"content:%@",noteContent.updatedContent);
+        NSString *type = [noteContent.contentType lowercaseString];
+        NSString *keyString = [@"ih_content" stringByAppendingString:type];
+        NSDictionary *contentDict = [NSDictionary dictionaryWithDictionary:[self prepareForServerWithNoteContent:noteContent]];
+        [dict setObject:contentDict forKey:keyString];
     }
-
-    [dict setObject:@"" forKey:@"ih_contento"];
-    [dict setObject:@"" forKey:@"ih_contenta"];
-    [dict setObject:@"" forKey:@"ih_contentp"];
-    
     return dict;
+}
+-(NSDictionary*)prepareForServerWithNoteContent:(NoteContent*)noteContent
+{
+    NSDictionary *mediaDict;
+    NSSet *medias =[[NSSet alloc] initWithSet:noteContent.medias];//s,o,a,p
+    
+    if (medias.count == 0) {
+        mediaDict = nil;
+    }else {
+        if (medias) {
+            mediaDict =[NSDictionary dictionaryWithDictionary:[self prepareForServerWithMediaArray:medias]];
+        }else {
+            mediaDict = nil;
+        }
+    }
+    NSMutableDictionary *tempDict;
+    if (mediaDict) {
+        tempDict = [[NSMutableDictionary alloc] initWithDictionary:mediaDict];
+        
+    }else {
+        tempDict = [[NSMutableDictionary alloc] init];
+    }
+    [tempDict setObject:StringValue(noteContent.updatedContent) forKey:@"ih_note_text"];
+    
+    return tempDict;
+}
+-(NSDictionary*)prepareForServerWithMediaArray:(NSSet*)medias
+{
+    NSMutableDictionary *mediasDict = [[NSMutableDictionary alloc] init];
+    NSMutableArray *images = [[NSMutableArray alloc] init];
+    NSMutableArray *audios = [[NSMutableArray alloc] init];
+    
+    for (MediaData *mediaData in medias) {
+        
+        if ([mediaData.dataType boolValue]) { //audio
+            NSDictionary *audioDict = @{@"ih_audio_data":mediaData.data?mediaData:nil,@"ih_audio_index":mediaData.location?mediaData.location:nil};
+            [audios addObject:audioDict];
+        }else {//image
+            NSDictionary *imageDict = @{@"ih_images_data":mediaData.data?mediaData:nil,@"ih_images_index":mediaData.location?mediaData.location:nil};
+            [images addObject:imageDict];
+            
+        }
+    }
+    [mediasDict setObject:images.count==0?nil:images forKey:@"images"];
+    [mediasDict setObject:audios.count==0?nil:audios forKey:@"audio"];
+    
+    return mediasDict;
 }
 -(NSString*)contentTypeTransform:(NSString*)contents
 {
@@ -437,13 +476,25 @@
 }
 -(void)addSubViewToHeaderView:(UIView*)headerView
 {
+    
+    NSString *titleStr = self.note.noteTitle?self.note.noteTitle:nil;
+    NSArray *titleArray = titleStr?[titleStr componentsSeparatedByString:@":"]:nil;
+    NSString *titleLabelText = titleArray?[titleArray firstObject]:nil;
+    NSString *textFieldText = titleArray?[titleArray lastObject]:nil;
+    
+    
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 8, 0, 21)];
-    titleLabel.text = @"新入院";
+    titleLabel.text = titleLabelText?titleLabelText:@"新入院";
     [titleLabel sizeToFit];
     
+    self.titleLabel = titleLabel;
+    
     UITextField *subTitleField = [[UITextField alloc] initWithFrame:CGRectMake(titleLabel.frame.size.width+10, 8, headerView.frame.size.width - titleLabel.frame.size.width - 8 - 8, 21)];
-    subTitleField.placeholder = @"输入子标题";
+    subTitleField.placeholder = textFieldText?textFieldText:@"输入子标题";
     subTitleField.font = [UIFont systemFontOfSize:15];
+    subTitleField.delegate = self;
+    
+    self.titeTextField = subTitleField;
     
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(8, 21+9, headerView.frame.size.width - 8, 1)];
     line.backgroundColor = [UIColor blueColor];
@@ -459,7 +510,12 @@
     [headerView addSubview:line];
     [headerView addSubview:dateLabel];
 }
-
+#pragma mask -text field delegate
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    self.note.noteTitle = [[self.titleLabel.text stringByAppendingString:@":"] stringByAppendingString:self.titeTextField.text];
+    [self.coreDataStack saveContext];
+}
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

@@ -2996,13 +2996,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WriteMedicalCase/ReordNoteCreateViewController.m"
-            timestampString = "455251206.845543"
+            filePath = "WriteMedicalCase/CoreDataStack.m"
+            timestampString = "455253173.875457"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "-save:"
+            startingLineNumber = "942"
+            endingLineNumber = "942"
+            landmarkName = "-updateNoteContent:WithDict:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WriteMedicalCase/ReordNoteCreateViewController.m"
+            timestampString = "455258573.449157"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
+            landmarkName = "-prepareForSave"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3012,13 +3028,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455253173.875457"
+            filePath = "WriteMedicalCase/RecordNoteCreateForCaseViewController.m"
+            timestampString = "455258638.816415"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "942"
-            endingLineNumber = "942"
-            landmarkName = "-updateNoteContent:WithDict:"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "-save:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

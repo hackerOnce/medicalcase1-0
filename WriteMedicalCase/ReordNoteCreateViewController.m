@@ -121,9 +121,9 @@
     NSString *detailInfoText;
     NSString *warningDate;
     if (self.warningDict) {
-        commit = [self.warningDict objectForKey:@"commit"];
-        detailInfoText = [self.warningDict objectForKey:@"detailInfoText"];
-        warningDate = [self.warningDict objectForKey:@"warningDate"];
+        commit = StringValue([self.warningDict objectForKey:@"commit"]);
+        detailInfoText = StringValue([self.warningDict objectForKey:@"detailInfoText"]);
+        warningDate = StringValue([self.warningDict objectForKey:@"warningDate"]);
     }else {
         commit = @"";
         detailInfoText=@"";
@@ -149,18 +149,73 @@
    
     [dict setObject:self.noteType forKey:@"ih_note_type"];
     
-    NSDictionary *noteContentDict = @{@"ih_note_text":self.noteContent,@"audio":@"",@"images":@""};
     
+    for (NoteContent *noteContent in self.note.contents) {
+        NSString *type = [noteContent.contentType lowercaseString];
+        NSString *keyString = [@"ih_content" stringByAppendingString:type];
+        NSDictionary *contentDict = [NSDictionary dictionaryWithDictionary:[self prepareForServerWithNoteContent:noteContent]];
+        [dict setObject:contentDict forKey:keyString];
+    }
     
-    [dict setObject:noteContentDict forKey:@"ih_contents"];
-    
-    
-    [dict setObject:@"" forKey:@"ih_contento"];
-    [dict setObject:@"" forKey:@"ih_contenta"];
-    [dict setObject:@"" forKey:@"ih_contentp"];
+//    NSDictionary *noteContentDict = @{@"ih_note_text":self.noteContent,@"audio":@"",@"images":@""};
+//    
+//    [dict setObject:noteContentDict forKey:@"ih_contents"];
+//    
+//    
+//    [dict setObject:@"" forKey:@"ih_contento"];
+//    [dict setObject:@"" forKey:@"ih_contenta"];
+//    [dict setObject:@"" forKey:@"ih_contentp"];
 
     
     return dict;
+}
+
+-(NSDictionary*)prepareForServerWithNoteContent:(NoteContent*)noteContent
+{
+    NSDictionary *mediaDict;
+    NSSet *medias =[[NSSet alloc] initWithSet:noteContent.medias];//s,o,a,p
+
+    if (medias.count == 0) {
+        mediaDict = nil;
+    }else {
+        if (medias) {
+            mediaDict =[NSDictionary dictionaryWithDictionary:[self prepareForServerWithMediaArray:medias]];
+        }else {
+            mediaDict = nil;
+        }
+    }
+    NSMutableDictionary *tempDict;
+    if (mediaDict) {
+        tempDict = [[NSMutableDictionary alloc] initWithDictionary:mediaDict];
+        
+    }else {
+        tempDict = [[NSMutableDictionary alloc] init];
+    }
+    [tempDict setObject:noteContent.updatedContent forKey:@"ih_note_text"];
+
+    return tempDict;
+}
+-(NSDictionary*)prepareForServerWithMediaArray:(NSSet*)medias
+{
+    NSMutableDictionary *mediasDict = [[NSMutableDictionary alloc] init];
+    NSMutableArray *images = [[NSMutableArray alloc] init];
+    NSMutableArray *audios = [[NSMutableArray alloc] init];
+    
+    for (MediaData *mediaData in medias) {
+
+        if ([mediaData.dataType boolValue]) { //audio
+            NSDictionary *audioDict = @{@"ih_audio_data":mediaData.data?mediaData:nil,@"ih_audio_index":mediaData.location?mediaData.location:nil};
+            [audios addObject:audioDict];
+        }else {//image
+            NSDictionary *imageDict = @{@"ih_images_data":mediaData.data?mediaData:nil,@"ih_images_index":mediaData.location?mediaData.location:nil};
+            [images addObject:imageDict];
+
+        }
+    }
+    [mediasDict setObject:images.count==0?nil:images forKey:@"images"];
+    [mediasDict setObject:audios.count==0?nil:audios forKey:@"audio"];
+
+    return mediasDict;
 }
 #pragma mask - SelectedShareRangeViewControllerDelegate
 -(void)didSelectedSharedUsers:(NSDictionary *)sharedUser
@@ -365,8 +420,20 @@
 
     NoteContent *noteContent = [orderSet objectAtIndex:indexPath.row];
     noteContent.updatedContent = text;
+    
+    self.note.noteTitle = [self partStringFromString:noteContent.updatedContent];
    // self.noteContent = text;
    [self.coreDataStack saveContext];
+}
+-(NSString*)partStringFromString:(NSString*)tempStr
+{
+    NSString *subString;
+    if (tempStr.length > 30) {
+        subString = [tempStr substringToIndex:30];
+    }else {
+        subString = tempStr;
+    }
+    return tempStr;
 }
 -(void)textViewDidBeginEditing:(UITextView *)textView withCellIndexPath:(NSIndexPath *)indexPath
 {
@@ -380,11 +447,11 @@
 #pragma mask - table view delegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return self.note?1:0;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return self.note.contents.count;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

@@ -13,7 +13,7 @@
 
 @interface NoteContent : NSManagedObject
 
-@property  (nonatomic,retain) NSString *contentIndex;
+@property (nonatomic,retain) NSString *contentIndex;
 @property (nonatomic, retain) NSString *content;
 @property (nonatomic, retain) NSString *updatedContent;
 @property (nonatomic, retain) NSString * contentType;

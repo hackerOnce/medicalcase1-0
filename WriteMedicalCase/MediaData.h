@@ -13,7 +13,7 @@
 
 @interface MediaData : NSManagedObject
 
-@property (nonatomic, retain) NSString * dataType;
+@property (nonatomic, retain) NSString * dataType;//0 image,1:audio
 @property (nonatomic, retain) NSString * location;
 @property (nonatomic, retain) NSString * noteID;
 @property (nonatomic, retain) NSData * data;
