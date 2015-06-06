@@ -422,6 +422,9 @@
     noteContent.updatedContent = text;
     
     self.note.noteTitle = [self partStringFromString:noteContent.updatedContent];
+    self.note.updateDate = [self currentDate];
+    NSLog(@"update time:%@",self.note.updateDate);
+
    // self.noteContent = text;
    [self.coreDataStack saveContext];
 }
@@ -538,7 +541,7 @@
 {
     NSString *dateString;
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd HH-mm-ss"];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     dateString = [formatter stringFromDate:[NSDate new]];
     return dateString;
 }

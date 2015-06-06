@@ -14,6 +14,7 @@
 #import "Patient.h"
 #import "RecordBaseInfo.h"
 #import "CaseContent.h"
+#import "ShowNotePart.h"
 
 
 @interface CoreDataStack()
@@ -1023,6 +1024,79 @@ static NSString *momdName = @"Model";
     
     if ([dict.allKeys containsObject:@"noteUUID"]) {
         note.noteUUID = [dict objectForKey:@"noteUUID"];
+    }
+}
+-(ShowNotePart*)showNotePartFetchWithDict:(NSDictionary*)dict
+{
+    
+    NSPredicate *predicate;
+    NSString *dID;
+    NSString *noteID;
+    NSString *noteUUID;
+    
+    if ([dict.allKeys containsObject:@"dID"]) {
+        dID = [dict objectForKey:@"dID"];
+    }
+    assert(dID);
+    if ([dict.allKeys containsObject:@"noteID"]) {
+        noteID = [dict objectForKey:@"noteID"];
+        predicate = [NSPredicate predicateWithFormat:@"noteID=%@ AND dID = %@",noteID,dID];
+    }else if([dict.allKeys containsObject:@"noteUUID"]){
+        noteUUID = [dict objectForKey:@"noteUUID"];
+        predicate = [NSPredicate predicateWithFormat:@"noteUUID=%@ AND dID = %@",noteUUID,dID];
+    }
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[NoteBook entityName]];
+    request.predicate = predicate;
+    
+    NSError *error;
+    NSArray *tempArray = [self.managedObjectContext executeFetchRequest:request error:&error];
+    
+    if (tempArray.count == 0) {
+       return [self createShowNotePartWithDict:dict];
+    }else {
+        if (tempArray.count == 1) {
+            ShowNotePart *showNotePart = (ShowNotePart*)[tempArray firstObject];
+            [self updateShowNotePart:showNotePart WithDict:dict];
+            [self saveContext];
+            return showNotePart;
+        }else {
+            return nil;
+        }
+    }
+}
+-(ShowNotePart*)createShowNotePartWithDict:(NSDictionary*)dict
+{
+    NSEntityDescription *entityContent = [NSEntityDescription entityForName: [ShowNotePart entityName]inManagedObjectContext:self.managedObjectContext];
+    ShowNotePart *showNotePart = [[ShowNotePart alloc] initWithEntity:entityContent insertIntoManagedObjectContext:self.managedObjectContext];
+    [self updateShowNotePart:showNotePart WithDict:dict];
+    
+    [self saveContext];
+    
+    return showNotePart;
+}
+-(void)updateShowNotePart:(ShowNotePart*)showNotePart WithDict:(NSDictionary*)dict
+{
+    if ([dict.allKeys containsObject:@"updatedTime"]) {
+        showNotePart.updatedTime = [dict objectForKey:@"updatedTime"];
+    }
+    if ([dict.allKeys containsObject:@"titleString"]) {
+        showNotePart.titleString = [dict objectForKey:@"titleString"];
+    }
+    if ([dict.allKeys containsObject:@"doctorID"]) {
+        showNotePart.doctorID = [dict objectForKey:@"doctorID"];
+    }
+    if ([dict.allKeys containsObject:@"doctorName"]) {
+        showNotePart.doctorName = [dict objectForKey:@"doctorName"];
+    }
+    if ([dict.allKeys containsObject:@"partContent"]) {
+        showNotePart.partContent = [dict objectForKey:@"partContent"];
+    }
+    if ([dict.allKeys containsObject:@"noteID"]) {
+        showNotePart.noteID = [dict objectForKey:@"noteID"];
+    }
+    if ([dict.allKeys containsObject:@"noteUUID"]) {
+        showNotePart.noteUUID = [dict objectForKey:@"noteUUID"];
     }
 }
 @end

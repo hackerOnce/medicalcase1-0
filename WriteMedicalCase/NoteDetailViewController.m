@@ -13,7 +13,7 @@
 #import "CaseContent.h"
 #import "NoteShowViewController.h"
 
-@interface NoteDetailViewController ()<RecordNoteCreateCellTableViewCellDelegate,RecordNoteWarningViewControllerDelegate,SelectedShareRangeViewControllerDelegate,NoteShowViewControllerDelegate
+@interface NoteDetailViewController ()<RecordNoteCreateCellTableViewCellDelegate,RecordNoteWarningViewControllerDelegate,SelectedShareRangeViewControllerDelegate,NoteShowViewControllerDelegate,UITextFieldDelegate
 >
 @property (nonatomic) CGFloat keyboardOverlap;
 @property (nonatomic,strong) UITextView *currentTextView;
@@ -24,6 +24,8 @@
 @property (nonatomic,strong) NSString *noteType;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
+@property (nonatomic,strong) UITextField *titeTextField;
+@property (nonatomic,strong) UILabel *titleLabel;
 //prepare for save note
 @property (nonatomic,strong) NSDictionary *sharedUser;
 @property (nonatomic,strong) NSDictionary *warningDict;
@@ -411,13 +413,26 @@
 }
 -(void)addSubViewToHeaderView:(UIView*)headerView
 {
+    
+    NSString *titleStr = self.note.noteTitle?self.note.noteTitle:nil;
+    NSArray *titleArray = titleStr?[titleStr componentsSeparatedByString:@":"]:nil;
+    NSString *titleLabelText = titleArray?[titleArray firstObject]:nil;
+    NSString *textFieldText = titleArray?[titleArray lastObject]:nil;
+    
+    
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 8, 0, 21)];
-    titleLabel.text = @"新入院";
+    titleLabel.text = titleLabelText?titleLabelText:@"新入院";
     [titleLabel sizeToFit];
     
+    self.titleLabel = titleLabel;
+    
     UITextField *subTitleField = [[UITextField alloc] initWithFrame:CGRectMake(titleLabel.frame.size.width+10, 8, headerView.frame.size.width - titleLabel.frame.size.width - 8 - 8, 21)];
-    subTitleField.placeholder = @"输入子标题";
+    subTitleField.placeholder = textFieldText?textFieldText:@"输入子标题";
     subTitleField.font = [UIFont systemFontOfSize:15];
+    subTitleField.delegate = self;
+    subTitleField.borderStyle = UITextBorderStyleNone;
+    subTitleField.font = [UIFont systemFontOfSize:17];
+    self.titeTextField = subTitleField;
     
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(8, 21+9, headerView.frame.size.width - 8, 1)];
     line.backgroundColor = [UIColor blueColor];

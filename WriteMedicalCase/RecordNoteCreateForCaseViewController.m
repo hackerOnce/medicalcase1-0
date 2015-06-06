@@ -414,7 +414,7 @@
     NoteContent *noteContent = [self.note.contents objectAtIndex:indexPath.row];
     noteContent.updatedContent = text;
     self.note.updateDate = [self currentDate];
-    
+    NSLog(@"update time:%@",self.note.updateDate);
     [self.coreDataStack saveContext];
     
     NSLog(@"note content:%@",noteContent.updatedContent);
@@ -493,7 +493,8 @@
     subTitleField.placeholder = textFieldText?textFieldText:@"输入子标题";
     subTitleField.font = [UIFont systemFontOfSize:15];
     subTitleField.delegate = self;
-    
+    subTitleField.borderStyle = UITextBorderStyleNone;
+    subTitleField.font = [UIFont systemFontOfSize:17];
     self.titeTextField = subTitleField;
     
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(8, 21+9, headerView.frame.size.width - 8, 1)];
@@ -604,7 +605,7 @@
 {
     NSString *dateString;
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd HH-mm-ss"];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     dateString = [formatter stringFromDate:[NSDate new]];
     return dateString;
 }

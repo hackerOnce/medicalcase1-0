@@ -12,6 +12,8 @@
 #import "ParentNode.h"
 #import "MediaData.h"
 #import "NoteBook.h"
+#import "ShowNotePart.h"
+
 @interface CoreDataStack : NSObject
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
@@ -44,5 +46,6 @@
 -(NoteBook*)noteBookFetchWithDict:(NSDictionary*)dict;
 -(NSArray*)fetchNoteBooksWithDoctorID:(NSString*)dID;
 -(NoteBook*)noteBookFetchWithDoctorID:(NSString*)dID noteType:(NSString*)noteType isCurrentNote:(NSNumber*)isCurrentNote;
+-(ShowNotePart*)showNotePartFetchWithDict:(NSDictionary*)dict;
 
 @end

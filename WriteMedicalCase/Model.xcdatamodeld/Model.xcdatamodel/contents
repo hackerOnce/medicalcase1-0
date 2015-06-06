@@ -130,6 +130,15 @@
         <attribute name="sharedUserID" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="template" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Template" inverseName="sharedUsers" inverseEntity="Template" syncable="YES"/>
     </entity>
+    <entity name="ShowNotePart" representedClassName="ShoNotePart" syncable="YES">
+        <attribute name="doctorID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="doctorName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="noteID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="noteUUID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="partContent" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="titleString" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updatedTime" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="Template" representedClassName="Template" syncable="YES">
         <attribute name="acompanySymptom" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="diagnose" optional="YES" attributeType="String" syncable="YES"/>
@@ -158,5 +167,6 @@
         <element name="SharedDepartment" positionX="-9" positionY="135" width="128" height="75"/>
         <element name="SharedUser" positionX="36" positionY="189" width="128" height="75"/>
         <element name="Template" positionX="18" positionY="63" width="128" height="240"/>
+        <element name="ShowNotePart" positionX="-9" positionY="135" width="128" height="150"/>
     </elements>
 </model>

@@ -42,7 +42,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.noteTitleArray = [[NSMutableArray alloc] initWithArray:[self.coreDataStack fetchNoteBooksWithDoctorID:@"2334"]];
+    NSArray *tempArray = [[NSMutableArray alloc] initWithArray:[self.coreDataStack fetchNoteBooksWithDoctorID:@"2334"]];
+    
+    //以升序排列数组
+    self.noteTitleArray = [tempArray sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        NoteBook *note1 = (NoteBook*)obj1;
+        NoteBook *note2 = (NoteBook*)obj2;
+        
+        if ([self dateFromDateString:note1.updateDate] < [self dateFromDateString:note2.updateDate]) {
+            return NSOrderedDescending;
+        }
+        if ([self dateFromDateString:note1.updateDate] >[self dateFromDateString:note2.updateDate]) {
+            return NSOrderedAscending;
+        }
+        return NSOrderedSame;
+    }];
     
     for (NoteBook *noteBook in self.noteTitleArray) {
         
@@ -79,7 +93,9 @@
     NoteBook *note = (NoteBook*)[self.noteTitleArray objectAtIndex:indexPath.row];
     
     titleLabel.text = note.noteTitle;
-    createTimeLabel.text = @"10:18";
+    createTimeLabel.text = [self TimeAndMinutesStringWithDateString:note.updateDate];
+    NSLog(@"update time:%@",note.updateDate);
+
     [createTimeLabel sizeToFit];
     
     NSLog(@"note title: %@,noteContent: %@,counts:%@,UUID:%@",note.noteTitle,note.noteUUID,@(note.contents.count),note.noteUUID);
@@ -114,6 +130,55 @@
 {
     return 60;
 }
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    NSString *titleString = @"2015年05月";
+    
+    
+    return titleString;
+}
+#pragma mask - data helper
+-(NSString*)yearAndMonthStringWithDateString:(NSString*)dateString
+{
+    NSString *yearAndMonth;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy年MM月dd日"];
+    yearAndMonth = [formatter stringFromDate:[self dateFromDateString:dateString]];
+    return yearAndMonth;
+}
+-(NSString*)yearStringWithDateString:(NSString*)dateString
+{
+    NSString *yearString;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy年"];
+    yearString = [formatter stringFromDate:[self dateFromDateString:dateString]];
+    return yearString;
+}
+-(NSString*)MonthAndDayStringWithDateString:(NSString*)dateString
+{
+    NSString *monthAndDay;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"MM月dd日"];
+    monthAndDay = [formatter stringFromDate:[self dateFromDateString:dateString]];
+    return monthAndDay;
+}
+-(NSString*)TimeAndMinutesStringWithDateString:(NSString*)dateString
+{
+    NSLog(@"date:%@",dateString);
 
+    NSString *timeAndMinutes;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm"];
+    timeAndMinutes = [formatter stringFromDate:[self dateFromDateString:dateString]];
 
+    return timeAndMinutes;
+}
+-(NSDate*)dateFromDateString:(NSString*)dateString
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy年MM月dd日 HH:mm:ss"];
+    NSDate *date = [formatter dateFromString:dateString];
+    
+    return date;
+}
 @end

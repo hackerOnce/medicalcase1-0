@@ -70,6 +70,7 @@
 		4705F0D01AF124C90050D47A /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0CE1AF124C90050D47A /* Model.xcdatamodeld */; };
 		4705F0D51AF130250050D47A /* personInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0D41AF130250050D47A /* personInfoView.m */; };
 		4705F0D81AF1312F0050D47A /* WriteCaseEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0D71AF1312F0050D47A /* WriteCaseEditViewController.m */; };
+		470D11231B22C6CC006BE544 /* ShowNotePart.m in Sources */ = {isa = PBXBuildFile; fileRef = 470D11221B22C6CC006BE544 /* ShowNotePart.m */; };
 		472631D41B1C660800857B22 /* RecordNoteCreateForCaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 472631D31B1C660800857B22 /* RecordNoteCreateForCaseViewController.m */; };
 		472631D71B1D3CBD00857B22 /* RecordNoteCreateCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 472631D61B1D3CBD00857B22 /* RecordNoteCreateCellTableViewCell.m */; };
 		472631DA1B1D874C00857B22 /* RecordNoteWarningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 472631D91B1D874C00857B22 /* RecordNoteWarningViewController.m */; };
@@ -282,6 +283,8 @@
 		4705F0D41AF130250050D47A /* personInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = personInfoView.m; sourceTree = "<group>"; };
 		4705F0D61AF1312F0050D47A /* WriteCaseEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WriteCaseEditViewController.h; sourceTree = "<group>"; };
 		4705F0D71AF1312F0050D47A /* WriteCaseEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WriteCaseEditViewController.m; sourceTree = "<group>"; };
+		470D11211B22C6CC006BE544 /* ShowNotePart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowNotePart.h; sourceTree = "<group>"; };
+		470D11221B22C6CC006BE544 /* ShowNotePart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowNotePart.m; sourceTree = "<group>"; };
 		472631D21B1C660800857B22 /* RecordNoteCreateForCaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordNoteCreateForCaseViewController.h; sourceTree = "<group>"; };
 		472631D31B1C660800857B22 /* RecordNoteCreateForCaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordNoteCreateForCaseViewController.m; sourceTree = "<group>"; };
 		472631D51B1D3CBD00857B22 /* RecordNoteCreateCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordNoteCreateCellTableViewCell.h; sourceTree = "<group>"; };
@@ -693,6 +696,8 @@
 		4705F0A81AF10DBC0050D47A /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				470D11211B22C6CC006BE544 /* ShowNotePart.h */,
+				470D11221B22C6CC006BE544 /* ShowNotePart.m */,
 				472632261B20191500857B22 /* NoteBook.h */,
 				472632271B20191500857B22 /* NoteBook.m */,
 				472632231B20191400857B22 /* MediaData.h */,
@@ -1024,6 +1029,7 @@
 				4705F0501AF1082C0050D47A /* ParseXML.m in Sources */,
 				47301D071AFB4104005D42CC /* CurrentPatient.m in Sources */,
 				476475661B09D4B1004AFDF1 /* ParentNode.m in Sources */,
+				470D11231B22C6CC006BE544 /* ShowNotePart.m in Sources */,
 				4705F0711AF1094C0050D47A /* SBJsonStreamParserAdapter.m in Sources */,
 				472631DD1B1EC5EA00857B22 /* TempNote.m in Sources */,
 				4705F0371AF1062C0050D47A /* Reachability.m in Sources */,
