@@ -359,7 +359,12 @@
             [self.mediasArray addObject:media];
         }
     }
-    [self.mediaDict setObject:self.mediasArray forKey:@"medias"];
+    if (self.mediasArray.count == 0) {
+        
+    }else {
+        [self.mediaDict setObject:self.mediasArray forKey:@"medias"];
+        
+    }
 }
 -(NSDictionary*)prepareForCreate
 {
@@ -411,122 +416,7 @@
     
 }
 
--(void)keyboardWillShow:(NSNotification*)notificationInfo
-{
-    if (self.keyboardShow) {
-        return;
-    }
-    self.keyboardShow = YES;
-    // Get the keyboard size
-    UIScrollView *tableView;
-    if([self.tableView.superview isKindOfClass:[UIScrollView class]])
-        tableView = (UIScrollView *)self.tableView.superview;
-    else
-        tableView = self.tableView;
-    
-    NSDictionary *userInfo = [notificationInfo userInfo];
-    NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-    
-    //[self.delegate keyboardShow:[aValue CGRectValue].size.height];
-    CGRect keyboardRect = [tableView.superview convertRect:[aValue CGRectValue] fromView:nil];
-    
-    
-    // [self.delegate keyboardShow:keyboardRect.size.height];
-    // Get the keyboard's animation details
-    NSTimeInterval animationDuration;
-    [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] getValue:&animationDuration];
-    UIViewAnimationCurve animationCurve;
-    [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] getValue:&animationCurve];
-    
-    // Determine how much overlap exists between tableView and the keyboard
-    CGRect tableFrame = tableView.frame;
-    CGFloat tableLowerYCoord = tableFrame.origin.y + tableFrame.size.height;
-    self.keyboardOverlap = tableLowerYCoord - keyboardRect.origin.y;
-    if(self.currentTextView && self.keyboardOverlap>0)
-    {
-        CGFloat accessoryHeight = self.currentTextView.frame.size.height;
-        self.keyboardOverlap -= accessoryHeight;
-        
-        tableView.contentInset = UIEdgeInsetsMake(0, 0, accessoryHeight, 0);
-        tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, accessoryHeight, 0);
-    }
-    
-    if(self.keyboardOverlap < 0)
-        self.keyboardOverlap = 0;
-    
-    if(self.keyboardOverlap != 0)
-    {
-        tableFrame.size.height -= self.keyboardOverlap;
-        
-        NSTimeInterval delay = 0;
-        if(keyboardRect.size.height)
-        {
-            delay = (1 - self.keyboardOverlap/keyboardRect.size.height)*animationDuration;
-            animationDuration = animationDuration * self.keyboardOverlap/keyboardRect.size.height;
-        }
-        
-        [UIView animateWithDuration:animationDuration delay:delay
-                            options:UIViewAnimationOptionBeginFromCurrentState
-                         animations:^{ tableView.frame = tableFrame; }
-                         completion:^(BOOL finished){ [self tableAnimationEnded:nil finished:nil contextInfo:nil]; }];
-    }
-    
-}
--(void)keyboardWillHide:(NSNotification*)notificationInfo
-{
-    if (!self.keyboardShow) {
-        return;
-    }
-    self.keyboardShow = NO;
-    
-    UIScrollView *tableView;
-    if([self.tableView.superview isKindOfClass:[UIScrollView class]])
-        tableView = (UIScrollView *)self.tableView.superview;
-    else
-        tableView = self.tableView;
-    if(self.currentTextView)
-    {
-        tableView.contentInset = UIEdgeInsetsZero;
-        tableView.scrollIndicatorInsets = UIEdgeInsetsZero;
-    }
-    
-    if(self.keyboardOverlap == 0)
-        return;
-    
-    // Get the size & animation details of the keyboard
-    NSDictionary *userInfo = [notificationInfo userInfo];
-    NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-    CGRect keyboardRect = [tableView.superview convertRect:[aValue CGRectValue] fromView:nil];
-    
-    NSTimeInterval animationDuration;
-    [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] getValue:&animationDuration];
-    UIViewAnimationCurve animationCurve;
-    [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] getValue:&animationCurve];
-    
-    CGRect tableFrame = tableView.frame;
-    tableFrame.size.height += self.keyboardOverlap;
-    
-    if(keyboardRect.size.height)
-        animationDuration = animationDuration * self.keyboardOverlap/keyboardRect.size.height;
-    
-    [UIView animateWithDuration:animationDuration delay:0
-                        options:UIViewAnimationOptionBeginFromCurrentState
-                     animations:^{ tableView.frame = tableFrame; }
-                     completion:^(BOOL finished){ [self tableAnimationEnded:nil finished:nil contextInfo:nil]; }];
-    
-    
-}
-- (void) tableAnimationEnded:(NSString*)animationID finished:(NSNumber *)finished contextInfo:(void *)context
-{
-    // Scroll to the active cell
-    UITableView *tableView = self.tableView;
-    if(self.currentIndexPath)
-    {
-        [tableView scrollToRowAtIndexPath:self.currentIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-        [tableView selectRowAtIndexPath:self.currentIndexPath animated:NO scrollPosition:UITableViewScrollPositionBottom];
-        
-    }
-}
+
 #pragma mask - cell delegate
 -(void)textViewCell:(RecordNoteCreateCellTableViewCell *)cell didChangeText:(NSString *)text
 {
@@ -812,5 +702,122 @@
         _mediasArray = [[NSMutableArray alloc] init];
     }
     return _mediasArray;
+}
+#pragma mask - keyboard
+-(void)keyboardWillShow:(NSNotification*)notificationInfo
+{
+    if (self.keyboardShow) {
+        return;
+    }
+    self.keyboardShow = YES;
+    // Get the keyboard size
+    UIScrollView *tableView;
+    if([self.tableView.superview isKindOfClass:[UIScrollView class]])
+        tableView = (UIScrollView *)self.tableView.superview;
+    else
+        tableView = self.tableView;
+    
+    NSDictionary *userInfo = [notificationInfo userInfo];
+    NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    
+    //[self.delegate keyboardShow:[aValue CGRectValue].size.height];
+    CGRect keyboardRect = [tableView.superview convertRect:[aValue CGRectValue] fromView:nil];
+    
+    
+    // [self.delegate keyboardShow:keyboardRect.size.height];
+    // Get the keyboard's animation details
+    NSTimeInterval animationDuration;
+    [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] getValue:&animationDuration];
+    UIViewAnimationCurve animationCurve;
+    [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] getValue:&animationCurve];
+    
+    // Determine how much overlap exists between tableView and the keyboard
+    CGRect tableFrame = tableView.frame;
+    CGFloat tableLowerYCoord = tableFrame.origin.y + tableFrame.size.height;
+    self.keyboardOverlap = tableLowerYCoord - keyboardRect.origin.y;
+    if(self.currentTextView && self.keyboardOverlap>0)
+    {
+        CGFloat accessoryHeight = self.currentTextView.frame.size.height;
+        self.keyboardOverlap -= accessoryHeight;
+        
+        tableView.contentInset = UIEdgeInsetsMake(0, 0, accessoryHeight, 0);
+        tableView.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, accessoryHeight, 0);
+    }
+    
+    if(self.keyboardOverlap < 0)
+        self.keyboardOverlap = 0;
+    
+    if(self.keyboardOverlap != 0)
+    {
+        tableFrame.size.height -= self.keyboardOverlap;
+        
+        NSTimeInterval delay = 0;
+        if(keyboardRect.size.height)
+        {
+            delay = (1 - self.keyboardOverlap/keyboardRect.size.height)*animationDuration;
+            animationDuration = animationDuration * self.keyboardOverlap/keyboardRect.size.height;
+        }
+        
+        [UIView animateWithDuration:animationDuration delay:delay
+                            options:UIViewAnimationOptionBeginFromCurrentState
+                         animations:^{ tableView.frame = tableFrame; }
+                         completion:^(BOOL finished){ [self tableAnimationEnded:nil finished:nil contextInfo:nil]; }];
+    }
+    
+}
+-(void)keyboardWillHide:(NSNotification*)notificationInfo
+{
+    if (!self.keyboardShow) {
+        return;
+    }
+    self.keyboardShow = NO;
+    
+    UIScrollView *tableView;
+    if([self.tableView.superview isKindOfClass:[UIScrollView class]])
+        tableView = (UIScrollView *)self.tableView.superview;
+    else
+        tableView = self.tableView;
+    if(self.currentTextView)
+    {
+        tableView.contentInset = UIEdgeInsetsZero;
+        tableView.scrollIndicatorInsets = UIEdgeInsetsZero;
+    }
+    
+    if(self.keyboardOverlap == 0)
+        return;
+    
+    // Get the size & animation details of the keyboard
+    NSDictionary *userInfo = [notificationInfo userInfo];
+    NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGRect keyboardRect = [tableView.superview convertRect:[aValue CGRectValue] fromView:nil];
+    
+    NSTimeInterval animationDuration;
+    [[userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey] getValue:&animationDuration];
+    UIViewAnimationCurve animationCurve;
+    [[userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey] getValue:&animationCurve];
+    
+    CGRect tableFrame = tableView.frame;
+    tableFrame.size.height += self.keyboardOverlap;
+    
+    if(keyboardRect.size.height)
+        animationDuration = animationDuration * self.keyboardOverlap/keyboardRect.size.height;
+    
+    [UIView animateWithDuration:animationDuration delay:0
+                        options:UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{ tableView.frame = tableFrame; }
+                     completion:^(BOOL finished){ [self tableAnimationEnded:nil finished:nil contextInfo:nil]; }];
+    
+    
+}
+- (void) tableAnimationEnded:(NSString*)animationID finished:(NSNumber *)finished contextInfo:(void *)context
+{
+    // Scroll to the active cell
+    UITableView *tableView = self.tableView;
+    if(self.currentIndexPath)
+    {
+        [tableView scrollToRowAtIndexPath:self.currentIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        [tableView selectRowAtIndexPath:self.currentIndexPath animated:NO scrollPosition:UITableViewScrollPositionBottom];
+        
+    }
 }
 @end

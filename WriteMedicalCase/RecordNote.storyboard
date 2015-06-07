@@ -616,6 +616,28 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="originNoteContentCell" rowHeight="200" id="rKL-gx-w1h" customClass="ContainerViewCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rKL-gx-w1h" id="NzJ-hx-Ase">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="csT-7Q-Uyf">
+                                                    <rect key="frame" x="0.0" y="1" width="600" height="198"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="198" id="3nl-ud-W4Z"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="csT-7Q-Uyf" secondAttribute="bottom" constant="0.5" id="ljc-ZF-p9H"/>
+                                                <constraint firstAttribute="trailing" secondItem="csT-7Q-Uyf" secondAttribute="trailing" id="vWA-Dy-tx7"/>
+                                                <constraint firstItem="csT-7Q-Uyf" firstAttribute="leading" secondItem="NzJ-hx-Ase" secondAttribute="leading" id="vbF-La-uox"/>
+                                                <constraint firstItem="csT-7Q-Uyf" firstAttribute="top" secondItem="NzJ-hx-Ase" secondAttribute="top" constant="1" id="zGe-zf-DpP"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="WFf-eM-58j" id="BgE-iU-T7J"/>
@@ -657,6 +679,11 @@
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DPt-xb-v6z" userLabel="camera">
                                         <rect key="frame" x="0.0" y="3" width="30" height="30"/>
                                         <state key="normal" image="拍照"/>
+                                        <connections>
+                                            <segue destination="NzJ-Tl-r0D" kind="popoverPresentation" identifier="originNoteTakePhoto" popoverAnchorView="DPt-xb-v6z" id="rPQ-Ld-Dbq">
+                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                            </segue>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZMP-Nt-TQP">
                                         <rect key="frame" x="88" y="3" width="30" height="30"/>
@@ -947,7 +974,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E0D-9C-4Wp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="962" y="1361"/>
+            <point key="canvasLocation" x="3012" y="1012"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Xoe-HH-D0x">
@@ -996,7 +1023,7 @@
         <image name="语音" width="28" height="27"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="CQM-mv-wxJ"/>
+        <segue reference="rPQ-Ld-Dbq"/>
         <segue reference="iQa-df-fEZ"/>
         <segue reference="cZF-K1-2Q2"/>
     </inferredMetricsTieBreakers>
