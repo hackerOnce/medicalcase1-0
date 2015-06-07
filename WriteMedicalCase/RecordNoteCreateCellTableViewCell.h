@@ -11,8 +11,9 @@
 @protocol  RecordNoteCreateCellTableViewCellDelegate;
 
 @interface RecordNoteCreateCellTableViewCell : UITableViewCell<UITextViewDelegate>
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewHeightConstraints;
 @property (weak,nonatomic) id <RecordNoteCreateCellTableViewCellDelegate> delegate;
-
+@property (nonatomic) NSInteger mediaCount;
 @end
 
 @protocol RecordNoteCreateCellTableViewCellDelegate <NSObject>

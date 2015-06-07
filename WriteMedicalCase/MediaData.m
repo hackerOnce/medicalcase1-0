@@ -12,6 +12,8 @@
 
 @implementation MediaData
 
+@dynamic cursorX;
+@dynamic cursorY;
 @dynamic dataType;
 @dynamic location;
 @dynamic noteID;

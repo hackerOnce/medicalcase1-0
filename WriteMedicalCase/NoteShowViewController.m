@@ -36,6 +36,9 @@
     _coreDataStack = [[CoreDataStack alloc] init];
     return _coreDataStack;
 }
+- (IBAction)cancel:(UIBarButtonItem *)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 #pragma mask - view life cycle
 

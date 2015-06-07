@@ -35,6 +35,11 @@
     }else {
         placeHolder.hidden = YES;
     }
+    
+//    UITableView *tableView = [self tableView];
+//    [tableView beginUpdates];
+//    [tableView endUpdates];
+
 }
 
 -(void)textViewDidChange:(UITextView *)textView
@@ -48,9 +53,7 @@
     if (newSize.width < bounds.size.width) {
         newSize.width = bounds.size.width;
     }
-    if (newSize.height < bounds.size.height) {
-        newSize.height = bounds.size.height;
-    }
+    
     bounds.size = newSize;
     
     textView.bounds = bounds;

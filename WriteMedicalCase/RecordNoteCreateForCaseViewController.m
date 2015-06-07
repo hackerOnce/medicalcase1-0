@@ -12,8 +12,10 @@
 #import "SelectedShareRangeViewController.h"
 #import "TemplateNoteContent.h"
 #import "TestViewController.h"
+#import "TakePhotoViewController.h"
+#import "ContainerViewCell.h"
 
-@interface RecordNoteCreateForCaseViewController ()<RecordNoteCreateCellTableViewCellDelegate,UITableViewDataSource,UITableViewDelegate,RecordNoteWarningViewControllerDelegate,SelectedShareRangeViewControllerDelegate,UITextFieldDelegate>
+@interface RecordNoteCreateForCaseViewController ()<RecordNoteCreateCellTableViewCellDelegate,UITableViewDataSource,UITableViewDelegate,RecordNoteWarningViewControllerDelegate,SelectedShareRangeViewControllerDelegate,UITextFieldDelegate,TakePhotoViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic,strong) NSMutableDictionary *dataSourceDict;
@@ -39,6 +41,14 @@
 @property (nonatomic,strong) NoteBook *note;
 
 @property (nonatomic,strong) CoreDataStack *coreDataStack;
+
+@property (nonatomic,strong) NoteContent *selectedNoteContent;
+
+@property (nonatomic,strong) NSLayoutConstraint *currentTextViewheightConstraints;
+
+@property (nonatomic,strong) NSMutableDictionary *mediaDict;
+
+@property (nonatomic,strong) NSMutableArray *mediasArray;
 @end
 
 @implementation RecordNoteCreateForCaseViewController
@@ -49,6 +59,14 @@
 {
     _coreDataStack = [[CoreDataStack alloc] init];
     return _coreDataStack;
+}
+- (IBAction)takePhoto:(UIButton *)sender
+{
+    
+}
+- (IBAction)audio:(UIButton *)sender
+{
+    
 }
 - (IBAction)sharedClicked:(UIButton *)sender
 {
@@ -72,7 +90,7 @@
 - (IBAction)save:(UIButton *)sender
 {
 //  TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
-   NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
+   //NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
 //  [MessageObject messageObjectWithUsrStr:doctor.dID pwdStr:@"test"iHMsgSocket:self.socket optInt:1509 sync_version:1.0 dictionary:dict block:^(IHSockRequest *request) {
 //        
 //  }failConection:^(NSError *error) {
@@ -207,6 +225,93 @@
     NSDictionary *contentDict = @{@"noteContentS":@"ih_contents",@"noteContentO":@"ih_contento",@"noteContentA":@"ih_contenta",@"noteContentP":@"ih_contentp"};
     return contentDict[contents];
 }
+#pragma mask - take photo view controller delegate
+-(void)didSelectedImage:(UIImage *)image withImageData:(NSData *)imageData atIndexPath:(NSIndexPath *)indexPath
+{
+    
+    NoteContent *noteContent = [self.note.contents objectAtIndex:indexPath.row];
+    NSRange range = self.currentTextView.selectedRange;
+    
+    if (self.currentTextView.selectedTextRange) {
+        
+    }
+    CGRect  textViewRect = [self.currentTextView caretRectForPosition:self.currentTextView.selectedTextRange.start];
+    CGPoint cursorPosition = textViewRect.origin;
+    
+    //[self showMediaImage:imageData atLocation:cursorPosition];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self addMediaDataToNoteContent:noteContent withImage:image atLocation:range withPoint:cursorPosition];
+    });
+    
+}
+-(void)showMediaImage:(NSData*)imageData atLocation:(CGPoint)location
+{
+    
+//    UIImageView *imageView = [[UIImageView alloc] init];
+//    imageView.contentMode = UIViewContentModeScaleAspectFit;
+//    //CGFloat oldWidth = image.size.width;
+//   // CGFloat scaleFactor = oldWidth / (self.currentTextView.frame.size.width - 10);
+//    //UIImage *newImage = [UIImage imageWithCGImage:image.CGImage scale:scaleFactor orientation:UIImageOrientationUp];
+//    UIImage *image = [UIImage imageWithData:imageData];
+//            imageView.image = image;
+//    imageView.frame = CGRectMake(location.x + 10, location.y-45, self.view.frame.size.width/6, self.view.frame.size.width/6);
+//    
+//    [self.currentTextView addSubview:imageView];
+//    self.currentTextView.scrollEnabled  =NO;
+//    
+ //     CGRect ovalFrame = [self.currentTextView convertRect:imageView.bounds
+//                                         fromView:imageView];
+//      UIBezierPath *ovalPath = [UIBezierPath bezierPathWithRect:ovalFrame];
+    //NSMutableArray *ovalPaths = [NSMutableArray arrayWithArray:self.currentTextView.textContainer.exclusionPaths];
+    //[ovalPaths addObject:ovalPath];
+   // self.currentTextView.textContainer.exclusionPaths = ovalPath;
+
+    //ovalFrame.origin.x -= self.currentTextView.textContainerInset.left;
+    //ovalFrame.origin.y -= self.currentTextView.textContainerInset.top;
+//    UIImage *image = [UIImage imageWithData:imageData];
+//    NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+//    textAttachment.image = image;
+//    CGFloat oldWidth = textAttachment.image.size.width;
+//    CGFloat scaleFactor = oldWidth / (self.currentTextView.frame.size.width - 10);
+//    textAttachment.image = [UIImage imageWithCGImage:textAttachment.image.CGImage scale:scaleFactor orientation:UIImageOrientationUp];
+//    
+//    NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
+//    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.currentTextView.text];
+//    [attributedString replaceCharactersInRange:self.currentTextView.selectedRange withAttributedString:attrStringWithImage];
+//    self.currentTextView.attributedText = attributedString;
+//    
+//    self.currentTextViewheightConstraints.constant += image.size.height;
+//    
+//    NSLog(@"height:%@",@(self.currentTextViewheightConstraints.constant));
+//    [UIView animateWithDuration:1.5 animations:^{
+//        
+//        [self.currentTextView layoutIfNeeded];
+//       // [self.tableView reloadRowsAtIndexPaths:@[self.currentIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+//    }];
+//  UIBezierPath *ovalPath = [UIBezierPath bezierPathWithRect:ovalFrame];
+//  self.currentTextView.textContainer.exclusionPaths = @[ovalPath];
+    
+    
+}
+-(void)addMediaDataToNoteContent:(NoteContent*)noteContent withImage:(UIImage*)image atLocation:(NSRange)range withPoint:(CGPoint)point
+{
+    NSData *data = UIImageJPEGRepresentation(image, 1);
+    NSDictionary *dataDict = @{@"mediaNameString":[self currentDate],@"data":data,@"location":[NSString stringWithFormat:@"%@",@(range.location)],@"cursorX":[NSString stringWithFormat:@"%@",@(point.x)],@"cursorY":[NSString stringWithFormat:@"%@",@(point.y)]};
+    MediaData *mediaData = [self.coreDataStack mediaDataCreateWithDict:dataDict];
+    mediaData.owner = noteContent;
+    
+    [self.mediasArray addObject:mediaData];
+    
+    [self.coreDataStack saveContext];
+
+    [self.mediaDict setObject:self.mediasArray forKey:@"medias"];
+    NSLog(@"mediasArray:%@",@(self.mediasArray.count));
+    NSLog(@"medict: %@",@(self.mediaDict.count));
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
+}
 #pragma mask - SelectedShareRangeViewControllerDelegate
 -(void)didSelectedSharedUsers:(NSDictionary *)sharedUser
 {
@@ -230,10 +335,27 @@
 
     self.note = [self.coreDataStack noteBookFetchWithDoctorID:@"2334" noteType:self.noteType isCurrentNote:[NSNumber numberWithBool:YES]];
     if (self.note) {
+        self.mediasArray = nil;
+        self.mediaDict = nil;
+        
+        for (NoteContent *noteContent in self.note.contents) {
+            for (MediaData *media in noteContent.medias) {
+                [self.mediasArray addObject:media];
+            }
+        }
+        [self.mediaDict setObject:self.mediasArray forKey:@"medias"];
         [self.tableView reloadData];
     }else {
         self.note = [self.coreDataStack noteBookFetchWithDict:[self prepareForCreate]];
-
+        self.mediasArray = nil;
+        self.mediaDict = nil;
+        
+        for (NoteContent *noteContent in self.note.contents) {
+            for (MediaData *media in noteContent.medias) {
+                [self.mediasArray addObject:media];
+            }
+        }
+        [self.mediaDict setObject:self.mediasArray forKey:@"media"];
         if (self.note) {
             [self.tableView reloadData];
         }
@@ -283,7 +405,7 @@
 }
 -(void)setUpTableView
 {
-    self.tableView.estimatedRowHeight = 1000;
+    self.tableView.estimatedRowHeight = 2000;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -421,29 +543,52 @@
 }
 -(void)textViewDidBeginEditing:(UITextView *)textView withCellIndexPath:(NSIndexPath *)indexPath
 {
+    RecordNoteCreateCellTableViewCell *cell = (RecordNoteCreateCellTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+    self.currentTextViewheightConstraints = cell.textViewHeightConstraints;
     self.currentTextView = textView;
     self.currentIndexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section];
 }
 -(void)textViewShouldBeginEditing:(UITextView *)textView withCellIndexPath:(NSIndexPath *)indexPath
 {
-   
+    
 }
 #pragma mask - table view delegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    NSInteger section = self.mediaDict.count==0?1:2;
+    NSLog(@"coyunt:%@",@(self.mediaDict.count));
+    NSLog(@"section:%@",@(section));
+    return section;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-   return self.note.contents.count;
+    if (section == 0) {
+        return self.note.contents.count;
+    }else {
+        return 1;
+    }
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellIdentifier = @"noteCreatePatientCell";
-    RecordNoteCreateCellTableViewCell *tableViewCell =(RecordNoteCreateCellTableViewCell*) [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    tableViewCell.delegate = self;
-    [self configCell:tableViewCell atIndexPath:indexPath];
-    return tableViewCell;
+    static NSString *mediaCellIdentifier = @"ContainerViewCell";
+    
+    if (indexPath.section == 0) {
+        RecordNoteCreateCellTableViewCell *tableViewCell =(RecordNoteCreateCellTableViewCell*) [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        tableViewCell.delegate = self;
+        [self configCell:tableViewCell atIndexPath:indexPath];
+        return tableViewCell;
+    }else {
+        ContainerViewCell *containerCell = [tableView dequeueReusableCellWithIdentifier:mediaCellIdentifier];
+        
+        NSArray *medias = [self.mediaDict objectForKey:@"medias"];
+        
+        
+        [containerCell setCollectionData:medias];
+
+        return containerCell;
+    }
+   
 }
 -(void)configCell:(RecordNoteCreateCellTableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath
 {
@@ -454,6 +599,31 @@
     placeHolder.placeholder = placeHolderString;
     
     NoteContent *noteContent = [self.note.contents objectAtIndex:indexPath.row];
+    NSMutableArray *ovalPaths =[[NSMutableArray alloc] init];
+    for (MediaData  *mediaData in noteContent.medias) {
+        
+       // [self showMediaImage:mediaData.data atLocation:CGPointMake([mediaData.cursorX integerValue], [mediaData.cursorY integerValue])];
+//        UIImageView *imageView = [[UIImageView alloc] init];
+//        imageView.contentMode = UIViewContentModeScaleAspectFit;
+//        //CGFloat oldWidth = image.size.width;
+//        // CGFloat scaleFactor = oldWidth / (self.currentTextView.frame.size.width - 10);
+//        //UIImage *newImage = [UIImage imageWithCGImage:image.CGImage scale:scaleFactor orientation:UIImageOrientationUp];
+//        UIImage *image = [UIImage imageWithData:mediaData.data];
+//        imageView.image = image;
+//        imageView.frame = CGRectMake([mediaData.cursorX integerValue] + 10, [mediaData.cursorY integerValue]-45, 200, 200);
+//        
+//        [textView addSubview:imageView];
+//        textView.scrollEnabled  = NO;
+//        
+//        CGRect ovalFrame = [self.currentTextView convertRect:imageView.bounds
+//                                                    fromView:imageView];
+//        UIBezierPath *ovalPath = [UIBezierPath bezierPathWithRect:ovalFrame];
+//       
+//        [ovalPaths addObject:ovalPath];
+        
+    }
+    textView.textContainer.exclusionPaths = ovalPaths;
+
     textView.text = StringValue(noteContent.updatedContent);
 }
 
@@ -464,15 +634,26 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 80;
+    if (section == 0) {
+        return 80;
+    }else {
+        return 0.1;
+//        return self.mediaDict.count==0?0:20;
+    }
 }
+
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    CGRect headerViewFrame = CGRectMake(0, 0, tableView.frame.size.width, tableView.frame.size.height);
-    UIView *headerView = [[UIView alloc] initWithFrame:headerViewFrame];
-    headerView.backgroundColor = [UIColor whiteColor];
-    [self addSubViewToHeaderView:headerView];
-    return headerView;
+    if (section == 0) {
+        CGRect headerViewFrame = CGRectMake(0, 0, tableView.frame.size.width, tableView.frame.size.height);
+        UIView *headerView = [[UIView alloc] initWithFrame:headerViewFrame];
+        headerView.backgroundColor = [UIColor whiteColor];
+        [self addSubViewToHeaderView:headerView];
+        return headerView;
+    }else {
+        return [[UIView alloc] initWithFrame:CGRectZero];
+    }
+    
 }
 -(void)addSubViewToHeaderView:(UIView*)headerView
 {
@@ -531,6 +712,11 @@
         // 取消创建
         [self.coreDataStack noteBookDeleteWithID:self.note.noteUUID];
         [self.coreDataStack saveContext];
+    }
+    
+    if ([segue.identifier isEqualToString:@"takePhotoSegue"]) {
+        TakePhotoViewController *takePhoto = (TakePhotoViewController*)segue.destinationViewController;
+        takePhoto.delegate  = self;
     }
 }
 -(UIViewController*)expectedViewController:(UIViewController*)viewController
@@ -608,5 +794,21 @@
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     dateString = [formatter stringFromDate:[NSDate new]];
     return dateString;
+}
+-(NSMutableDictionary *)mediaDict
+{
+    if (!_mediaDict) {
+        _mediaDict = [[NSMutableDictionary alloc] init];
+//        [_mediaDict setObject:nil forKey:@"Audio"];
+//        [_mediaDict setObject:nil forKey:@"Image"];
+    }
+    return _mediaDict;
+}
+-(NSMutableArray *)mediasArray
+{
+    if (!_mediasArray) {
+        _mediasArray = [[NSMutableArray alloc] init];
+    }
+    return _mediasArray;
 }
 @end

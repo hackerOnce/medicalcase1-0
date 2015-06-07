@@ -71,6 +71,12 @@
 		4705F0D51AF130250050D47A /* personInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0D41AF130250050D47A /* personInfoView.m */; };
 		4705F0D81AF1312F0050D47A /* WriteCaseEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4705F0D71AF1312F0050D47A /* WriteCaseEditViewController.m */; };
 		470D11231B22C6CC006BE544 /* ShowNotePart.m in Sources */ = {isa = PBXBuildFile; fileRef = 470D11221B22C6CC006BE544 /* ShowNotePart.m */; };
+		470D11581B22E899006BE544 /* TakePhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 470D11571B22E899006BE544 /* TakePhotoViewController.m */; };
+		470D11A31B23F2CD006BE544 /* ContainerViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 470D119C1B23F2CD006BE544 /* ContainerViewCell.m */; };
+		470D11A41B23F2CD006BE544 /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 470D119D1B23F2CD006BE544 /* CollectionViewCell.xib */; };
+		470D11A51B23F2CD006BE544 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 470D119F1B23F2CD006BE544 /* CollectionViewCell.m */; };
+		470D11A61B23F2CD006BE544 /* ContainerCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 470D11A11B23F2CD006BE544 /* ContainerCellView.m */; };
+		470D11A71B23F2CD006BE544 /* ContainerCellView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 470D11A21B23F2CD006BE544 /* ContainerCellView.xib */; };
 		472631D41B1C660800857B22 /* RecordNoteCreateForCaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 472631D31B1C660800857B22 /* RecordNoteCreateForCaseViewController.m */; };
 		472631D71B1D3CBD00857B22 /* RecordNoteCreateCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 472631D61B1D3CBD00857B22 /* RecordNoteCreateCellTableViewCell.m */; };
 		472631DA1B1D874C00857B22 /* RecordNoteWarningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 472631D91B1D874C00857B22 /* RecordNoteWarningViewController.m */; };
@@ -285,6 +291,16 @@
 		4705F0D71AF1312F0050D47A /* WriteCaseEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WriteCaseEditViewController.m; sourceTree = "<group>"; };
 		470D11211B22C6CC006BE544 /* ShowNotePart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowNotePart.h; sourceTree = "<group>"; };
 		470D11221B22C6CC006BE544 /* ShowNotePart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowNotePart.m; sourceTree = "<group>"; };
+		470D11561B22E899006BE544 /* TakePhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TakePhotoViewController.h; sourceTree = "<group>"; };
+		470D11571B22E899006BE544 /* TakePhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TakePhotoViewController.m; sourceTree = "<group>"; };
+		470D119B1B23F2CD006BE544 /* ContainerViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContainerViewCell.h; sourceTree = "<group>"; };
+		470D119C1B23F2CD006BE544 /* ContainerViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContainerViewCell.m; sourceTree = "<group>"; };
+		470D119D1B23F2CD006BE544 /* CollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
+		470D119E1B23F2CD006BE544 /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
+		470D119F1B23F2CD006BE544 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
+		470D11A01B23F2CD006BE544 /* ContainerCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContainerCellView.h; sourceTree = "<group>"; };
+		470D11A11B23F2CD006BE544 /* ContainerCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContainerCellView.m; sourceTree = "<group>"; };
+		470D11A21B23F2CD006BE544 /* ContainerCellView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContainerCellView.xib; sourceTree = "<group>"; };
 		472631D21B1C660800857B22 /* RecordNoteCreateForCaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordNoteCreateForCaseViewController.h; sourceTree = "<group>"; };
 		472631D31B1C660800857B22 /* RecordNoteCreateForCaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordNoteCreateForCaseViewController.m; sourceTree = "<group>"; };
 		472631D51B1D3CBD00857B22 /* RecordNoteCreateCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordNoteCreateCellTableViewCell.h; sourceTree = "<group>"; };
@@ -812,6 +828,14 @@
 				472631DC1B1EC5EA00857B22 /* TempNote.m */,
 				475463701B1C257F0026E4AE /* RecordNote.storyboard */,
 				472632291B21687F00857B22 /* NoteShowViewController.h */,
+				470D119B1B23F2CD006BE544 /* ContainerViewCell.h */,
+				470D119C1B23F2CD006BE544 /* ContainerViewCell.m */,
+				470D119D1B23F2CD006BE544 /* CollectionViewCell.xib */,
+				470D119E1B23F2CD006BE544 /* CollectionViewCell.h */,
+				470D119F1B23F2CD006BE544 /* CollectionViewCell.m */,
+				470D11A01B23F2CD006BE544 /* ContainerCellView.h */,
+				470D11A11B23F2CD006BE544 /* ContainerCellView.m */,
+				470D11A21B23F2CD006BE544 /* ContainerCellView.xib */,
 				4726322A1B21687F00857B22 /* NoteShowViewController.m */,
 				4726322C1B21689800857B22 /* NoteDetailViewController.h */,
 				4726322D1B21689800857B22 /* NoteDetailViewController.m */,
@@ -825,6 +849,8 @@
 				475463741B1C26780026E4AE /* ReordNoteCreateViewController.m */,
 				472631D21B1C660800857B22 /* RecordNoteCreateForCaseViewController.h */,
 				472631D31B1C660800857B22 /* RecordNoteCreateForCaseViewController.m */,
+				470D11561B22E899006BE544 /* TakePhotoViewController.h */,
+				470D11571B22E899006BE544 /* TakePhotoViewController.m */,
 				472632111B1FDBDC00857B22 /* TemplateNoteContent.h */,
 				472632121B1FDBDC00857B22 /* TemplateNoteContent.m */,
 				472632141B1FDC4300857B22 /* TemplateMedia.h */,
@@ -944,7 +970,6 @@
 				TargetAttributes = {
 					4705EFE81AF1044B0050D47A = {
 						CreatedOnToolsVersion = 6.3;
-						DevelopmentTeam = 2AHKDU2ECU;
 					};
 					4705F0011AF1044B0050D47A = {
 						CreatedOnToolsVersion = 6.3;
@@ -978,6 +1003,7 @@
 			files = (
 				4705F0391AF1062C0050D47A /* AsyncSocket使用说明.pages in Resources */,
 				47301D1B1AFC8C1F005D42CC /* CreateTemplateStoryboard.storyboard in Resources */,
+				470D11A41B23F2CD006BE544 /* CollectionViewCell.xib in Resources */,
 				4705EFF81AF1044B0050D47A /* Main.storyboard in Resources */,
 				4705F0131AF1049E0050D47A /* WriteCaseStoryboard.storyboard in Resources */,
 				4705EFFD1AF1044B0050D47A /* LaunchScreen.xib in Resources */,
@@ -987,6 +1013,7 @@
 				475463711B1C257F0026E4AE /* RecordNote.storyboard in Resources */,
 				4705F03B1AF1062C0050D47A /* MBProgressHUD.bundle in Resources */,
 				4705F04F1AF1082C0050D47A /* 病历.opml in Resources */,
+				470D11A71B23F2CD006BE544 /* ContainerCellView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1016,6 +1043,7 @@
 				4705F08D1AF109990050D47A /* WLKCase.m in Sources */,
 				4705A47E1AF48659007FD2B9 /* NSDate+Helper.m in Sources */,
 				4705F0D81AF1312F0050D47A /* WriteCaseEditViewController.m in Sources */,
+				470D11A51B23F2CD006BE544 /* CollectionViewCell.m in Sources */,
 				4705F0341AF1062C0050D47A /* MessageObject+DY.m in Sources */,
 				472632221B20191300857B22 /* NoteContent.m in Sources */,
 				4764755A1B09D4B1004AFDF1 /* Doctor.m in Sources */,
@@ -1058,6 +1086,7 @@
 				4705F0451AF107360050D47A /* CoreDataStack.m in Sources */,
 				474D82B01AFC90FA004A4151 /* TemplateLeftDetailFirstViewController.m in Sources */,
 				478859081AF71A70002CD361 /* TempDoctor.m in Sources */,
+				470D11581B22E899006BE544 /* TakePhotoViewController.m in Sources */,
 				4705F03A1AF1062C0050D47A /* MBProgressHUD+MJ.m in Sources */,
 				4764756C1B0AD761004AFDF1 /* TempRecord.m in Sources */,
 				472632161B1FDC4300857B22 /* TemplateMedia.m in Sources */,
@@ -1069,6 +1098,7 @@
 				4705F0991AF109C10050D47A /* WLKView.m in Sources */,
 				4705F07F1AF109770050D47A /* WLKCaseNodeCell.m in Sources */,
 				4705F0301AF1062C0050D47A /* GCDAsyncSocket.m in Sources */,
+				470D11A31B23F2CD006BE544 /* ContainerViewCell.m in Sources */,
 				478BD1901B0C376600EC632E /* SelectCommitDoctorViewController.m in Sources */,
 				474D82BC1AFC9381004A4151 /* ModelPlateConditionViewController.m in Sources */,
 				474D82B91AFC923E004A4151 /* HUDSubViewController.m in Sources */,
@@ -1099,6 +1129,7 @@
 				473C912C1B004ED90069ECE4 /* TemplateModel.m in Sources */,
 				473C91291AFCA8FF0069ECE4 /* CreateTemplateViewController.m in Sources */,
 				4705F08F1AF109990050D47A /* WLKPatient.m in Sources */,
+				470D11A61B23F2CD006BE544 /* ContainerCellView.m in Sources */,
 				476474321B0437C7004AFDF1 /* SelectedDoctorViewController.m in Sources */,
 				4705F0D51AF130250050D47A /* personInfoView.m in Sources */,
 				478858EC1AF1FD06002CD361 /* CustomSegue.m in Sources */,
@@ -1187,7 +1218,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: quanlan huang (FPV5RP366Y)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: quanlan huang (FPV5RP366Y)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1256,7 +1288,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: quanlan huang (FPV5RP366Y)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WriteMedicalCase/PrefixHeader.pch;
 				INFOPLIST_FILE = WriteMedicalCase/Info.plist;
@@ -1270,7 +1302,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: quanlan huang (FPV5RP366Y)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = WriteMedicalCase/PrefixHeader.pch;
 				INFOPLIST_FILE = WriteMedicalCase/Info.plist;

@@ -907,6 +907,12 @@ static NSString *momdName = @"Model";
 }
 -(void)updateMediaData:(MediaData*)mediaData withDict:(NSDictionary*)dict
 {
+    if ([dict.allKeys containsObject:@"cursorX"]) {
+        mediaData.cursorX = dict[@"cursorX"];
+    }
+    if ([dict.allKeys containsObject:@"cursorY"]) {
+        mediaData.cursorY = dict[@"cursorY"];
+    }
     if ([dict.allKeys containsObject:@"dataType"]) {
         mediaData.dataType = dict[@"dataType"];
     }
