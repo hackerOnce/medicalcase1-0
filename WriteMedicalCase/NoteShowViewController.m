@@ -95,7 +95,6 @@
 
     NoteBook *note = (NoteBook*)[self.noteTitleArray objectAtIndex:indexPath.row];
     
-    titleLabel.text = note.noteTitle;
     createTimeLabel.text = [self TimeAndMinutesStringWithDateString:note.updateDate];
     NSLog(@"update time:%@",note.updateDate);
 
@@ -105,15 +104,22 @@
     
     NoteContent *noteContent = (NoteContent*)[note.contents objectAtIndex:0];
 
-    NSString *contentString;
-    if (noteContent.updatedContent.length > 60) {
-        contentString =[NSString stringWithFormat:@"%@...",[noteContent.updatedContent substringToIndex:60]];
-    }else {
-        contentString = noteContent.updatedContent;
-    }
-    contentPartLabel.text = contentString;
-}
+    contentPartLabel.text = [self subStringWithString:noteContent.updatedContent toIndex:15];
+    titleLabel.text = [self subStringWithString:note.noteTitle toIndex:20];
 
+}
+-(NSString*)subStringWithString:(NSString*)originString toIndex:(NSUInteger)index
+{
+    NSString *contentString;
+    if (originString.length > index) {
+        contentString =[NSString stringWithFormat:@"%@...",[originString substringToIndex:index]];
+        NSLog(@"contentString:%@",contentString);
+    }else {
+        contentString = originString;
+    }
+    return contentString;
+
+}
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

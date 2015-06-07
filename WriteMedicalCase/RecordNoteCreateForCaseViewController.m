@@ -47,7 +47,6 @@
 @property (nonatomic,strong) NSLayoutConstraint *currentTextViewheightConstraints;
 
 @property (nonatomic,strong) NSMutableDictionary *mediaDict;
-
 @property (nonatomic,strong) NSMutableArray *mediasArray;
 @end
 
@@ -83,19 +82,22 @@
     [popover presentPopoverFromBarButtonItem:barButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 
 }
-- (IBAction)cancel:(UIBarButtonItem *)sender
+
+-(void)cancelCreateNoteButtonClicked
 {
-  //  [self dismissViewControllerAnimated:YES completion:nil];
+    // 取消创建
+    [self.coreDataStack noteBookDeleteWithID:self.note.noteUUID];
+    [self.coreDataStack saveContext];
 }
-- (IBAction)save:(UIButton *)sender
+-(void)saveNotebuttonClicked
 {
-//  TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
-   //NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
-//  [MessageObject messageObjectWithUsrStr:doctor.dID pwdStr:@"test"iHMsgSocket:self.socket optInt:1509 sync_version:1.0 dictionary:dict block:^(IHSockRequest *request) {
-//        
-//  }failConection:^(NSError *error) {
-//        
-//  }];
+    //  TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
+    //NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
+    //  [MessageObject messageObjectWithUsrStr:doctor.dID pwdStr:@"test"iHMsgSocket:self.socket optInt:1509 sync_version:1.0 dictionary:dict block:^(IHSockRequest *request) {
+    //
+    //  }failConection:^(NSError *error) {
+    //
+    //  }];
     
     for (NoteContent *noteContent in self.note.contents) {
         noteContent.content = noteContent.updatedContent;
@@ -107,7 +109,7 @@
     //self.note.isCurrentNote = NO;
     
     [self.coreDataStack saveContext];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    //[self dismissViewControllerAnimated:YES completion:nil];
 }
 -(NSDictionary*)prepareForSave
 {
@@ -335,32 +337,29 @@
 
     self.note = [self.coreDataStack noteBookFetchWithDoctorID:@"2334" noteType:self.noteType isCurrentNote:[NSNumber numberWithBool:YES]];
     if (self.note) {
-        self.mediasArray = nil;
-        self.mediaDict = nil;
-        
-        for (NoteContent *noteContent in self.note.contents) {
-            for (MediaData *media in noteContent.medias) {
-                [self.mediasArray addObject:media];
-            }
-        }
-        [self.mediaDict setObject:self.mediasArray forKey:@"medias"];
+        [self prepareForShowNoteMedia];
         [self.tableView reloadData];
     }else {
         self.note = [self.coreDataStack noteBookFetchWithDict:[self prepareForCreate]];
-        self.mediasArray = nil;
-        self.mediaDict = nil;
-        
-        for (NoteContent *noteContent in self.note.contents) {
-            for (MediaData *media in noteContent.medias) {
-                [self.mediasArray addObject:media];
-            }
-        }
-        [self.mediaDict setObject:self.mediasArray forKey:@"media"];
+
         if (self.note) {
+            [self prepareForShowNoteMedia];
             [self.tableView reloadData];
         }
     }
     
+}
+-(void)prepareForShowNoteMedia
+{
+    self.mediasArray = nil;
+    self.mediaDict = nil;
+    
+    for (NoteContent *noteContent in self.note.contents) {
+        for (MediaData *media in noteContent.medias) {
+            [self.mediasArray addObject:media];
+        }
+    }
+    [self.mediaDict setObject:self.mediasArray forKey:@"medias"];
 }
 -(NSDictionary*)prepareForCreate
 {
@@ -582,8 +581,6 @@
         ContainerViewCell *containerCell = [tableView dequeueReusableCellWithIdentifier:mediaCellIdentifier];
         
         NSArray *medias = [self.mediaDict objectForKey:@"medias"];
-        
-        
         [containerCell setCollectionData:medias];
 
         return containerCell;
@@ -709,15 +706,20 @@
     }
     if ([segue.identifier isEqualToString:@"patientNoteCancel"]) {
         
-        // 取消创建
-        [self.coreDataStack noteBookDeleteWithID:self.note.noteUUID];
-        [self.coreDataStack saveContext];
+        [self cancelCreateNoteButtonClicked];
     }
     
     if ([segue.identifier isEqualToString:@"takePhotoSegue"]) {
         TakePhotoViewController *takePhoto = (TakePhotoViewController*)segue.destinationViewController;
         takePhoto.delegate  = self;
     }
+    if ([segue.identifier isEqualToString:@"patientNoteSave"]) {
+        //save note
+    
+        [self saveNotebuttonClicked];
+
+    }
+    
 }
 -(UIViewController*)expectedViewController:(UIViewController*)viewController
 {

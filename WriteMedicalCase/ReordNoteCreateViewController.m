@@ -59,22 +59,9 @@
     [popover presentPopoverFromBarButtonItem:barButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     
 }
-- (IBAction)save:(UIButton *)sender
+
+-(void)saveNoteButtonClicked
 {
-//    TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
-//    if ([StringValue(self.noteContent) isEqualToString:@""] ) {
-//        //笔记内容不允许为空
-//        return;
-//    }
-//    
-//    NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
-//    
-//    
-//    [MessageObject messageObjectWithUsrStr:doctor.dID pwdStr:@"test"iHMsgSocket:self.socket optInt:1509 sync_version:1.0 dictionary:dict block:^(IHSockRequest *request) {
-//        
-//    } failConection:^(NSError *error) {
-//        
-//    }];
     for (NoteContent *noteContent in self.note.contents) {
         noteContent.content = noteContent.updatedContent;
         NSLog(@"content:%@",noteContent.updatedContent);
@@ -85,12 +72,15 @@
     //self.note.isCurrentNote = NO;
     
     [self.coreDataStack saveContext];
-    [self dismissViewControllerAnimated:YES completion:nil];
+
 }
-- (IBAction)cancel:(UIBarButtonItem *)sender
+-(void)canceCreateNoteButtonClicked
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    // 取消创建
+    [self.coreDataStack noteBookDeleteWithID:self.note.noteUUID];
+    [self.coreDataStack saveContext];
 }
+
 -(NSDictionary*)prepareForSave
 {
     //doctor
@@ -495,9 +485,11 @@
     }
     if ([segue.identifier isEqualToString:@"OriginalNoteCancel"]) {
         
-        // 取消创建
-        [self.coreDataStack noteBookDeleteWithID:self.note.noteUUID];
-        [self.coreDataStack saveContext];
+        [self canceCreateNoteButtonClicked];
+    }
+    if ([segue.identifier isEqualToString:@"originNoteSave"]) {
+        
+        [self saveNoteButtonClicked];
     }
 
 }

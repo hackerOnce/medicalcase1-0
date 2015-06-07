@@ -98,6 +98,28 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ShowNoteDetailContainerCell" rowHeight="200" id="YVQ-E8-Ybj" customClass="ContainerViewCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YVQ-E8-Ybj" id="uiX-tu-xOv">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fcU-Sr-1cS">
+                                                    <rect key="frame" x="0.0" y="1" width="600" height="197.5"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="197.5" id="3W3-DU-CC3"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="fcU-Sr-1cS" secondAttribute="bottom" constant="1" id="BOc-6w-pPi"/>
+                                                <constraint firstItem="fcU-Sr-1cS" firstAttribute="leading" secondItem="uiX-tu-xOv" secondAttribute="leading" id="VwF-OQ-Wur"/>
+                                                <constraint firstItem="fcU-Sr-1cS" firstAttribute="top" secondItem="uiX-tu-xOv" secondAttribute="top" constant="1" id="efS-3f-v3T"/>
+                                                <constraint firstAttribute="trailing" secondItem="fcU-Sr-1cS" secondAttribute="trailing" id="gsV-Y7-uNZ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="8iJ-fA-48P" id="EbC-p0-tDR"/>
@@ -129,6 +151,11 @@
                                         <state key="normal" image="拍照">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <segue destination="NzJ-Tl-r0D" kind="popoverPresentation" identifier="DetailTakePhoto" popoverAnchorView="4hU-4h-aQB" id="LSp-0x-aMv">
+                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                            </segue>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GwJ-yA-K0I">
                                         <rect key="frame" x="44" y="3" width="30" height="30"/>
@@ -388,18 +415,24 @@
                                             <outlet property="textViewHeightConstraints" destination="kqQ-y9-3gx" id="9sL-or-BZ5"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContainerViewCell" rowHeight="320" id="p3N-ko-yQY" customClass="ContainerViewCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ContainerViewCell" rowHeight="200" id="p3N-ko-yQY" customClass="ContainerViewCell">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="p3N-ko-yQY" id="2e7-9j-FZc">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aZk-Y6-Tsm">
-                                                    <rect key="frame" x="0.0" y="1" width="600" height="318.5"/>
+                                                    <rect key="frame" x="0.0" y="1" width="600" height="198.5"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
+                                                        <constraint firstAttribute="height" constant="198.5" id="C9s-gD-n0F"/>
                                                         <constraint firstAttribute="height" constant="318.5" id="mnD-l2-cjB"/>
                                                     </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="mnD-l2-cjB"/>
+                                                        </mask>
+                                                    </variation>
                                                 </view>
                                             </subviews>
                                             <color key="backgroundColor" red="1" green="0.9968523815" blue="0.4665541916" alpha="1" colorSpace="calibratedRGB"/>
@@ -498,7 +531,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="save:" destination="Pws-TG-tdn" eventType="touchUpInside" id="9Ed-PA-jZQ"/>
+                                            <segue destination="VcM-yQ-D6k" kind="unwind" identifier="patientNoteSave" unwindAction="createNoteSave:" id="f0K-2n-W4c"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hvr-wQ-hbg">
@@ -651,7 +684,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="save:" destination="WFf-eM-58j" eventType="touchUpInside" id="ii6-VM-Gb7"/>
+                                            <segue destination="tw5-fg-jm2" kind="unwind" identifier="originNoteSave" unwindAction="createNoteSave:" id="Phu-hb-0HD"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JH4-oZ-CG2">
@@ -914,7 +947,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E0D-9C-4Wp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1417" y="94"/>
+            <point key="canvasLocation" x="962" y="1361"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Xoe-HH-D0x">
@@ -963,7 +996,8 @@
         <image name="语音" width="28" height="27"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="CQM-mv-wxJ"/>
         <segue reference="iQa-df-fEZ"/>
-        <segue reference="BiE-IG-DGr"/>
+        <segue reference="cZF-K1-2Q2"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -12,8 +12,10 @@
 #import "SelectedShareRangeViewController.h"
 #import "CaseContent.h"
 #import "NoteShowViewController.h"
+#import "TakePhotoViewController.h"
+#import "ContainerViewCell.h"
 
-@interface NoteDetailViewController ()<RecordNoteCreateCellTableViewCellDelegate,RecordNoteWarningViewControllerDelegate,SelectedShareRangeViewControllerDelegate,NoteShowViewControllerDelegate,UITextFieldDelegate
+@interface NoteDetailViewController ()<RecordNoteCreateCellTableViewCellDelegate,RecordNoteWarningViewControllerDelegate,SelectedShareRangeViewControllerDelegate,NoteShowViewControllerDelegate,UITextFieldDelegate,TakePhotoViewControllerDelegate
 >
 @property (nonatomic) CGFloat keyboardOverlap;
 @property (nonatomic,strong) UITextView *currentTextView;
@@ -36,6 +38,10 @@
 @property (nonatomic) NoteBook *note;
 
 @property (nonatomic,strong) NSArray *keyArray;
+
+@property (nonatomic,strong) NSMutableDictionary *mediaDict;
+@property (nonatomic,strong) NSMutableArray *mediasArray;
+
 @end
 
 @implementation NoteDetailViewController
@@ -156,7 +162,60 @@
 
     }
     NSLog(@"note UUID:%@",self.note.noteUUID);
+    [self prepareForShowNoteMedia];
     [self.tableView reloadData];
+}
+-(void)prepareForShowNoteMedia
+{
+    self.mediasArray = nil;
+    self.mediaDict = nil;
+    
+    for (NoteContent *noteContent in self.note.contents) {
+        for (MediaData *media in noteContent.medias) {
+            [self.mediasArray addObject:media];
+        }
+    }
+    if (self.mediasArray.count == 0) {
+        
+    }else {
+      [self.mediaDict setObject:self.mediasArray forKey:@"medias"];
+    }
+}
+#pragma mask - take photo view controller delegate
+-(void)didSelectedImage:(UIImage *)image withImageData:(NSData *)imageData atIndexPath:(NSIndexPath *)indexPath
+{
+    NoteContent *noteContent = [self.note.contents objectAtIndex:indexPath.row];
+    NSRange range = self.currentTextView.selectedRange;
+    
+    if (self.currentTextView.selectedTextRange) {
+        
+    }
+    CGRect  textViewRect = [self.currentTextView caretRectForPosition:self.currentTextView.selectedTextRange.start];
+    CGPoint cursorPosition = textViewRect.origin;
+    
+    //[self showMediaImage:imageData atLocation:cursorPosition];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self addMediaDataToNoteContent:noteContent withImage:image atLocation:range withPoint:cursorPosition];
+    });
+}
+-(void)addMediaDataToNoteContent:(NoteContent*)noteContent withImage:(UIImage*)image atLocation:(NSRange)range withPoint:(CGPoint)point
+{
+    NSData *data = UIImageJPEGRepresentation(image, 1);
+    NSDictionary *dataDict = @{@"mediaNameString":[self currentDate],@"data":data,@"location":[NSString stringWithFormat:@"%@",@(range.location)],@"cursorX":[NSString stringWithFormat:@"%@",@(point.x)],@"cursorY":[NSString stringWithFormat:@"%@",@(point.y)]};
+    MediaData *mediaData = [self.coreDataStack mediaDataCreateWithDict:dataDict];
+    mediaData.owner = noteContent;
+    
+    [self.mediasArray addObject:mediaData];
+    
+    [self.coreDataStack saveContext];
+    
+    [self.mediaDict setObject:self.mediasArray forKey:@"medias"];
+    NSLog(@"mediasArray:%@",@(self.mediasArray.count));
+    NSLog(@"medict: %@",@(self.mediaDict.count));
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
 }
 #pragma mask - SelectedShareRangeViewControllerDelegate
 -(void)didSelectedSharedUsers:(NSDictionary *)sharedUser
@@ -224,6 +283,239 @@
     
 }
 
+
+#pragma mask - cell delegate
+-(void)textViewCell:(RecordNoteCreateCellTableViewCell *)cell didChangeText:(NSString *)text
+{
+    NSIndexPath *indexPath = [[self tableView] indexPathForCell:cell];
+    
+    NoteContent *noteContent = [self.note.contents objectAtIndex:indexPath.row];
+    noteContent.updatedContent = text;
+    [self.coreDataStack saveContext];
+    
+}
+-(void)textViewDidBeginEditing:(UITextView *)textView withCellIndexPath:(NSIndexPath *)indexPath
+{
+    self.currentTextView = textView;
+    self.currentIndexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section];
+}
+-(void)textViewShouldBeginEditing:(UITextView *)textView withCellIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+#pragma mask - table view delegate
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    NSInteger section = self.mediaDict.count==0?1:2;
+    NSLog(@"coyunt:%@",@(self.mediaDict.count));
+    NSLog(@"section:%@",@(section));
+    return section;
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return self.note.contents.count;
+    }else {
+        return 1;
+    }
+}
+
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *cellIdentifier = @"showNoteCell";
+    static NSString *mediaCellIdentifier = @"ShowNoteDetailContainerCell";
+
+    if (indexPath.section == 0) {
+        RecordNoteCreateCellTableViewCell *tableViewCell =(RecordNoteCreateCellTableViewCell*) [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        tableViewCell.delegate = self;
+        [self configCell:tableViewCell atIndexPath:indexPath];
+        return tableViewCell;
+    }else {
+        ContainerViewCell *containerCell = [tableView dequeueReusableCellWithIdentifier:mediaCellIdentifier];
+        
+        NSArray *medias = [self.mediaDict objectForKey:@"medias"];
+        
+        
+        [containerCell setCollectionData:medias];
+        
+        return containerCell;
+
+    }
+   
+}
+-(void)configCell:(RecordNoteCreateCellTableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath
+{
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    UITextView *textView = (UITextView*)[cell viewWithTag:1002];
+    //NSString *keyString = [self.keyArray objectAtIndex:indexPath.row];
+    UITextField *placeHolder =(UITextField*)[cell viewWithTag:1001];
+    NSString *placeHolderString =[self.keyArray objectAtIndex:indexPath.row];
+    placeHolder.placeholder = placeHolderString;
+    
+    //textView.text = StringValue([self.dataSourceDict objectForKey:keyString]);
+    NoteContent *noteContent = [self.note.contents objectAtIndex:indexPath.row];
+    textView.text = StringValue(noteContent.updatedContent);
+    
+    [textView layoutSubviews];
+    NSLog(@"text: %@",textView.text);
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 80;
+}
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    CGRect headerViewFrame = CGRectMake(0, 0, tableView.frame.size.width, tableView.frame.size.height);
+    UIView *headerView = [[UIView alloc] initWithFrame:headerViewFrame];
+    headerView.backgroundColor = [UIColor whiteColor];
+    [self addSubViewToHeaderView:headerView];
+    return headerView;
+}
+-(void)addSubViewToHeaderView:(UIView*)headerView
+{
+    
+    NSString *titleStr = self.note.noteTitle?self.note.noteTitle:nil;
+    NSArray *titleArray = titleStr?[titleStr componentsSeparatedByString:@":"]:nil;
+    NSString *titleLabelText = titleArray?[titleArray firstObject]:nil;
+    NSString *textFieldText = titleArray?[titleArray lastObject]:nil;
+    
+    
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 8, 0, 21)];
+    titleLabel.text = titleLabelText?titleLabelText:@"新入院";
+    [titleLabel sizeToFit];
+    
+    self.titleLabel = titleLabel;
+    
+    UITextField *subTitleField = [[UITextField alloc] initWithFrame:CGRectMake(titleLabel.frame.size.width+10, 8, headerView.frame.size.width - titleLabel.frame.size.width - 8 - 8, 21)];
+    subTitleField.placeholder = textFieldText?textFieldText:@"输入子标题";
+    subTitleField.font = [UIFont systemFontOfSize:15];
+    subTitleField.delegate = self;
+    subTitleField.borderStyle = UITextBorderStyleNone;
+    subTitleField.font = [UIFont systemFontOfSize:17];
+    self.titeTextField = subTitleField;
+    
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(8, 21+9, headerView.frame.size.width - 8, 1)];
+    line.backgroundColor = [UIColor blueColor];
+    
+    UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, line.frame.origin.y+4, 20, 20)];
+    dateLabel.textColor = [UIColor blueColor];
+    dateLabel.text = [self currentDateString];
+    dateLabel.font = [UIFont systemFontOfSize:14];
+    [dateLabel sizeToFit];
+    
+    [headerView addSubview:titleLabel];
+    [headerView addSubview:subTitleField];
+    [headerView addSubview:line];
+    [headerView addSubview:dateLabel];
+}
+
+#pragma mark - Navigation
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"showNoteWarningSegue"]) {
+        
+        RecordNoteWarningViewController *recordWarningVC =(RecordNoteWarningViewController*) [self expectedViewController:segue.destinationViewController];
+        recordWarningVC.delegate = self;
+        recordWarningVC.preferredContentSize = CGSizeMake(320, 500);
+    }
+    if ([segue.identifier isEqualToString:@"DetailTakePhoto"]) {
+        TakePhotoViewController *takePhoto = (TakePhotoViewController*)segue.destinationViewController;
+        takePhoto.delegate = self;
+        
+    }
+}
+-(UIViewController*)expectedViewController:(UIViewController*)viewController
+{
+    UIViewController *expectedViewController = viewController;
+    if ([expectedViewController isMemberOfClass:[UINavigationController class]]) {
+        UINavigationController *nav = (UINavigationController*)viewController;
+        expectedViewController =(UIViewController*) [nav.viewControllers firstObject];
+    }
+    return expectedViewController;
+}
+
+#pragma mask - helper
+-(NSString*)currentDateString
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy年MM月dd日 HH:mm"];
+    
+    return [formatter stringFromDate:[NSDate new]];
+}
+-(NSString*)currentDate
+{
+    NSString *dateString;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    dateString = [formatter stringFromDate:[NSDate new]];
+    return dateString;
+}
+
+#pragma mask - property
+-(NSArray *)keyArray
+{
+    if (!_keyArray) {
+        _keyArray = @[@"主观性资料",@"客观性资料",@"评估",@"治疗方案"];
+    }
+    return _keyArray;
+}
+//-(NSMutableDictionary *)dataSourceDict
+//{
+//    if (!_dataSourceDict) {
+//        _dataSourceDict = [[NSMutableDictionary alloc] init];
+//        for (NSString *key in self.keyArray) {
+//            NSString *dataString = @"";
+//            [_dataSourceDict setObject:dataString forKey:key];
+//        }
+//    }
+//    return _dataSourceDict;
+//}
+-(NSMutableDictionary *)mediaDict
+{
+    if (!_mediaDict) {
+        _mediaDict = [[NSMutableDictionary alloc] init];
+        //        [_mediaDict setObject:nil forKey:@"Audio"];
+        //        [_mediaDict setObject:nil forKey:@"Image"];
+    }
+    return _mediaDict;
+}
+-(NSMutableArray *)mediasArray
+{
+    if (!_mediasArray) {
+        _mediasArray = [[NSMutableArray alloc] init];
+    }
+    return _mediasArray;
+}
+-(NSString *)noteType
+{
+    if (!_noteType) {
+        _noteType = @"0";
+    }
+    return _noteType;
+}
+-(IHMsgSocket *)socket
+{
+    if (!_socket) {
+        _socket = [IHMsgSocket sharedRequest];
+        if (![[_socket IHGCDSocket].asyncSocket isConnected]) {
+            [_socket connectToHost:@"192.168.10.106" onPort:2323];
+        }
+    }
+    return _socket;
+}
+
+-(NSArray*)noteKeyArray
+{
+    return @[@"noteContentS",@"noteContentO",@"noteContentP",@"noteContentA"];
+}
+#pragma mask - keyboard handle
 -(void)keyboardWillShow:(NSNotification*)notificationInfo
 {
     if (self.keyboardShow) {
@@ -339,183 +631,5 @@
         [tableView selectRowAtIndexPath:self.currentIndexPath animated:NO scrollPosition:UITableViewScrollPositionBottom];
         
     }
-}
-#pragma mask - cell delegate
--(void)textViewCell:(RecordNoteCreateCellTableViewCell *)cell didChangeText:(NSString *)text
-{
-    NSIndexPath *indexPath = [[self tableView] indexPathForCell:cell];
-    
-    NoteContent *noteContent = [self.note.contents objectAtIndex:indexPath.row];
-    noteContent.updatedContent = text;
-    [self.coreDataStack saveContext];
-    
-}
--(void)textViewDidBeginEditing:(UITextView *)textView withCellIndexPath:(NSIndexPath *)indexPath
-{
-    self.currentTextView = textView;
-    self.currentIndexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section];
-}
--(void)textViewShouldBeginEditing:(UITextView *)textView withCellIndexPath:(NSIndexPath *)indexPath
-{
-    
-}
-#pragma mask - table view delegate
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return self.note.contents.count == 0? 0:1;
-}
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    NSLog(@"count:%@",@(self.note.contents.count));
-    return self.note.contents.count;
-}
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *cellIdentifier = @"showNoteCell";
-    RecordNoteCreateCellTableViewCell *tableViewCell =(RecordNoteCreateCellTableViewCell*) [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    tableViewCell.delegate = self;
-    [self configCell:tableViewCell atIndexPath:indexPath];
-    return tableViewCell;
-}
--(void)configCell:(RecordNoteCreateCellTableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath
-{
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    UITextView *textView = (UITextView*)[cell viewWithTag:1002];
-    //NSString *keyString = [self.keyArray objectAtIndex:indexPath.row];
-    UITextField *placeHolder =(UITextField*)[cell viewWithTag:1001];
-    NSString *placeHolderString =[self.keyArray objectAtIndex:indexPath.row];
-    placeHolder.placeholder = placeHolderString;
-    
-    //textView.text = StringValue([self.dataSourceDict objectForKey:keyString]);
-    NoteContent *noteContent = [self.note.contents objectAtIndex:indexPath.row];
-    textView.text = StringValue(noteContent.updatedContent);
-    
-    [textView layoutSubviews];
-    NSLog(@"text: %@",textView.text);
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 80;
-}
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    CGRect headerViewFrame = CGRectMake(0, 0, tableView.frame.size.width, tableView.frame.size.height);
-    UIView *headerView = [[UIView alloc] initWithFrame:headerViewFrame];
-    headerView.backgroundColor = [UIColor whiteColor];
-    [self addSubViewToHeaderView:headerView];
-    return headerView;
-}
--(void)addSubViewToHeaderView:(UIView*)headerView
-{
-    
-    NSString *titleStr = self.note.noteTitle?self.note.noteTitle:nil;
-    NSArray *titleArray = titleStr?[titleStr componentsSeparatedByString:@":"]:nil;
-    NSString *titleLabelText = titleArray?[titleArray firstObject]:nil;
-    NSString *textFieldText = titleArray?[titleArray lastObject]:nil;
-    
-    
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 8, 0, 21)];
-    titleLabel.text = titleLabelText?titleLabelText:@"新入院";
-    [titleLabel sizeToFit];
-    
-    self.titleLabel = titleLabel;
-    
-    UITextField *subTitleField = [[UITextField alloc] initWithFrame:CGRectMake(titleLabel.frame.size.width+10, 8, headerView.frame.size.width - titleLabel.frame.size.width - 8 - 8, 21)];
-    subTitleField.placeholder = textFieldText?textFieldText:@"输入子标题";
-    subTitleField.font = [UIFont systemFontOfSize:15];
-    subTitleField.delegate = self;
-    subTitleField.borderStyle = UITextBorderStyleNone;
-    subTitleField.font = [UIFont systemFontOfSize:17];
-    self.titeTextField = subTitleField;
-    
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(8, 21+9, headerView.frame.size.width - 8, 1)];
-    line.backgroundColor = [UIColor blueColor];
-    
-    UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, line.frame.origin.y+4, 20, 20)];
-    dateLabel.textColor = [UIColor blueColor];
-    dateLabel.text = [self currentDateString];
-    dateLabel.font = [UIFont systemFontOfSize:14];
-    [dateLabel sizeToFit];
-    
-    [headerView addSubview:titleLabel];
-    [headerView addSubview:subTitleField];
-    [headerView addSubview:line];
-    [headerView addSubview:dateLabel];
-}
-
-#pragma mark - Navigation
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"showNoteWarningSegue"]) {
-        
-        RecordNoteWarningViewController *recordWarningVC =(RecordNoteWarningViewController*) [self expectedViewController:segue.destinationViewController];
-        recordWarningVC.delegate = self;
-        recordWarningVC.preferredContentSize = CGSizeMake(320, 500);
-    }
-}
--(UIViewController*)expectedViewController:(UIViewController*)viewController
-{
-    UIViewController *expectedViewController = viewController;
-    if ([expectedViewController isMemberOfClass:[UINavigationController class]]) {
-        UINavigationController *nav = (UINavigationController*)viewController;
-        expectedViewController =(UIViewController*) [nav.viewControllers firstObject];
-    }
-    return expectedViewController;
-}
-
-#pragma mask - helper
--(NSString*)currentDateString
-{
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy年MM月dd日 HH:mm"];
-    
-    return [formatter stringFromDate:[NSDate new]];
-}
-#pragma mask - property
--(NSArray *)keyArray
-{
-    if (!_keyArray) {
-        _keyArray = @[@"主观性资料",@"客观性资料",@"评估",@"治疗方案"];
-    }
-    return _keyArray;
-}
-//-(NSMutableDictionary *)dataSourceDict
-//{
-//    if (!_dataSourceDict) {
-//        _dataSourceDict = [[NSMutableDictionary alloc] init];
-//        for (NSString *key in self.keyArray) {
-//            NSString *dataString = @"";
-//            [_dataSourceDict setObject:dataString forKey:key];
-//        }
-//    }
-//    return _dataSourceDict;
-//}
--(NSString *)noteType
-{
-    if (!_noteType) {
-        _noteType = @"0";
-    }
-    return _noteType;
-}
--(IHMsgSocket *)socket
-{
-    if (!_socket) {
-        _socket = [IHMsgSocket sharedRequest];
-        if (![[_socket IHGCDSocket].asyncSocket isConnected]) {
-            [_socket connectToHost:@"192.168.10.106" onPort:2323];
-        }
-    }
-    return _socket;
-}
-
--(NSArray*)noteKeyArray
-{
-    return @[@"noteContentS",@"noteContentO",@"noteContentP",@"noteContentA"];
 }
 @end
