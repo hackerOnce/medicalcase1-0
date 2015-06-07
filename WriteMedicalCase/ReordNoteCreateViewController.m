@@ -91,7 +91,6 @@
     NSString *dept = StringValue(doctor.dept);
     NSString *medicalTeam = StringValue(doctor.medicalTeam);
     
-    
     NSString *sharedType;
     NSArray *sharedUser = @[];
     NSArray *sharedDept = @[];

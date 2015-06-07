@@ -368,15 +368,26 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 80;
+    if (section == 0) {
+        return 80;
+    }else {
+        return 0.1;
+        //        return self.mediaDict.count==0?0:20;
+    }
 }
+
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    CGRect headerViewFrame = CGRectMake(0, 0, tableView.frame.size.width, tableView.frame.size.height);
-    UIView *headerView = [[UIView alloc] initWithFrame:headerViewFrame];
-    headerView.backgroundColor = [UIColor whiteColor];
-    [self addSubViewToHeaderView:headerView];
-    return headerView;
+    if (section == 0) {
+        CGRect headerViewFrame = CGRectMake(0, 0, tableView.frame.size.width, tableView.frame.size.height);
+        UIView *headerView = [[UIView alloc] initWithFrame:headerViewFrame];
+        headerView.backgroundColor = [UIColor whiteColor];
+        [self addSubViewToHeaderView:headerView];
+        return headerView;
+    }else {
+        return [[UIView alloc] initWithFrame:CGRectZero];
+    }
+    
 }
 -(void)addSubViewToHeaderView:(UIView*)headerView
 {
