@@ -91,14 +91,6 @@
 }
 -(void)saveNotebuttonClicked
 {
-    //  TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
-    //NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
-    //  [MessageObject messageObjectWithUsrStr:doctor.dID pwdStr:@"test"iHMsgSocket:self.socket optInt:1509 sync_version:1.0 dictionary:dict block:^(IHSockRequest *request) {
-    //
-    //  }failConection:^(NSError *error) {
-    //
-    //  }];
-    
     for (NoteContent *noteContent in self.note.contents) {
         noteContent.content = noteContent.updatedContent;
         NSLog(@"content:%@",noteContent.updatedContent);
@@ -109,18 +101,39 @@
     //self.note.isCurrentNote = NO;
     
     [self.coreDataStack saveContext];
-    //[self dismissViewControllerAnimated:YES completion:nil];
+
+    //  TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
+    NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
+      [MessageObject messageObjectWithUsrStr:@"2334"pwdStr:@"test"iHMsgSocket:self.socket optInt:1509 sync_version:1.0 dictionary:dict block:^(IHSockRequest *request) {
+          
+          if (request.resp == 0) {
+              if ([request.responseData isKindOfClass:[NSDictionary class]]) {
+                  NSDictionary *resultDict = (NSDictionary*)request.responseData;
+                  NoteBook *note = self.note;
+                  note.updateDate = [resultDict objectForKey:@"ih_create_time"];
+                  note.createDate = [resultDict objectForKey:@"ih_modify_time"];
+                 // note.noteID = [resultDict objectForKey:@"ih_note_id"];
+                  note.isCurrentNote = @(NO);
+              }
+          }
+        
+      }failConection:^(NSError *error) {
+    
+      }];
+    
+        //[self dismissViewControllerAnimated:YES completion:nil];
 }
 -(NSDictionary*)prepareForSave
 {
     //doctor
     TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
-    NSString *dID = StringValue(doctor.dID);
+//    NSString *dID = StringValue(doctor.dID);
     NSString *dName = StringValue(doctor.dName);
     NSString *dProfessionalTitle= StringValue(doctor.dProfessionalTitle);
     NSString *dept = StringValue(doctor.dept);
     NSString *medicalTeam = StringValue(doctor.medicalTeam);
     
+    NSString *dID = @"2334";
     NSString *sharedType;
     NSArray *sharedUser = @[];
     NSArray *sharedDept = @[];
@@ -183,11 +196,11 @@
     if (medias.count == 0) {
         mediaDict = nil;
     }else {
-        if (medias) {
+        //if (medias) {
             mediaDict =[NSDictionary dictionaryWithDictionary:[self prepareForServerWithMediaArray:medias]];
-        }else {
-            mediaDict = nil;
-        }
+//        }else {
+//            mediaDict = nil;
+//        }
     }
     NSMutableDictionary *tempDict;
     if (mediaDict) {
@@ -195,6 +208,9 @@
         
     }else {
         tempDict = [[NSMutableDictionary alloc] init];
+        [tempDict setObject:@"" forKey:@"images"];
+        [tempDict setObject:@"" forKey:@"audio"];
+
     }
     [tempDict setObject:StringValue(noteContent.updatedContent) forKey:@"ih_note_text"];
     
@@ -209,16 +225,21 @@
     for (MediaData *mediaData in medias) {
         
         if ([mediaData.dataType boolValue]) { //audio
-            NSDictionary *audioDict = @{@"ih_audio_data":mediaData.data?mediaData:nil,@"ih_audio_index":mediaData.location?mediaData.location:nil};
+            NSString *encodeDataString = [mediaData.data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+            NSDictionary *audioDict = @{@"ih_audio_data":encodeDataString,@"ih_audio_index":mediaData.location?mediaData.location:nil};
             [audios addObject:audioDict];
         }else {//image
-            NSDictionary *imageDict = @{@"ih_images_data":mediaData.data?mediaData:nil,@"ih_images_index":mediaData.location?mediaData.location:nil};
+            NSString *encodeDataString = [mediaData.data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+            
+            NSString *test = @"test";
+            
+            NSDictionary *imageDict = @{@"ih_image_data":test,@"ih_image_index":mediaData.location?mediaData.location:nil};
             [images addObject:imageDict];
             
         }
     }
-    [mediasDict setObject:images.count==0?nil:images forKey:@"images"];
-    [mediasDict setObject:audios.count==0?nil:audios forKey:@"audio"];
+    [mediasDict setObject:images.count==0?@"":images forKey:@"images"];
+    [mediasDict setObject:audios.count==0?@"":audios forKey:@"audio"];
     
     return mediasDict;
 }
