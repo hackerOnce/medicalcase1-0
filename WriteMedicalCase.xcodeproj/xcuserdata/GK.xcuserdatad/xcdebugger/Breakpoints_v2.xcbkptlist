@@ -2885,11 +2885,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/RecordNoteCreateForCaseViewController.m"
-            timestampString = "455439544.619462"
+            timestampString = "455440200.495747"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "883"
-            endingLineNumber = "883">
+            startingLineNumber = "884"
+            endingLineNumber = "884">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2899,11 +2899,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/RecordNoteCreateForCaseViewController.m"
-            timestampString = "455439544.619462"
+            timestampString = "455440200.495747"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "888"
-            endingLineNumber = "888">
+            startingLineNumber = "889"
+            endingLineNumber = "889">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2945,11 +2945,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/RecordNoteCreateForCaseViewController.m"
-            timestampString = "455439544.619462"
+            timestampString = "455440200.495747"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "358"
-            endingLineNumber = "358"
+            startingLineNumber = "359"
+            endingLineNumber = "359"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
@@ -2961,11 +2961,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/RecordNoteCreateForCaseViewController.m"
-            timestampString = "455439544.619462"
+            timestampString = "455440200.495747"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "359"
-            endingLineNumber = "359"
+            startingLineNumber = "360"
+            endingLineNumber = "360"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
