@@ -68,20 +68,20 @@
     
 }
 
--(void)saveNoteButtonClicked
-{
-    for (NoteContent *noteContent in self.note.contents) {
-        noteContent.content = noteContent.updatedContent;
-        NSLog(@"content:%@",noteContent.updatedContent);
-    }
-    
-    self.note.updateDate = [self currentDate];
-    // 只有从服务器保存成功以后才能设定
-    //self.note.isCurrentNote = NO;
-    
-    [self.coreDataStack saveContext];
-
-}
+//-(void)saveNoteButtonClicked
+//{
+//    for (NoteContent *noteContent in self.note.contents) {
+//        noteContent.content = noteContent.updatedContent;
+//        NSLog(@"content:%@",noteContent.updatedContent);
+//    }
+//    
+//    self.note.updateDate = [self currentDate];
+//    // 只有从服务器保存成功以后才能设定
+//    //self.note.isCurrentNote = NO;
+//    
+//    [self.coreDataStack saveContext];
+//
+//}
 -(void)canceCreateNoteButtonClicked
 {
     // 取消创建
@@ -89,16 +89,63 @@
     [self.coreDataStack saveContext];
 }
 
+-(void)saveNoteButtonClicked
+{
+    NSString *titleString;
+    for (NoteContent *noteContent in self.note.contents) {
+        noteContent.content = noteContent.updatedContent;
+        if ([noteContent.contentType isEqualToString:@"s"]) {
+            if (noteContent.content.length > 15) {
+                titleString = [noteContent.content substringToIndex:15];
+                titleString = [titleString stringByAppendingString:@"..."];
+            }else {
+                titleString = noteContent.content;
+            }
+            
+        }
+        NSLog(@"content:%@",noteContent.updatedContent);
+    }
+    self.note.noteTitle = titleString;
+    self.note.updateDate = [self currentDate];
+    // 只有从服务器保存成功以后才能设定
+    //self.note.isCurrentNote = NO;
+    
+    [self.coreDataStack saveContext];
+    
+    //  TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
+    NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
+    [MessageObject messageObjectWithUsrStr:@"2334"pwdStr:@"test"iHMsgSocket:self.socket optInt:1509 sync_version:1.0 dictionary:dict block:^(IHSockRequest *request) {
+        
+        if (request.resp == 0) {
+            if ([request.responseData isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *resultDict = (NSDictionary*)request.responseData;
+                NoteBook *note = self.note;
+                note.updateDate = [resultDict objectForKey:@"ih_create_time"];
+                note.createDate = [resultDict objectForKey:@"ih_modify_time"];
+                // note.noteID = [resultDict objectForKey:@"ih_note_id"];
+                note.isCurrentNote = @(NO);
+                
+                [self.coreDataStack saveContext];
+            }
+        }
+        
+    }failConection:^(NSError *error) {
+        
+    }];
+    
+    //[self dismissViewControllerAnimated:YES completion:nil];
+}
 -(NSDictionary*)prepareForSave
 {
     //doctor
     TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
-    NSString *dID = StringValue(doctor.dID);
+    //    NSString *dID = StringValue(doctor.dID);
     NSString *dName = StringValue(doctor.dName);
     NSString *dProfessionalTitle= StringValue(doctor.dProfessionalTitle);
     NSString *dept = StringValue(doctor.dept);
     NSString *medicalTeam = StringValue(doctor.medicalTeam);
     
+    NSString *dID = @"2334";
     NSString *sharedType;
     NSArray *sharedUser = @[];
     NSArray *sharedDept = @[];
@@ -118,15 +165,14 @@
     NSString *detailInfoText;
     NSString *warningDate;
     if (self.warningDict) {
-        commit = StringValue([self.warningDict objectForKey:@"commit"]);
-        detailInfoText = StringValue([self.warningDict objectForKey:@"detailInfoText"]);
-        warningDate = StringValue([self.warningDict objectForKey:@"warningDate"]);
+        commit = [self.warningDict objectForKey:@"commit"];
+        detailInfoText = [self.warningDict objectForKey:@"detailInfoText"];
+        warningDate = [self.warningDict objectForKey:@"warningDate"];
     }else {
         commit = @"";
         detailInfoText=@"";
         warningDate = @"";
     }
-   
     
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     [dict setObject:dID forKey:@"ih_doctor_id"];
@@ -141,11 +187,10 @@
     [dict setObject:warningDate forKey:@"ih_alert_time"];
     [dict setObject:detailInfoText forKey:@"ih_alert_cont"];
     [dict setObject:commit forKey:@"ih_alert_com"];
-
-    [dict setObject:dID forKey:@"ih_alert_usr"];
-   
-    [dict setObject:self.noteType forKey:@"ih_note_type"];
     
+    [dict setObject:dID forKey:@"ih_alert_usr"];
+    
+    [dict setObject:self.noteType forKey:@"ih_note_type"];
     
     for (NoteContent *noteContent in self.note.contents) {
         NSString *type = [noteContent.contentType lowercaseString];
@@ -153,33 +198,26 @@
         NSDictionary *contentDict = [NSDictionary dictionaryWithDictionary:[self prepareForServerWithNoteContent:noteContent]];
         [dict setObject:contentDict forKey:keyString];
     }
-    
-//    NSDictionary *noteContentDict = @{@"ih_note_text":self.noteContent,@"audio":@"",@"images":@""};
-//    
-//    [dict setObject:noteContentDict forKey:@"ih_contents"];
-//    
-//    
-//    [dict setObject:@"" forKey:@"ih_contento"];
-//    [dict setObject:@"" forKey:@"ih_contenta"];
-//    [dict setObject:@"" forKey:@"ih_contentp"];
+    [dict setObject:@"" forKey:@"ih_contento"];
+    [dict setObject:@"" forKey:@"ih_contenta"];
+    [dict setObject:@"" forKey:@"ih_contentp"];
 
     
     return dict;
 }
-
 -(NSDictionary*)prepareForServerWithNoteContent:(NoteContent*)noteContent
 {
     NSDictionary *mediaDict;
     NSSet *medias =[[NSSet alloc] initWithSet:noteContent.medias];//s,o,a,p
-
+    
     if (medias.count == 0) {
         mediaDict = nil;
     }else {
-        if (medias) {
-            mediaDict =[NSDictionary dictionaryWithDictionary:[self prepareForServerWithMediaArray:medias]];
-        }else {
-            mediaDict = nil;
-        }
+        //if (medias) {
+        mediaDict =[NSDictionary dictionaryWithDictionary:[self prepareForServerWithMediaArray:medias]];
+        //        }else {
+        //            mediaDict = nil;
+        //        }
     }
     NSMutableDictionary *tempDict;
     if (mediaDict) {
@@ -187,9 +225,12 @@
         
     }else {
         tempDict = [[NSMutableDictionary alloc] init];
+        [tempDict setObject:@"" forKey:@"images"];
+        [tempDict setObject:@"" forKey:@"audio"];
+        
     }
-    [tempDict setObject:noteContent.updatedContent forKey:@"ih_note_text"];
-
+    [tempDict setObject:StringValue(noteContent.updatedContent) forKey:@"ih_note_text"];
+    
     return tempDict;
 }
 -(NSDictionary*)prepareForServerWithMediaArray:(NSSet*)medias
@@ -199,21 +240,151 @@
     NSMutableArray *audios = [[NSMutableArray alloc] init];
     
     for (MediaData *mediaData in medias) {
-
+        
         if ([mediaData.dataType boolValue]) { //audio
-            NSDictionary *audioDict = @{@"ih_audio_data":mediaData.data?mediaData:nil,@"ih_audio_index":mediaData.location?mediaData.location:nil};
+            NSString *encodeDataString = [mediaData.data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+            NSDictionary *audioDict = @{@"ih_audio_data":encodeDataString,@"ih_audio_index":mediaData.location?mediaData.location:nil};
             [audios addObject:audioDict];
         }else {//image
-            NSDictionary *imageDict = @{@"ih_images_data":mediaData.data?mediaData:nil,@"ih_images_index":mediaData.location?mediaData.location:nil};
+            NSString *encodeDataString = [mediaData.data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+            
+            NSString *test = @"test";
+            
+            NSDictionary *imageDict = @{@"ih_image_data":test,@"ih_image_index":mediaData.location?mediaData.location:nil};
             [images addObject:imageDict];
-
+            
         }
     }
-    [mediasDict setObject:images.count==0?nil:images forKey:@"images"];
-    [mediasDict setObject:audios.count==0?nil:audios forKey:@"audio"];
-
+    [mediasDict setObject:images.count==0?@"":images forKey:@"images"];
+    [mediasDict setObject:audios.count==0?@"":audios forKey:@"audio"];
+    
     return mediasDict;
 }
+//-(NSDictionary*)prepareForSave
+//{
+//    //doctor
+//    TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
+//    NSString *dID = StringValue(doctor.dID);
+//    NSString *dName = StringValue(doctor.dName);
+//    NSString *dProfessionalTitle= StringValue(doctor.dProfessionalTitle);
+//    NSString *dept = StringValue(doctor.dept);
+//    NSString *medicalTeam = StringValue(doctor.medicalTeam);
+//    
+//    NSString *sharedType;
+//    NSArray *sharedUser = @[];
+//    NSArray *sharedDept = @[];
+//    if (self.sharedUser.count == 0) {
+//        sharedType = @"";
+//        sharedUser = @[];
+//    }else {
+//        sharedType = [self.sharedUser objectForKey:@"sharedType"];
+//        if ([sharedType integerValue]) {
+//            sharedDept = [NSArray arrayWithArray:[self.sharedUser objectForKey:@"sharedUser"]];
+//        }else {
+//            sharedUser = [NSArray arrayWithArray:[self.sharedUser objectForKey:@"sharedUser"]];
+//        }
+//    }
+//    
+//    NSString *commit;
+//    NSString *detailInfoText;
+//    NSString *warningDate;
+//    if (self.warningDict) {
+//        commit = StringValue([self.warningDict objectForKey:@"commit"]);
+//        detailInfoText = StringValue([self.warningDict objectForKey:@"detailInfoText"]);
+//        warningDate = StringValue([self.warningDict objectForKey:@"warningDate"]);
+//    }else {
+//        commit = @"";
+//        detailInfoText=@"";
+//        warningDate = @"";
+//    }
+//   
+//    
+//    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+//    [dict setObject:dID forKey:@"ih_doctor_id"];
+//    [dict setObject:dName forKey:@"ih_doctor_nam"];
+//    [dict setObject:dProfessionalTitle forKey:@"ih_doctor_pro"];
+//    [dict setObject:dept forKey:@"ih_doctor_dept"];
+//    [dict setObject:medicalTeam forKey:@"ih_doctor_med"];
+//    
+//    [dict setObject:sharedType forKey:@"ih_sharedtyp"];
+//    [dict setObject:sharedUser forKey:@"ih_sharedusr"];
+//    
+//    [dict setObject:warningDate forKey:@"ih_alert_time"];
+//    [dict setObject:detailInfoText forKey:@"ih_alert_cont"];
+//    [dict setObject:commit forKey:@"ih_alert_com"];
+//
+//    [dict setObject:dID forKey:@"ih_alert_usr"];
+//   
+//    [dict setObject:self.noteType forKey:@"ih_note_type"];
+//    
+//    
+//    for (NoteContent *noteContent in self.note.contents) {
+//        NSString *type = [noteContent.contentType lowercaseString];
+//        NSString *keyString = [@"ih_content" stringByAppendingString:type];
+//        NSDictionary *contentDict = [NSDictionary dictionaryWithDictionary:[self prepareForServerWithNoteContent:noteContent]];
+//        [dict setObject:contentDict forKey:keyString];
+//    }
+//    
+////    NSDictionary *noteContentDict = @{@"ih_note_text":self.noteContent,@"audio":@"",@"images":@""};
+////    
+////    [dict setObject:noteContentDict forKey:@"ih_contents"];
+////    
+////    
+////    [dict setObject:@"" forKey:@"ih_contento"];
+////    [dict setObject:@"" forKey:@"ih_contenta"];
+////    [dict setObject:@"" forKey:@"ih_contentp"];
+//
+//    
+//    return dict;
+//}
+
+//-(NSDictionary*)prepareForServerWithNoteContent:(NoteContent*)noteContent
+//{
+//    NSDictionary *mediaDict;
+//    NSSet *medias =[[NSSet alloc] initWithSet:noteContent.medias];//s,o,a,p
+//
+//    if (medias.count == 0) {
+//        mediaDict = nil;
+//    }else {
+//        if (medias) {
+//            mediaDict =[NSDictionary dictionaryWithDictionary:[self prepareForServerWithMediaArray:medias]];
+//        }else {
+//            mediaDict = nil;
+//        }
+//    }
+//    NSMutableDictionary *tempDict;
+//    if (mediaDict) {
+//        tempDict = [[NSMutableDictionary alloc] initWithDictionary:mediaDict];
+//        
+//    }else {
+//        tempDict = [[NSMutableDictionary alloc] init];
+//    }
+//    [tempDict setObject:noteContent.updatedContent forKey:@"ih_note_text"];
+//
+//    return tempDict;
+//}
+//-(NSDictionary*)prepareForServerWithMediaArray:(NSSet*)medias
+//{
+//    NSMutableDictionary *mediasDict = [[NSMutableDictionary alloc] init];
+//    NSMutableArray *images = [[NSMutableArray alloc] init];
+//    NSMutableArray *audios = [[NSMutableArray alloc] init];
+//    
+//    for (MediaData *mediaData in medias) {
+//
+//        if ([mediaData.dataType boolValue]) { //audio
+//            NSDictionary *audioDict = @{@"ih_audio_data":mediaData.data?mediaData:nil,@"ih_audio_index":mediaData.location?mediaData.location:nil};
+//            [audios addObject:audioDict];
+//        }else {//image
+//            NSDictionary *imageDict = @{@"ih_images_data":mediaData.data?mediaData:nil,@"ih_images_index":mediaData.location?mediaData.location:nil};
+//            [images addObject:imageDict];
+//
+//        }
+//    }
+//    [mediasDict setObject:images.count==0?nil:images forKey:@"images"];
+//    [mediasDict setObject:audios.count==0?nil:audios forKey:@"audio"];
+//
+//    return mediasDict;
+//}
 #pragma mask - SelectedShareRangeViewControllerDelegate
 -(void)didSelectedSharedUsers:(NSDictionary *)sharedUser
 {

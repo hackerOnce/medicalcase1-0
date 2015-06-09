@@ -14,6 +14,7 @@
 #import "NoteShowViewController.h"
 #import "TakePhotoViewController.h"
 #import "ContainerViewCell.h"
+#import "IHMsgSocket.h"
 
 @interface NoteDetailViewController ()<RecordNoteCreateCellTableViewCellDelegate,RecordNoteWarningViewControllerDelegate,SelectedShareRangeViewControllerDelegate,NoteShowViewControllerDelegate,UITextFieldDelegate,TakePhotoViewControllerDelegate
 >
@@ -38,6 +39,7 @@
 @property (nonatomic) NoteBook *note;
 
 @property (nonatomic,strong) NSArray *keyArray;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 
 @property (nonatomic,strong) NSMutableDictionary *mediaDict;
 @property (nonatomic,strong) NSMutableArray *mediasArray;
@@ -88,16 +90,54 @@
     
 }
 
+
+-(void)saveNotebuttonClicked
+{
+    for (NoteContent *noteContent in self.note.contents) {
+        noteContent.content = noteContent.updatedContent;
+        NSLog(@"content:%@",noteContent.updatedContent);
+    }
+    
+    self.note.updateDate = [self currentDate];
+    // 只有从服务器保存成功以后才能设定
+    //self.note.isCurrentNote = NO;
+    NSString *titleString = [NSString stringWithFormat:@"%@: %@",self.titleLabel.text,self.titeTextField.text];
+    self.note.noteTitle = titleString;
+    [self.coreDataStack saveContext];
+    
+    //  TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
+    NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
+    [MessageObject messageObjectWithUsrStr:@"2334"pwdStr:@"test"iHMsgSocket:self.socket optInt:1509 sync_version:1.0 dictionary:dict block:^(IHSockRequest *request) {
+        
+        if (request.resp == 0) {
+            if ([request.responseData isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *resultDict = (NSDictionary*)request.responseData;
+                NoteBook *note = self.note;
+                note.updateDate = [resultDict objectForKey:@"ih_create_time"];
+                note.createDate = [resultDict objectForKey:@"ih_modify_time"];
+                // note.noteID = [resultDict objectForKey:@"ih_note_id"];
+                note.isCurrentNote = @(NO);
+                [self.coreDataStack saveContext];
+            }
+        }
+        
+    }failConection:^(NSError *error) {
+        
+    }];
+    
+    //[self dismissViewControllerAnimated:YES completion:nil];
+}
 -(NSDictionary*)prepareForSave
 {
     //doctor
     TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
-    NSString *dID = StringValue(doctor.dID);
+    //    NSString *dID = StringValue(doctor.dID);
     NSString *dName = StringValue(doctor.dName);
     NSString *dProfessionalTitle= StringValue(doctor.dProfessionalTitle);
     NSString *dept = StringValue(doctor.dept);
     NSString *medicalTeam = StringValue(doctor.medicalTeam);
     
+    NSString *dID = @"2334";
     NSString *sharedType;
     NSArray *sharedUser = @[];
     NSArray *sharedDept = @[];
@@ -144,26 +184,326 @@
     
     [dict setObject:self.noteType forKey:@"ih_note_type"];
     
-    //NSDictionary *noteContentDict = @{@"ih_note_text":self.noteContent,@"audio":@"",@"images":@""};
-    //[dict setObject:noteContentDict forKey:@"ih_contents"];
-    [dict setObject:@"" forKey:@"ih_contento"];
-    [dict setObject:@"" forKey:@"ih_contenta"];
-    [dict setObject:@"" forKey:@"ih_contentp"];
-    
+    for (NoteContent *noteContent in self.note.contents) {
+        NSString *type = [noteContent.contentType lowercaseString];
+        NSString *keyString = [@"ih_content" stringByAppendingString:type];
+        NSDictionary *contentDict = [NSDictionary dictionaryWithDictionary:[self prepareForServerWithNoteContent:noteContent]];
+        [dict setObject:contentDict forKey:keyString];
+    }
     return dict;
 }
-#pragma mask - note show view controller delegate
--(void)didSelectedANoteWithNoteID:(NSString *)noteID andCreateDoctorID:(NSString *)dID
+-(NSDictionary*)prepareForServerWithNoteContent:(NoteContent*)noteContent
 {
-    self.note = [self.coreDataStack noteBookFetchWithDict:@{@"noteUUID":noteID,@"dID":dID}];
-    for (NoteContent *content in self.note.contents) {
-        NSLog(@"contentType: %@",content.contentType);
-        NSLog(@"contentType: %@",content.updatedContent);
+    NSDictionary *mediaDict;
+    NSSet *medias =[[NSSet alloc] initWithSet:noteContent.medias];//s,o,a,p
+    
+    if (medias.count == 0) {
+        mediaDict = nil;
+    }else {
+        //if (medias) {
+        mediaDict =[NSDictionary dictionaryWithDictionary:[self prepareForServerWithMediaArray:medias]];
+        //        }else {
+        //            mediaDict = nil;
+        //        }
+    }
+    NSMutableDictionary *tempDict;
+    if (mediaDict) {
+        tempDict = [[NSMutableDictionary alloc] initWithDictionary:mediaDict];
+        
+    }else {
+        tempDict = [[NSMutableDictionary alloc] init];
+        [tempDict setObject:@"" forKey:@"images"];
+        [tempDict setObject:@"" forKey:@"audio"];
+        
+    }
+    [tempDict setObject:StringValue(noteContent.updatedContent) forKey:@"ih_note_text"];
+    
+    return tempDict;
+}
+-(NSDictionary*)prepareForServerWithMediaArray:(NSSet*)medias
+{
+    NSMutableDictionary *mediasDict = [[NSMutableDictionary alloc] init];
+    NSMutableArray *images = [[NSMutableArray alloc] init];
+    NSMutableArray *audios = [[NSMutableArray alloc] init];
+    
+    for (MediaData *mediaData in medias) {
+        
+        if ([mediaData.dataType boolValue]) { //audio
+            NSString *encodeDataString = [mediaData.data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+            NSDictionary *audioDict = @{@"ih_audio_data":encodeDataString,@"ih_audio_index":mediaData.location?mediaData.location:nil};
+            [audios addObject:audioDict];
+        }else {//image
+            NSString *encodeDataString = [mediaData.data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+            
+            NSString *test = @"test";
+            
+            NSDictionary *imageDict = @{@"ih_image_data":test,@"ih_image_index":mediaData.location?mediaData.location:nil};
+            [images addObject:imageDict];
+            
+        }
+    }
+    [mediasDict setObject:images.count==0?@"":images forKey:@"images"];
+    [mediasDict setObject:audios.count==0?@"":audios forKey:@"audio"];
+    
+    return mediasDict;
+}
+
+
+#pragma mask - note show view controller delegate
+-(void)didSelectedANoteWithNoteID:(NSString *)noteID andCreateDoctorID:(NSString *)dID withNoteUUID:(NSString *)noteUUID
+{
+    
+    self.note = nil;
+
+    [self.tableView reloadData];
+    if(self.spinner.hidden){
+        self.spinner.hidden = NO;
+    }
+    [self.spinner startAnimating];
+    
+    if (noteID && ![noteID isEqualToString:@""]) { //从服务器请求
+        [MessageObject messageObjectWithUsrStr:@"2334" pwdStr:@"test" iHMsgSocket:self.socket optInt:1510 sync_version:1 dictionary:@{@"uuid":StringValue(noteID)} block:^(IHSockRequest *request) {
+            
+            if (request.resp == 0 ) {
+                if ([request.responseData isKindOfClass:[NSDictionary class]]) {
+                    NSDictionary *dict = (NSDictionary*)request.responseData;
+                    NSDictionary *parseDict = [self prepareForCoreDataWithDict:dict];
+                    self.note = [self.coreDataStack noteBookFetchWithDict:parseDict];
+                    [self prepareForShowNoteMedia];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.tableView reloadData];
+                        self.spinner.hidden = YES;
+                    });
+                }
+            }
+            
+        } failConection:^(NSError *error) {
+            self.spinner.hidden = NO;
+
+    }];
+    }else {
+        
+        self.note = [self.coreDataStack noteBookFetchWithDict:@{@"noteUUID":noteUUID,@"dID":dID}];
+        
+        NSLog(@"note UUID:%@",self.note.noteUUID);
+        [self prepareForShowNoteMedia];
+    
+        [self.tableView reloadData];
+        self.spinner.hidden = YES;
 
     }
-    NSLog(@"note UUID:%@",self.note.noteUUID);
-    [self prepareForShowNoteMedia];
-    [self.tableView reloadData];
+}
+-(NSDictionary*)prepareForCoreDataWithDict:(NSDictionary*)dict
+{
+    NSMutableDictionary *tempDict = [[NSMutableDictionary alloc] init];
+    
+    if ([dict.allKeys containsObject:@"ih_doctor_id"]) {
+        [tempDict setObject:StringValue(dict[@"ih_doctor_id"]) forKey:@"dID"];
+    }
+//    if ([dict.allKeys containsObject:@"ih_doctor_id"]) {
+//        [tempDict setObject:StringValue(dict[@"ih_doctor_id"]) forKey:@"dName"];
+//    }
+    if ([dict.allKeys containsObject:@"ih_note_id"]) {
+        [tempDict setObject:StringValue(dict[@"ih_note_id"]) forKey:@"noteID"];
+    }
+    [tempDict setObject:@(NO) forKey:@"isCurrentNote"];
+    
+    
+//    if ([dict.allKeys containsObject:@"notePatientName"]) {
+//        [tempDict setObject:StringValue(dict[@"notePatientName"]) forKey:@"notePatientName"];
+//    }
+    //    if ([dict.allKeys containsObject:@"notePatientName"]) {
+    //        [tempDict setObject:StringValue(dict[@"notePatientName"]) forKey:@"notePatientID"];
+    //    }
+    if ([dict.allKeys containsObject:@"ih_note_type"]) {
+        [tempDict setObject:StringValue(dict[@"ih_note_type"]) forKey:@"noteType"];
+    }
+    if ([dict.allKeys containsObject:@"ih_note_title"]) {
+        [tempDict setObject:StringValue(dict[@"ih_note_title"]) forKey:@"noteTitle"];
+    }
+
+    if ([dict.allKeys containsObject:@"ih_create_time"]) {
+        [tempDict setObject:StringValue(dict[@"ih_create_time"]) forKey:@"createDate"];
+    }
+    if ([dict.allKeys containsObject:@"ih_modify_time"]) {
+        [tempDict setObject:StringValue(dict[@"ih_modify_time"]) forKey:@"updateDate"];
+    }
+    
+    if ([dict.allKeys containsObject:@"ih_alert_com"]) {
+        [tempDict setObject:StringValue(dict[@"ih_alert_com"]) forKey:@"warningCommit"];
+    }
+    if ([dict.allKeys containsObject:@"ih_alert_cont"]) {
+        [tempDict setObject:StringValue(dict[@"ih_alert_cont"]) forKey:@"warningContent"];
+    }
+    if ([dict.allKeys containsObject:@"ih_alert_time"]) {
+        [tempDict setObject:StringValue(dict[@"ih_alert_time"]) forKey:@"warningTime"];
+    }
+    
+   // NSMutableDictionary *contentsDict = [[NSMutableDictionary alloc] init];
+    
+    if ([dict.allKeys containsObject:@"ih_contenta"]) {
+        id contenta = dict[@"ih_contenta"];
+        if (contenta) {
+            if ([contenta isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *contentDict = dict[@"ih_contenta"];
+                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentA"];
+            }else if ([contenta isEqualToString:@""]){
+                
+                NSDictionary *contentDict = @{@"ih_note_text":@""};
+                //[tempDict setObject:@"" forKey:@"noteContentA"];
+                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentA"];
+ 
+            }
+        }
+    }
+    
+    if ([dict.allKeys containsObject:@"ih_contento"]) {
+        id contento = dict[@"ih_contento"];
+        if (contento) {
+            if ([contento isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *contentDict = dict[@"ih_contento"];
+                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentO"];
+            }else if ([contento isEqualToString:@""]){
+                
+                NSDictionary *contentDict = @{@"ih_note_text":@""};
+                //[tempDict setObject:@"" forKey:@"noteContentA"];
+                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentO"];
+                
+            }
+        }
+    }
+    if ([dict.allKeys containsObject:@"ih_contentp"]) {
+        id contenta = dict[@"ih_contentp"];
+        if (contenta) {
+            if ([contenta isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *contentDict = dict[@"ih_contentp"];
+                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentP"];
+            }else if ([contenta isEqualToString:@""]){
+                
+                NSDictionary *contentDict = @{@"ih_note_text":@""};
+                //[tempDict setObject:@"" forKey:@"noteContentA"];
+                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentP"];
+                
+            }
+        }
+    }
+    if ([dict.allKeys containsObject:@"ih_contents"]) {
+        id contenta = dict[@"ih_contents"];
+        if (contenta) {
+            if ([contenta isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *contentDict = dict[@"ih_contents"];
+                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentS"];
+            }else if ([contenta isEqualToString:@""]){
+                
+                NSDictionary *contentDict = @{@"ih_note_text":@""};
+                //[tempDict setObject:@"" forKey:@"noteContentA"];
+                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentS"];
+                
+            }
+
+        }
+    }
+    
+   // [tempDict setObject:contentsDict forKey:@"content"];
+    return tempDict;
+}
+-(NSDictionary*)parseNoteContentsWithDict:(NSDictionary*)contentDict
+{
+    NSMutableDictionary *tempContentDict = [[NSMutableDictionary alloc] init];
+    
+    NSMutableArray *mediasArray = [[NSMutableArray alloc] init];
+
+    if ([contentDict.allKeys containsObject:@"audio"]) {
+        
+        id audio = contentDict[@"audio"];
+        NSMutableArray *tempAudioArray = [[NSMutableArray alloc] init];
+        if ([audio isKindOfClass:[NSArray class]]) {
+            NSArray *audioArray = (NSArray*)contentDict[@"audio"];
+            [tempAudioArray addObjectsFromArray:audioArray];
+        }else if([audio isKindOfClass:[NSDictionary class]]) {
+            
+            NSDictionary *tempAudoDict = (NSDictionary*)audio;
+            
+            if (tempAudoDict.count == 0) {
+                
+            }else {
+                [tempAudioArray addObject:tempAudoDict];
+            }
+        }
+        
+        for (NSDictionary *tempDict in tempAudioArray) {
+            NSMutableDictionary *tempCDict = [[NSMutableDictionary alloc] init];
+            if ([tempDict.allKeys containsObject:@"ih_audio_data"]) {
+                [tempCDict setObject:tempCDict[@"ih_audio_data"] forKey:@"data"];
+            }
+            if ([tempDict.allKeys containsObject:@"ih_audio_index"]) {
+                [tempCDict setObject:tempCDict[@"ih_audio_index"] forKey:@"location"];
+            }
+            //                    if ([tempDict.allKeys containsObject:@"ih_audio_index"]) {
+            //                        [tempCDict setObject:tempCDict[@"ih_audio_index"] forKey:@"mediaID"];
+            //                    }
+            //data type 0 for audio ,1 for image
+            [tempCDict setObject:@(1) forKey:@"dataType"];
+            [mediasArray addObject:tempCDict];
+        }
+        
+       // [tempContentDict setObject:tempCArray forKey:@"audios"];
+    }
+
+    if ([contentDict.allKeys containsObject:@"images"]) {
+        id images = contentDict[@"images"];
+        NSMutableArray *tempImagesArray = [[NSMutableArray alloc] init];
+        if ([images isKindOfClass:[NSArray class]]) {
+            NSArray *imageArray = (NSArray*)contentDict[@"images"];
+            [tempImagesArray addObjectsFromArray:imageArray];
+        }else if([images isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *tempImageDict = (NSDictionary*)images;
+            
+            if (tempImageDict.count == 0) {
+                
+            }else {
+                [tempImagesArray addObject:tempImageDict];
+            }
+        }
+       // NSMutableArray *tempCArray = [[NSMutableArray alloc] init];
+        for (NSDictionary *tempDict in tempImagesArray) {
+            NSMutableDictionary *tempCDict = [[NSMutableDictionary alloc] init];
+            if ([tempDict.allKeys containsObject:@"ih_image_data"]) {
+                NSString *dataString = tempDict[@"ih_image_data"];
+            
+                NSData *data = [dataString dataUsingEncoding:NSUTF8StringEncoding];
+                [tempCDict setObject:data forKey:@"data"];
+            }
+            if ([tempDict.allKeys containsObject:@"ih_image_index"]) {
+                [tempCDict setObject:StringValue([NSString stringWithFormat:@"%@",tempDict[@"ih_image_index"]])  forKey:@"location"];
+            }
+            if ([tempDict.allKeys containsObject:@"ih_media_id"]) {
+                [tempCDict setObject:tempDict[@"ih_media_id"] forKey:@"mediaID"];
+            }
+            //                    if ([tempDict.allKeys containsObject:@"ih_audio_index"]) {
+            //                        [tempCDict setObject:tempCDict[@"ih_audio_index"] forKey:@"mediaID"];
+            //                    }
+            //data type 0 for audio ,1 for image
+            [tempCDict setObject:[NSString stringWithFormat:@"%@",@(0)] forKey:@"dataType"];
+            [mediasArray addObject:tempCDict];
+        }
+        
+        //[tempContentDict setObject:tempCArray forKey:@"images"];
+        
+    }
+    
+    if (mediasArray.count == 0) {
+        
+    }else {
+        [tempContentDict setObject:mediasArray forKey:@"medias"];
+    }
+    if ([contentDict.allKeys containsObject:@"ih_note_text"]) {
+        [tempContentDict setObject:contentDict[@"ih_note_text"] forKey:@"content"];
+    }
+    
+    return tempContentDict;
+   // [contentsDict setObject:tempContentDict forKey:@"contentA"];
+
 }
 -(void)prepareForShowNoteMedia
 {
@@ -241,6 +581,7 @@
     UINavigationController *navgVC = (UINavigationController*)([[splitVC viewControllers] firstObject]);
     NoteShowViewController *showVC = (NoteShowViewController*)[navgVC.viewControllers firstObject];
     showVC.delegate = self;
+    self.spinner.hidden = YES;
 //    NSMutableDictionary *createDict =[[NSMutableDictionary alloc] init];
 //    [createDict setObject:@"2334" forKey:@"dID"];
 //    [createDict setObject:@"" forKey:@"caseContentS"];
@@ -306,15 +647,28 @@
 #pragma mask - table view delegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    NSInteger section = self.mediaDict.count==0?1:2;
-    NSLog(@"coyunt:%@",@(self.mediaDict.count));
-    NSLog(@"section:%@",@(section));
-    return section;
+    if (self.note) {
+        NSInteger section = self.mediaDict.count==0?1:2;
+        NSLog(@"coyunt:%@",@(self.mediaDict.count));
+        NSLog(@"section:%@",@(section));
+        return section;
+    }else {
+        return 0;
+    }
+    
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return self.note.contents.count;
+        if (self.note) {
+            if ([self.note.noteType integerValue] == 0) {
+                return self.note.contents.count;
+            }else {
+                return 1;
+            }
+        }else {
+            return 0;
+        }
     }else {
         return 1;
     }
@@ -369,7 +723,12 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 0) {
-        return 80;
+        if ([self.note.noteType integerValue] == 0) {
+            return 80;
+
+        }else {
+            return 0.1;
+        }
     }else {
         return 0.1;
         //        return self.mediaDict.count==0?0:20;
@@ -379,11 +738,16 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section == 0) {
-        CGRect headerViewFrame = CGRectMake(0, 0, tableView.frame.size.width, tableView.frame.size.height);
-        UIView *headerView = [[UIView alloc] initWithFrame:headerViewFrame];
-        headerView.backgroundColor = [UIColor whiteColor];
-        [self addSubViewToHeaderView:headerView];
-        return headerView;
+        if ([self.note.noteType integerValue] == 0) {
+            CGRect headerViewFrame = CGRectMake(0, 0, tableView.frame.size.width, tableView.frame.size.height);
+            UIView *headerView = [[UIView alloc] initWithFrame:headerViewFrame];
+            headerView.backgroundColor = [UIColor whiteColor];
+            [self addSubViewToHeaderView:headerView];
+            return headerView;
+        }else {
+           return [[UIView alloc] initWithFrame:CGRectZero];
+        }
+        
     }else {
         return [[UIView alloc] initWithFrame:CGRectZero];
     }
@@ -392,7 +756,7 @@
 -(void)addSubViewToHeaderView:(UIView*)headerView
 {
     
-    NSString *titleStr = self.note.noteTitle?self.note.noteTitle:nil;
+    NSString *titleStr = [StringValue(self.note.noteTitle) isEqualToString:@""]?@"新入院: 输入子标题":self.note.noteTitle;
     NSArray *titleArray = titleStr?[titleStr componentsSeparatedByString:@":"]:nil;
     NSString *titleLabelText = titleArray?[titleArray firstObject]:nil;
     NSString *textFieldText = titleArray?[titleArray lastObject]:nil;
@@ -643,4 +1007,5 @@
         
     }
 }
+
 @end

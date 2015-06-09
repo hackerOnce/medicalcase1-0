@@ -9,8 +9,7 @@
 #import <UIKit/UIKit.h>
 @protocol NoteShowViewControllerDelegate<NSObject>
 
--(void)didSelectedANoteWithNoteID:(NSString*)noteID andCreateDoctorID:(NSString*)dID;
-
+-(void)didSelectedANoteWithNoteID:(NSString*)noteID andCreateDoctorID:(NSString*)dID withNoteUUID:(NSString*)noteUUID;
 @end
 
 @interface NoteShowViewController : UIViewController

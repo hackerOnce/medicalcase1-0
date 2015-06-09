@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14D136" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="14A389" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="CaseContent" representedClassName="CaseContent" syncable="YES">
         <attribute name="admittingDiagnosis" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="chiefComplaint" optional="YES" attributeType="String" syncable="YES"/>
@@ -65,6 +65,9 @@
         <attribute name="noteType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="noteUUID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="updateDate" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="warningCommit" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="warningContent" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="warningTime" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="contents" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="NoteContent" inverseName="noteBook" inverseEntity="NoteContent" syncable="YES"/>
     </entity>
     <entity name="NoteContent" representedClassName="NoteContent" syncable="YES">
@@ -161,14 +164,14 @@
         <element name="Doctor" positionX="-63" positionY="-18" width="128" height="195"/>
         <element name="MediaData" positionX="9" positionY="153" width="128" height="195"/>
         <element name="Node" positionX="-54" positionY="-9" width="128" height="195"/>
-        <element name="NoteBook" positionX="-9" positionY="135" width="128" height="225"/>
+        <element name="NoteBook" positionX="-9" positionY="135" width="128" height="270"/>
         <element name="NoteContent" positionX="0" positionY="144" width="128" height="135"/>
         <element name="ParentNode" positionX="-36" positionY="9" width="128" height="75"/>
         <element name="Patient" positionX="-18" positionY="27" width="128" height="345"/>
         <element name="RecordBaseInfo" positionX="0" positionY="45" width="128" height="360"/>
         <element name="SharedDepartment" positionX="-9" positionY="135" width="128" height="75"/>
         <element name="SharedUser" positionX="36" positionY="189" width="128" height="75"/>
-        <element name="Template" positionX="18" positionY="63" width="128" height="240"/>
         <element name="ShowNotePart" positionX="-9" positionY="135" width="128" height="150"/>
+        <element name="Template" positionX="18" positionY="63" width="128" height="240"/>
     </elements>
 </model>

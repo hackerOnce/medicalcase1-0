@@ -7,6 +7,7 @@
 //
 
 #import "NoteShowViewController.h"
+#import "TempNoteInfo.h"
 
 @interface NoteShowViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -14,23 +15,15 @@
 @property (nonatomic,strong) CoreDataStack *coreDataStack;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 
-@property (nonatomic,strong) NSArray *noteTitleArray;
+@property (nonatomic,strong) NSMutableArray *noteTitleArray;
 
 @end
 
 @implementation NoteShowViewController
 #pragma mask - socket
--(IHMsgSocket *)socket
-{
-    if (!_socket) {
-        _socket = [IHMsgSocket sharedRequest];
-        if (![[_socket IHGCDSocket].asyncSocket isConnected]) {
-            [_socket connectToHost:@"192.168.10.106" onPort:2323];
-        }
-    }
-    return _socket;
-}
+
 -(CoreDataStack *)coreDataStack
 {
     _coreDataStack = [[CoreDataStack alloc] init];
@@ -45,31 +38,96 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSArray *tempArray = [[NSMutableArray alloc] initWithArray:[self.coreDataStack fetchNoteBooksWithDoctorID:@"2334"]];
+   //NSArray *tempArray = [[NSMutableArray alloc] initWithArray:[self.coreDataStack fetchNoteBooksWithDoctorID:@"2334"]];
+//    
+//    //以升序排列数组
+//    self.noteTitleArray = [tempArray sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+//        NoteBook *note1 = (NoteBook*)obj1;
+//        NoteBook *note2 = (NoteBook*)obj2;
+//        
+//        if ([self dateFromDateString:note1.updateDate] < [self dateFromDateString:note2.updateDate]) {
+//            return NSOrderedDescending;
+//        }
+//        if ([self dateFromDateString:note1.updateDate] >[self dateFromDateString:note2.updateDate]) {
+//            return NSOrderedAscending;
+//        }
+//        return NSOrderedSame;
+//    }];
+//    
+//    for (NoteBook *noteBook in self.noteTitleArray) {
+//        
+//        for (NoteContent *content in noteBook.contents) {
+//            NSLog(@"content:%@",content.updatedContent);
+//        }
+//    }
+//    [self.tableView reloadData];
+    self.searchBar.hidden = YES;
+    [self.spinner startAnimating];
+    [self loadNoteFromServer];
+}
+
+-(void)loadNoteFromServer
+{
     
-    //以升序排列数组
-    self.noteTitleArray = [tempArray sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        NoteBook *note1 = (NoteBook*)obj1;
-        NoteBook *note2 = (NoteBook*)obj2;
-        
-        if ([self dateFromDateString:note1.updateDate] < [self dateFromDateString:note2.updateDate]) {
+    NSString *doctorID = @"2334";
+    [MessageObject messageObjectWithUsrStr:doctorID pwdStr:@"test"iHMsgSocket:self.socket optInt:1511 sync_version:1.0 dictionary:@{@"did":doctorID} block:^(IHSockRequest *request) {
+        if (request.resp == 0) {
+            
+            self.noteTitleArray = [[NSMutableArray alloc] init];
+
+            
+            if ([request.responseData isKindOfClass:[NSArray class]]) {
+                NSMutableArray *resurtArray = [[NSMutableArray alloc] init];
+                NSArray *tempArray = (NSArray*)request.responseData;
+                for (NSDictionary *tempDict in tempArray) {
+                    TempNoteInfo *tempNote = [[TempNoteInfo alloc] initWithDict:tempDict];
+                    [resurtArray addObject:tempNote];
+                }
+                NSArray *localNote = [self.coreDataStack fetchNoteBooksWithDoctorID:doctorID andNoteIsCurrentNote:YES];
+                
+                if (localNote.count == 0) {
+                    
+                }else {
+                    for (NoteBook *noteBook in localNote) {
+                        TempNoteInfo *tempNote = [[TempNoteInfo alloc] initWithNoteBook:noteBook];
+                        [resurtArray addObject:tempNote];
+
+                    }
+                }
+                self.noteTitleArray = [[NSMutableArray alloc] initWithArray:[self sortArray:resurtArray]];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.tableView reloadData];
+                    self.searchBar.hidden = NO;
+                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+                    [self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
+                    [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+                    self.spinner.hidden = YES;
+                });
+            }
+        }
+    } failConection:^(NSError *error) {
+        NSLog(@" 欧欧，服务器挂了");
+        abort();
+    }];
+
+}
+-(NSArray*)sortArray:(NSArray*)array
+{
+    NSArray *sortedArray = [array sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        TempNoteInfo *note1 = (TempNoteInfo*)obj1;
+        TempNoteInfo *note2 = (TempNoteInfo*)obj2;
+
+        if ([self dateFromDateString:note1.updatedTime] < [self dateFromDateString:note2.updatedTime]) {
             return NSOrderedDescending;
         }
-        if ([self dateFromDateString:note1.updateDate] >[self dateFromDateString:note2.updateDate]) {
+        if ([self dateFromDateString:note1.updatedTime] >[self dateFromDateString:note2.updatedTime]) {
             return NSOrderedAscending;
         }
         return NSOrderedSame;
     }];
     
-    for (NoteBook *noteBook in self.noteTitleArray) {
-        
-        for (NoteContent *content in noteBook.contents) {
-            NSLog(@"content:%@",content.updatedContent);
-        }
-    }
-    [self.tableView reloadData];
+    return sortedArray;
 }
-
 #pragma mask - table view delegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -93,19 +151,20 @@
     UILabel *createTimeLabel =(UILabel*)[cell viewWithTag:1002];
     UILabel *contentPartLabel =(UILabel*)[cell viewWithTag:1003];
 
-    NoteBook *note = (NoteBook*)[self.noteTitleArray objectAtIndex:indexPath.row];
+    TempNoteInfo *note = (TempNoteInfo*)[self.noteTitleArray objectAtIndex:indexPath.row];
     
-    createTimeLabel.text = [self TimeAndMinutesStringWithDateString:note.updateDate];
-    NSLog(@"update time:%@",note.updateDate);
+    createTimeLabel.text = [self TimeAndMinutesStringWithDateString:note.updatedTime];
+    NSLog(@"update time:%@",note.updatedTime);
 
     [createTimeLabel sizeToFit];
     
-    NSLog(@"note title: %@,noteContent: %@,counts:%@,UUID:%@",note.noteTitle,note.noteUUID,@(note.contents.count),note.noteUUID);
+    cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+   // NSLog(@"note title: %@,noteContent: %@,counts:%@,UUID:%@",note.noteTitle,note.noteUUID,@(note.contents.count),note.noteUUID);
     
-    NoteContent *noteContent = (NoteContent*)[note.contents objectAtIndex:0];
-
-    contentPartLabel.text = [self subStringWithString:noteContent.updatedContent toIndex:15];
-    titleLabel.text = [self subStringWithString:note.noteTitle toIndex:20];
+   // NoteContent *noteContent = (NoteContent*)[note.contents objectAtIndex:0];
+    
+    contentPartLabel.text = [self subStringWithString:note.noteText toIndex:15];
+    titleLabel.text = note.noteTitle;
 
 }
 -(NSString*)subStringWithString:(NSString*)originString toIndex:(NSUInteger)index
@@ -122,13 +181,13 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+   // [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    NoteBook *note = (NoteBook*)[self.noteTitleArray objectAtIndex:indexPath.row];
+    TempNoteInfo *note = (TempNoteInfo*)[self.noteTitleArray objectAtIndex:indexPath.row];
     
-    
-    [self.delegate didSelectedANoteWithNoteID:note.noteUUID andCreateDoctorID:note.dID];
-    NSLog(@"did selected noteID:%@,dID:%@",note.noteUUID,note.dID);
+    NSString *doctorID = @"2334";
+    [self.delegate didSelectedANoteWithNoteID:note.noteID andCreateDoctorID:doctorID withNoteUUID:note.noteUUID];
+   // NSLog(@"did selected noteID:%@,dID:%@",note.noteID);
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -146,6 +205,7 @@
     
     return titleString;
 }
+
 #pragma mask - data helper
 -(NSString*)yearAndMonthStringWithDateString:(NSString*)dateString
 {
@@ -190,4 +250,16 @@
     
     return date;
 }
+
+-(IHMsgSocket *)socket
+{
+    if (!_socket) {
+        _socket = [IHMsgSocket sharedRequest];
+        if (![[_socket IHGCDSocket].asyncSocket isConnected]) {
+            [_socket connectToHost:@"192.168.10.106" onPort:2323];
+        }
+    }
+    return _socket;
+}
+
 @end

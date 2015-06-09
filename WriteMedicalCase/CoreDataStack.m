@@ -718,6 +718,19 @@ static NSString *momdName = @"Model";
    
     return tempArray;
 }
+-(NSArray *)fetchNoteBooksWithDoctorID:(NSString *)dID andNoteIsCurrentNote:(BOOL)isCurrentNote
+{
+    assert(dID != nil);
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dID=%@ AND isCurrentNote=%@",dID,@(isCurrentNote)];
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[NoteBook entityName]];
+    request.predicate = predicate;
+    
+    NSError *error;
+    NSArray *tempArray = [self.managedObjectContext executeFetchRequest:request error:&error];
+    
+    return tempArray;
+}
 ///for note book
 
 -(void)noteBookDeleteWithID:(NSString *)noteID
@@ -840,25 +853,37 @@ static NSString *momdName = @"Model";
     
     
     if ([dict.allKeys containsObject:@"noteContentS"]) {
-        NSDictionary *tempDict = dict[@"noteContentS"];
+        NSMutableDictionary *tempDict =[[NSMutableDictionary alloc] initWithDictionary:  dict[@"noteContentS"]];
+        
+        [tempDict setObject:@"s" forKey:@"contentType"];
         NoteContent *noteContent = [self noteContentCreateWithDict:tempDict];
         [orderSet addObject:noteContent];
         noteContent.noteBook = note;
     }
     if ([dict.allKeys containsObject:@"noteContentO"]) {
-        NSDictionary *tempDict = dict[@"noteContentO"];
+        NSMutableDictionary *tempDict =[[NSMutableDictionary alloc] initWithDictionary: dict[@"noteContentO"]];
+        
+        [tempDict setObject:@"o" forKey:@"contentType"];
+
         NoteContent *noteContent = [self noteContentCreateWithDict:tempDict];
         [orderSet addObject:noteContent];
         noteContent.noteBook = note;
     }
     if ([dict.allKeys containsObject:@"noteContentA"]) {
-        NSDictionary *tempDict = dict[@"noteContentA"];
+        
+        NSMutableDictionary *tempDict =[[NSMutableDictionary alloc] initWithDictionary: dict[@"noteContentA"]];
+        
+        [tempDict setObject:@"a" forKey:@"contentType"];
+        
         NoteContent *noteContent = [self noteContentCreateWithDict:tempDict];
         [orderSet addObject:noteContent];
         noteContent.noteBook = note;
     }
     if ([dict.allKeys containsObject:@"noteContentP"]) {
-        NSDictionary *tempDict = dict[@"noteContentP"];
+        NSMutableDictionary *tempDict =[[NSMutableDictionary alloc] initWithDictionary: dict[@"noteContentP"]];
+        
+        [tempDict setObject:@"p" forKey:@"contentType"];
+
         NoteContent *noteContent = [self noteContentCreateWithDict:tempDict];
         [orderSet addObject:noteContent];
         noteContent.noteBook = note;
@@ -908,31 +933,31 @@ static NSString *momdName = @"Model";
 -(void)updateMediaData:(MediaData*)mediaData withDict:(NSDictionary*)dict
 {
     if ([dict.allKeys containsObject:@"cursorX"]) {
-        mediaData.cursorX = dict[@"cursorX"];
+        mediaData.cursorX = StringValue(dict[@"cursorX"]);
     }
     if ([dict.allKeys containsObject:@"cursorY"]) {
-        mediaData.cursorY = dict[@"cursorY"];
+        mediaData.cursorY = StringValue(dict[@"cursorY"]);
     }
     if ([dict.allKeys containsObject:@"dataType"]) {
-        mediaData.dataType = dict[@"dataType"];
+        mediaData.dataType = StringValue(dict[@"dataType"]);
     }
     if ([dict.allKeys containsObject:@"location"]) {
-        mediaData.location = dict[@"location"];
+        mediaData.location = StringValue(dict[@"location"]);
     }
     if ([dict.allKeys containsObject:@"data"]) {
         mediaData.data = dict[@"data"];
     }
     if ([dict.allKeys containsObject:@"noteID"]) {
-        mediaData.noteID = dict[@"noteID"];
+        mediaData.noteID = StringValue(dict[@"noteID"]);
     }
     if ([dict.allKeys containsObject:@"mediaURLString"]) {
-        mediaData.mediaURLString = dict[@"mediaURLString"];
+        mediaData.mediaURLString = StringValue(dict[@"mediaURLString"]);
     }
     if ([dict.allKeys containsObject:@"mediaNameString"]) {
-        mediaData.mediaURLString = dict[@"mediaNameString"];
+        mediaData.mediaURLString = StringValue(dict[@"mediaNameString"]);
     }
     if ([dict.allKeys containsObject:@"mediaID"]) {
-        mediaData.mediaID = dict[@"mediaID"];
+        mediaData.mediaID =StringValue(dict[@"mediaID"]);
     }
     
 }
@@ -1024,13 +1049,24 @@ static NSString *momdName = @"Model";
     if ([dict.allKeys containsObject:@"createDate"]){
         note.createDate = [dict objectForKey:@"createDate"];
     }
-    if ([dict.allKeys containsObject:@"contents"]) {
-        note.contents = [dict objectForKey:@"contents"];
-    }
+//    if ([dict.allKeys containsObject:@"contents"]) {
+//        note.contents = [dict objectForKey:@"contents"];
+//    }
     
     if ([dict.allKeys containsObject:@"noteUUID"]) {
         note.noteUUID = [dict objectForKey:@"noteUUID"];
     }
+    
+    if ([dict.allKeys containsObject:@"warningTime"]) {
+        note.warningTime = [dict objectForKey:@"warningTime"];
+    }
+    if ([dict.allKeys containsObject:@"warningCommit"]) {
+        note.warningCommit = [dict objectForKey:@"warningCommit"];
+    }
+    if ([dict.allKeys containsObject:@"warningContent"]) {
+        note.warningContent = [dict objectForKey:@"warningContent"];
+    }
+    
 }
 -(ShowNotePart*)showNotePartFetchWithDict:(NSDictionary*)dict
 {

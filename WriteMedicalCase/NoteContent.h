@@ -16,7 +16,7 @@
 @property (nonatomic,retain) NSString *contentIndex;
 @property (nonatomic, retain) NSString *content;
 @property (nonatomic, retain) NSString *updatedContent;
-@property (nonatomic, retain) NSString * contentType;
+@property (nonatomic, retain) NSString * contentType; //s,o,a,p
 @property (nonatomic, retain) NSSet *medias;
 @property (nonatomic, retain) NoteBook *noteBook;
 

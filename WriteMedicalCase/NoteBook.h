@@ -15,7 +15,7 @@
 
 @property (nonatomic, retain) NSNumber *isCurrentNote;
 
-@property (nonatomic, retain) NSString * noteType;
+@property (nonatomic, retain) NSString * noteType;//0 for patient 1for origin
 @property (nonatomic, retain) NSString * noteTitle;
 @property (nonatomic, retain) NSString * notePatientName;
 @property (nonatomic, retain) NSString * noteID;
@@ -26,6 +26,10 @@
 @property (nonatomic, retain) NSString * updateDate;
 @property (nonatomic, retain) NSString * noteUUID;
 @property (nonatomic, retain) NSOrderedSet *contents;
+
+@property (nonatomic, retain) NSString * warningCommit;
+@property (nonatomic, retain) NSString * warningContent;
+@property (nonatomic, retain) NSString * warningTime;
 
 @end
 

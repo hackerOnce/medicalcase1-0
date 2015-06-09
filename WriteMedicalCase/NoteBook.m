@@ -11,6 +11,9 @@
 
 
 @implementation NoteBook
+@dynamic warningCommit;
+@dynamic warningContent;
+@dynamic warningTime;
 
 @dynamic isCurrentNote;
 @dynamic noteType;

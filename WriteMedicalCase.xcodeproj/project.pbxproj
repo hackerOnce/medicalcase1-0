@@ -80,7 +80,6 @@
 		472631D41B1C660800857B22 /* RecordNoteCreateForCaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 472631D31B1C660800857B22 /* RecordNoteCreateForCaseViewController.m */; };
 		472631D71B1D3CBD00857B22 /* RecordNoteCreateCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 472631D61B1D3CBD00857B22 /* RecordNoteCreateCellTableViewCell.m */; };
 		472631DA1B1D874C00857B22 /* RecordNoteWarningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 472631D91B1D874C00857B22 /* RecordNoteWarningViewController.m */; };
-		472631DD1B1EC5EA00857B22 /* TempNote.m in Sources */ = {isa = PBXBuildFile; fileRef = 472631DC1B1EC5EA00857B22 /* TempNote.m */; };
 		472631E01B1EEA1100857B22 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 472631DF1B1EEA1100857B22 /* TestViewController.m */; };
 		472632131B1FDBDC00857B22 /* TemplateNoteContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 472632121B1FDBDC00857B22 /* TemplateNoteContent.m */; };
 		472632161B1FDC4300857B22 /* TemplateMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 472632151B1FDC4300857B22 /* TemplateMedia.m */; };
@@ -147,6 +146,7 @@
 		478859081AF71A70002CD361 /* TempDoctor.m in Sources */ = {isa = PBXBuildFile; fileRef = 478859071AF71A70002CD361 /* TempDoctor.m */; };
 		478BD1901B0C376600EC632E /* SelectCommitDoctorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 478BD18F1B0C376600EC632E /* SelectCommitDoctorViewController.m */; };
 		47ADB1BA1B0D6DF40037912B /* Department.m in Sources */ = {isa = PBXBuildFile; fileRef = 47ADB1B91B0D6DF40037912B /* Department.m */; };
+		47BB7DEB1B2581E000D07934 /* TempNoteInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BB7DEA1B2581E000D07934 /* TempNoteInfo.m */; };
 		47F99E2A1B1591F1009BC4C7 /* AuditCaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47F99E291B1591F1009BC4C7 /* AuditCaseViewController.m */; };
 		47F99E301B16BFE9009BC4C7 /* AuditCaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 47F99E2F1B16BFE9009BC4C7 /* AuditCaseCell.m */; };
 /* End PBXBuildFile section */
@@ -307,8 +307,6 @@
 		472631D61B1D3CBD00857B22 /* RecordNoteCreateCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordNoteCreateCellTableViewCell.m; sourceTree = "<group>"; };
 		472631D81B1D874C00857B22 /* RecordNoteWarningViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordNoteWarningViewController.h; sourceTree = "<group>"; };
 		472631D91B1D874C00857B22 /* RecordNoteWarningViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordNoteWarningViewController.m; sourceTree = "<group>"; };
-		472631DB1B1EC5EA00857B22 /* TempNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempNote.h; sourceTree = "<group>"; };
-		472631DC1B1EC5EA00857B22 /* TempNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempNote.m; sourceTree = "<group>"; };
 		472631DE1B1EEA1100857B22 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
 		472631DF1B1EEA1100857B22 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 		472632111B1FDBDC00857B22 /* TemplateNoteContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateNoteContent.h; sourceTree = "<group>"; };
@@ -437,6 +435,8 @@
 		478BD18F1B0C376600EC632E /* SelectCommitDoctorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCommitDoctorViewController.m; sourceTree = "<group>"; };
 		47ADB1B81B0D6DF40037912B /* Department.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Department.h; sourceTree = "<group>"; };
 		47ADB1B91B0D6DF40037912B /* Department.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Department.m; sourceTree = "<group>"; };
+		47BB7DE91B2581E000D07934 /* TempNoteInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempNoteInfo.h; sourceTree = "<group>"; };
+		47BB7DEA1B2581E000D07934 /* TempNoteInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempNoteInfo.m; sourceTree = "<group>"; };
 		47F99E281B1591F1009BC4C7 /* AuditCaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuditCaseViewController.h; sourceTree = "<group>"; };
 		47F99E291B1591F1009BC4C7 /* AuditCaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuditCaseViewController.m; sourceTree = "<group>"; };
 		47F99E2E1B16BFE9009BC4C7 /* AuditCaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuditCaseCell.h; sourceTree = "<group>"; };
@@ -824,8 +824,6 @@
 		475463721B1C26100026E4AE /* RecordNote */ = {
 			isa = PBXGroup;
 			children = (
-				472631DB1B1EC5EA00857B22 /* TempNote.h */,
-				472631DC1B1EC5EA00857B22 /* TempNote.m */,
 				475463701B1C257F0026E4AE /* RecordNote.storyboard */,
 				472632291B21687F00857B22 /* NoteShowViewController.h */,
 				470D119B1B23F2CD006BE544 /* ContainerViewCell.h */,
@@ -837,6 +835,8 @@
 				470D11A11B23F2CD006BE544 /* ContainerCellView.m */,
 				470D11A21B23F2CD006BE544 /* ContainerCellView.xib */,
 				4726322A1B21687F00857B22 /* NoteShowViewController.m */,
+				47BB7DE91B2581E000D07934 /* TempNoteInfo.h */,
+				47BB7DEA1B2581E000D07934 /* TempNoteInfo.m */,
 				4726322C1B21689800857B22 /* NoteDetailViewController.h */,
 				4726322D1B21689800857B22 /* NoteDetailViewController.m */,
 				472631DE1B1EEA1100857B22 /* TestViewController.h */,
@@ -1059,7 +1059,6 @@
 				476475661B09D4B1004AFDF1 /* ParentNode.m in Sources */,
 				470D11231B22C6CC006BE544 /* ShowNotePart.m in Sources */,
 				4705F0711AF1094C0050D47A /* SBJsonStreamParserAdapter.m in Sources */,
-				472631DD1B1EC5EA00857B22 /* TempNote.m in Sources */,
 				4705F0371AF1062C0050D47A /* Reachability.m in Sources */,
 				4705F0351AF1062C0050D47A /* MessageObject.m in Sources */,
 				4705F0701AF1094C0050D47A /* SBJsonStreamParserAccumulator.m in Sources */,
@@ -1128,6 +1127,7 @@
 				476475511B09D4B0004AFDF1 /* Node.m in Sources */,
 				473C912C1B004ED90069ECE4 /* TemplateModel.m in Sources */,
 				473C91291AFCA8FF0069ECE4 /* CreateTemplateViewController.m in Sources */,
+				47BB7DEB1B2581E000D07934 /* TempNoteInfo.m in Sources */,
 				4705F08F1AF109990050D47A /* WLKPatient.m in Sources */,
 				470D11A61B23F2CD006BE544 /* ContainerCellView.m in Sources */,
 				476474321B0437C7004AFDF1 /* SelectedDoctorViewController.m in Sources */,

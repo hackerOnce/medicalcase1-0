@@ -114,6 +114,8 @@
                   note.createDate = [resultDict objectForKey:@"ih_modify_time"];
                  // note.noteID = [resultDict objectForKey:@"ih_note_id"];
                   note.isCurrentNote = @(NO);
+                  [self.coreDataStack saveContext];
+
               }
           }
         
@@ -186,6 +188,8 @@
         NSDictionary *contentDict = [NSDictionary dictionaryWithDictionary:[self prepareForServerWithNoteContent:noteContent]];
         [dict setObject:contentDict forKey:keyString];
     }
+    NSString *titleString = [NSString stringWithFormat:@"%@: %@",self.titleLabel.text,self.titeTextField.text];
+   [dict setObject:titleString forKey:@"noteTitle"];
     return dict;
 }
 -(NSDictionary*)prepareForServerWithNoteContent:(NoteContent*)noteContent
