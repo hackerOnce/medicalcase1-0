@@ -11,7 +11,8 @@
 
 
 @implementation MediaData
-
+@dynamic hasAdded;
+@dynamic hasDeleted;
 @dynamic cursorX;
 @dynamic cursorY;
 @dynamic dataType;

@@ -574,6 +574,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
+                                            <action selector="saveButton:" destination="Pws-TG-tdn" eventType="touchUpInside" id="6NK-Dw-cPh"/>
                                             <segue destination="VcM-yQ-D6k" kind="unwind" identifier="patientNoteSave" unwindAction="createNoteSave:" id="f0K-2n-W4c"/>
                                         </connections>
                                     </button>
@@ -1071,8 +1072,8 @@
         <image name="语音" width="28" height="27"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="2lp-wq-LHv"/>
-        <segue reference="LSp-0x-aMv"/>
-        <segue reference="iQa-df-fEZ"/>
+        <segue reference="sNQ-El-x1K"/>
+        <segue reference="CQM-mv-wxJ"/>
+        <segue reference="BiE-IG-DGr"/>
     </inferredMetricsTieBreakers>
 </document>

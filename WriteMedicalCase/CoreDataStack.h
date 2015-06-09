@@ -48,5 +48,6 @@
 -(NoteBook*)noteBookFetchWithDoctorID:(NSString*)dID noteType:(NSString*)noteType isCurrentNote:(NSNumber*)isCurrentNote;
 -(ShowNotePart*)showNotePartFetchWithDict:(NSDictionary*)dict;
 -(NSArray *)fetchNoteBooksWithDoctorID:(NSString *)dID andNoteIsCurrentNote:(BOOL)isCurrentNote;
+-(MediaData*)mediaDataFetchWithDict:(NSDictionary*)dict andIgnoreStatusFlag:(BOOL)statusFlag;
 
 @end

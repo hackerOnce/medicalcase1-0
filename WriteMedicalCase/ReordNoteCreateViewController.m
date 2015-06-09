@@ -508,9 +508,11 @@
     NSData *data = UIImageJPEGRepresentation(image, 1);
     NSDictionary *dataDict = @{@"mediaNameString":[self currentDate],@"data":data,@"location":[NSString stringWithFormat:@"%@",@(range.location)],@"cursorX":[NSString stringWithFormat:@"%@",@(point.x)],@"cursorY":[NSString stringWithFormat:@"%@",@(point.y)]};
     MediaData *mediaData = [self.coreDataStack mediaDataCreateWithDict:dataDict];
+    
     mediaData.owner = noteContent;
     
     [self.mediasArray addObject:mediaData];
+    
     
     [self.coreDataStack saveContext];
     

@@ -346,12 +346,12 @@
         if (contenta) {
             if ([contenta isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *contentDict = dict[@"ih_contenta"];
-                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentA"];
+                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"a"];
             }else if ([contenta isEqualToString:@""]){
                 
                 NSDictionary *contentDict = @{@"ih_note_text":@""};
                 //[tempDict setObject:@"" forKey:@"noteContentA"];
-                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentA"];
+                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"a"];
  
             }
         }
@@ -362,12 +362,12 @@
         if (contento) {
             if ([contento isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *contentDict = dict[@"ih_contento"];
-                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentO"];
+                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"o"];
             }else if ([contento isEqualToString:@""]){
                 
                 NSDictionary *contentDict = @{@"ih_note_text":@""};
                 //[tempDict setObject:@"" forKey:@"noteContentA"];
-                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentO"];
+                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"o"];
                 
             }
         }
@@ -377,12 +377,12 @@
         if (contenta) {
             if ([contenta isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *contentDict = dict[@"ih_contentp"];
-                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentP"];
+                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"p"];
             }else if ([contenta isEqualToString:@""]){
                 
                 NSDictionary *contentDict = @{@"ih_note_text":@""};
                 //[tempDict setObject:@"" forKey:@"noteContentA"];
-                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentP"];
+                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"p"];
                 
             }
         }
@@ -392,12 +392,12 @@
         if (contenta) {
             if ([contenta isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *contentDict = dict[@"ih_contents"];
-                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentS"];
+                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"s"];
             }else if ([contenta isEqualToString:@""]){
                 
                 NSDictionary *contentDict = @{@"ih_note_text":@""};
                 //[tempDict setObject:@"" forKey:@"noteContentA"];
-                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentS"];
+                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"s"];
                 
             }
 
@@ -442,8 +442,12 @@
             //                    if ([tempDict.allKeys containsObject:@"ih_audio_index"]) {
             //                        [tempCDict setObject:tempCDict[@"ih_audio_index"] forKey:@"mediaID"];
             //                    }
-            //data type 0 for audio ,1 for image
+            //data type 1 for audio ,0 for image
             [tempCDict setObject:@(1) forKey:@"dataType"];
+            
+            [tempCDict setObject:[NSNumber numberWithBool:NO] forKey:@"hasAdded"];
+            [tempCDict setObject:[NSNumber numberWithBool:NO] forKey:@"hasDeleted"];
+            
             [mediasArray addObject:tempCDict];
         }
         
@@ -480,7 +484,10 @@
             if ([tempDict.allKeys containsObject:@"ih_media_id"]) {
                 [tempCDict setObject:tempDict[@"ih_media_id"] forKey:@"mediaID"];
             }
-            //                    if ([tempDict.allKeys containsObject:@"ih_audio_index"]) {
+            [tempCDict setObject:[NSNumber numberWithBool:NO] forKey:@"hasAdded"];
+            [tempCDict setObject:[NSNumber numberWithBool:NO] forKey:@"hasDeleted"];
+
+            //                    ifpo ([tempDict.allKeys containsObject:@"ih_audio_index"]) {
             //                        [tempCDict setObject:tempCDict[@"ih_audio_index"] forKey:@"mediaID"];
             //                    }
             //data type 0 for audio ,1 for image
@@ -544,6 +551,9 @@
     NSData *data = UIImageJPEGRepresentation(image, 1);
     NSDictionary *dataDict = @{@"mediaNameString":[self currentDate],@"data":data,@"location":[NSString stringWithFormat:@"%@",@(range.location)],@"cursorX":[NSString stringWithFormat:@"%@",@(point.x)],@"cursorY":[NSString stringWithFormat:@"%@",@(point.y)]};
     MediaData *mediaData = [self.coreDataStack mediaDataCreateWithDict:dataDict];
+    mediaData.hasAdded = [NSNumber numberWithBool:YES];
+    mediaData.hasDeleted = [NSNumber numberWithBool:NO];
+
     mediaData.owner = noteContent;
     
     [self.mediasArray addObject:mediaData];

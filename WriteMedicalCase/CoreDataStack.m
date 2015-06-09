@@ -822,10 +822,30 @@ static NSString *momdName = @"Model";
         for (NoteContent *noteContent in note.contents) {
             
             if ([tempDict.allKeys containsObject:noteContent.contentType]) {
-                NSDictionary *noteContentDict = tempDict[noteContent.contentType];
-                [self updateNoteContent:noteContent WithDict:noteContentDict];
+                 NSMutableDictionary *noteContentDict =[[NSMutableDictionary alloc] initWithDictionary:tempDict[noteContent.contentType]];
+                [noteContentDict setObject:noteContent.contentType forKey:@"contentType"];
+                 [self updateNoteContent:noteContent WithDict:noteContentDict];
+                
+                if ([noteContentDict.allKeys containsObject:@"medias"]){
+                    id tempMedias = [noteContentDict objectForKey:@"medias"];
+                    
+                    if ([tempMedias isKindOfClass:[NSArray class]]) {
+                        NSArray *medias = (NSArray *)tempMedias;
+ 
+                        for (NSDictionary *mediaDict in medias) {
+                            MediaData *mediaData = [self mediaDataFetchWithDict:mediaDict andIgnoreStatusFlag:NO];
+                            if (mediaData) {
+                                mediaData.owner = noteContent;
+                            }
+                        }
+                    }
+                    
+                }
+                
             }
         }
+        [self saveContext];
+        
         return note;
     }
 }
@@ -912,7 +932,7 @@ static NSString *momdName = @"Model";
         
         NSArray *tempArray = (NSArray*)dict[@"medias"];
         for (NSDictionary *medict in tempArray) {
-           MediaData *mediaData = [self mediaDataCreateWithDict:medict];
+           MediaData *mediaData = [self mediaDataFetchWithDict:medict andIgnoreStatusFlag:NO];
             mediaData.owner = noteContent;
         }
     }
@@ -920,6 +940,40 @@ static NSString *momdName = @"Model";
     [self saveContext];
     
     return noteContent;
+}
+-(MediaData*)mediaDataFetchWithDict:(NSDictionary*)dict andIgnoreStatusFlag:(BOOL)statusFlag
+{
+    NSString *mediaID;
+    NSString *mediaUUID;
+    if ([dict.allKeys containsObject:@"mediaID"]) {
+        mediaID = dict[@"mediaID"];
+    }
+    assert(mediaID != nil);
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"mediaID=%@",mediaID];
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[MediaData entityName]];
+    request.predicate = predicate;
+    
+    NSError *error;
+    NSArray *tempArray = [self.managedObjectContext executeFetchRequest:request error:&error];
+    
+    if (tempArray.count == 0) {
+      return [self mediaDataCreateWithDict:dict];
+    }else {
+        
+        if (tempArray.count == 1) {
+            MediaData *mediaData = (MediaData*)[tempArray firstObject];
+            if (!statusFlag) {
+                mediaData.hasAdded = [NSNumber numberWithBool:NO];
+                mediaData.hasDeleted = [NSNumber numberWithBool:NO];
+                [self saveContext];
+            }
+            return mediaData;
+        }else {
+            return nil;
+        }
+    }
 }
 -(MediaData*)mediaDataCreateWithDict:(NSDictionary*)dict
 {
@@ -959,6 +1013,11 @@ static NSString *momdName = @"Model";
     if ([dict.allKeys containsObject:@"mediaID"]) {
         mediaData.mediaID =StringValue(dict[@"mediaID"]);
     }
+    if ([dict.allKeys containsObject:@"hasAdded"]) {
+        mediaData.hasAdded = dict[@"hasAdded"];
+    }
+    
+    
     
 }
 -(void)updateNoteContent:(NoteContent*)noteContent WithDict:(NSDictionary*)dict

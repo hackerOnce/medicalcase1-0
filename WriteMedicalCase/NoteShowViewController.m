@@ -179,6 +179,32 @@
     return contentString;
 
 }
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        TempNoteInfo *note = [self.noteTitleArray objectAtIndex:indexPath.row];
+        [self.noteTitleArray removeObjectAtIndex:indexPath.row];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+        if (note.noteID) {
+            [MessageObject messageObjectWithUsrStr:@"2334" pwdStr:@"test" iHMsgSocket:self.socket optInt:1514 sync_version:1 dictionary:@{@"uuid":StringValue(note.noteID)} block:^(IHSockRequest *request) {
+                
+            } failConection:^(NSError *error) {
+                
+            }];
+        }else {
+            if (note.noteUUID) {
+                [self.coreDataStack noteBookDeleteWithID:note.noteUUID];
+            }
+        }
+        
+    }
+}
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
    // [tableView deselectRowAtIndexPath:indexPath animated:YES];

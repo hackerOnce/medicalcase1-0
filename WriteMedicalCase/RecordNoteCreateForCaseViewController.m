@@ -89,6 +89,11 @@
     [self.coreDataStack noteBookDeleteWithID:self.note.noteUUID];
     [self.coreDataStack saveContext];
 }
+- (IBAction)saveButton:(UIButton *)sender {
+    
+//    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"保存成功" message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//    [alertView show];
+}
 -(void)saveNotebuttonClicked
 {
     for (NoteContent *noteContent in self.note.contents) {
@@ -112,7 +117,7 @@
                   NoteBook *note = self.note;
                   note.updateDate = [resultDict objectForKey:@"ih_create_time"];
                   note.createDate = [resultDict objectForKey:@"ih_modify_time"];
-                 // note.noteID = [resultDict objectForKey:@"ih_note_id"];
+                  note.noteID = [resultDict objectForKey:@"ih_note_id"];
                   note.isCurrentNote = @(NO);
                   [self.coreDataStack saveContext];
 
@@ -326,8 +331,8 @@
     NSData *data = UIImageJPEGRepresentation(image, 1);
     NSDictionary *dataDict = @{@"mediaNameString":[self currentDate],@"data":data,@"location":[NSString stringWithFormat:@"%@",@(range.location)],@"cursorX":[NSString stringWithFormat:@"%@",@(point.x)],@"cursorY":[NSString stringWithFormat:@"%@",@(point.y)]};
     MediaData *mediaData = [self.coreDataStack mediaDataCreateWithDict:dataDict];
+
     mediaData.owner = noteContent;
-    
     [self.mediasArray addObject:mediaData];
     
     [self.coreDataStack saveContext];
@@ -431,6 +436,7 @@
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+   // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSelectedMedia) name:@"didSelectItemFromCollectionView" object:nil];
 }
 -(void)setUpTableView
 {

@@ -7,6 +7,8 @@
 //
 
 #import "TestViewController.h"
+#import "RecordNoteCreateForCaseViewController.h"
+#import "ReordNoteCreateViewController.h"
 
 @interface TestViewController ()
 

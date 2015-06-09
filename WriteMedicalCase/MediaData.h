@@ -15,7 +15,8 @@
 
 @property (nonatomic, retain) NSString * cursorX;
 @property (nonatomic, retain) NSString * cursorY;
-
+@property (nonatomic, retain) NSNumber * hasDeleted;
+@property (nonatomic, retain) NSNumber * hasAdded;
 @property (nonatomic, retain) NSString * dataType;//0 image,1:audio
 @property (nonatomic, retain) NSString * location;
 @property (nonatomic, retain) NSString * noteID;

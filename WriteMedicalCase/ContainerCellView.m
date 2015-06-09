@@ -9,14 +9,20 @@
 #import "ContainerCellView.h"
 #import "CollectionViewCell.h"
 
-@interface ContainerCellView () <UICollectionViewDataSource,UICollectionViewDelegate>
-@property (strong, nonatomic) NSArray *collectionData;
+@interface ContainerCellView () <UICollectionViewDataSource,UICollectionViewDelegate,UIGestureRecognizerDelegate>
+@property (strong, nonatomic) NSMutableArray *collectionData;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
-
+@property (strong,nonatomic) CoreDataStack *coreDataStack;
 @end
 @implementation ContainerCellView
 @synthesize collectionData = _collectionData;
+-(CoreDataStack *)coreDataStack
+{
+    _coreDataStack = [[CoreDataStack alloc] init];
+    return _coreDataStack;
+}
+
 - (void)awakeFromNib {
     
    // self.collectionView.backgroundColor = [UIColor colorWithRed:204.0/255.0 green:204.0/255.0 blue:204.0/255.0 alpha:1.0];
@@ -36,7 +42,7 @@
 - (void)setCollectionData:(NSArray *)collectionData {
    // self.collectionData = [NSArray arrayWithArray:collectionData];
   //  self.collectionData = collectionData;
-    _collectionData = collectionData;
+    _collectionData = [[NSMutableArray alloc] initWithArray:collectionData];
     [_collectionView setContentOffset:CGPointZero animated:NO];
     [_collectionView reloadData];
 }
@@ -59,9 +65,38 @@
     
    // NSDictionary *cellData = [self.collectionData objectAtIndex:[indexPath row]];
     cell.titleLabel.text = mediaData.mediaNameString;
+    
+    
+    UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+    [cell addGestureRecognizer:longPressRecognizer];
+    longPressRecognizer.minimumPressDuration = 1.0;
+    longPressRecognizer.delegate = self;
+    longPressRecognizer.view.tag = indexPath.row;
     return cell;
 }
-
+-(void)handleLongPress:(UILongPressGestureRecognizer*)gesture
+{
+    if (gesture.state == UIGestureRecognizerStateBegan) {
+        
+        CollectionViewCell *cell = (CollectionViewCell *)gesture.view;
+        
+        NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+        MediaData *delectedMediaData = [self.collectionData objectAtIndex:indexPath.row];
+        
+        if (self.collectionData.count > 1) {
+            [self.collectionData removeObjectAtIndex:indexPath.row];
+            [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+        }else {
+            [self.collectionData removeAllObjects];
+            [self.collectionView reloadData];
+        
+        }
+        MediaData *mediaData = [self.coreDataStack mediaDataFetchWithDict:@{@"mediaID":delectedMediaData.mediaID} andIgnoreStatusFlag:YES];
+        mediaData.hasDeleted = [NSNumber numberWithBool:YES];
+        [self.coreDataStack saveContext];
+        
+    }
+}
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *cellData = [self.collectionData objectAtIndex:[indexPath row]];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"didSelectItemFromCollectionView" object:cellData];
