@@ -105,6 +105,7 @@
     self.note.noteTitle = titleString;
     [self.coreDataStack saveContext];
     
+    ///修改待验证
     //  TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
     NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
     [MessageObject messageObjectWithUsrStr:@"2334"pwdStr:@"test"iHMsgSocket:self.socket optInt:1509 sync_version:1.0 dictionary:dict block:^(IHSockRequest *request) {
@@ -194,28 +195,27 @@
 }
 -(NSDictionary*)prepareForServerWithNoteContent:(NoteContent*)noteContent
 {
-    NSDictionary *mediaDict;
-    NSSet *medias =[[NSSet alloc] initWithSet:noteContent.medias];//s,o,a,p
+    NSMutableDictionary *tempDict = [[NSMutableDictionary alloc] init];
+    NSSet *medias =[[NSMutableSet alloc] initWithSet:noteContent.medias];//s,o,a,p
     
-    if (medias.count == 0) {
-        mediaDict = nil;
-    }else {
-        //if (medias) {
-        mediaDict =[NSDictionary dictionaryWithDictionary:[self prepareForServerWithMediaArray:medias]];
-        //        }else {
-        //            mediaDict = nil;
-        //        }
-    }
-    NSMutableDictionary *tempDict;
-    if (mediaDict) {
-        tempDict = [[NSMutableDictionary alloc] initWithDictionary:mediaDict];
-        
-    }else {
-        tempDict = [[NSMutableDictionary alloc] init];
-        [tempDict setObject:@"" forKey:@"images"];
-        [tempDict setObject:@"" forKey:@"audio"];
-        
-    }
+    NSPredicate *addedPredicateForImages = [NSPredicate predicateWithFormat:@"hasAdded=%@ AND dataType=%@",[NSNumber numberWithBool:YES],@(0)];
+    NSPredicate *addedPredicateForAudios = [NSPredicate predicateWithFormat:@"hasAdded=%@ AND dataType=%@",[NSNumber numberWithBool:YES],@(1)];
+
+    NSPredicate *deletedPredicateImages = [NSPredicate predicateWithFormat:@"hasDeleted=%@ dataType=%@",[NSNumber numberWithBool:YES],@(0)];
+    NSPredicate *deletedPredicateAudios = [NSPredicate predicateWithFormat:@"hasDeleted=%@ dataType=%@",[NSNumber numberWithBool:YES],@(1)];
+
+
+    NSSet *addedMediasForImages = [medias filteredSetUsingPredicate:addedPredicateForImages];
+    NSSet *addedMediasForAudios = [medias filteredSetUsingPredicate:addedPredicateForAudios];
+    NSSet *deletededMediasForImages = [medias filteredSetUsingPredicate:deletedPredicateImages];
+    NSSet *deletedMediasForAudios = [medias filteredSetUsingPredicate:deletedPredicateAudios];
+
+    
+    [tempDict setObject:deletedMediasForAudios?@"":deletedMediasForAudios forKey:@"delete_audio"];
+    [tempDict setObject:deletedMediasForAudios?@"":deletededMediasForImages forKey:@"delete_image"];
+    [tempDict setObject:addedMediasForAudios?@"":addedMediasForAudios forKey:@"audio"];
+    [tempDict setObject:addedMediasForImages?@"":addedMediasForImages forKey:@"images"];
+    
     [tempDict setObject:StringValue(noteContent.updatedContent) forKey:@"ih_note_text"];
     
     return tempDict;
