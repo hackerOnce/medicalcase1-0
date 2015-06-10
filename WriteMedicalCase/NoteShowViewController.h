@@ -10,6 +10,7 @@
 @protocol NoteShowViewControllerDelegate<NSObject>
 
 -(void)didSelectedANoteWithNoteID:(NSString*)noteID andCreateDoctorID:(NSString*)dID withNoteUUID:(NSString*)noteUUID;
+-(void)didDeletedNoteWithNoteID:(NSString*)noteID andNoteUUID:(NSString*)noteUUID;
 @end
 
 @interface NoteShowViewController : UIViewController

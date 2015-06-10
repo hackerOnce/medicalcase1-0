@@ -235,9 +235,8 @@
         }else {//image
             NSString *encodeDataString = [mediaData.data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
             
-            NSString *test = @"test";
             
-            NSDictionary *imageDict = @{@"ih_image_data":test,@"ih_image_index":mediaData.location?mediaData.location:nil};
+            NSDictionary *imageDict = @{@"ih_image_data":encodeDataString,@"ih_image_index":mediaData.location?mediaData.location:nil};
             [images addObject:imageDict];
             
         }
@@ -250,6 +249,11 @@
 
 
 #pragma mask - note show view controller delegate
+-(void)didDeletedNoteWithNoteID:(NSString *)noteID andNoteUUID:(NSString *)noteUUID
+{
+    [self.tableView reloadData];
+
+}
 -(void)didSelectedANoteWithNoteID:(NSString *)noteID andCreateDoctorID:(NSString *)dID withNoteUUID:(NSString *)noteUUID
 {
     
@@ -350,12 +354,12 @@
                 if (contenta) {
                     if ([contenta isKindOfClass:[NSDictionary class]]) {
                         NSDictionary *contentDict = dict[@"ih_contents"];
-                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"s"];
+                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentS"];
                     }else if ([contenta isEqualToString:@""]){
                         
                         NSDictionary *contentDict = @{@"ih_note_text":@""};
                         //[tempDict setObject:@"" forKey:@"noteContentA"];
-                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"s"];
+                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentS"];
                         
                     }
                     
@@ -368,12 +372,12 @@
                 if (contenta) {
                     if ([contenta isKindOfClass:[NSDictionary class]]) {
                         NSDictionary *contentDict = dict[@"ih_contenta"];
-                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"a"];
+                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentA"];
                     }else if ([contenta isEqualToString:@""]){
                         
                         NSDictionary *contentDict = @{@"ih_note_text":@""};
                         //[tempDict setObject:@"" forKey:@"noteContentA"];
-                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"a"];
+                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentA"];
                         
                     }
                 }
@@ -384,12 +388,12 @@
                 if (contento) {
                     if ([contento isKindOfClass:[NSDictionary class]]) {
                         NSDictionary *contentDict = dict[@"ih_contento"];
-                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"o"];
+                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentO"];
                     }else if ([contento isEqualToString:@""]){
                         
                         NSDictionary *contentDict = @{@"ih_note_text":@""};
                         //[tempDict setObject:@"" forKey:@"noteContentA"];
-                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"o"];
+                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentO"];
                         
                     }
                 }
@@ -399,12 +403,12 @@
                 if (contenta) {
                     if ([contenta isKindOfClass:[NSDictionary class]]) {
                         NSDictionary *contentDict = dict[@"ih_contentp"];
-                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"p"];
+                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentP"];
                     }else if ([contenta isEqualToString:@""]){
                         
                         NSDictionary *contentDict = @{@"ih_note_text":@""};
                         //[tempDict setObject:@"" forKey:@"noteContentA"];
-                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"p"];
+                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentP"];
                         
                     }
                 }
@@ -414,12 +418,12 @@
                 if (contenta) {
                     if ([contenta isKindOfClass:[NSDictionary class]]) {
                         NSDictionary *contentDict = dict[@"ih_contents"];
-                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"s"];
+                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentS"];
                     }else if ([contenta isEqualToString:@""]){
                         
                         NSDictionary *contentDict = @{@"ih_note_text":@""};
                         //[tempDict setObject:@"" forKey:@"noteContentA"];
-                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"s"];
+                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"noteContentS"];
                         
                     }
                     

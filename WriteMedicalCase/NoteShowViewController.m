@@ -75,15 +75,28 @@
             
             self.noteTitleArray = [[NSMutableArray alloc] init];
 
-            
-            if ([request.responseData isKindOfClass:[NSArray class]]) {
-                NSMutableArray *resurtArray = [[NSMutableArray alloc] init];
-                NSArray *tempArray = (NSArray*)request.responseData;
-                for (NSDictionary *tempDict in tempArray) {
-                    TempNoteInfo *tempNote = [[TempNoteInfo alloc] initWithDict:tempDict];
-                    [resurtArray addObject:tempNote];
+            NSMutableArray *resurtArray = [[NSMutableArray alloc] init];
+
+            if ([request.responseData isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *dict = (NSDictionary*)request.responseData;
+                TempNoteInfo *tempNote = [[TempNoteInfo alloc] initWithDict:dict];
+
+                [resurtArray addObject:tempNote];
+            }else {
+                if ([request.responseData isKindOfClass:[NSArray class]]) {
+                    NSArray *tempArray = (NSArray*)request.responseData;
+                    
+                    [resurtArray addObjectsFromArray:(NSArray*)request.responseData];
+                    for (NSDictionary *tempDict in tempArray) {
+                        TempNoteInfo *tempNote = [[TempNoteInfo alloc] initWithDict:tempDict];
+                        [resurtArray addObject:tempNote];
+                    }
+
+                    
                 }
-                NSArray *localNote = [self.coreDataStack fetchNoteBooksWithDoctorID:doctorID andNoteIsCurrentNote:YES];
+            }
+        
+            NSArray *localNote = [self.coreDataStack fetchNoteBooksWithDoctorID:doctorID andNoteIsCurrentNote:YES];
                 
                 if (localNote.count == 0) {
                     
@@ -104,7 +117,7 @@
                     self.spinner.hidden = YES;
                 });
             }
-        }
+    
     } failConection:^(NSError *error) {
         NSLog(@" 欧欧，服务器挂了");
         abort();
@@ -190,9 +203,13 @@
         TempNoteInfo *note = [self.noteTitleArray objectAtIndex:indexPath.row];
         [self.noteTitleArray removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView reloadData];
         
         if (note.noteID) {
             
+            [self.delegate didDeletedNoteWithNoteID:note.noteID andNoteUUID:nil];
+            [self.coreDataStack noteBookDeleteWithID:note.noteID andNoteUUID:nil];
+
             [MessageObject messageObjectWithUsrStr:@"2334" pwdStr:@"test" iHMsgSocket:self.socket optInt:1514 sync_version:1 dictionary:@{@"uuid":StringValue(note.noteID)} block:^(IHSockRequest *request) {
                 
                 [self.coreDataStack noteBookDeleteWithID:note.noteID andNoteUUID:nil];
@@ -202,6 +219,8 @@
             }];
         }else {
             if (note.noteUUID) {
+                [self.delegate didDeletedNoteWithNoteID:note.noteID andNoteUUID:nil];
+
                 [self.coreDataStack noteBookDeleteWithID:nil andNoteUUID:note.noteUUID];
             }
         }

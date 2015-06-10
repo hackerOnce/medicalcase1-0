@@ -248,9 +248,8 @@
         }else {//image
             NSString *encodeDataString = [mediaData.data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
             
-            NSString *test = @"test";
             
-            NSDictionary *imageDict = @{@"ih_image_data":test,@"ih_image_index":mediaData.location?mediaData.location:nil};
+            NSDictionary *imageDict = @{@"ih_image_data":encodeDataString,@"ih_image_index":mediaData.location?mediaData.location:nil};
             [images addObject:imageDict];
             
         }
