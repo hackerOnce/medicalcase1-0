@@ -85,7 +85,7 @@
 -(void)canceCreateNoteButtonClicked
 {
     // 取消创建
-    [self.coreDataStack noteBookDeleteWithID:self.note.noteUUID];
+    [self.coreDataStack noteBookDeleteWithID:nil andNoteUUID:self.note.noteUUID];;
     [self.coreDataStack saveContext];
 }
 

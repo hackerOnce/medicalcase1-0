@@ -733,9 +733,17 @@ static NSString *momdName = @"Model";
 }
 ///for note book
 
--(void)noteBookDeleteWithID:(NSString *)noteID
+-(void)noteBookDeleteWithID:(NSString *)noteID andNoteUUID:(NSString*)noteUUID
 {
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"noteUUID=%@",noteID];
+    NSPredicate *predicate;
+    if (noteID) {
+        predicate = [NSPredicate predicateWithFormat:@"noteID=%@",noteID];
+    }else {
+        if (noteUUID) {
+            predicate = [NSPredicate predicateWithFormat:@"noteUUID=%@",noteUUID];
+        }
+    }
+    
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:[NoteBook entityName]];
     request.predicate = predicate;
     

@@ -192,14 +192,17 @@
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         
         if (note.noteID) {
+            
             [MessageObject messageObjectWithUsrStr:@"2334" pwdStr:@"test" iHMsgSocket:self.socket optInt:1514 sync_version:1 dictionary:@{@"uuid":StringValue(note.noteID)} block:^(IHSockRequest *request) {
                 
+                [self.coreDataStack noteBookDeleteWithID:note.noteID andNoteUUID:nil];
+
             } failConection:^(NSError *error) {
                 
             }];
         }else {
             if (note.noteUUID) {
-                [self.coreDataStack noteBookDeleteWithID:note.noteUUID];
+                [self.coreDataStack noteBookDeleteWithID:nil andNoteUUID:note.noteUUID];
             }
         }
         

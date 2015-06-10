@@ -70,16 +70,16 @@
 }
 - (IBAction)save:(UIButton *)sender
 {
-    TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
-    if ([StringValue(self.noteContent) isEqualToString:@""] ) {
-        //笔记内容不允许为空
-        return;
-    }
-    
+  //  TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
+//    if ([StringValue(self.noteContent) isEqualToString:@""] ) {
+//        //笔记内容不允许为空
+//        return;
+//    }
+    NSString *doctorID = @"2334";
     NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
     
     
-    [MessageObject messageObjectWithUsrStr:doctor.dID pwdStr:@"test"iHMsgSocket:self.socket optInt:1509 sync_version:1.0 dictionary:dict block:^(IHSockRequest *request) {
+    [MessageObject messageObjectWithUsrStr:doctorID pwdStr:@"test"iHMsgSocket:self.socket optInt:1513 sync_version:1.0 dictionary:dict block:^(IHSockRequest *request) {
         
     } failConection:^(NSError *error) {
         
@@ -201,8 +201,8 @@
     NSPredicate *addedPredicateForImages = [NSPredicate predicateWithFormat:@"hasAdded=%@ AND dataType=%@",[NSNumber numberWithBool:YES],@(0)];
     NSPredicate *addedPredicateForAudios = [NSPredicate predicateWithFormat:@"hasAdded=%@ AND dataType=%@",[NSNumber numberWithBool:YES],@(1)];
 
-    NSPredicate *deletedPredicateImages = [NSPredicate predicateWithFormat:@"hasDeleted=%@ dataType=%@",[NSNumber numberWithBool:YES],@(0)];
-    NSPredicate *deletedPredicateAudios = [NSPredicate predicateWithFormat:@"hasDeleted=%@ dataType=%@",[NSNumber numberWithBool:YES],@(1)];
+    NSPredicate *deletedPredicateImages = [NSPredicate predicateWithFormat:@"hasDeleted=%@ AND dataType=%@",[NSNumber numberWithBool:YES],@(0)];
+    NSPredicate *deletedPredicateAudios = [NSPredicate predicateWithFormat:@"hasDeleted=%@ AND dataType=%@",[NSNumber numberWithBool:YES],@(1)];
 
 
     NSSet *addedMediasForImages = [medias filteredSetUsingPredicate:addedPredicateForImages];
@@ -211,10 +211,10 @@
     NSSet *deletedMediasForAudios = [medias filteredSetUsingPredicate:deletedPredicateAudios];
 
     
-    [tempDict setObject:deletedMediasForAudios?@"":deletedMediasForAudios forKey:@"delete_audio"];
-    [tempDict setObject:deletedMediasForAudios?@"":deletededMediasForImages forKey:@"delete_image"];
-    [tempDict setObject:addedMediasForAudios?@"":addedMediasForAudios forKey:@"audio"];
-    [tempDict setObject:addedMediasForImages?@"":addedMediasForImages forKey:@"images"];
+    [tempDict setObject:deletedMediasForAudios.count==0?@"":deletedMediasForAudios forKey:@"delete_audio"];
+    [tempDict setObject:deletedMediasForAudios.count==0?@"":deletededMediasForImages forKey:@"delete_image"];
+    [tempDict setObject:addedMediasForAudios.count==0?@"":addedMediasForAudios forKey:@"audio"];
+    [tempDict setObject:addedMediasForImages.count==0?@"":addedMediasForImages forKey:@"images"];
     
     [tempDict setObject:StringValue(noteContent.updatedContent) forKey:@"ih_note_text"];
     

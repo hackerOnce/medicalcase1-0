@@ -40,7 +40,7 @@
 
 -(void)updateCaseContent:(CaseContent*)caseContent dataWithDict:(NSDictionary*)dict;
 
--(void)noteBookDeleteWithID:(NSString *)noteID;
+-(void)noteBookDeleteWithID:(NSString *)noteID andNoteUUID:(NSString*)noteUUID;
 
 -(MediaData*)mediaDataCreateWithDict:(NSDictionary*)dict;
 -(NoteBook*)noteBookFetchWithDict:(NSDictionary*)dict;
