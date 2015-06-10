@@ -122,7 +122,7 @@
                 NoteBook *note = self.note;
                 note.updateDate = [resultDict objectForKey:@"ih_create_time"];
                 note.createDate = [resultDict objectForKey:@"ih_modify_time"];
-                // note.noteID = [resultDict objectForKey:@"ih_note_id"];
+                note.noteID = [resultDict objectForKey:@"ih_note_id"];
                 note.isCurrentNote = @(NO);
                 
                 [self.coreDataStack saveContext];
@@ -191,7 +191,7 @@
     [dict setObject:dID forKey:@"ih_alert_usr"];
     
     [dict setObject:self.noteType forKey:@"ih_note_type"];
-    
+    [dict setObject:self.note.noteTitle forKey:@"ih_note_title"];
     for (NoteContent *noteContent in self.note.contents) {
         NSString *type = [noteContent.contentType lowercaseString];
         NSString *keyString = [@"ih_content" stringByAppendingString:type];

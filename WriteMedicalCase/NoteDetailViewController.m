@@ -308,7 +308,7 @@
     }
     [tempDict setObject:@(NO) forKey:@"isCurrentNote"];
     
-    
+    NSString *noteType;
 //    if ([dict.allKeys containsObject:@"notePatientName"]) {
 //        [tempDict setObject:StringValue(dict[@"notePatientName"]) forKey:@"notePatientName"];
 //    }
@@ -317,6 +317,7 @@
     //    }
     if ([dict.allKeys containsObject:@"ih_note_type"]) {
         [tempDict setObject:StringValue(dict[@"ih_note_type"]) forKey:@"noteType"];
+        noteType = [dict objectForKey:@"ih_note_type"];
     }
     if ([dict.allKeys containsObject:@"ih_note_title"]) {
         [tempDict setObject:StringValue(dict[@"ih_note_title"]) forKey:@"noteTitle"];
@@ -341,64 +342,88 @@
     
    // NSMutableDictionary *contentsDict = [[NSMutableDictionary alloc] init];
     
-    if ([dict.allKeys containsObject:@"ih_contenta"]) {
-        id contenta = dict[@"ih_contenta"];
-        if (contenta) {
-            if ([contenta isKindOfClass:[NSDictionary class]]) {
-                NSDictionary *contentDict = dict[@"ih_contenta"];
-                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"a"];
-            }else if ([contenta isEqualToString:@""]){
-                
-                NSDictionary *contentDict = @{@"ih_note_text":@""};
-                //[tempDict setObject:@"" forKey:@"noteContentA"];
-                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"a"];
- 
+    if (noteType) {
+        if ([noteType integerValue]){
+            // origin note
+            if ([dict.allKeys containsObject:@"ih_contents"]) {
+                id contenta = dict[@"ih_contents"];
+                if (contenta) {
+                    if ([contenta isKindOfClass:[NSDictionary class]]) {
+                        NSDictionary *contentDict = dict[@"ih_contents"];
+                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"s"];
+                    }else if ([contenta isEqualToString:@""]){
+                        
+                        NSDictionary *contentDict = @{@"ih_note_text":@""};
+                        //[tempDict setObject:@"" forKey:@"noteContentA"];
+                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"s"];
+                        
+                    }
+                    
+                }
             }
-        }
-    }
-    
-    if ([dict.allKeys containsObject:@"ih_contento"]) {
-        id contento = dict[@"ih_contento"];
-        if (contento) {
-            if ([contento isKindOfClass:[NSDictionary class]]) {
-                NSDictionary *contentDict = dict[@"ih_contento"];
-                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"o"];
-            }else if ([contento isEqualToString:@""]){
-                
-                NSDictionary *contentDict = @{@"ih_note_text":@""};
-                //[tempDict setObject:@"" forKey:@"noteContentA"];
-                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"o"];
-                
+        }else {
+            //patient note
+            if ([dict.allKeys containsObject:@"ih_contenta"]) {
+                id contenta = dict[@"ih_contenta"];
+                if (contenta) {
+                    if ([contenta isKindOfClass:[NSDictionary class]]) {
+                        NSDictionary *contentDict = dict[@"ih_contenta"];
+                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"a"];
+                    }else if ([contenta isEqualToString:@""]){
+                        
+                        NSDictionary *contentDict = @{@"ih_note_text":@""};
+                        //[tempDict setObject:@"" forKey:@"noteContentA"];
+                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"a"];
+                        
+                    }
+                }
             }
-        }
-    }
-    if ([dict.allKeys containsObject:@"ih_contentp"]) {
-        id contenta = dict[@"ih_contentp"];
-        if (contenta) {
-            if ([contenta isKindOfClass:[NSDictionary class]]) {
-                NSDictionary *contentDict = dict[@"ih_contentp"];
-                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"p"];
-            }else if ([contenta isEqualToString:@""]){
-                
-                NSDictionary *contentDict = @{@"ih_note_text":@""};
-                //[tempDict setObject:@"" forKey:@"noteContentA"];
-                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"p"];
-                
+            
+            if ([dict.allKeys containsObject:@"ih_contento"]) {
+                id contento = dict[@"ih_contento"];
+                if (contento) {
+                    if ([contento isKindOfClass:[NSDictionary class]]) {
+                        NSDictionary *contentDict = dict[@"ih_contento"];
+                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"o"];
+                    }else if ([contento isEqualToString:@""]){
+                        
+                        NSDictionary *contentDict = @{@"ih_note_text":@""};
+                        //[tempDict setObject:@"" forKey:@"noteContentA"];
+                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"o"];
+                        
+                    }
+                }
             }
-        }
-    }
-    if ([dict.allKeys containsObject:@"ih_contents"]) {
-        id contenta = dict[@"ih_contents"];
-        if (contenta) {
-            if ([contenta isKindOfClass:[NSDictionary class]]) {
-                NSDictionary *contentDict = dict[@"ih_contents"];
-                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"s"];
-            }else if ([contenta isEqualToString:@""]){
-                
-                NSDictionary *contentDict = @{@"ih_note_text":@""};
-                //[tempDict setObject:@"" forKey:@"noteContentA"];
-                [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"s"];
-                
+            if ([dict.allKeys containsObject:@"ih_contentp"]) {
+                id contenta = dict[@"ih_contentp"];
+                if (contenta) {
+                    if ([contenta isKindOfClass:[NSDictionary class]]) {
+                        NSDictionary *contentDict = dict[@"ih_contentp"];
+                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"p"];
+                    }else if ([contenta isEqualToString:@""]){
+                        
+                        NSDictionary *contentDict = @{@"ih_note_text":@""};
+                        //[tempDict setObject:@"" forKey:@"noteContentA"];
+                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"p"];
+                        
+                    }
+                }
+            }
+            if ([dict.allKeys containsObject:@"ih_contents"]) {
+                id contenta = dict[@"ih_contents"];
+                if (contenta) {
+                    if ([contenta isKindOfClass:[NSDictionary class]]) {
+                        NSDictionary *contentDict = dict[@"ih_contents"];
+                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"s"];
+                    }else if ([contenta isEqualToString:@""]){
+                        
+                        NSDictionary *contentDict = @{@"ih_note_text":@""};
+                        //[tempDict setObject:@"" forKey:@"noteContentA"];
+                        [tempDict setObject:[self parseNoteContentsWithDict:contentDict] forKey:@"s"];
+                        
+                    }
+                    
+                }
             }
 
         }
@@ -780,6 +805,8 @@
     
     UITextField *subTitleField = [[UITextField alloc] initWithFrame:CGRectMake(titleLabel.frame.size.width+10, 8, headerView.frame.size.width - titleLabel.frame.size.width - 8 - 8, 21)];
     subTitleField.placeholder = textFieldText?textFieldText:@"输入子标题";
+    subTitleField.text = StringValue(textFieldText);
+
     subTitleField.font = [UIFont systemFontOfSize:15];
     subTitleField.delegate = self;
     subTitleField.borderStyle = UITextBorderStyleNone;

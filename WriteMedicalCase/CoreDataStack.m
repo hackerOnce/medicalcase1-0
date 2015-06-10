@@ -834,9 +834,9 @@ static NSString *momdName = @"Model";
  
                         for (NSDictionary *mediaDict in medias) {
                             MediaData *mediaData = [self mediaDataFetchWithDict:mediaDict andIgnoreStatusFlag:NO];
-                            if (mediaData) {
-                                mediaData.owner = noteContent;
-                            }
+//                            if (mediaData) {
+//                                mediaData.owner = noteContent;
+//                            }
                         }
                     }
                     
@@ -873,7 +873,7 @@ static NSString *momdName = @"Model";
     
     
     if ([dict.allKeys containsObject:@"noteContentS"]) {
-        NSMutableDictionary *tempDict =[[NSMutableDictionary alloc] initWithDictionary:  dict[@"noteContentS"]];
+        NSMutableDictionary *tempDict =[[NSMutableDictionary alloc] initWithDictionary:dict[@"noteContentS"]];
         
         [tempDict setObject:@"s" forKey:@"contentType"];
         NoteContent *noteContent = [self noteContentCreateWithDict:tempDict];

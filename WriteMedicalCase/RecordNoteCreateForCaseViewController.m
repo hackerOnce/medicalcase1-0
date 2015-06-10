@@ -194,7 +194,7 @@
         [dict setObject:contentDict forKey:keyString];
     }
     NSString *titleString = [NSString stringWithFormat:@"%@: %@",self.titleLabel.text,self.titeTextField.text];
-   [dict setObject:titleString forKey:@"noteTitle"];
+   [dict setObject:titleString forKey:@"ih_note_title"];
     return dict;
 }
 -(NSDictionary*)prepareForServerWithNoteContent:(NoteContent*)noteContent
@@ -590,6 +590,7 @@
     
     UITextField *subTitleField = [[UITextField alloc] initWithFrame:CGRectMake(titleLabel.frame.size.width+10, 8, headerView.frame.size.width - titleLabel.frame.size.width - 8 - 8, 21)];
     subTitleField.placeholder = textFieldText?textFieldText:@"输入子标题";
+    subTitleField.text = StringValue(textFieldText);
     subTitleField.font = [UIFont systemFontOfSize:15];
     subTitleField.delegate = self;
     subTitleField.borderStyle = UITextBorderStyleNone;
