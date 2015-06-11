@@ -1019,7 +1019,7 @@ static NSString *momdName = @"Model";
         mediaData.mediaURLString = StringValue(dict[@"mediaURLString"]);
     }
     if ([dict.allKeys containsObject:@"mediaNameString"]) {
-        mediaData.mediaURLString = StringValue(dict[@"mediaNameString"]);
+        mediaData.mediaNameString = StringValue(dict[@"mediaNameString"]);
     }
     if ([dict.allKeys containsObject:@"mediaID"]) {
         mediaData.mediaID =StringValue(dict[@"mediaID"]);

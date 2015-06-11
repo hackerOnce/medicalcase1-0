@@ -122,8 +122,9 @@
     
     ///修改待验证
     //  TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
-    NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
-    [MessageObject messageObjectWithUsrStr:@"2334"pwdStr:@"test"iHMsgSocket:self.socket optInt:1509 sync_version:1.0 dictionary:dict block:^(IHSockRequest *request) {
+    //NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
+    [self prepareForSave];
+    [MessageObject messageObjectWithUsrStr:@"2334"pwdStr:@"test"iHMsgSocket:self.socket optInt:1511 sync_version:1.0 dictionary:nil block:^(IHSockRequest *request) {
         
         if (request.resp == 0) {
             if ([request.responseData isKindOfClass:[NSDictionary class]]) {
@@ -199,7 +200,7 @@
     [dict setObject:dID forKey:@"ih_alert_usr"];
     
     [dict setObject:self.noteType forKey:@"ih_note_type"];
-    
+    [dict setObject:self.note.noteID forKey:@"uuid"];
     for (NoteContent *noteContent in self.note.contents) {
         NSString *type = [noteContent.contentType lowercaseString];
         NSString *keyString = [@"ih_content" stringByAppendingString:type];
@@ -213,11 +214,11 @@
     NSMutableDictionary *tempDict = [[NSMutableDictionary alloc] init];
     NSSet *medias =[[NSMutableSet alloc] initWithSet:noteContent.medias];//s,o,a,p
     
-    NSPredicate *addedPredicateForImages = [NSPredicate predicateWithFormat:@"hasAdded=%@ AND dataType=%@",[NSNumber numberWithBool:YES],@(0)];
-    NSPredicate *addedPredicateForAudios = [NSPredicate predicateWithFormat:@"hasAdded=%@ AND dataType=%@",[NSNumber numberWithBool:YES],@(1)];
+    NSPredicate *addedPredicateForImages = [NSPredicate predicateWithFormat:@"hasAdded = %@ AND dataType = %@",[NSNumber numberWithBool:YES],@"0"];
+    NSPredicate *addedPredicateForAudios = [NSPredicate predicateWithFormat:@"hasAdded = %@ AND dataType = %@",[NSNumber numberWithBool:YES],@"1"];
 
-    NSPredicate *deletedPredicateImages = [NSPredicate predicateWithFormat:@"hasDeleted=%@ AND dataType=%@",[NSNumber numberWithBool:YES],@(0)];
-    NSPredicate *deletedPredicateAudios = [NSPredicate predicateWithFormat:@"hasDeleted=%@ AND dataType=%@",[NSNumber numberWithBool:YES],@(1)];
+    NSPredicate *deletedPredicateImages = [NSPredicate predicateWithFormat:@"hasDeleted = %@ AND dataType = %@",[NSNumber numberWithBool:YES],@"0"];
+    NSPredicate *deletedPredicateAudios = [NSPredicate predicateWithFormat:@"hasDeleted = %@ AND dataType = %@",[NSNumber numberWithBool:YES],@"1"];
 
 
     NSSet *addedMediasForImages = [medias filteredSetUsingPredicate:addedPredicateForImages];
@@ -225,11 +226,31 @@
     NSSet *deletededMediasForImages = [medias filteredSetUsingPredicate:deletedPredicateImages];
     NSSet *deletedMediasForAudios = [medias filteredSetUsingPredicate:deletedPredicateAudios];
 
+    if (deletedMediasForAudios) {
+        [tempDict setObject:deletedMediasForAudios.count==0?@"":deletedMediasForAudios forKey:@"delete_audio"];
+    }else {
+        [tempDict setObject:@"" forKey:@"delete_audio"];
+    }
     
-    [tempDict setObject:deletedMediasForAudios.count==0?@"":deletedMediasForAudios forKey:@"delete_audio"];
-    [tempDict setObject:deletedMediasForAudios.count==0?@"":deletededMediasForImages forKey:@"delete_image"];
-    [tempDict setObject:addedMediasForAudios.count==0?@"":addedMediasForAudios forKey:@"audio"];
-    [tempDict setObject:addedMediasForImages.count==0?@"":addedMediasForImages forKey:@"images"];
+    if (deletededMediasForImages) {
+        [tempDict setObject:deletedMediasForAudios.count==0?@"":deletededMediasForImages forKey:@"delete_image"];
+    }else {
+        [tempDict setObject:@"" forKey:@"delete_image"];
+    }
+    
+    if (addedMediasForAudios) {
+        [tempDict setObject:addedMediasForAudios.count==0?@"":addedMediasForAudios forKey:@"audio"];
+    }else {
+        [tempDict setObject:@"" forKey:@"audio"];
+    }
+    
+    if (addedMediasForImages) {
+        [tempDict setObject:addedMediasForImages.count==0?@"":addedMediasForImages forKey:@"images"];
+    }else {
+        [tempDict setObject:@"" forKey:@"images"];
+    }
+    
+    
     
     [tempDict setObject:StringValue(noteContent.updatedContent) forKey:@"ih_note_text"];
     
