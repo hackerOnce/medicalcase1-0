@@ -24,6 +24,7 @@
 @property (nonatomic, retain) NSString * mediaURLString;
 @property (nonatomic, retain) NSString * mediaNameString;
 @property (nonatomic, retain) NSString * mediaID;
+@property (nonatomic, retain) NSString *urlString;
 @property (nonatomic, retain) NoteContent *owner;
 +(NSString*)entityName;
 

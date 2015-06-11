@@ -30,6 +30,7 @@
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphonesimulator/WriteMedicalCase.build/Objects-normal/x86_64/SBJsonStreamParserAccumulator.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphonesimulator/WriteMedicalCase.build/Objects-normal/x86_64/RecordBaseInfo.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphonesimulator/WriteMedicalCase.build/Objects-normal/x86_64/NoteBook.o
+/Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphonesimulator/WriteMedicalCase.build/Objects-normal/x86_64/RecordView.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphonesimulator/WriteMedicalCase.build/Objects-normal/x86_64/ReordNoteCreateViewController.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphonesimulator/WriteMedicalCase.build/Objects-normal/x86_64/WLKCaseNode.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphonesimulator/WriteMedicalCase.build/Objects-normal/x86_64/ShowTemplateViewController.o
@@ -50,6 +51,7 @@
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphonesimulator/WriteMedicalCase.build/Objects-normal/x86_64/RecordNoteCreateForCaseViewController.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphonesimulator/WriteMedicalCase.build/Objects-normal/x86_64/CoreDataStack.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphonesimulator/WriteMedicalCase.build/Objects-normal/x86_64/TemplateLeftDetailFirstViewController.o
+/Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphonesimulator/WriteMedicalCase.build/Objects-normal/x86_64/SCSiriWaveformView.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphonesimulator/WriteMedicalCase.build/Objects-normal/x86_64/TempDoctor.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphonesimulator/WriteMedicalCase.build/Objects-normal/x86_64/TakePhotoViewController.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphonesimulator/WriteMedicalCase.build/Objects-normal/x86_64/MBProgressHUD+MJ.o
@@ -108,6 +110,7 @@
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphonesimulator/WriteMedicalCase.build/Objects-normal/x86_64/SBJsonTokeniser.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphonesimulator/WriteMedicalCase.build/Objects-normal/x86_64/ModelPlateConditionsViewController.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphonesimulator/WriteMedicalCase.build/Objects-normal/x86_64/SBJsonStreamParser.o
+/Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphonesimulator/WriteMedicalCase.build/Objects-normal/x86_64/PlayView.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphonesimulator/WriteMedicalCase.build/Objects-normal/x86_64/WLKObject.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphonesimulator/WriteMedicalCase.build/Objects-normal/x86_64/SplitViewController.o
 /Users/gk/Documents/病历/medical/Build/Intermediates/WriteMedicalCase.build/Debug-iphonesimulator/WriteMedicalCase.build/Objects-normal/x86_64/WriteCaseShowTemplateCell.o

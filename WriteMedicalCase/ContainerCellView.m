@@ -98,7 +98,7 @@
     }
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSDictionary *cellData = [self.collectionData objectAtIndex:[indexPath row]];
+    MediaData *cellData = (MediaData*)[self.collectionData objectAtIndex:[indexPath row]];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"didSelectItemFromCollectionView" object:cellData];
 }
 @end

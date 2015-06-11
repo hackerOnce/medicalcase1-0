@@ -147,6 +147,9 @@
 		478BD1901B0C376600EC632E /* SelectCommitDoctorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 478BD18F1B0C376600EC632E /* SelectCommitDoctorViewController.m */; };
 		47ADB1BA1B0D6DF40037912B /* Department.m in Sources */ = {isa = PBXBuildFile; fileRef = 47ADB1B91B0D6DF40037912B /* Department.m */; };
 		47BB7DEB1B2581E000D07934 /* TempNoteInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BB7DEA1B2581E000D07934 /* TempNoteInfo.m */; };
+		47BB7DF01B2917BF00D07934 /* RecordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BB7DED1B2917BF00D07934 /* RecordView.m */; };
+		47BB7DF11B2917BF00D07934 /* PlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BB7DEF1B2917BF00D07934 /* PlayView.m */; };
+		47BB7DF41B29195800D07934 /* SCSiriWaveformView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BB7DF31B29195800D07934 /* SCSiriWaveformView.m */; };
 		47F99E2A1B1591F1009BC4C7 /* AuditCaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47F99E291B1591F1009BC4C7 /* AuditCaseViewController.m */; };
 		47F99E301B16BFE9009BC4C7 /* AuditCaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 47F99E2F1B16BFE9009BC4C7 /* AuditCaseCell.m */; };
 /* End PBXBuildFile section */
@@ -437,6 +440,12 @@
 		47ADB1B91B0D6DF40037912B /* Department.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Department.m; sourceTree = "<group>"; };
 		47BB7DE91B2581E000D07934 /* TempNoteInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempNoteInfo.h; sourceTree = "<group>"; };
 		47BB7DEA1B2581E000D07934 /* TempNoteInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempNoteInfo.m; sourceTree = "<group>"; };
+		47BB7DEC1B2917BF00D07934 /* RecordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordView.h; sourceTree = "<group>"; };
+		47BB7DED1B2917BF00D07934 /* RecordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecordView.m; sourceTree = "<group>"; };
+		47BB7DEE1B2917BF00D07934 /* PlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayView.h; sourceTree = "<group>"; };
+		47BB7DEF1B2917BF00D07934 /* PlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayView.m; sourceTree = "<group>"; };
+		47BB7DF21B29195800D07934 /* SCSiriWaveformView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSiriWaveformView.h; sourceTree = "<group>"; };
+		47BB7DF31B29195800D07934 /* SCSiriWaveformView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSiriWaveformView.m; sourceTree = "<group>"; };
 		47F99E281B1591F1009BC4C7 /* AuditCaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuditCaseViewController.h; sourceTree = "<group>"; };
 		47F99E291B1591F1009BC4C7 /* AuditCaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuditCaseViewController.m; sourceTree = "<group>"; };
 		47F99E2E1B16BFE9009BC4C7 /* AuditCaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuditCaseCell.h; sourceTree = "<group>"; };
@@ -824,6 +833,12 @@
 		475463721B1C26100026E4AE /* RecordNote */ = {
 			isa = PBXGroup;
 			children = (
+				47BB7DEC1B2917BF00D07934 /* RecordView.h */,
+				47BB7DED1B2917BF00D07934 /* RecordView.m */,
+				47BB7DEE1B2917BF00D07934 /* PlayView.h */,
+				47BB7DEF1B2917BF00D07934 /* PlayView.m */,
+				47BB7DF21B29195800D07934 /* SCSiriWaveformView.h */,
+				47BB7DF31B29195800D07934 /* SCSiriWaveformView.m */,
 				475463701B1C257F0026E4AE /* RecordNote.storyboard */,
 				472632291B21687F00857B22 /* NoteShowViewController.h */,
 				470D119B1B23F2CD006BE544 /* ContainerViewCell.h */,
@@ -1064,6 +1079,7 @@
 				4705F0701AF1094C0050D47A /* SBJsonStreamParserAccumulator.m in Sources */,
 				476475631B09D4B1004AFDF1 /* RecordBaseInfo.m in Sources */,
 				472632281B20191500857B22 /* NoteBook.m in Sources */,
+				47BB7DF01B2917BF00D07934 /* RecordView.m in Sources */,
 				475463751B1C26780026E4AE /* ReordNoteCreateViewController.m in Sources */,
 				4705F08E1AF109990050D47A /* WLKCaseNode.m in Sources */,
 				474D82AC1AFC90FA004A4151 /* ShowTemplateViewController.m in Sources */,
@@ -1084,6 +1100,7 @@
 				472631D41B1C660800857B22 /* RecordNoteCreateForCaseViewController.m in Sources */,
 				4705F0451AF107360050D47A /* CoreDataStack.m in Sources */,
 				474D82B01AFC90FA004A4151 /* TemplateLeftDetailFirstViewController.m in Sources */,
+				47BB7DF41B29195800D07934 /* SCSiriWaveformView.m in Sources */,
 				478859081AF71A70002CD361 /* TempDoctor.m in Sources */,
 				470D11581B22E899006BE544 /* TakePhotoViewController.m in Sources */,
 				4705F03A1AF1062C0050D47A /* MBProgressHUD+MJ.m in Sources */,
@@ -1142,6 +1159,7 @@
 				4705F0761AF1094C0050D47A /* SBJsonTokeniser.m in Sources */,
 				473C91231AFCA6D30069ECE4 /* ModelPlateConditionsViewController.m in Sources */,
 				4705F06F1AF1094C0050D47A /* SBJsonStreamParser.m in Sources */,
+				47BB7DF11B2917BF00D07934 /* PlayView.m in Sources */,
 				4705F09C1AF109CE0050D47A /* WLKObject.m in Sources */,
 				474D82B61AFC918A004A4151 /* SplitViewController.m in Sources */,
 				478858F21AF203B8002CD361 /* WriteCaseShowTemplateCell.m in Sources */,

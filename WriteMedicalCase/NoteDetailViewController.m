@@ -15,8 +15,10 @@
 #import "TakePhotoViewController.h"
 #import "ContainerViewCell.h"
 #import "IHMsgSocket.h"
+#import "RecordView.h"
+#import "PlayView.h"
 
-@interface NoteDetailViewController ()<RecordNoteCreateCellTableViewCellDelegate,RecordNoteWarningViewControllerDelegate,SelectedShareRangeViewControllerDelegate,NoteShowViewControllerDelegate,UITextFieldDelegate,TakePhotoViewControllerDelegate
+@interface NoteDetailViewController ()<RecordNoteCreateCellTableViewCellDelegate,RecordNoteWarningViewControllerDelegate,SelectedShareRangeViewControllerDelegate,NoteShowViewControllerDelegate,UITextFieldDelegate,TakePhotoViewControllerDelegate,RecordViewDelegate,PlayViewDelegate
 >
 @property (nonatomic) CGFloat keyboardOverlap;
 @property (nonatomic,strong) UITextView *currentTextView;
@@ -44,6 +46,10 @@
 @property (nonatomic,strong) NSMutableDictionary *mediaDict;
 @property (nonatomic,strong) NSMutableArray *mediasArray;
 
+@property (nonatomic,strong) RecordView *recordView;
+@property (nonatomic,strong) PlayView *playView;
+
+@property (nonatomic,strong) NSURL *url;
 @end
 
 @implementation NoteDetailViewController
@@ -53,6 +59,15 @@
 {
     _coreDataStack = [[CoreDataStack alloc] init];
     return _coreDataStack;
+}
+- (IBAction)audioButtonClicked:(UIButton *)sender
+{
+    self.recordView = [[RecordView alloc] initWithFrame:CGRectMake(320, 0, self.view.frame.size.width, 64)];
+    self.recordView.delegate = self;
+    [self.recordView startRecord];
+    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+    [keyWindow addSubview:self.recordView];
+    
 }
 - (IBAction)sharedButton:(UIButton *)sender
 {
@@ -247,7 +262,83 @@
     return mediasDict;
 }
 
+#pragma mask - recoview delegate
+-(void)didCompletedAudioWithDuration:(NSString *)durationString audioName:(NSString *)audioName audioURL:(NSURL *)audioURL
+{
+    [self.recordView removeFromSuperview];
+    NoteContent *noteContent = [self.note.contents objectAtIndex:self.currentIndexPath.row];
+    CGRect  textViewRect = [self.currentTextView caretRectForPosition:self.currentTextView.selectedTextRange.start];
+    CGPoint cursorPosition = textViewRect.origin;
+    
+    NSRange range = self.currentTextView.selectedRange;
 
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [self addMediaDataAudioToNoteContent:noteContent withAudioName:audioName andAudioURL:audioURL audioDuration:durationString cursorPoint:cursorPosition atRange:range];
+    });
+  //  self.currentIndexPath
+}
+-(void)addMediaDataAudioToNoteContent:(NoteContent*)noteContent withAudioName:(NSString*)audioName andAudioURL:(NSURL*)audioURL audioDuration:(NSString*)duration cursorPoint:(CGPoint)cursorPoint atRange:(NSRange)range
+{
+    NSError *error;
+    NSData *data = [NSData dataWithContentsOfURL:audioURL options:NSDataReadingMappedIfSafe error:&error];
+    self.url = audioURL;
+    NSDictionary *dataDict = @{@"mediaNameString": audioName,@"data":data,@"location":[NSString stringWithFormat:@"%@",@(range.location)],@"cursorX":[NSString stringWithFormat:@"%@",@(cursorPoint.x)],@"cursorY":[NSString stringWithFormat:@"%@",@(cursorPoint.y)],@"urlString":[audioURL relativeString],@"dataType":@"1"};
+    MediaData *mediaData = [self.coreDataStack mediaDataCreateWithDict:dataDict];
+    mediaData.hasAdded = [NSNumber numberWithBool:YES];
+    mediaData.hasDeleted = [NSNumber numberWithBool:NO];
+    
+    mediaData.owner = noteContent;
+    
+    [self.mediasArray addObject:mediaData];
+    
+    [self.coreDataStack saveContext];
+    
+    [self.mediaDict setObject:self.mediasArray forKey:@"medias"];
+    NSLog(@"mediasArray:%@",@(self.mediasArray.count));
+    NSLog(@"medict: %@",@(self.mediaDict.count));
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
+}
+#pragma mask - take photo view controller delegate
+-(void)didSelectedImage:(UIImage *)image withImageData:(NSData *)imageData atIndexPath:(NSIndexPath *)indexPath
+{
+    NoteContent *noteContent = [self.note.contents objectAtIndex:indexPath.row];
+    NSRange range = self.currentTextView.selectedRange;
+    
+    if (self.currentTextView.selectedTextRange) {
+        
+    }
+    CGRect  textViewRect = [self.currentTextView caretRectForPosition:self.currentTextView.selectedTextRange.start];
+    CGPoint cursorPosition = textViewRect.origin;
+    
+    //[self showMediaImage:imageData atLocation:cursorPosition];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self addMediaDataToNoteContent:noteContent withImage:image atLocation:range withPoint:cursorPosition];
+    });
+}
+-(void)addMediaDataToNoteContent:(NoteContent*)noteContent withImage:(UIImage*)image atLocation:(NSRange)range withPoint:(CGPoint)point
+{
+    NSData *data = UIImageJPEGRepresentation(image, 1);
+    NSDictionary *dataDict = @{@"mediaNameString":[self currentDate],@"data":data,@"location":[NSString stringWithFormat:@"%@",@(range.location)],@"cursorX":[NSString stringWithFormat:@"%@",@(point.x)],@"cursorY":[NSString stringWithFormat:@"%@",@(point.y)],@"dataType":@"0"};
+    MediaData *mediaData = [self.coreDataStack mediaDataCreateWithDict:dataDict];
+    mediaData.hasAdded = [NSNumber numberWithBool:YES];
+    mediaData.hasDeleted = [NSNumber numberWithBool:NO];
+    
+    mediaData.owner = noteContent;
+    
+    [self.mediasArray addObject:mediaData];
+    
+    [self.coreDataStack saveContext];
+    
+    [self.mediaDict setObject:self.mediasArray forKey:@"medias"];
+    NSLog(@"mediasArray:%@",@(self.mediasArray.count));
+    NSLog(@"medict: %@",@(self.mediaDict.count));
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
+}
 #pragma mask - note show view controller delegate
 -(void)didDeletedNoteWithNoteID:(NSString *)noteID andNoteUUID:(NSString *)noteUUID
 {
@@ -286,7 +377,6 @@
 
     }];
     }else {
-        
         self.note = [self.coreDataStack noteBookFetchWithDict:@{@"noteUUID":noteUUID,@"dID":dID}];
         
         NSLog(@"note UUID:%@",self.note.noteUUID);
@@ -463,7 +553,11 @@
         for (NSDictionary *tempDict in tempAudioArray) {
             NSMutableDictionary *tempCDict = [[NSMutableDictionary alloc] init];
             if ([tempDict.allKeys containsObject:@"ih_audio_data"]) {
-                [tempCDict setObject:tempCDict[@"ih_audio_data"] forKey:@"data"];
+                
+                NSString *dataString = tempDict[@"ih_audio_data"];
+                
+                NSData *data = [[NSData alloc] initWithBase64EncodedString:dataString options:NSDataBase64DecodingIgnoreUnknownCharacters];
+                [tempCDict setObject:data forKey:@"data"];
             }
             if ([tempDict.allKeys containsObject:@"ih_audio_index"]) {
                 [tempCDict setObject:tempCDict[@"ih_audio_index"] forKey:@"location"];
@@ -504,7 +598,7 @@
             if ([tempDict.allKeys containsObject:@"ih_image_data"]) {
                 NSString *dataString = tempDict[@"ih_image_data"];
             
-                NSData *data = [dataString dataUsingEncoding:NSUTF8StringEncoding];
+                NSData *data = [[NSData alloc] initWithBase64EncodedString:dataString options:NSDataBase64DecodingIgnoreUnknownCharacters];
                 [tempCDict setObject:data forKey:@"data"];
             }
             if ([tempDict.allKeys containsObject:@"ih_image_index"]) {
@@ -557,45 +651,7 @@
       [self.mediaDict setObject:self.mediasArray forKey:@"medias"];
     }
 }
-#pragma mask - take photo view controller delegate
--(void)didSelectedImage:(UIImage *)image withImageData:(NSData *)imageData atIndexPath:(NSIndexPath *)indexPath
-{
-    NoteContent *noteContent = [self.note.contents objectAtIndex:indexPath.row];
-    NSRange range = self.currentTextView.selectedRange;
-    
-    if (self.currentTextView.selectedTextRange) {
-        
-    }
-    CGRect  textViewRect = [self.currentTextView caretRectForPosition:self.currentTextView.selectedTextRange.start];
-    CGPoint cursorPosition = textViewRect.origin;
-    
-    //[self showMediaImage:imageData atLocation:cursorPosition];
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self addMediaDataToNoteContent:noteContent withImage:image atLocation:range withPoint:cursorPosition];
-    });
-}
--(void)addMediaDataToNoteContent:(NoteContent*)noteContent withImage:(UIImage*)image atLocation:(NSRange)range withPoint:(CGPoint)point
-{
-    NSData *data = UIImageJPEGRepresentation(image, 1);
-    NSDictionary *dataDict = @{@"mediaNameString":[self currentDate],@"data":data,@"location":[NSString stringWithFormat:@"%@",@(range.location)],@"cursorX":[NSString stringWithFormat:@"%@",@(point.x)],@"cursorY":[NSString stringWithFormat:@"%@",@(point.y)]};
-    MediaData *mediaData = [self.coreDataStack mediaDataCreateWithDict:dataDict];
-    mediaData.hasAdded = [NSNumber numberWithBool:YES];
-    mediaData.hasDeleted = [NSNumber numberWithBool:NO];
 
-    mediaData.owner = noteContent;
-    
-    [self.mediasArray addObject:mediaData];
-    
-    [self.coreDataStack saveContext];
-    
-    [self.mediaDict setObject:self.mediasArray forKey:@"medias"];
-    NSLog(@"mediasArray:%@",@(self.mediasArray.count));
-    NSLog(@"medict: %@",@(self.mediaDict.count));
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.tableView reloadData];
-    });
-}
 #pragma mask - SelectedShareRangeViewControllerDelegate
 -(void)didSelectedSharedUsers:(NSDictionary *)sharedUser
 {
@@ -653,6 +709,8 @@
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSelectedMedia:) name:@"didSelectItemFromCollectionView" object:nil];
 }
 -(void)setUpTableView
 {
@@ -663,7 +721,38 @@
     
 }
 
+-(void)didSelectedMedia:(NSNotification*)info
+{
+    MediaData *mediaData = (MediaData*)[info object];
+    
+    if ([mediaData.dataType integerValue]) {
+        //aduio
+        UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
 
+        BOOL hasPlayView = NO;
+        for (UIView *subView in keyWindow.subviews) {
+            if (subView == self.playView) {
+                hasPlayView = YES;
+            }
+        }
+        if (hasPlayView) {
+            self.playView.audioData = mediaData.data;
+        }else {
+            self.playView = [[PlayView alloc] initWithFrame:CGRectMake(320, 0, self.view.frame.size.width, 64)];
+            [keyWindow addSubview:self.playView];
+            self.playView.delegate = self;
+             self.playView.audioData = mediaData.data;
+            //self.playView.playURL  = self.url;
+        }
+       
+    }
+}
+#pragma mask -play view delegate
+-(void)didCompletedAudioPlay
+{
+    [self.playView removeFromSuperview];
+    
+}
 #pragma mask - cell delegate
 -(void)textViewCell:(RecordNoteCreateCellTableViewCell *)cell didChangeText:(NSString *)text
 {

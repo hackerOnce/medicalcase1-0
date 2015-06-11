@@ -1009,6 +1009,9 @@ static NSString *momdName = @"Model";
     if ([dict.allKeys containsObject:@"data"]) {
         mediaData.data = dict[@"data"];
     }
+    if ([dict.allKeys containsObject:@"urlString"]) {
+        mediaData.urlString = dict[@"urlString"];
+    }
     if ([dict.allKeys containsObject:@"noteID"]) {
         mediaData.noteID = StringValue(dict[@"noteID"]);
     }

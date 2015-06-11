@@ -23,6 +23,7 @@
 @dynamic mediaURLString;
 @dynamic mediaNameString;
 @dynamic mediaID;
+@dynamic urlString;
 +(NSString*)entityName
 {
     return @"MediaData";
