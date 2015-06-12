@@ -44,13 +44,16 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    UILabel *textLabel = (UILabel*)[cell viewWithTag:1001];
+
     if (indexPath.row == 0) {
         [self takePhotoFromCamera];
     }else {
-        [self takePhotoFromPhotosLibrary];
+        [self takePhotoFromPhotosLibrary:textLabel.frame];
     }
 }
--(void)takePhotoFromPhotosLibrary
+-(void)takePhotoFromPhotosLibrary:(CGRect)rect
 {
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     
@@ -59,11 +62,16 @@
     
     picker.allowsEditing = YES;
     
-  //  [self.navigationController pushViewController:picker animated:YES];
+    [self.navigationController pushViewController:picker animated:YES];
 //    UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:picker];
-//    
-//    [popover presentPopoverFromRect:<#(CGRect)#> inView:<#(UIView *)#> permittedArrowDirections:<#(UIPopoverArrowDirection)#> animated:<#(BOOL)#>]
-    [self presentViewController:picker animated:YES completion:nil];
+//
+//    UIPopoverController  *popVC = [[UIPopoverController alloc] initWithContentViewController:picker];
+//    popVC.popoverContentSize = CGSizeMake(320, 600);
+//    [popVC presentPopoverFromRect:rect inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUnknown animated:YES];
+    
+    
+    
+    //[self presentViewController:picker animated:YES completion:nil];
 
 }
 -(void)takePhotoFromCamera

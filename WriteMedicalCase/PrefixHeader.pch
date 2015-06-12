@@ -61,6 +61,7 @@
 #import "NoteContent.h"
 #import "MediaData.h"
 
+#import "GZIP.h"
 
 #pragma mark - hud
 //#import "KVNProgress.h"

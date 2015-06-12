@@ -1047,4 +1047,5 @@ dependencies: \
   /Users/gk/Documents/病历/medical/WriteMedicalCase/GCDAsyncSocket/AsyncSocket/UIView+DY.h \
   /Users/gk/Documents/病历/medical/WriteMedicalCase/TemplateModel.h \
   /Users/gk/Documents/病历/medical/WriteMedicalCase/GCDAsyncSocket/MBProgressHUD/RawDataProcess.h \
-  /Users/gk/Documents/病历/medical/WriteMedicalCase/NoteContent.h
+  /Users/gk/Documents/病历/medical/WriteMedicalCase/NoteContent.h \
+  /Users/gk/Documents/病历/medical/WriteMedicalCase/GZIP.h

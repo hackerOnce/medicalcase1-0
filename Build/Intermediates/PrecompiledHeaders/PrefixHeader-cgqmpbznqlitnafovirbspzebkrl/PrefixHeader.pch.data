@@ -7,9 +7,9 @@ BuilderIdent ProcessPCH\ /Users/gk/Documents/病历/medical/Build/Intermediates/
 InputFile    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator8.3.sdk/SDKSettings.plist 0 1427945070 964 33204
 InputFile    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator8.3.sdk/System/Library/CoreServices/SystemVersion.plist 0 1427945096 413 33060
 InputFile    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/6.1.0/include/module.map 2 0 0 0
-InputFile    /Users/gk/Documents/病历/medical/WriteMedicalCase/PrefixHeader.pch 0 1433395894 1515 33279
+InputFile    /Users/gk/Documents/病历/medical/WriteMedicalCase/PrefixHeader.pch 0 1434096500 1532 33279
 InputFile    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator8.3.sdk/SDKSettings.plist 0 1427945070 964 33204
-InputFile    /Users/gk/Documents/病历/medical/WriteMedicalCase/PrefixHeader.pch 0 1433395894 1515 33279
+InputFile    /Users/gk/Documents/病历/medical/WriteMedicalCase/PrefixHeader.pch 0 1434096500 1532 33279
 InputFile    /Users/gk/Library/Developer/Xcode/DerivedData/ModuleCache/3C58BRJ7R6WG9/Darwin-N0EKDJGHFAYB.pcm 0 1433726064 3811920 33188
 InputFile    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator8.3.sdk/usr/include/module.map 0 1427945241 22467 33204
 InputFile    /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator8.3.sdk/usr/include/sys/cdefs.h 0 1427945242 26037 33204
@@ -1058,3 +1058,4 @@ InputFile    /Users/gk/Documents/病历/medical/WriteMedicalCase/GCDAsyncSocket/
 InputFile    /Users/gk/Documents/病历/medical/WriteMedicalCase/TemplateModel.h 0 1432192065 1283 33188
 InputFile    /Users/gk/Documents/病历/medical/WriteMedicalCase/GCDAsyncSocket/MBProgressHUD/RawDataProcess.h 0 1429816622 661 33279
 InputFile    /Users/gk/Documents/病历/medical/WriteMedicalCase/NoteContent.h 0 1433816797 842 33188
+InputFile    /Users/gk/Documents/病历/medical/WriteMedicalCase/GZIP.h 0 1404246328 1311 33261

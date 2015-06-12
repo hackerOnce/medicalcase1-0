@@ -90,15 +90,16 @@
 //        //笔记内容不允许为空
 //        return;
 //    }
-    NSString *doctorID = @"2334";
-    NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
-    
-    
-    [MessageObject messageObjectWithUsrStr:doctorID pwdStr:@"test"iHMsgSocket:self.socket optInt:1513 sync_version:1.0 dictionary:dict block:^(IHSockRequest *request) {
-        
-    } failConection:^(NSError *error) {
-        
-    }];
+//    NSString *doctorID = @"2334";
+//    NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
+//    
+//    
+//    [MessageObject messageObjectWithUsrStr:doctorID pwdStr:@"test"iHMsgSocket:self.socket optInt:1513 sync_version:1.0 dictionary:dict block:^(IHSockRequest *request) {
+//        
+//    } failConection:^(NSError *error) {
+//        
+//    }];
+    [self saveNotebuttonClicked];
 }
 - (IBAction)cancel:(UIBarButtonItem *)sender
 {
@@ -123,8 +124,8 @@
     ///修改待验证
     //  TempDoctor *doctor = [TempDoctor setSharedDoctorWithDict:nil];
     //NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self prepareForSave]];
-    [self prepareForSave];
-    [MessageObject messageObjectWithUsrStr:@"2334"pwdStr:@"test"iHMsgSocket:self.socket optInt:1511 sync_version:1.0 dictionary:nil block:^(IHSockRequest *request) {
+     NSDictionary *dict = [self prepareForSave];
+    [MessageObject messageObjectWithUsrStr:@"2334"pwdStr:@"test"iHMsgSocket:self.socket optInt:1513 sync_version:1.0 dictionary:dict block:^(IHSockRequest *request) {
         
         if (request.resp == 0) {
             if ([request.responseData isKindOfClass:[NSDictionary class]]) {
@@ -227,25 +228,84 @@
     NSSet *deletedMediasForAudios = [medias filteredSetUsingPredicate:deletedPredicateAudios];
 
     if (deletedMediasForAudios) {
-        [tempDict setObject:deletedMediasForAudios.count==0?@"":deletedMediasForAudios forKey:@"delete_audio"];
+        
+        if (deletedMediasForAudios.count == 0){
+            [tempDict setObject:@"" forKey:@"delete_audio"];
+        }else {
+            
+            NSMutableArray *deletedArray = [[NSMutableArray alloc] init];
+            
+            for (MediaData *mediaData in deletedMediasForAudios) {
+                [deletedArray addObject:mediaData.mediaID];
+            }
+            
+            [tempDict setObject:deletedArray forKey:@"delete_audio"];
+        }
+        
     }else {
         [tempDict setObject:@"" forKey:@"delete_audio"];
     }
     
     if (deletededMediasForImages) {
-        [tempDict setObject:deletedMediasForAudios.count==0?@"":deletededMediasForImages forKey:@"delete_image"];
+        
+        if (deletededMediasForImages.count == 0){
+            [tempDict setObject:@"" forKey:@"delete_image"];
+        }else {
+            
+            NSMutableArray *deletedArray = [[NSMutableArray alloc] init];
+            
+            for (MediaData *mediaData in deletededMediasForImages) {
+                [deletedArray addObject:mediaData.mediaID];
+            }
+            
+            [tempDict setObject:deletedArray forKey:@"delete_image"];
+        }
+        
     }else {
         [tempDict setObject:@"" forKey:@"delete_image"];
     }
     
+//    if (deletededMediasForImages) {
+//        [tempDict setObject:deletedMediasForAudios.count==0?@"":deletededMediasForImages forKey:@"delete_image"];
+//    }else {
+//        [tempDict setObject:@"" forKey:@"delete_image"];
+//    }
+    
     if (addedMediasForAudios) {
-        [tempDict setObject:addedMediasForAudios.count==0?@"":addedMediasForAudios forKey:@"audio"];
+        
+        if (addedMediasForAudios.count == 0) {
+            
+        }else {
+            NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+            
+            for (MediaData *mediaData in addedMediasForAudios) {
+//                NSMutableDictionary *mediaDict = [[NSMutableDictionary alloc] init];
+//                [mediaDict setObject:StringValue(mediaData.location) forKey:@"ih_audio_index"];
+                NSString *encodeDataString = [[mediaData.data gzippedData] base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+                NSDictionary *imageDict = @{@"ih_audio_data":encodeDataString,@"ih_audio_index":mediaData.location?mediaData.location:nil};
+                [tempArray addObject:imageDict];
+            }
+            
+            [tempDict setObject:tempArray forKey:@"audio"];
+        }
+        //[tempDict setObject:addedMediasForAudios.count==0?@"":addedMediasForAudios forKey:@"audio"];
     }else {
         [tempDict setObject:@"" forKey:@"audio"];
     }
     
     if (addedMediasForImages) {
-        [tempDict setObject:addedMediasForImages.count==0?@"":addedMediasForImages forKey:@"images"];
+        
+        NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+        
+        for (MediaData *mediaData in addedMediasForAudios) {
+
+            NSString *encodeDataString = [[mediaData.data gzippedData] base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+            
+            NSDictionary *imageDict = @{@"ih_image_data":encodeDataString,@"ih_image_index":mediaData.location?mediaData.location:nil};
+            [tempArray addObject:imageDict];
+        }
+        
+        [tempDict setObject:tempArray forKey:@"images"];
     }else {
         [tempDict setObject:@"" forKey:@"images"];
     }
@@ -265,11 +325,11 @@
     for (MediaData *mediaData in medias) {
         
         if ([mediaData.dataType boolValue]) { //audio
-            NSString *encodeDataString = [mediaData.data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+            NSString *encodeDataString = [[mediaData.data gzippedDataWithCompressionLevel:1.0] base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
             NSDictionary *audioDict = @{@"ih_audio_data":encodeDataString,@"ih_audio_index":mediaData.location?mediaData.location:nil};
             [audios addObject:audioDict];
         }else {//image
-            NSString *encodeDataString = [mediaData.data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+            NSString *encodeDataString = [[mediaData.data gzippedDataWithCompressionLevel:1.0] base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
             
             
             NSDictionary *imageDict = @{@"ih_image_data":encodeDataString,@"ih_image_index":mediaData.location?mediaData.location:nil};
@@ -341,7 +401,7 @@
 }
 -(void)addMediaDataToNoteContent:(NoteContent*)noteContent withImage:(UIImage*)image atLocation:(NSRange)range withPoint:(CGPoint)point
 {
-    NSData *data = UIImageJPEGRepresentation(image, 1);
+    NSData *data = UIImageJPEGRepresentation(image, 0.5);
     NSDictionary *dataDict = @{@"mediaNameString":[self currentDate],@"data":data,@"location":[NSString stringWithFormat:@"%@",@(range.location)],@"cursorX":[NSString stringWithFormat:@"%@",@(point.x)],@"cursorY":[NSString stringWithFormat:@"%@",@(point.y)],@"dataType":@"0"};
     MediaData *mediaData = [self.coreDataStack mediaDataCreateWithDict:dataDict];
     mediaData.hasAdded = [NSNumber numberWithBool:YES];
@@ -363,6 +423,7 @@
 #pragma mask - note show view controller delegate
 -(void)didDeletedNoteWithNoteID:(NSString *)noteID andNoteUUID:(NSString *)noteUUID
 {
+    self.note = nil;
     [self.tableView reloadData];
 
 }
@@ -578,7 +639,8 @@
                 NSString *dataString = tempDict[@"ih_audio_data"];
                 
                 NSData *data = [[NSData alloc] initWithBase64EncodedString:dataString options:NSDataBase64DecodingIgnoreUnknownCharacters];
-                [tempCDict setObject:data forKey:@"data"];
+                
+                [tempCDict setObject:[data gunzippedData] forKey:@"data"];
             }
             if ([tempDict.allKeys containsObject:@"ih_audio_index"]) {
                 [tempCDict setObject:tempCDict[@"ih_audio_index"] forKey:@"location"];
@@ -620,7 +682,7 @@
                 NSString *dataString = tempDict[@"ih_image_data"];
             
                 NSData *data = [[NSData alloc] initWithBase64EncodedString:dataString options:NSDataBase64DecodingIgnoreUnknownCharacters];
-                [tempCDict setObject:data forKey:@"data"];
+                [tempCDict setObject:[data gunzippedData] forKey:@"data"];
             }
             if ([tempDict.allKeys containsObject:@"ih_image_index"]) {
                 [tempCDict setObject:StringValue([NSString stringWithFormat:@"%@",tempDict[@"ih_image_index"]])  forKey:@"location"];
@@ -854,7 +916,7 @@
     //NSString *keyString = [self.keyArray objectAtIndex:indexPath.row];
     UITextField *placeHolder =(UITextField*)[cell viewWithTag:1001];
     NSString *placeHolderString =[self.keyArray objectAtIndex:indexPath.row];
-    placeHolder.placeholder = placeHolderString;
+    placeHolder.placeholder = [self.note.noteType integerValue]?@"":placeHolderString;
     
     //textView.text = StringValue([self.dataSourceDict objectForKey:keyString]);
     NoteContent *noteContent = [self.note.contents objectAtIndex:indexPath.row];

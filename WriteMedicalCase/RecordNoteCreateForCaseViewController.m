@@ -14,8 +14,10 @@
 #import "TestViewController.h"
 #import "TakePhotoViewController.h"
 #import "ContainerViewCell.h"
+#import "RecordView.h"
+#import "PlayView.h"
 
-@interface RecordNoteCreateForCaseViewController ()<RecordNoteCreateCellTableViewCellDelegate,UITableViewDataSource,UITableViewDelegate,RecordNoteWarningViewControllerDelegate,SelectedShareRangeViewControllerDelegate,UITextFieldDelegate,TakePhotoViewControllerDelegate>
+@interface RecordNoteCreateForCaseViewController ()<RecordNoteCreateCellTableViewCellDelegate,UITableViewDataSource,UITableViewDelegate,RecordNoteWarningViewControllerDelegate,SelectedShareRangeViewControllerDelegate,UITextFieldDelegate,TakePhotoViewControllerDelegate,RecordViewDelegate,PlayViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (nonatomic,strong) NSMutableDictionary *dataSourceDict;
@@ -48,6 +50,10 @@
 
 @property (nonatomic,strong) NSMutableDictionary *mediaDict;
 @property (nonatomic,strong) NSMutableArray *mediasArray;
+
+@property (nonatomic,strong) RecordView *recordView;
+@property (nonatomic,strong) PlayView *palyView;
+
 @end
 
 @implementation RecordNoteCreateForCaseViewController
@@ -81,6 +87,16 @@
     UIBarButtonItem *barButtonItem =[[UIBarButtonItem alloc] initWithCustomView:sender];
     [popover presentPopoverFromBarButtonItem:barButtonItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 
+}
+- (IBAction)recordButtonClicked:(UIButton *)sender
+{
+    self.recordView = [[RecordView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+    self.recordView.delegate = self;
+    [self.recordView startRecord];
+    
+    [self.navigationController.view addSubview:self.recordView];
+   // UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+    //[keyWindow addSubview:self.recordView];
 }
 
 -(void)cancelCreateNoteButtonClicked
@@ -234,12 +250,12 @@
     for (MediaData *mediaData in medias) {
         
         if ([mediaData.dataType boolValue]) { //audio
-            NSString *encodeDataString = [mediaData.data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+            NSString *encodeDataString = [[mediaData.data gzippedDataWithCompressionLevel:1.0]  base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
             NSDictionary *audioDict = @{@"ih_audio_data":encodeDataString,@"ih_audio_index":mediaData.location?mediaData.location:nil};
             [audios addObject:audioDict];
         }else {//image
-            NSString *encodeDataString = [mediaData.data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
             
+            NSString *encodeDataString = [[mediaData.data gzippedDataWithCompressionLevel:1.0] base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
             
             NSDictionary *imageDict = @{@"ih_image_data":encodeDataString,@"ih_image_index":mediaData.location?mediaData.location:nil};
             [images addObject:imageDict];
@@ -256,10 +272,81 @@
     NSDictionary *contentDict = @{@"noteContentS":@"ih_contents",@"noteContentO":@"ih_contento",@"noteContentA":@"ih_contenta",@"noteContentP":@"ih_contentp"};
     return contentDict[contents];
 }
+#pragma mask - did selected media delegate
+-(void)didSelectedMedia:(NSNotification*)info
+{
+    MediaData *mediaData = (MediaData*)[info object];
+    
+    if ([mediaData.dataType integerValue]) {
+        //aduio
+        UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+        
+        BOOL hasPlayView = NO;
+        for (UIView *subView in keyWindow.subviews) {
+            if (subView == self.palyView) {
+                hasPlayView = YES;
+            }
+        }
+        if (hasPlayView) {
+            self.palyView .audioData = mediaData.data;
+        }else {
+            self.palyView = [[PlayView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
+            
+            [self.navigationController.view addSubview:self.palyView];
+            //[keyWindow addSubview:self.palyView];
+            self.palyView.delegate = self;
+            self.palyView.audioData = mediaData.data;
+            //self.playView.playURL  = self.url;
+        }
+        
+    }
+}
+#pragma mask -play view delegate
+-(void)didCompletedAudioPlay
+{
+    [self.palyView removeFromSuperview];
+    
+}
+#pragma mask - recoview delegate
+-(void)didCompletedAudioWithDuration:(NSString *)durationString audioName:(NSString *)audioName audioURL:(NSURL *)audioURL
+{
+    [self.recordView removeFromSuperview];
+    NoteContent *noteContent = [self.note.contents objectAtIndex:self.currentIndexPath.row];
+    CGRect  textViewRect = [self.currentTextView caretRectForPosition:self.currentTextView.selectedTextRange.start];
+    CGPoint cursorPosition = textViewRect.origin;
+    
+    NSRange range = self.currentTextView.selectedRange;
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [self addMediaDataAudioToNoteContent:noteContent withAudioName:audioName andAudioURL:audioURL audioDuration:durationString cursorPoint:cursorPosition atRange:range];
+    });
+    //  self.currentIndexPath
+}
+-(void)addMediaDataAudioToNoteContent:(NoteContent*)noteContent withAudioName:(NSString*)audioName andAudioURL:(NSURL*)audioURL audioDuration:(NSString*)duration cursorPoint:(CGPoint)cursorPoint atRange:(NSRange)range
+{
+    NSError *error;
+    NSData *data = [NSData dataWithContentsOfURL:audioURL options:NSDataReadingMappedIfSafe error:&error];
+    NSDictionary *dataDict = @{@"mediaNameString": audioName,@"data":data,@"location":[NSString stringWithFormat:@"%@",@(range.location)],@"cursorX":[NSString stringWithFormat:@"%@",@(cursorPoint.x)],@"cursorY":[NSString stringWithFormat:@"%@",@(cursorPoint.y)],@"urlString":[audioURL relativeString],@"dataType":@"1"};
+    MediaData *mediaData = [self.coreDataStack mediaDataCreateWithDict:dataDict];
+    mediaData.hasAdded = [NSNumber numberWithBool:YES];
+    mediaData.hasDeleted = [NSNumber numberWithBool:NO];
+    
+    mediaData.owner = noteContent;
+    
+    [self.mediasArray addObject:mediaData];
+    
+    [self.coreDataStack saveContext];
+    
+    [self.mediaDict setObject:self.mediasArray forKey:@"medias"];
+    NSLog(@"mediasArray:%@",@(self.mediasArray.count));
+    NSLog(@"medict: %@",@(self.mediaDict.count));
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tableView reloadData];
+    });
+}
 #pragma mask - take photo view controller delegate
 -(void)didSelectedImage:(UIImage *)image withImageData:(NSData *)imageData atIndexPath:(NSIndexPath *)indexPath
 {
-    
     NoteContent *noteContent = [self.note.contents objectAtIndex:indexPath.row];
     NSRange range = self.currentTextView.selectedRange;
     
@@ -274,68 +361,21 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self addMediaDataToNoteContent:noteContent withImage:image atLocation:range withPoint:cursorPosition];
     });
-    
-}
--(void)showMediaImage:(NSData*)imageData atLocation:(CGPoint)location
-{
-    
-//    UIImageView *imageView = [[UIImageView alloc] init];
-//    imageView.contentMode = UIViewContentModeScaleAspectFit;
-//    //CGFloat oldWidth = image.size.width;
-//   // CGFloat scaleFactor = oldWidth / (self.currentTextView.frame.size.width - 10);
-//    //UIImage *newImage = [UIImage imageWithCGImage:image.CGImage scale:scaleFactor orientation:UIImageOrientationUp];
-//    UIImage *image = [UIImage imageWithData:imageData];
-//            imageView.image = image;
-//    imageView.frame = CGRectMake(location.x + 10, location.y-45, self.view.frame.size.width/6, self.view.frame.size.width/6);
-//    
-//    [self.currentTextView addSubview:imageView];
-//    self.currentTextView.scrollEnabled  =NO;
-//    
- //     CGRect ovalFrame = [self.currentTextView convertRect:imageView.bounds
-//                                         fromView:imageView];
-//      UIBezierPath *ovalPath = [UIBezierPath bezierPathWithRect:ovalFrame];
-    //NSMutableArray *ovalPaths = [NSMutableArray arrayWithArray:self.currentTextView.textContainer.exclusionPaths];
-    //[ovalPaths addObject:ovalPath];
-   // self.currentTextView.textContainer.exclusionPaths = ovalPath;
-
-    //ovalFrame.origin.x -= self.currentTextView.textContainerInset.left;
-    //ovalFrame.origin.y -= self.currentTextView.textContainerInset.top;
-//    UIImage *image = [UIImage imageWithData:imageData];
-//    NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
-//    textAttachment.image = image;
-//    CGFloat oldWidth = textAttachment.image.size.width;
-//    CGFloat scaleFactor = oldWidth / (self.currentTextView.frame.size.width - 10);
-//    textAttachment.image = [UIImage imageWithCGImage:textAttachment.image.CGImage scale:scaleFactor orientation:UIImageOrientationUp];
-//    
-//    NSAttributedString *attrStringWithImage = [NSAttributedString attributedStringWithAttachment:textAttachment];
-//    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.currentTextView.text];
-//    [attributedString replaceCharactersInRange:self.currentTextView.selectedRange withAttributedString:attrStringWithImage];
-//    self.currentTextView.attributedText = attributedString;
-//    
-//    self.currentTextViewheightConstraints.constant += image.size.height;
-//    
-//    NSLog(@"height:%@",@(self.currentTextViewheightConstraints.constant));
-//    [UIView animateWithDuration:1.5 animations:^{
-//        
-//        [self.currentTextView layoutIfNeeded];
-//       // [self.tableView reloadRowsAtIndexPaths:@[self.currentIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-//    }];
-//  UIBezierPath *ovalPath = [UIBezierPath bezierPathWithRect:ovalFrame];
-//  self.currentTextView.textContainer.exclusionPaths = @[ovalPath];
-    
-    
 }
 -(void)addMediaDataToNoteContent:(NoteContent*)noteContent withImage:(UIImage*)image atLocation:(NSRange)range withPoint:(CGPoint)point
 {
-    NSData *data = UIImageJPEGRepresentation(image, 1);
-    NSDictionary *dataDict = @{@"mediaNameString":[self currentDate],@"data":data,@"location":[NSString stringWithFormat:@"%@",@(range.location)],@"cursorX":[NSString stringWithFormat:@"%@",@(point.x)],@"cursorY":[NSString stringWithFormat:@"%@",@(point.y)]};
+    NSData *data = UIImageJPEGRepresentation(image, 0.2);
+    NSDictionary *dataDict = @{@"mediaNameString":[self currentDate],@"data":data,@"location":[NSString stringWithFormat:@"%@",@(range.location)],@"cursorX":[NSString stringWithFormat:@"%@",@(point.x)],@"cursorY":[NSString stringWithFormat:@"%@",@(point.y)],@"dataType":@"0"};
     MediaData *mediaData = [self.coreDataStack mediaDataCreateWithDict:dataDict];
-
+    mediaData.hasAdded = [NSNumber numberWithBool:YES];
+    mediaData.hasDeleted = [NSNumber numberWithBool:NO];
+    
     mediaData.owner = noteContent;
+    
     [self.mediasArray addObject:mediaData];
     
     [self.coreDataStack saveContext];
-
+    
     [self.mediaDict setObject:self.mediasArray forKey:@"medias"];
     NSLog(@"mediasArray:%@",@(self.mediasArray.count));
     NSLog(@"medict: %@",@(self.mediaDict.count));
@@ -435,7 +475,7 @@
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-   // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSelectedMedia) name:@"didSelectItemFromCollectionView" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSelectedMedia:) name:@"didSelectItemFromCollectionView" object:nil];
 }
 -(void)setUpTableView
 {

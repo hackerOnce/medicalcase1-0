@@ -84,15 +84,18 @@
                 [resurtArray addObject:tempNote];
             }else {
                 if ([request.responseData isKindOfClass:[NSArray class]]) {
+                    
+                    
                     NSArray *tempArray = (NSArray*)request.responseData;
                     
-                    [resurtArray addObjectsFromArray:(NSArray*)request.responseData];
-                    for (NSDictionary *tempDict in tempArray) {
-                        TempNoteInfo *tempNote = [[TempNoteInfo alloc] initWithDict:tempDict];
-                        [resurtArray addObject:tempNote];
+                    if (tempArray.count == 0) {
+                        
+                    }else {
+                        for (NSDictionary *tempDict in tempArray) {
+                            TempNoteInfo *tempNote = [[TempNoteInfo alloc] initWithDict:tempDict];
+                            [resurtArray addObject:tempNote];
+                        }
                     }
-
-                    
                 }
             }
         
@@ -108,18 +111,27 @@
                     }
                 }
                 self.noteTitleArray = [[NSMutableArray alloc] initWithArray:[self sortArray:resurtArray]];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.tableView reloadData];
-                    self.searchBar.hidden = NO;
-                    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-                    [self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
-                    [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+                if (resurtArray.count == 0) {
                     self.spinner.hidden = YES;
-                });
+
+                }else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.tableView reloadData];
+                        self.searchBar.hidden = NO;
+                        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+                        [self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
+                        [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+                        self.spinner.hidden = YES;
+                    });
+
+                }
+            
             }
     
     } failConection:^(NSError *error) {
         NSLog(@" 欧欧，服务器挂了");
+        self.spinner.hidden = YES;
+
         abort();
     }];
 
@@ -202,8 +214,21 @@
         
         TempNoteInfo *note = [self.noteTitleArray objectAtIndex:indexPath.row];
         [self.noteTitleArray removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        [self.tableView reloadData];
+        if (self.noteTitleArray.count == 0) {
+            
+            [self.tableView reloadData];
+          
+            
+        }else {
+            if (note.noteID) {
+                [self.delegate didDeletedNoteWithNoteID:note.noteID andNoteUUID:nil];
+                
+            }else {
+                
+                [self.delegate didDeletedNoteWithNoteID:nil andNoteUUID:note.noteUUID];
+            }
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
         
         if (note.noteID) {
             
@@ -219,7 +244,7 @@
             }];
         }else {
             if (note.noteUUID) {
-                [self.delegate didDeletedNoteWithNoteID:note.noteID andNoteUUID:nil];
+             //   [self.delegate didDeletedNoteWithNoteID:note.noteID andNoteUUID:nil];
 
                 [self.coreDataStack noteBookDeleteWithID:nil andNoteUUID:note.noteUUID];
             }

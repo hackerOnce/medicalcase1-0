@@ -132,7 +132,7 @@
                                     <outlet property="delegate" destination="8iJ-fA-48P" id="OdS-T3-f2U"/>
                                 </connections>
                             </tableView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="pcL-5f-V2Q">
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="pcL-5f-V2Q">
                                 <rect key="frame" x="290" y="120" width="37" height="20"/>
                                 <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </activityIndicatorView>
@@ -588,6 +588,7 @@
                                         </state>
                                         <connections>
                                             <action selector="audio:" destination="Pws-TG-tdn" eventType="touchUpInside" id="UQM-qf-KrW"/>
+                                            <action selector="recordButtonClicked:" destination="Pws-TG-tdn" eventType="touchUpInside" id="xbc-WQ-Q2b"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -1075,8 +1076,8 @@
         <image name="语音" width="28" height="27"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="LSp-0x-aMv"/>
+        <segue reference="CQM-mv-wxJ"/>
         <segue reference="sNQ-El-x1K"/>
-        <segue reference="2lp-wq-LHv"/>
+        <segue reference="BiE-IG-DGr"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -754,6 +754,7 @@ static NSString *momdName = @"Model";
     }else {
         if (tempArray.count == 1) {
             [self.managedObjectContext deleteObject:[tempArray firstObject]];
+            [self saveContext];
         }else {
             abort();
         }

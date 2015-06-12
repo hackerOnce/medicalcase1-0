@@ -50,21 +50,24 @@
     self.waveView.backgroundColor = [UIColor darkGrayColor];
     [self addSubview:waveView];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(8, 10, 50, self.frame.size.height - 20)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(8, 10, 50, self.frame.size.height - 16)];
     label.backgroundColor = [UIColor lightGrayColor];
     label.textAlignment = NSTextAlignmentCenter;
     [self addSubview:label];
     label.textColor = [UIColor whiteColor];
     label.text = @"000:00";
+    
     self.durationLabel = label;
+    
     
     self.recorder.delegate = self;
     UIButton *endButton = [UIButton buttonWithType:UIButtonTypeSystem];
     endButton.frame = CGRectMake(self.frame.size.width-64,10, 56, self.frame.size.height - 20);
-    [endButton setTitle:@"完成" forState:UIControlStateNormal];
+   // [endButton setTitle:@"完成" forState:UIControlStateNormal];
     [endButton setTintColor:[UIColor whiteColor]];
     [endButton addTarget:self action:@selector(endButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-    endButton.backgroundColor = [UIColor lightGrayColor];
+    [endButton setBackgroundImage:[UIImage imageNamed:@"end"] forState:UIControlStateNormal];
+   // endButton.backgroundColor = [UIColor lightGrayColor];
     endButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     [self addSubview:endButton];
     
@@ -74,9 +77,10 @@
 {
     [super layoutSubviews];
     
-    CGRect labelFrame = CGRectMake(8, 20, 75, self.frame.size.height - 40);
+    CGRect labelFrame = CGRectMake(8, 8, 75, self.frame.size.height - 16);
+
     self.durationLabel.frame = labelFrame;
-    CGRect buttonFrame = CGRectMake(self.frame.size.width - 64,10, 56, self.frame.size.height - 20);
+    CGRect buttonFrame = CGRectMake(self.frame.size.width-48,8,40,self.frame.size.height - 16);
     self.endButton.frame = buttonFrame;
     
     self.waveView.frame = CGRectMake(0, 15, self.frame.size.width, self.frame.size.height - 30);
