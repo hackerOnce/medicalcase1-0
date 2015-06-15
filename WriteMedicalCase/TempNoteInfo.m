@@ -33,6 +33,8 @@
         if ([dict.allKeys containsObject:@"ih_note_text"]) {
             _noteText = [dict objectForKey:@"ih_note_text"];
         }
+        
+        _shortCreateDate = [self yearStringWithDateString:StringValue(_createTime)];
         _noteUUID = nil;
     }
     
@@ -55,5 +57,21 @@
         
     }
     return self;
+}
+-(NSString*)yearStringWithDateString:(NSString*)dateString
+{
+    NSString *yearString;
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy年MM月"];
+    yearString = [formatter stringFromDate:[self dateFromDateString:dateString]];
+    return yearString;
+}
+-(NSDate*)dateFromDateString:(NSString*)dateString
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy年MM月dd日 HH:mm:ss"];
+    NSDate *date = [formatter dateFromString:dateString];
+    
+    return date;
 }
 @end

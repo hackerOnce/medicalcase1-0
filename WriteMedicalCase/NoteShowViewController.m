@@ -19,6 +19,9 @@
 
 @property (nonatomic,strong) NSMutableArray *noteTitleArray;
 
+@property (nonatomic,strong) NSMutableDictionary *dataDict;
+
+@property (nonatomic,strong) NSMutableArray *keyArray;
 @end
 
 @implementation NoteShowViewController
@@ -84,7 +87,6 @@
                 [resurtArray addObject:tempNote];
             }else {
                 if ([request.responseData isKindOfClass:[NSArray class]]) {
-                    
                     
                     NSArray *tempArray = (NSArray*)request.responseData;
                     
@@ -292,7 +294,7 @@
 {
     NSString *yearString;
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy年"];
+    [formatter setDateFormat:@"yyyy年MM月"];
     yearString = [formatter stringFromDate:[self dateFromDateString:dateString]];
     return yearString;
 }
@@ -310,7 +312,7 @@
 
     NSString *timeAndMinutes;
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"HH:mm"];
+    [formatter setDateFormat:@"dd日 HH:mm"];
     timeAndMinutes = [formatter stringFromDate:[self dateFromDateString:dateString]];
 
     return timeAndMinutes;
@@ -334,5 +336,45 @@
     }
     return _socket;
 }
+-(NSMutableArray *)keyArray
+{
+    if (!_keyArray) {
+        _keyArray = [[NSMutableArray alloc] init];
+    }
+    return _keyArray;
+}
+-(NSMutableDictionary *)dataDict
+{
+    if (!_dataDict) {
+        _dataDict = [[NSMutableDictionary alloc] init];
+    }
+    return _dataDict;
+}
+-(void)setNoteTitleArray:(NSMutableArray *)noteTitleArray
+{
+    _noteTitleArray = noteTitleArray;
+    self.dataDict = nil;
+    self.keyArray = nil;
+    
+    if (noteTitleArray.count > 0){
+        [noteTitleArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            
+            TempNoteInfo *noteInfo = (TempNoteInfo*)obj;
+            if ([self.keyArray containsObject:noteInfo.shortCreateDate]){
+                if ([self.dataDict.allKeys containsObject:noteInfo.shortCreateDate]) {
+                    NSMutableArray *array =[NSMutableArray arrayWithArray:[self.dataDict objectForKey:noteInfo.shortCreateDate]];
+                    [array addObject:noteInfo];
+                }
+            }else {
+                [self.keyArray addObject:noteInfo.shortCreateDate];
+                
+                NSMutableArray *array =[[NSMutableArray alloc] init];
+                [array addObject:noteInfo];
+                
+                [self.dataDict setObject:array forKey:noteInfo.shortCreateDate];
+            }
+        }];
 
+    }
+   }
 @end

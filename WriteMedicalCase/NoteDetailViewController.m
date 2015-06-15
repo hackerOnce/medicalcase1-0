@@ -382,6 +382,10 @@
     });
 }
 #pragma mask - take photo view controller delegate
+-(void)didCancelSelectedImage
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 -(void)didSelectedImage:(UIImage *)image withImageData:(NSData *)imageData atIndexPath:(NSIndexPath *)indexPath
 {
     NoteContent *noteContent = [self.note.contents objectAtIndex:indexPath.row];
@@ -425,7 +429,6 @@
 {
     self.note = nil;
     [self.tableView reloadData];
-
 }
 -(void)didSelectedANoteWithNoteID:(NSString *)noteID andCreateDoctorID:(NSString *)dID withNoteUUID:(NSString *)noteUUID
 {
@@ -643,7 +646,7 @@
                 [tempCDict setObject:[data gunzippedData] forKey:@"data"];
             }
             if ([tempDict.allKeys containsObject:@"ih_audio_index"]) {
-                [tempCDict setObject:tempCDict[@"ih_audio_index"] forKey:@"location"];
+                [tempCDict setObject:StringValue(tempCDict[@"ih_audio_index"])  forKey:@"location"];
             }
             //                    if ([tempDict.allKeys containsObject:@"ih_audio_index"]) {
             //                        [tempCDict setObject:tempCDict[@"ih_audio_index"] forKey:@"mediaID"];

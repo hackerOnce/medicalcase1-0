@@ -62,16 +62,16 @@
     
     picker.allowsEditing = YES;
     
-    [self.navigationController pushViewController:picker animated:YES];
+      //[self.navigationController pushViewController:picker animated:YES];
 //    UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:picker];
 //
 //    UIPopoverController  *popVC = [[UIPopoverController alloc] initWithContentViewController:picker];
 //    popVC.popoverContentSize = CGSizeMake(320, 600);
-//    [popVC presentPopoverFromRect:rect inView:self.view permittedArrowDirections:UIPopoverArrowDirectionUnknown animated:YES];
+//    [popVC presentPopoverFromRect:rect inView:self.view permittedArrowDirections:nil animated:YES];
     
-    
-    
-    //[self presentViewController:picker animated:YES completion:nil];
+    [picker setModalPresentationStyle:UIModalPresentationCurrentContext];
+    [picker setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+    [self presentViewController:picker animated:YES completion:nil];
 
 }
 -(void)takePhotoFromCamera
@@ -108,7 +108,9 @@
 }
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
+    [self.delegate didCancelSelectedImage];
     [self dismissViewControllerAnimated:YES completion:nil];
+
 }
 #pragma mask -m property
 -(NSArray *)dataArray

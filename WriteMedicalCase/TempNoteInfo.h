@@ -15,6 +15,7 @@
 @property (nonatomic,strong) NSString *updatedTime;
 @property (nonatomic,strong) NSString *noteTitle;
 @property (nonatomic,strong) NSString *noteText;
+@property (nonatomic,strong) NSString *shortCreateDate;
 
 @property (nonatomic,strong) NSString *noteUUID;
 -(instancetype)initWithDict:(NSDictionary*)dict;

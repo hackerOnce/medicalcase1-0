@@ -11,7 +11,7 @@
 @protocol TakePhotoViewControllerDelegate <NSObject>
 
 -(void)didSelectedImage:(UIImage*)image withImageData:(NSData*)imageData atIndexPath:(NSIndexPath*)indexPath;
-
+-(void)didCancelSelectedImage;
 @end
 @interface TakePhotoViewController : UIViewController
 @property (nonatomic,weak) id<TakePhotoViewControllerDelegate> delegate;

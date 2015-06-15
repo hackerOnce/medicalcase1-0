@@ -362,6 +362,10 @@
         [self addMediaDataToNoteContent:noteContent withImage:image atLocation:range withPoint:cursorPosition];
     });
 }
+-(void)didCancelSelectedImage
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 -(void)addMediaDataToNoteContent:(NoteContent*)noteContent withImage:(UIImage*)image atLocation:(NSRange)range withPoint:(CGPoint)point
 {
     NSData *data = UIImageJPEGRepresentation(image, 0.2);
@@ -672,6 +676,7 @@
     
     if ([segue.identifier isEqualToString:@"takePhotoSegue"]) {
         TakePhotoViewController *takePhoto = (TakePhotoViewController*)segue.destinationViewController;
+        
         takePhoto.delegate  = self;
     }
     if ([segue.identifier isEqualToString:@"patientNoteSave"]) {

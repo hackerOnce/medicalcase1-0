@@ -103,8 +103,6 @@
     }
 
     celllabel.text = tempNode.nodeName;
-
-    
 }
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
