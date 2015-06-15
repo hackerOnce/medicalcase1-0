@@ -6,6 +6,7 @@
         <attribute name="confirmedDiagnosis" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="familyHistory" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="historyOfPresentillness" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="menstrualHistory" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="obstericalHistory" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pastHistory" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="personHistory" optional="YES" attributeType="String" syncable="YES"/>
@@ -163,7 +164,7 @@
         <relationship name="sharedUsers" optional="YES" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="SharedUser" inverseName="template" inverseEntity="SharedUser" syncable="YES"/>
     </entity>
     <elements>
-        <element name="CaseContent" positionX="27" positionY="180" width="128" height="270"/>
+        <element name="CaseContent" positionX="27" positionY="180" width="128" height="285"/>
         <element name="Doctor" positionX="-63" positionY="-18" width="128" height="195"/>
         <element name="MediaData" positionX="9" positionY="153" width="128" height="240"/>
         <element name="Node" positionX="-54" positionY="-9" width="128" height="195"/>

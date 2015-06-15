@@ -445,7 +445,10 @@
 {
     if ([node.nodeName isEqualToString:nodeName]) {
          resultNode =  node;
+        
+        return resultNode;
     }
+    NSLog(@"node name:%@",node.nodeName);
     for (WLKCaseNode *tt in node.childNodes) {
        resultNode =  [self getSubNodeFromNode:tt withNodeName:nodeName resultNode:resultNode];
     }

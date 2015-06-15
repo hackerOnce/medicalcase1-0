@@ -218,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/WriteCaseSaveViewController.m"
-            timestampString = "454822472.846091"
+            timestampString = "456047651.236901"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1384"
-            endingLineNumber = "1384">
+            startingLineNumber = "1387"
+            endingLineNumber = "1387">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -232,11 +232,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/WriteCaseSaveViewController.m"
-            timestampString = "454822472.846091"
+            timestampString = "456047651.236901"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1386"
-            endingLineNumber = "1386">
+            startingLineNumber = "1389"
+            endingLineNumber = "1389">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2373,11 +2373,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/WriteCaseSaveViewController.m"
-            timestampString = "454822472.846091"
+            timestampString = "456047651.236901"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "870"
-            endingLineNumber = "870"
+            startingLineNumber = "873"
+            endingLineNumber = "873"
             landmarkName = "-configureCell:AtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2619,22 +2619,6 @@
             startingLineNumber = "162"
             endingLineNumber = "162"
             landmarkName = "-didExitAuditCaseViewController"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WriteMedicalCase/RecordManagedViewController.m"
-            timestampString = "454585005.529022"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "673"
-            endingLineNumber = "673"
-            landmarkName = "-didExitEditRecordCaseWithCurrentPatient:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2897,39 +2881,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "772"
-            endingLineNumber = "772"
-            landmarkName = "-noteBookFetchWithDoctorID:noteType:isCurrentNote:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "783"
-            endingLineNumber = "783"
-            landmarkName = "-noteBookFetchWithDoctorID:noteType:isCurrentNote:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "775"
@@ -2945,11 +2897,43 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "779"
-            endingLineNumber = "779"
+            startingLineNumber = "786"
+            endingLineNumber = "786"
+            landmarkName = "-noteBookFetchWithDoctorID:noteType:isCurrentNote:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WriteMedicalCase/CoreDataStack.m"
+            timestampString = "456046003.918847"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "778"
+            endingLineNumber = "778"
+            landmarkName = "-noteBookFetchWithDoctorID:noteType:isCurrentNote:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WriteMedicalCase/CoreDataStack.m"
+            timestampString = "456046003.918847"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "782"
+            endingLineNumber = "782"
             landmarkName = "-noteBookFetchWithDoctorID:noteType:isCurrentNote:"
             landmarkType = "5">
          </BreakpointContent>
@@ -2993,23 +2977,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455452627.723315"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "723"
-            endingLineNumber = "723"
-            landmarkName = "-fetchNoteBooksWithDoctorID:andNoteIsCurrentNote:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455452666.357609"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "726"
@@ -3025,11 +2993,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455452777.920388"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "727"
-            endingLineNumber = "727"
+            startingLineNumber = "729"
+            endingLineNumber = "729"
             landmarkName = "-fetchNoteBooksWithDoctorID:andNoteIsCurrentNote:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3041,7 +3009,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455452807.237606"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "730"
@@ -3057,11 +3025,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455452814.399189"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "732"
-            endingLineNumber = "732"
+            startingLineNumber = "733"
+            endingLineNumber = "733"
             landmarkName = "-fetchNoteBooksWithDoctorID:andNoteIsCurrentNote:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3073,11 +3041,27 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "798"
-            endingLineNumber = "798"
+            startingLineNumber = "735"
+            endingLineNumber = "735"
+            landmarkName = "-fetchNoteBooksWithDoctorID:andNoteIsCurrentNote:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WriteMedicalCase/CoreDataStack.m"
+            timestampString = "456046003.918847"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "801"
+            endingLineNumber = "801"
             landmarkName = "-noteBookFetchWithDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3089,11 +3073,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "888"
-            endingLineNumber = "888"
+            startingLineNumber = "891"
+            endingLineNumber = "891"
             landmarkName = "-noteBookCreateWithDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3105,11 +3089,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "892"
-            endingLineNumber = "892"
+            startingLineNumber = "895"
+            endingLineNumber = "895"
             landmarkName = "-noteBookCreateWithDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3121,11 +3105,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "998"
-            endingLineNumber = "998"
+            startingLineNumber = "1001"
+            endingLineNumber = "1001"
             landmarkName = "-updateMediaData:withDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3137,11 +3121,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1004"
-            endingLineNumber = "1004"
+            startingLineNumber = "1007"
+            endingLineNumber = "1007"
             landmarkName = "-updateMediaData:withDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3153,11 +3137,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1010"
-            endingLineNumber = "1010"
+            startingLineNumber = "1013"
+            endingLineNumber = "1013"
             landmarkName = "-updateMediaData:withDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3185,11 +3169,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "796"
-            endingLineNumber = "796"
+            startingLineNumber = "799"
+            endingLineNumber = "799"
             landmarkName = "-noteBookFetchWithDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3201,11 +3185,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "805"
-            endingLineNumber = "805"
+            startingLineNumber = "808"
+            endingLineNumber = "808"
             landmarkName = "-noteBookFetchWithDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3217,11 +3201,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "791"
-            endingLineNumber = "791"
+            startingLineNumber = "794"
+            endingLineNumber = "794"
             landmarkName = "-noteBookFetchWithDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3249,11 +3233,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "840"
-            endingLineNumber = "840"
+            startingLineNumber = "843"
+            endingLineNumber = "843"
             landmarkName = "-noteBookFetchWithDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3265,55 +3249,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "841"
-            endingLineNumber = "841"
-            landmarkName = "-noteBookFetchWithDict:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "842"
-            endingLineNumber = "842"
-            landmarkName = "-noteBookFetchWithDict:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "851"
-            endingLineNumber = "851"
-            landmarkName = "-noteBookFetchWithDict:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "844"
@@ -3329,11 +3265,59 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "845"
             endingLineNumber = "845"
+            landmarkName = "-noteBookFetchWithDict:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WriteMedicalCase/CoreDataStack.m"
+            timestampString = "456046003.918847"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "854"
+            endingLineNumber = "854"
+            landmarkName = "-noteBookFetchWithDict:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WriteMedicalCase/CoreDataStack.m"
+            timestampString = "456046003.918847"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "847"
+            endingLineNumber = "847"
+            landmarkName = "-noteBookFetchWithDict:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WriteMedicalCase/CoreDataStack.m"
+            timestampString = "456046003.918847"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "848"
+            endingLineNumber = "848"
             landmarkName = "-noteBookFetchWithDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3361,11 +3345,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "856"
-            endingLineNumber = "856"
+            startingLineNumber = "859"
+            endingLineNumber = "859"
             landmarkName = "-noteBookFetchWithDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3409,11 +3393,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "924"
-            endingLineNumber = "924"
+            startingLineNumber = "927"
+            endingLineNumber = "927"
             landmarkName = "-noteBookCreateWithDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3425,11 +3409,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "884"
-            endingLineNumber = "884"
+            startingLineNumber = "887"
+            endingLineNumber = "887"
             landmarkName = "-noteBookCreateWithDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3441,11 +3425,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "828"
-            endingLineNumber = "828"
+            startingLineNumber = "831"
+            endingLineNumber = "831"
             landmarkName = "-noteBookFetchWithDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3473,11 +3457,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "940"
-            endingLineNumber = "940"
+            startingLineNumber = "943"
+            endingLineNumber = "943"
             landmarkName = "-noteContentCreateWithDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3489,11 +3473,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "889"
-            endingLineNumber = "889"
+            startingLineNumber = "892"
+            endingLineNumber = "892"
             landmarkName = "-noteBookCreateWithDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3505,11 +3489,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "893"
-            endingLineNumber = "893"
+            startingLineNumber = "896"
+            endingLineNumber = "896"
             landmarkName = "-noteBookCreateWithDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3521,11 +3505,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "901"
-            endingLineNumber = "901"
+            startingLineNumber = "904"
+            endingLineNumber = "904"
             landmarkName = "-noteBookCreateWithDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3537,11 +3521,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "929"
-            endingLineNumber = "929"
+            startingLineNumber = "932"
+            endingLineNumber = "932"
             landmarkName = "-noteBookCreateWithDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3665,11 +3649,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "849"
-            endingLineNumber = "849"
+            startingLineNumber = "852"
+            endingLineNumber = "852"
             landmarkName = "-noteBookFetchWithDict:"
             landmarkType = "5">
             <Locations>
@@ -3825,11 +3809,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "819"
-            endingLineNumber = "819"
+            startingLineNumber = "822"
+            endingLineNumber = "822"
             landmarkName = "-noteBookFetchWithDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3841,11 +3825,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "831"
-            endingLineNumber = "831"
+            startingLineNumber = "834"
+            endingLineNumber = "834"
             landmarkName = "-noteBookFetchWithDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3857,11 +3841,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "833"
-            endingLineNumber = "833"
+            startingLineNumber = "836"
+            endingLineNumber = "836"
             landmarkName = "-noteBookFetchWithDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3873,11 +3857,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "825"
-            endingLineNumber = "825"
+            startingLineNumber = "828"
+            endingLineNumber = "828"
             landmarkName = "-noteBookFetchWithDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3889,11 +3873,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "878"
-            endingLineNumber = "878"
+            startingLineNumber = "881"
+            endingLineNumber = "881"
             landmarkName = "-noteBookCreateWithDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -3985,11 +3969,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455791167.06937"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1022"
-            endingLineNumber = "1022"
+            startingLineNumber = "1025"
+            endingLineNumber = "1025"
             landmarkName = "-updateMediaData:withDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -4273,11 +4257,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/CoreDataStack.m"
-            timestampString = "455792666.517322"
+            timestampString = "456046003.918847"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "794"
-            endingLineNumber = "794"
+            startingLineNumber = "797"
+            endingLineNumber = "797"
             landmarkName = "-noteBookFetchWithDict:"
             landmarkType = "5">
          </BreakpointContent>
@@ -4353,7 +4337,7 @@
                   moduleName = "WriteMedicalCase"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gk/Documents/%E7%97%85%E5%8E%86/medical/WriteMedicalCase/NoteDetailViewController.m"
-                  timestampString = "456042042.864233"
+                  timestampString = "456047750.74544"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "128"
@@ -4368,7 +4352,7 @@
                   moduleName = "WriteMedicalCase"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gk/Documents/%E7%97%85%E5%8E%86/medical/WriteMedicalCase/NoteDetailViewController.m"
-                  timestampString = "456042042.864558"
+                  timestampString = "456047750.745771"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "128"
@@ -4397,7 +4381,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/NoteShowViewController.m"
@@ -4413,7 +4397,7 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/NoteShowViewController.m"
@@ -4439,6 +4423,150 @@
             startingLineNumber = "374"
             endingLineNumber = "374"
             landmarkName = "-setNoteTitleArray:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WriteMedicalCase/RecordManagedViewController.m"
+            timestampString = "456045563.271254"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "654"
+            endingLineNumber = "654"
+            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WriteMedicalCase/RecordManagedViewController.m"
+            timestampString = "456045637.441698"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "658"
+            endingLineNumber = "658"
+            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WriteMedicalCase/RecordManagedViewController.m"
+            timestampString = "456045660.321678"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "652"
+            endingLineNumber = "652"
+            landmarkName = "-tableView:didSelectRowAtIndexPath:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WriteMedicalCase/WriteCaseSaveViewController.m"
+            timestampString = "456045734.451642"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "529"
+            endingLineNumber = "529"
+            landmarkName = "-setRecordBaseInfo:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WriteMedicalCase/WriteCaseSaveViewController.m"
+            timestampString = "456046170.336526"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "574"
+            endingLineNumber = "574"
+            landmarkName = "-setRecordBaseInfo:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WriteMedicalCase/WriteCaseEditViewController.m"
+            timestampString = "456046296.273647"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "-setLabelString:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WriteMedicalCase/WriteCaseEditViewController.m"
+            timestampString = "456046347.385697"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
+            landmarkName = "-setLabelString:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WriteMedicalCase/WLKCaseNode.m"
+            timestampString = "456047197.945685"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "448"
+            endingLineNumber = "448"
+            landmarkName = "+getSubNodeFromNode:withNodeName:resultNode:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WriteMedicalCase/WLKCaseNode.m"
+            timestampString = "456047197.945685"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "452"
+            endingLineNumber = "452"
+            landmarkName = "+getSubNodeFromNode:withNodeName:resultNode:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

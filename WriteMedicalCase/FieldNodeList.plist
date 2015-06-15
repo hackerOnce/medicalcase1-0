@@ -196,13 +196,25 @@
 											</dict>
 											<dict>
 												<key>nodeName</key>
+												<string>月经史</string>
+												<key>nodeContent</key>
+												<string></string>
+												<key>nodeEnglish</key>
+												<string>menstrualHistory</string>
+												<key>nodeIndex</key>
+												<integer>6</integer>
+												<key>nodeChilds</key>
+												<array/>
+											</dict>
+											<dict>
+												<key>nodeName</key>
 												<string>体格检查</string>
 												<key>nodeContent</key>
 												<string></string>
 												<key>nodeEnglish</key>
 												<string>physicalExamination</string>
 												<key>nodeIndex</key>
-												<integer>6</integer>
+												<integer>7</integer>
 												<key>nodeChilds</key>
 												<array/>
 											</dict>
@@ -214,7 +226,7 @@
 												<key>nodeEnglish</key>
 												<string>systemsReview</string>
 												<key>nodeIndex</key>
-												<integer>7</integer>
+												<integer>8</integer>
 												<key>nodeChilds</key>
 												<array/>
 											</dict>
@@ -226,7 +238,7 @@
 												<key>nodeEnglish</key>
 												<string>specializedExamination</string>
 												<key>nodeIndex</key>
-												<integer>8</integer>
+												<integer>9</integer>
 												<key>nodeChilds</key>
 												<array/>
 											</dict>
@@ -238,7 +250,7 @@
 												<key>nodeEnglish</key>
 												<string>tentativeDiagnosis</string>
 												<key>nodeIndex</key>
-												<integer>9</integer>
+												<integer>10</integer>
 												<key>nodeChilds</key>
 												<array/>
 											</dict>
@@ -250,7 +262,7 @@
 												<key>nodeEnglish</key>
 												<string>admittingDiagnosis</string>
 												<key>nodeIndex</key>
-												<integer>10</integer>
+												<integer>11</integer>
 												<key>nodeChilds</key>
 												<array/>
 											</dict>
@@ -262,7 +274,7 @@
 												<key>nodeEnglish</key>
 												<string>confirmedDiagnosis</string>
 												<key>nodeIndex</key>
-												<integer>11</integer>
+												<integer>12</integer>
 												<key>nodeChilds</key>
 												<array/>
 											</dict>

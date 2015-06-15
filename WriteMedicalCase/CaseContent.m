@@ -12,6 +12,7 @@
 
 @implementation CaseContent
 
+@dynamic menstrualHistory;
 @dynamic chiefComplaint;
 @dynamic historyOfPresentillness;
 @dynamic personHistory;

@@ -138,6 +138,7 @@
 		476475691B09D4B1004AFDF1 /* CaseContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 476475681B09D4B1004AFDF1 /* CaseContent.m */; };
 		4764756C1B0AD761004AFDF1 /* TempRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 4764756B1B0AD761004AFDF1 /* TempRecord.m */; };
 		476DE4A01B2ACAA100C31453 /* GZIP.m in Sources */ = {isa = PBXBuildFile; fileRef = 476DE49F1B2ACAA100C31453 /* GZIP.m */; };
+		476DE4A61B2EB1A000C31453 /* ToothViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 476DE4A51B2EB1A000C31453 /* ToothViewController.m */; };
 		478858E31AF1BC9E002CD361 /* AutoHeightTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */; };
 		478858EC1AF1FD06002CD361 /* CustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EB1AF1FD06002CD361 /* CustomSegue.m */; };
 		478858EF1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EE1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m */; };
@@ -423,6 +424,8 @@
 		4764756B1B0AD761004AFDF1 /* TempRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempRecord.m; sourceTree = "<group>"; };
 		476DE49E1B2ACAA100C31453 /* GZIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GZIP.h; sourceTree = "<group>"; };
 		476DE49F1B2ACAA100C31453 /* GZIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GZIP.m; sourceTree = "<group>"; };
+		476DE4A41B2EB1A000C31453 /* ToothViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToothViewController.h; sourceTree = "<group>"; };
+		476DE4A51B2EB1A000C31453 /* ToothViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToothViewController.m; sourceTree = "<group>"; };
 		478858E11AF1BC9E002CD361 /* AutoHeightTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoHeightTextView.h; sourceTree = "<group>"; };
 		478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoHeightTextView.m; sourceTree = "<group>"; };
 		478858EA1AF1FD06002CD361 /* CustomSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSegue.h; sourceTree = "<group>"; };
@@ -586,6 +589,8 @@
 				4705A47A1AF4619D007FD2B9 /* WriteCaseSaveViewController.m */,
 				4705F0CB1AF11B220050D47A /* WriteCaseSaveCell.h */,
 				4705F0CC1AF11B220050D47A /* WriteCaseSaveCell.m */,
+				476DE4A41B2EB1A000C31453 /* ToothViewController.h */,
+				476DE4A51B2EB1A000C31453 /* ToothViewController.m */,
 				478859051AF7138F002CD361 /* TempModel */,
 			);
 			name = WriteCase;
@@ -1182,6 +1187,7 @@
 				47301D151AFC67EA005D42CC /* RecordManagedViewController.m in Sources */,
 				472631DA1B1D874C00857B22 /* RecordNoteWarningViewController.m in Sources */,
 				472632131B1FDBDC00857B22 /* TemplateNoteContent.m in Sources */,
+				476DE4A61B2EB1A000C31453 /* ToothViewController.m in Sources */,
 				4705F03C1AF1062C0050D47A /* MBProgressHUD.m in Sources */,
 				472631E01B1EEA1100857B22 /* TestViewController.m in Sources */,
 			);

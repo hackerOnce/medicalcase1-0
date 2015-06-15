@@ -436,6 +436,9 @@ static NSString *momdName = @"Model";
     if ([dict.allKeys containsObject:@"historyOfPresentillness"]) {
         caseContent.historyOfPresentillness = dict[@"historyOfPresentillness"];
     }
+    if ([dict.allKeys containsObject:@"menstrualHistory"]) {
+        caseContent.menstrualHistory = dict[@"menstrualHistory"];
+    }
     
     if ([dict.allKeys containsObject:@"personHistory"]) {
         caseContent.personHistory = dict[@"personHistory"];
