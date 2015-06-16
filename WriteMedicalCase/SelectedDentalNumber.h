@@ -16,6 +16,12 @@
 
 @interface SelectedDentalNumber : UIView
 
+@property (nonatomic) BOOL isFace;
+
+
+@property (nonatomic) NSInteger direction;//1 : 右上，2：左上 3：右下 4: 左下
+-(void)addViewToMyView;
+
 @property (nonatomic,strong) UICollectionView *collectionView;
 @property (weak,nonatomic) id <SelectedDentalNumberDelegate> delegate;
 

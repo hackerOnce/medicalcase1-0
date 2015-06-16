@@ -36,6 +36,10 @@
     if (isClickedUpView) {
         
         if (self.doubleClickedSameView) {
+            
+            self.leftUpView.isFace = YES;
+            [self.leftUpView addViewToMyView];
+            
             self.YCenterOriginValue = self.YCenterConstraints.constant;
             self.YDirectionOriginValue = self.YDirectionBottomConstraints.constant;
             
@@ -43,6 +47,10 @@
             self.YDirectionBottomConstraints.constant = 20;
             
         }else {
+            
+            self.leftUpView.isFace = NO;
+            [self.leftUpView addViewToMyView];
+
             self.YCenterConstraints.constant = self.YCenterOriginValue;
             self.YDirectionBottomConstraints.constant = self.YDirectionOriginValue;
 
@@ -68,7 +76,7 @@
 #pragma mask - view life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.leftUpView.direction = 1;
     
 }
 -(void)viewWillAppear:(BOOL)animated

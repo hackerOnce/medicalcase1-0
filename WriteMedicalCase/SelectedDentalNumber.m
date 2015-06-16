@@ -16,6 +16,8 @@
 @property (nonatomic,strong) NSArray *dataSource;
 
 @property (nonatomic,strong) UICollectionViewFlowLayout *flowLayout;
+
+@property (nonatomic,strong) UILabel *faceLabel;
 @end
 
 @implementation SelectedDentalNumber
@@ -24,54 +26,98 @@
 {
     self = [super initWithFrame:frame];
     
+    self.isFace = NO;
     [self addViewToMyView];
     
     return self;
 }
--(id)initWithCoder:(NSCoder *)aDecoder
+-(instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     
+    self.isFace = NO;
     [self addViewToMyView];
     
     return self;
 }
+
 -(void)addViewToMyView
 {
     
-    
-    UILabel *dentalNumber = [[UILabel alloc] init];
-    dentalNumber.text = @"牙齿编号";
-    dentalNumber.textAlignment = NSTextAlignmentLeft;
-    
-    self.dentalNumber = dentalNumber;
-    
-    UILabel *showNumber = [[UILabel alloc] init];
-    showNumber.text = @"6";
-    showNumber.textAlignment = NSTextAlignmentLeft;
-    self.showNumber = showNumber;
-    
-    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    if (self.isFace) {
+        
+        if (self.faceLabel) {
+            [self.faceLabel removeFromSuperview];
+        }
+        [self clearSubviews];
+        
+        UILabel *dentalNumber = [[UILabel alloc] init];
+        dentalNumber.text = @"牙齿编号";
+        dentalNumber.textAlignment = NSTextAlignmentLeft;
+        
+        self.dentalNumber = dentalNumber;
+        
+        UILabel *showNumber = [[UILabel alloc] init];
+        showNumber.text = @"6";
+        showNumber.textAlignment = NSTextAlignmentLeft;
+        self.showNumber = showNumber;
+        
+        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+        
+        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(4, self.frame.size.height - 45, self.frame.size.width - 4, 44) collectionViewLayout:flowLayout];
+        flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        
+        self.flowLayout = flowLayout;
+        
+        // flowLayout.itemSize = CGSizeMake(40, 40);
+        [collectionView setCollectionViewLayout:flowLayout];
+        collectionView.dataSource = self;
+        collectionView.delegate = self;
+        
+        
+        collectionView.backgroundColor = [UIColor whiteColor];
+        
+        [collectionView registerNib:[UINib nibWithNibName:@"SelectedDentalNumberCell" bundle:nil] forCellWithReuseIdentifier:@"SelectedDentalNumberCell"];
+        self.collectionView = collectionView;
+        
+        [self addSubview:self.showNumber];
+        [self addSubview:self.dentalNumber];
+        [self addSubview:self.collectionView];
 
-    UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(4, self.frame.size.height - 45, self.frame.size.width - 4, 44) collectionViewLayout:flowLayout];
-    flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    }else {
+        
+        if (self.showNumber) {
+            [self.showNumber removeFromSuperview];
+            self.showNumber = nil;
+        }
+        if (self.dentalNumber)
+        {
+            [self.dentalNumber removeFromSuperview];
+            self.dentalNumber = nil;
+        }
+        if (self.collectionView) {
+            [self.collectionView removeFromSuperview];
+            self.collectionView = nil;
+        }
+        [self clearSubviews];
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 40, 21)];
+        if (self.direction <= 0) {
+            self.direction = 1;
+        }
+        if (self.direction >= 5) {
+            self.direction = 4;
+        }
+        label.text = [self faceTextWithNumber:self.direction];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
+        [label sizeToFit];
+        label.center = self.center;
+        self.faceLabel = label;
+        [self addSubview:self.faceLabel];
+        
+    }
     
-    self.flowLayout = flowLayout;
-    
-   // flowLayout.itemSize = CGSizeMake(40, 40);
-    [collectionView setCollectionViewLayout:flowLayout];
-    collectionView.dataSource = self;
-    collectionView.delegate = self;
-    
-    
-    collectionView.backgroundColor = [UIColor whiteColor];
-    
-    [collectionView registerNib:[UINib nibWithNibName:@"SelectedDentalNumberCell" bundle:nil] forCellWithReuseIdentifier:@"SelectedDentalNumberCell"];
-    self.collectionView = collectionView;
-    
-    [self addSubview:self.showNumber];
-    [self addSubview:self.dentalNumber];
-    [self addSubview:self.collectionView];
     
 }
 
@@ -79,23 +125,33 @@
 {
     [super layoutSublayersOfLayer:layer];
     
-    self.dentalNumber.frame = CGRectMake(4, 20, 68, 21);
-    self.showNumber.frame = CGRectMake(75, 20, 39, 21);
-    self.collectionView.frame = CGRectMake(4, self.frame.size.height - 45, self.frame.size.width - 4, 44);
+    if (self.isFace) {
+        self.dentalNumber.frame = CGRectMake(4, 20, 68, 21);
+        self.showNumber.frame = CGRectMake(75, 20, 39, 21);
+        self.collectionView.frame = CGRectMake(4, self.frame.size.height - 45, self.frame.size.width - 4, 44);
+        
+        
+        [self.collectionView reloadData];
+    }else {
+        self.faceLabel.center = self.center;
+    }
     
-
-    [self.collectionView reloadData];
 
 }
 -(void)layoutSubviews
 {
     [super layoutSubviews];
     
-    self.dentalNumber.frame = CGRectMake(4, 20, 68, 21);
-    self.showNumber.frame = CGRectMake(75, 20, 39, 21);
-    self.collectionView.frame = CGRectMake(4, self.frame.size.height - 45, self.frame.size.width - 4, 44);
+    if (self.isFace) {
+        self.dentalNumber.frame = CGRectMake(4, 20, 68, 21);
+        self.showNumber.frame = CGRectMake(75, 20, 39, 21);
+        self.collectionView.frame = CGRectMake(4, self.frame.size.height - 45, self.frame.size.width - 4, 44);
+        
+        [self.collectionView reloadData];
+    }else {
+        self.faceLabel.center = self.center;
+    }
     
-    [self.collectionView reloadData];
 }
 
 #pragma mask - UICollectionFlowLayout
@@ -114,7 +170,7 @@
 
 #pragma mark - UICollectionViewDataSource methods
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
+    return self.isFace?1:0;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -145,5 +201,10 @@
     }
     return _dataSource;
 }
-
+-(NSString *)faceTextWithNumber:(NSInteger)faceNumber
+{
+    NSArray *textArray = @[@"右上位",@"左上位",@"右下位",@"左下位"];
+    
+    return [textArray objectAtIndex:(faceNumber-1)];
+}
 @end
