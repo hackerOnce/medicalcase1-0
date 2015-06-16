@@ -138,7 +138,6 @@
 		476475691B09D4B1004AFDF1 /* CaseContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 476475681B09D4B1004AFDF1 /* CaseContent.m */; };
 		4764756C1B0AD761004AFDF1 /* TempRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 4764756B1B0AD761004AFDF1 /* TempRecord.m */; };
 		476DE4A01B2ACAA100C31453 /* GZIP.m in Sources */ = {isa = PBXBuildFile; fileRef = 476DE49F1B2ACAA100C31453 /* GZIP.m */; };
-		476DE4A61B2EB1A000C31453 /* ToothViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 476DE4A51B2EB1A000C31453 /* ToothViewController.m */; };
 		478858E31AF1BC9E002CD361 /* AutoHeightTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */; };
 		478858EC1AF1FD06002CD361 /* CustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EB1AF1FD06002CD361 /* CustomSegue.m */; };
 		478858EF1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EE1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m */; };
@@ -152,6 +151,10 @@
 		47BB7DF01B2917BF00D07934 /* RecordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BB7DED1B2917BF00D07934 /* RecordView.m */; };
 		47BB7DF11B2917BF00D07934 /* PlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BB7DEF1B2917BF00D07934 /* PlayView.m */; };
 		47BB7DF41B29195800D07934 /* SCSiriWaveformView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47BB7DF31B29195800D07934 /* SCSiriWaveformView.m */; };
+		47CB61DD1B2FF466005E27AE /* SelectedDentalNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CB61DC1B2FF466005E27AE /* SelectedDentalNumber.m */; };
+		47CB61E01B30020B005E27AE /* SelectedDentalNumberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CB61DF1B30020B005E27AE /* SelectedDentalNumberCell.m */; };
+		47CB61E21B30024E005E27AE /* SelectedDentalNumberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47CB61E11B30024E005E27AE /* SelectedDentalNumberCell.xib */; };
+		47CB61E41B300992005E27AE /* ToothViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CB61E31B300992005E27AE /* ToothViewController.m */; };
 		47F99E2A1B1591F1009BC4C7 /* AuditCaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47F99E291B1591F1009BC4C7 /* AuditCaseViewController.m */; };
 		47F99E301B16BFE9009BC4C7 /* AuditCaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 47F99E2F1B16BFE9009BC4C7 /* AuditCaseCell.m */; };
 /* End PBXBuildFile section */
@@ -425,7 +428,6 @@
 		476DE49E1B2ACAA100C31453 /* GZIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GZIP.h; sourceTree = "<group>"; };
 		476DE49F1B2ACAA100C31453 /* GZIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GZIP.m; sourceTree = "<group>"; };
 		476DE4A41B2EB1A000C31453 /* ToothViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToothViewController.h; sourceTree = "<group>"; };
-		476DE4A51B2EB1A000C31453 /* ToothViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToothViewController.m; sourceTree = "<group>"; };
 		478858E11AF1BC9E002CD361 /* AutoHeightTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoHeightTextView.h; sourceTree = "<group>"; };
 		478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoHeightTextView.m; sourceTree = "<group>"; };
 		478858EA1AF1FD06002CD361 /* CustomSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSegue.h; sourceTree = "<group>"; };
@@ -452,6 +454,12 @@
 		47BB7DEF1B2917BF00D07934 /* PlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayView.m; sourceTree = "<group>"; };
 		47BB7DF21B29195800D07934 /* SCSiriWaveformView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCSiriWaveformView.h; sourceTree = "<group>"; };
 		47BB7DF31B29195800D07934 /* SCSiriWaveformView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCSiriWaveformView.m; sourceTree = "<group>"; };
+		47CB61DB1B2FF466005E27AE /* SelectedDentalNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedDentalNumber.h; sourceTree = "<group>"; };
+		47CB61DC1B2FF466005E27AE /* SelectedDentalNumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectedDentalNumber.m; sourceTree = "<group>"; };
+		47CB61DE1B30020B005E27AE /* SelectedDentalNumberCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectedDentalNumberCell.h; sourceTree = "<group>"; };
+		47CB61DF1B30020B005E27AE /* SelectedDentalNumberCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectedDentalNumberCell.m; sourceTree = "<group>"; };
+		47CB61E11B30024E005E27AE /* SelectedDentalNumberCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectedDentalNumberCell.xib; sourceTree = "<group>"; };
+		47CB61E31B300992005E27AE /* ToothViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToothViewController.m; sourceTree = "<group>"; };
 		47F99E281B1591F1009BC4C7 /* AuditCaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuditCaseViewController.h; sourceTree = "<group>"; };
 		47F99E291B1591F1009BC4C7 /* AuditCaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuditCaseViewController.m; sourceTree = "<group>"; };
 		47F99E2E1B16BFE9009BC4C7 /* AuditCaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuditCaseCell.h; sourceTree = "<group>"; };
@@ -516,6 +524,11 @@
 				4705A47D1AF48659007FD2B9 /* NSDate+Helper.m */,
 				478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */,
 				4705EFF61AF1044B0050D47A /* Main.storyboard */,
+				47CB61DB1B2FF466005E27AE /* SelectedDentalNumber.h */,
+				47CB61DC1B2FF466005E27AE /* SelectedDentalNumber.m */,
+				47CB61E11B30024E005E27AE /* SelectedDentalNumberCell.xib */,
+				47CB61DE1B30020B005E27AE /* SelectedDentalNumberCell.h */,
+				47CB61DF1B30020B005E27AE /* SelectedDentalNumberCell.m */,
 				47301CFF1AFB2483005D42CC /* mainViewController.h */,
 				47301D001AFB2483005D42CC /* mainViewController.m */,
 				47301D051AFB4104005D42CC /* CurrentPatient.h */,
@@ -588,8 +601,8 @@
 				4705A47A1AF4619D007FD2B9 /* WriteCaseSaveViewController.m */,
 				4705F0CB1AF11B220050D47A /* WriteCaseSaveCell.h */,
 				4705F0CC1AF11B220050D47A /* WriteCaseSaveCell.m */,
+				47CB61E31B300992005E27AE /* ToothViewController.m */,
 				476DE4A41B2EB1A000C31453 /* ToothViewController.h */,
-				476DE4A51B2EB1A000C31453 /* ToothViewController.m */,
 				478859051AF7138F002CD361 /* TempModel */,
 			);
 			name = WriteCase;
@@ -1035,6 +1048,7 @@
 				4705F0131AF1049E0050D47A /* WriteCaseStoryboard.storyboard in Resources */,
 				4705EFFD1AF1044B0050D47A /* LaunchScreen.xib in Resources */,
 				47301D091AFC6548005D42CC /* CaseManagement.storyboard in Resources */,
+				47CB61E21B30024E005E27AE /* SelectedDentalNumberCell.xib in Resources */,
 				4705EFFA1AF1044B0050D47A /* Images.xcassets in Resources */,
 				4764751B1B059CB7004AFDF1 /* FieldNodeList.plist in Resources */,
 				475463711B1C257F0026E4AE /* RecordNote.storyboard in Resources */,
@@ -1077,6 +1091,7 @@
 				478858EF1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m in Sources */,
 				474D82A91AFC90FA004A4151 /* CreateTemplateDetailViewController.m in Sources */,
 				473C91261AFCA6E20069ECE4 /* AgePickerViewController.m in Sources */,
+				47CB61E01B30020B005E27AE /* SelectedDentalNumberCell.m in Sources */,
 				476474241B0202F1004AFDF1 /* ShowTemplateTableViewCell.m in Sources */,
 				4705F0801AF109770050D47A /* WLKCaseNodeTableView.m in Sources */,
 				474D82A71AFC90FA004A4151 /* ConditionTemplateVCTableViewCell.m in Sources */,
@@ -1120,6 +1135,7 @@
 				472632161B1FDC4300857B22 /* TemplateMedia.m in Sources */,
 				4705F0C21AF10E580050D47A /* KeyValueObserver.m in Sources */,
 				4705F0331AF1062C0050D47A /* IHMsgSocket.m in Sources */,
+				47CB61DD1B2FF466005E27AE /* SelectedDentalNumber.m in Sources */,
 				476DE4A01B2ACAA100C31453 /* GZIP.m in Sources */,
 				4705F06D1AF1094C0050D47A /* NSObject+SBJson.m in Sources */,
 				476474291B034B2B004AFDF1 /* SelectASharedTemplateViewController.m in Sources */,
@@ -1175,6 +1191,7 @@
 				47BB7DF11B2917BF00D07934 /* PlayView.m in Sources */,
 				4705F09C1AF109CE0050D47A /* WLKObject.m in Sources */,
 				474D82B61AFC918A004A4151 /* SplitViewController.m in Sources */,
+				47CB61E41B300992005E27AE /* ToothViewController.m in Sources */,
 				478858F21AF203B8002CD361 /* WriteCaseShowTemplateCell.m in Sources */,
 				4705F0721AF1094C0050D47A /* SBJsonStreamParserState.m in Sources */,
 				47301D041AFB36AB005D42CC /* CurrentDoctor.m in Sources */,
@@ -1187,7 +1204,6 @@
 				47301D151AFC67EA005D42CC /* RecordManagedViewController.m in Sources */,
 				472631DA1B1D874C00857B22 /* RecordNoteWarningViewController.m in Sources */,
 				472632131B1FDBDC00857B22 /* TemplateNoteContent.m in Sources */,
-				476DE4A61B2EB1A000C31453 /* ToothViewController.m in Sources */,
 				4705F03C1AF1062C0050D47A /* MBProgressHUD.m in Sources */,
 				472631E01B1EEA1100857B22 /* TestViewController.m in Sources */,
 			);
