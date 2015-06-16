@@ -356,25 +356,25 @@
     self.dataDict = nil;
     self.keyArray = nil;
     
-    if (noteTitleArray.count > 0){
-        [noteTitleArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            
-            TempNoteInfo *noteInfo = (TempNoteInfo*)obj;
-            if ([self.keyArray containsObject:noteInfo.shortCreateDate]){
-                if ([self.dataDict.allKeys containsObject:noteInfo.shortCreateDate]) {
-                    NSMutableArray *array =[NSMutableArray arrayWithArray:[self.dataDict objectForKey:noteInfo.shortCreateDate]];
-                    [array addObject:noteInfo];
-                }
-            }else {
-                [self.keyArray addObject:noteInfo.shortCreateDate];
-                
-                NSMutableArray *array =[[NSMutableArray alloc] init];
-                [array addObject:noteInfo];
-                
-                [self.dataDict setObject:array forKey:noteInfo.shortCreateDate];
-            }
-        }];
-
-    }
+//    if (noteTitleArray.count > 0){
+//        [noteTitleArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+//            
+//            TempNoteInfo *noteInfo = (TempNoteInfo*)obj;
+//            if ([self.keyArray containsObject:noteInfo.shortCreateDate]){
+//                if ([self.dataDict.allKeys containsObject:noteInfo.shortCreateDate]) {
+//                    NSMutableArray *array =[NSMutableArray arrayWithArray:[self.dataDict objectForKey:noteInfo.shortCreateDate]];
+//                    [array addObject:noteInfo];
+//                }
+//            }else {
+//                [self.keyArray addObject:noteInfo.shortCreateDate];
+//                
+//                NSMutableArray *array =[[NSMutableArray alloc] init];
+//                [array addObject:noteInfo];
+//                
+//                [self.dataDict setObject:array forKey:noteInfo.shortCreateDate];
+//            }
+//        }];
+//
+//    }
    }
 @end

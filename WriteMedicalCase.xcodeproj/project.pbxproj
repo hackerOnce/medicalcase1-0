@@ -525,7 +525,6 @@
 				474D82891AF9EBFB004A4151 /* CoreDataSyncWithServer.h */,
 				474D828A1AF9EBFB004A4151 /* CoreDataSyncWithServer.m */,
 				47301D1C1AFC8C2E005D42CC /* createTemplate */,
-				47301D0A1AFC657A005D42CC /* caseManagement */,
 				4705F0141AF104A40050D47A /* WriteCase */,
 				4705EFF91AF1044B0050D47A /* Images.xcassets */,
 				4705EFFB1AF1044B0050D47A /* LaunchScreen.xib */,
@@ -799,6 +798,7 @@
 		47301D1C1AFC8C2E005D42CC /* createTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				47301D0A1AFC657A005D42CC /* caseManagement */,
 				47301D1A1AFC8C1F005D42CC /* CreateTemplateStoryboard.storyboard */,
 				474D828C1AFC90FA004A4151 /* CreateTemplate */,
 			);

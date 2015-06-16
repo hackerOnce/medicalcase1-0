@@ -408,6 +408,7 @@
     
     [self setUpTableView];
 
+    //self.preferredContentSize = CGSizeMake(600, self.view.frame.size.height - 20);
     self.note = [self.coreDataStack noteBookFetchWithDoctorID:@"2334" noteType:self.noteType isCurrentNote:[NSNumber numberWithBool:YES]];
     if (self.note) {
         [self prepareForShowNoteMedia];
@@ -483,7 +484,7 @@
 }
 -(void)setUpTableView
 {
-    self.tableView.estimatedRowHeight = 2000;
+    self.tableView.estimatedRowHeight = 44;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -508,12 +509,12 @@
 {
     RecordNoteCreateCellTableViewCell *cell = (RecordNoteCreateCellTableViewCell*)[self.tableView cellForRowAtIndexPath:indexPath];
     self.currentTextViewheightConstraints = cell.textViewHeightConstraints;
-    self.currentTextView = textView;
     self.currentIndexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section];
 }
 -(void)textViewShouldBeginEditing:(UITextView *)textView withCellIndexPath:(NSIndexPath *)indexPath
 {
-    
+    self.currentTextView = textView;
+    self.currentIndexPath = indexPath;
 }
 #pragma mask - table view delegate
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -584,8 +585,8 @@
         
     }
     textView.textContainer.exclusionPaths = ovalPaths;
-
     textView.text = StringValue(noteContent.updatedContent);
+    //cell.textString = StringValue(noteContent.updatedContent);
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -782,9 +783,9 @@
 #pragma mask - keyboard
 -(void)keyboardWillShow:(NSNotification*)notificationInfo
 {
-    if (self.keyboardShow) {
-        return;
-    }
+//    if (self.keyboardShow) {
+//        return;
+//    }
     self.keyboardShow = YES;
     // Get the keyboard size
     UIScrollView *tableView;
@@ -811,6 +812,8 @@
     CGRect tableFrame = tableView.frame;
     CGFloat tableLowerYCoord = tableFrame.origin.y + tableFrame.size.height;
     self.keyboardOverlap = tableLowerYCoord - keyboardRect.origin.y;
+   // self.keyboardOverlap = keyboardRect.origin.y - tableLowerYCoord;
+
     if(self.currentTextView && self.keyboardOverlap>0)
     {
         CGFloat accessoryHeight = self.currentTextView.frame.size.height;

@@ -91,8 +91,10 @@
             [self.collectionView reloadData];
         
         }
-        MediaData *mediaData = [self.coreDataStack mediaDataFetchWithDict:@{@"mediaID":delectedMediaData.mediaID} andIgnoreStatusFlag:YES];
-        mediaData.hasDeleted = [NSNumber numberWithBool:YES];
+        
+        delectedMediaData.hasDeleted = [NSNumber numberWithBool:YES];
+      //  mediaData.hasDeleted = [NSNumber numberWithBool:YES];
+
         [self.coreDataStack saveContext];
         
     }

@@ -363,7 +363,7 @@
         <scene sceneID="QZg-Ce-6Qd">
             <objects>
                 <navigationController modalPresentationStyle="pageSheet" toolbarHidden="NO" id="JUG-xk-LGZ" sceneMemberID="viewController">
-                    <value key="contentSizeForViewInPopover" type="size" width="600" height="600"/>
+                    <value key="contentSizeForViewInPopover" type="size" width="600" height="690"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="mVe-Aw-OdW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -977,7 +977,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="takePhotoCell" id="Mef-yL-C4W">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="takePhotoCell" rowHeight="44" id="Mef-yL-C4W">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Mef-yL-C4W" id="HCw-Lq-pn8">
@@ -1076,8 +1076,8 @@
         <image name="语音" width="28" height="27"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="CQM-mv-wxJ"/>
         <segue reference="sNQ-El-x1K"/>
+        <segue reference="CQM-mv-wxJ"/>
         <segue reference="BiE-IG-DGr"/>
     </inferredMetricsTieBreakers>
 </document>
