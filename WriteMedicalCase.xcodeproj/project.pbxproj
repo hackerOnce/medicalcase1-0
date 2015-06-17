@@ -155,6 +155,7 @@
 		47CB61E01B30020B005E27AE /* SelectedDentalNumberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CB61DF1B30020B005E27AE /* SelectedDentalNumberCell.m */; };
 		47CB61E21B30024E005E27AE /* SelectedDentalNumberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47CB61E11B30024E005E27AE /* SelectedDentalNumberCell.xib */; };
 		47CB61E41B300992005E27AE /* ToothViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CB61E31B300992005E27AE /* ToothViewController.m */; };
+		47CB61E91B314B1B005E27AE /* ToothView.m in Sources */ = {isa = PBXBuildFile; fileRef = 47CB61E81B314B1B005E27AE /* ToothView.m */; };
 		47F99E2A1B1591F1009BC4C7 /* AuditCaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 47F99E291B1591F1009BC4C7 /* AuditCaseViewController.m */; };
 		47F99E301B16BFE9009BC4C7 /* AuditCaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 47F99E2F1B16BFE9009BC4C7 /* AuditCaseCell.m */; };
 /* End PBXBuildFile section */
@@ -460,6 +461,8 @@
 		47CB61DF1B30020B005E27AE /* SelectedDentalNumberCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectedDentalNumberCell.m; sourceTree = "<group>"; };
 		47CB61E11B30024E005E27AE /* SelectedDentalNumberCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectedDentalNumberCell.xib; sourceTree = "<group>"; };
 		47CB61E31B300992005E27AE /* ToothViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToothViewController.m; sourceTree = "<group>"; };
+		47CB61E71B314B1B005E27AE /* ToothView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToothView.h; sourceTree = "<group>"; };
+		47CB61E81B314B1B005E27AE /* ToothView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToothView.m; sourceTree = "<group>"; };
 		47F99E281B1591F1009BC4C7 /* AuditCaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuditCaseViewController.h; sourceTree = "<group>"; };
 		47F99E291B1591F1009BC4C7 /* AuditCaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuditCaseViewController.m; sourceTree = "<group>"; };
 		47F99E2E1B16BFE9009BC4C7 /* AuditCaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuditCaseCell.h; sourceTree = "<group>"; };
@@ -603,6 +606,8 @@
 				4705F0CC1AF11B220050D47A /* WriteCaseSaveCell.m */,
 				47CB61E31B300992005E27AE /* ToothViewController.m */,
 				476DE4A41B2EB1A000C31453 /* ToothViewController.h */,
+				47CB61E71B314B1B005E27AE /* ToothView.h */,
+				47CB61E81B314B1B005E27AE /* ToothView.m */,
 				478859051AF7138F002CD361 /* TempModel */,
 			);
 			name = WriteCase;
@@ -1191,6 +1196,7 @@
 				47BB7DF11B2917BF00D07934 /* PlayView.m in Sources */,
 				4705F09C1AF109CE0050D47A /* WLKObject.m in Sources */,
 				474D82B61AFC918A004A4151 /* SplitViewController.m in Sources */,
+				47CB61E91B314B1B005E27AE /* ToothView.m in Sources */,
 				47CB61E41B300992005E27AE /* ToothViewController.m in Sources */,
 				478858F21AF203B8002CD361 /* WriteCaseShowTemplateCell.m in Sources */,
 				4705F0721AF1094C0050D47A /* SBJsonStreamParserState.m in Sources */,

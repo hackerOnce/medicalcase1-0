@@ -10,13 +10,14 @@
 
 @protocol SelectedDentalNumberDelegate <NSObject>
 
--(void)didSelectedDentalNumber:(NSString*)number atIndexPath:(NSIndexPath*)indexPath;
+-(void)didSelectedDentalNumber:(NSString*)number  atIndexPath:(NSIndexPath*)indexPath department:(NSString*)selectedDepartment;
 
 @end
 
 @interface SelectedDentalNumber : UIView
 
 @property (nonatomic) BOOL isFace;
+@property (nonatomic,strong) UILabel *faceLabel;
 
 
 @property (nonatomic) NSInteger direction;//1 : 右上，2：左上 3：右下 4: 左下
