@@ -204,10 +204,10 @@
             </objects>
             <point key="canvasLocation" x="3234" y="1086"/>
         </scene>
-        <!--View Controller-->
+        <!--Tooth Test View Controller-->
         <scene sceneID="vNL-Tj-gQG">
             <objects>
-                <viewController id="02y-bE-I0W" sceneMemberID="viewController">
+                <viewController id="02y-bE-I0W" customClass="ToothTestViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nbU-Pj-Vlw"/>
                         <viewControllerLayoutGuide type="bottom" id="bWh-gA-zj2"/>
@@ -222,7 +222,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="bcv-MZ-Tdx" kind="popoverPresentation" popoverAnchorView="gNV-FX-xOf" id="CHn-Jt-p1m">
+                                    <segue destination="bcv-MZ-Tdx" kind="popoverPresentation" identifier="ToothTest" popoverAnchorView="gNV-FX-xOf" id="CHn-Jt-p1m">
                                         <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                     </segue>
                                 </connections>
@@ -245,6 +245,9 @@
                             <constraint firstItem="Edi-Ld-XDk" firstAttribute="leading" secondItem="HIN-VZ-V6X" secondAttribute="leadingMargin" constant="9" id="vk0-BQ-oMD"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="textView" destination="Edi-Ld-XDk" id="7TX-1a-xM2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KmY-qr-Zcz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

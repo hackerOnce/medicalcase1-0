@@ -142,6 +142,8 @@
 		477570391B32561D009283CB /* MenstruationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 477570381B32561D009283CB /* MenstruationView.m */; };
 		4775703C1B3273AD009283CB /* UIView+CaptureImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4775703B1B3273AD009283CB /* UIView+CaptureImage.m */; };
 		4775703E1B329259009283CB /* ToothStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4775703D1B329258009283CB /* ToothStoryboard.storyboard */; };
+		477570421B32C68D009283CB /* ToothTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 477570411B32C68D009283CB /* ToothTestViewController.m */; };
+		477570451B32CBDC009283CB /* TextAttachmentForImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 477570441B32CBDC009283CB /* TextAttachmentForImage.m */; };
 		478858E31AF1BC9E002CD361 /* AutoHeightTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */; };
 		478858EC1AF1FD06002CD361 /* CustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EB1AF1FD06002CD361 /* CustomSegue.m */; };
 		478858EF1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EE1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m */; };
@@ -440,6 +442,10 @@
 		4775703A1B3273AD009283CB /* UIView+CaptureImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CaptureImage.h"; sourceTree = "<group>"; };
 		4775703B1B3273AD009283CB /* UIView+CaptureImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CaptureImage.m"; sourceTree = "<group>"; };
 		4775703D1B329258009283CB /* ToothStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ToothStoryboard.storyboard; sourceTree = "<group>"; };
+		477570401B32C68D009283CB /* ToothTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToothTestViewController.h; sourceTree = "<group>"; };
+		477570411B32C68D009283CB /* ToothTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToothTestViewController.m; sourceTree = "<group>"; };
+		477570431B32CBDC009283CB /* TextAttachmentForImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextAttachmentForImage.h; sourceTree = "<group>"; };
+		477570441B32CBDC009283CB /* TextAttachmentForImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextAttachmentForImage.m; sourceTree = "<group>"; };
 		478858E11AF1BC9E002CD361 /* AutoHeightTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoHeightTextView.h; sourceTree = "<group>"; };
 		478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoHeightTextView.m; sourceTree = "<group>"; };
 		478858EA1AF1FD06002CD361 /* CustomSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSegue.h; sourceTree = "<group>"; };
@@ -961,7 +967,11 @@
 			isa = PBXGroup;
 			children = (
 				4775703D1B329258009283CB /* ToothStoryboard.storyboard */,
+				477570401B32C68D009283CB /* ToothTestViewController.h */,
+				477570411B32C68D009283CB /* ToothTestViewController.m */,
 				47CB61E31B300992005E27AE /* ToothViewController.m */,
+				477570431B32CBDC009283CB /* TextAttachmentForImage.h */,
+				477570441B32CBDC009283CB /* TextAttachmentForImage.m */,
 				476DE4A41B2EB1A000C31453 /* ToothViewController.h */,
 				47CB61E71B314B1B005E27AE /* ToothView.h */,
 				47CB61E81B314B1B005E27AE /* ToothView.m */,
@@ -1191,6 +1201,7 @@
 				47ADB1BA1B0D6DF40037912B /* Department.m in Sources */,
 				476474351B0444E8004AFDF1 /* SelectedShareRangeViewController.m in Sources */,
 				47301D191AFC686E005D42CC /* CaseManagementSplitViewController.m in Sources */,
+				477570421B32C68D009283CB /* ToothTestViewController.m in Sources */,
 				4705EFF51AF1044B0050D47A /* ViewController.m in Sources */,
 				4705F06E1AF1094C0050D47A /* SBJsonParser.m in Sources */,
 				4705F0981AF109C10050D47A /* WLKTableView.m in Sources */,
@@ -1230,6 +1241,7 @@
 				47CB61E41B300992005E27AE /* ToothViewController.m in Sources */,
 				478858F21AF203B8002CD361 /* WriteCaseShowTemplateCell.m in Sources */,
 				4705F0721AF1094C0050D47A /* SBJsonStreamParserState.m in Sources */,
+				477570451B32CBDC009283CB /* TextAttachmentForImage.m in Sources */,
 				47301D041AFB36AB005D42CC /* CurrentDoctor.m in Sources */,
 				4726322E1B21689800857B22 /* NoteDetailViewController.m in Sources */,
 				4705F04D1AF1082C0050D47A /* RawDataProcess.m in Sources */,

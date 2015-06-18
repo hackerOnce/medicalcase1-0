@@ -32,6 +32,8 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *TextViewUpHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *containerViewHeightConstraints;
 
+@property (nonatomic,strong) NSMutableDictionary *imageInfoDict;
+
 @property (nonatomic) CGFloat textViewUpOriginHeight;
 
 @property (nonatomic) BOOL doubleClickedSameView;
@@ -45,13 +47,24 @@
 @implementation ToothViewController
 - (IBAction)saveButtonClicked:(UIBarButtonItem *)sender
 {
+    NSString *textViewText = @"";
+    if (self.descriptionView.text) {
+        textViewText = self.descriptionView.text;
+    }
     
+    [self.imageInfoDict setObject:textViewText forKey:@"description"];
+    NSError *error;
+    NSString *resultString = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:self.imageInfoDict options:NSJSONWritingPrettyPrinted error:&error] encoding:NSUTF8StringEncoding];
+    if ([self.delegate respondsToSelector:@selector(toothNumberSelectedResultString:)]) {
+        [self.delegate toothNumberSelectedResultString:resultString];
+    }
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (IBAction)cancelButonClicked:(UIBarButtonItem *)sender
 {
     if ([self.delegate respondsToSelector:@selector(toothNumberSelectedResultString:)]) {
-        
-        [self.delegate toothNumberSelectedResultString:@""];
+        [self.delegate toothNumberSelectedResultString:nil];
     }
 }
 - (IBAction)TapClicked:(UITapGestureRecognizer *)sender
@@ -245,6 +258,10 @@
 #pragma mask - SelectedDentalNumberDelegate
 -(void)didSelectedDentalNumber:(NSString *)number atIndexPath:(NSIndexPath *)indexPath department:(NSString *)selectedDepartment
 {
+    
+    [self.imageInfoDict setObject:number forKey:@"number"];
+    [self.imageInfoDict setObject:selectedDepartment forKey:@"selectedDepartment"];
+
     self.toothView.number = number;
     self.toothView.position = selectedDepartment;
     
@@ -286,5 +303,14 @@
                          [self.containerView setNeedsLayout];
                      }
                      completion:nil];
+}
+
+-(NSMutableDictionary *)imageInfoDict
+{
+    if (!_imageInfoDict) {
+        _imageInfoDict = [[NSMutableDictionary alloc] init];
+       
+    }
+    return _imageInfoDict;
 }
 @end
