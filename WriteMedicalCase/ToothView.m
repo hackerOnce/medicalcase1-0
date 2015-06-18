@@ -40,11 +40,12 @@
         
         self.number = @"1";
         
-        [self AddViewToMyView];
+        [self addViewToMyView];
     }
     return self;
 }
--(void)AddViewToMyView
+
+-(void)addViewToMyView
 {
     UIView *view1 = [[UIView alloc] init];
     view1.backgroundColor = [UIColor redColor];

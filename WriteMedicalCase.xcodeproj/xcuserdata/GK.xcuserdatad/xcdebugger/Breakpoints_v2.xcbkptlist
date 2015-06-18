@@ -4207,13 +4207,14 @@
                   continueAfterRunningActions = "No"
                   symbolName = "-[NoteDetailViewController saveNotebuttonClicked]"
                   moduleName = "WriteMedicalCase"
+                  usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gk/Documents/%E7%97%85%E5%8E%86/medical/WriteMedicalCase/NoteDetailViewController.m"
-                  timestampString = "456221804.362654"
+                  timestampString = "456283381.786133"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "128"
                   endingLineNumber = "128"
-                  offsetFromSymbolStart = "1297">
+                  offsetFromSymbolStart = "1264">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -4221,8 +4222,9 @@
                   continueAfterRunningActions = "No"
                   symbolName = "__49-[NoteDetailViewController saveNotebuttonClicked]_block_invoke"
                   moduleName = "WriteMedicalCase"
+                  usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gk/Documents/%E7%97%85%E5%8E%86/medical/WriteMedicalCase/NoteDetailViewController.m"
-                  timestampString = "456221804.363144"
+                  timestampString = "456283381.786491"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "128"
@@ -4907,11 +4909,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/ToothViewController.m"
-            timestampString = "456218395.997228"
+            timestampString = "456283344.39084"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "227"
-            endingLineNumber = "227"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
             landmarkName = "-didSelectedDentalNumber:atIndexPath:department:"
             landmarkType = "5">
          </BreakpointContent>
@@ -4939,12 +4941,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/ToothViewController.m"
-            timestampString = "456218353.457044"
+            timestampString = "456283344.39084"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "220"
-            endingLineNumber = "220"
-            landmarkName = "-didSelectedDentalNumber:atIndexPath:department:"
+            startingLineNumber = "221"
+            endingLineNumber = "221"
+            landmarkName = "-textViewDidChange:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4955,12 +4957,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WriteMedicalCase/ToothViewController.m"
-            timestampString = "456220099.414457"
+            timestampString = "456283344.39084"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "222"
-            endingLineNumber = "222"
-            landmarkName = "-didSelectedDentalNumber:atIndexPath:department:"
+            startingLineNumber = "223"
+            endingLineNumber = "223"
+            landmarkName = "-textViewDidChange:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

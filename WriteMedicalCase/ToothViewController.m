@@ -11,6 +11,8 @@
 #import "SelectedDentalNumberCell.h"
 #import "ToothView.h"
 
+#import "FHSView.h"
+
 
 @interface ToothViewController ()<UIGestureRecognizerDelegate,SelectedDentalNumberDelegate,UITextViewDelegate>
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *YDirectionBottomConstraints;
@@ -186,6 +188,11 @@
     self.rightBottomVIew.direction = 4;
     
     self.descriptionView.delegate = self;
+    
+    
+    FHSView *hfsView = [[FHSView alloc] initWithFrame:CGRectMake(100, 240, 100, 44)];
+    hfsView.direction=4;
+    [self.view addSubview:hfsView];
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -225,6 +232,7 @@
     
     view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:view];
+    
     
 }
 

@@ -137,6 +137,7 @@
 		476475661B09D4B1004AFDF1 /* ParentNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 476475651B09D4B1004AFDF1 /* ParentNode.m */; };
 		476475691B09D4B1004AFDF1 /* CaseContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 476475681B09D4B1004AFDF1 /* CaseContent.m */; };
 		4764756C1B0AD761004AFDF1 /* TempRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 4764756B1B0AD761004AFDF1 /* TempRecord.m */; };
+		476DBDF41B316910001DE8C0 /* FHSView.m in Sources */ = {isa = PBXBuildFile; fileRef = 476DBDF31B31690F001DE8C0 /* FHSView.m */; };
 		476DE4A01B2ACAA100C31453 /* GZIP.m in Sources */ = {isa = PBXBuildFile; fileRef = 476DE49F1B2ACAA100C31453 /* GZIP.m */; };
 		478858E31AF1BC9E002CD361 /* AutoHeightTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */; };
 		478858EC1AF1FD06002CD361 /* CustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EB1AF1FD06002CD361 /* CustomSegue.m */; };
@@ -426,6 +427,8 @@
 		476475681B09D4B1004AFDF1 /* CaseContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaseContent.m; sourceTree = "<group>"; };
 		4764756A1B0AD761004AFDF1 /* TempRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TempRecord.h; sourceTree = "<group>"; };
 		4764756B1B0AD761004AFDF1 /* TempRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TempRecord.m; sourceTree = "<group>"; };
+		476DBDF21B31690F001DE8C0 /* FHSView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FHSView.h; sourceTree = "<group>"; };
+		476DBDF31B31690F001DE8C0 /* FHSView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FHSView.m; sourceTree = "<group>"; };
 		476DE49E1B2ACAA100C31453 /* GZIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GZIP.h; sourceTree = "<group>"; };
 		476DE49F1B2ACAA100C31453 /* GZIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GZIP.m; sourceTree = "<group>"; };
 		476DE4A41B2EB1A000C31453 /* ToothViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToothViewController.h; sourceTree = "<group>"; };
@@ -608,6 +611,8 @@
 				476DE4A41B2EB1A000C31453 /* ToothViewController.h */,
 				47CB61E71B314B1B005E27AE /* ToothView.h */,
 				47CB61E81B314B1B005E27AE /* ToothView.m */,
+				476DBDF21B31690F001DE8C0 /* FHSView.h */,
+				476DBDF31B31690F001DE8C0 /* FHSView.m */,
 				478859051AF7138F002CD361 /* TempModel */,
 			);
 			name = WriteCase;
@@ -1157,6 +1162,7 @@
 				478858F81AF7130D002CD361 /* TempCaseBaseInfo.m in Sources */,
 				472631D71B1D3CBD00857B22 /* RecordNoteCreateCellTableViewCell.m in Sources */,
 				474D82B21AFC90FA004A4151 /* TemplateLeftDetailViewController.m in Sources */,
+				476DBDF41B316910001DE8C0 /* FHSView.m in Sources */,
 				4705F0381AF1062C0050D47A /* UIView+DY.m in Sources */,
 				474D82B11AFC90FA004A4151 /* TemplateLeftDetailSecondViewController.m in Sources */,
 				47ADB1BA1B0D6DF40037912B /* Department.m in Sources */,
