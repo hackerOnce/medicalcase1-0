@@ -261,7 +261,7 @@
                                     <constraint firstAttribute="height" constant="120" id="lyB-Vv-opE"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A6B-q4-1Ka">
+                            <view contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="A6B-q4-1Ka">
                                 <rect key="frame" x="0.0" y="184" width="600" height="51"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" tag="10001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="现病史" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="inz-bC-fvr">

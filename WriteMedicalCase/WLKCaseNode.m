@@ -8,6 +8,7 @@
 
 #import "WLKCaseNode.h"
 #import "SBJson.h"
+#import "ToothViewController.h"
 
 @implementation WLKCaseNode
 

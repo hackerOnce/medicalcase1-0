@@ -7,6 +7,7 @@
 //
 
 #import "WLKCaseNodeTableView.h"
+#import "ToothViewController.h"
 
 #define lineWidth 0.5
 
@@ -184,6 +185,18 @@ static NSString *kDidSelectedTableViewCell = @"kDidSelectedTableViewCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    WLKCaseNode *node = [self.caseNode.childNodes objectAtIndex:indexPath.row];
+    if ([node.nodeName isEqualToString:@"牙齿分布"]) {
+        UIStoryboard *myStoryBoard = [UIStoryboard  storyboardWithName:@"ToothStoryBoard" bundle:nil];
+        ToothViewController *toothVC = [myStoryBoard instantiateViewControllerWithIdentifier:@"ToothVC"];
+        
+        UIPopoverController *popover = [[UIPopoverController alloc] initWithContentViewController:toothVC];
+        
+        [popover presentPopoverFromRect:cell.frame inView:self.superview permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    }
+    
     [self.caseNode selectChildNode:self.caseNode.childNodes[indexPath.row]];
     NSLog(@"%@", [self.caseNode.childNodes[indexPath.row] childNodes]);
     if (self.nextTableView) {

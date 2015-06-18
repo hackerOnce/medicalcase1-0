@@ -139,6 +139,9 @@
 		4764756C1B0AD761004AFDF1 /* TempRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 4764756B1B0AD761004AFDF1 /* TempRecord.m */; };
 		476DBDF41B316910001DE8C0 /* FHSView.m in Sources */ = {isa = PBXBuildFile; fileRef = 476DBDF31B31690F001DE8C0 /* FHSView.m */; };
 		476DE4A01B2ACAA100C31453 /* GZIP.m in Sources */ = {isa = PBXBuildFile; fileRef = 476DE49F1B2ACAA100C31453 /* GZIP.m */; };
+		477570391B32561D009283CB /* MenstruationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 477570381B32561D009283CB /* MenstruationView.m */; };
+		4775703C1B3273AD009283CB /* UIView+CaptureImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4775703B1B3273AD009283CB /* UIView+CaptureImage.m */; };
+		4775703E1B329259009283CB /* ToothStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4775703D1B329258009283CB /* ToothStoryboard.storyboard */; };
 		478858E31AF1BC9E002CD361 /* AutoHeightTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */; };
 		478858EC1AF1FD06002CD361 /* CustomSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EB1AF1FD06002CD361 /* CustomSegue.m */; };
 		478858EF1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 478858EE1AF1FE2C002CD361 /* WriteCaseShowTemplateViewController.m */; };
@@ -432,6 +435,11 @@
 		476DE49E1B2ACAA100C31453 /* GZIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GZIP.h; sourceTree = "<group>"; };
 		476DE49F1B2ACAA100C31453 /* GZIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GZIP.m; sourceTree = "<group>"; };
 		476DE4A41B2EB1A000C31453 /* ToothViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToothViewController.h; sourceTree = "<group>"; };
+		477570371B32561D009283CB /* MenstruationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenstruationView.h; sourceTree = "<group>"; };
+		477570381B32561D009283CB /* MenstruationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenstruationView.m; sourceTree = "<group>"; };
+		4775703A1B3273AD009283CB /* UIView+CaptureImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CaptureImage.h"; sourceTree = "<group>"; };
+		4775703B1B3273AD009283CB /* UIView+CaptureImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CaptureImage.m"; sourceTree = "<group>"; };
+		4775703D1B329258009283CB /* ToothStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ToothStoryboard.storyboard; sourceTree = "<group>"; };
 		478858E11AF1BC9E002CD361 /* AutoHeightTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoHeightTextView.h; sourceTree = "<group>"; };
 		478858E21AF1BC9E002CD361 /* AutoHeightTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoHeightTextView.m; sourceTree = "<group>"; };
 		478858EA1AF1FD06002CD361 /* CustomSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomSegue.h; sourceTree = "<group>"; };
@@ -607,12 +615,7 @@
 				4705A47A1AF4619D007FD2B9 /* WriteCaseSaveViewController.m */,
 				4705F0CB1AF11B220050D47A /* WriteCaseSaveCell.h */,
 				4705F0CC1AF11B220050D47A /* WriteCaseSaveCell.m */,
-				47CB61E31B300992005E27AE /* ToothViewController.m */,
-				476DE4A41B2EB1A000C31453 /* ToothViewController.h */,
-				47CB61E71B314B1B005E27AE /* ToothView.h */,
-				47CB61E81B314B1B005E27AE /* ToothView.m */,
-				476DBDF21B31690F001DE8C0 /* FHSView.h */,
-				476DBDF31B31690F001DE8C0 /* FHSView.m */,
+				4775703F1B329263009283CB /* Tooth */,
 				478859051AF7138F002CD361 /* TempModel */,
 			);
 			name = WriteCase;
@@ -954,6 +957,24 @@
 			name = ConditionVC;
 			sourceTree = "<group>";
 		};
+		4775703F1B329263009283CB /* Tooth */ = {
+			isa = PBXGroup;
+			children = (
+				4775703D1B329258009283CB /* ToothStoryboard.storyboard */,
+				47CB61E31B300992005E27AE /* ToothViewController.m */,
+				476DE4A41B2EB1A000C31453 /* ToothViewController.h */,
+				47CB61E71B314B1B005E27AE /* ToothView.h */,
+				47CB61E81B314B1B005E27AE /* ToothView.m */,
+				476DBDF21B31690F001DE8C0 /* FHSView.h */,
+				476DBDF31B31690F001DE8C0 /* FHSView.m */,
+				477570371B32561D009283CB /* MenstruationView.h */,
+				477570381B32561D009283CB /* MenstruationView.m */,
+				4775703A1B3273AD009283CB /* UIView+CaptureImage.h */,
+				4775703B1B3273AD009283CB /* UIView+CaptureImage.m */,
+			);
+			name = Tooth;
+			sourceTree = "<group>";
+		};
 		478859051AF7138F002CD361 /* TempModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -1065,6 +1086,7 @@
 				4705F03B1AF1062C0050D47A /* MBProgressHUD.bundle in Resources */,
 				4705F04F1AF1082C0050D47A /* 病历.opml in Resources */,
 				470D11A71B23F2CD006BE544 /* ContainerCellView.xib in Resources */,
+				4775703E1B329259009283CB /* ToothStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1091,6 +1113,7 @@
 				4705F0321AF1062C0050D47A /* IHGCDSocket.m in Sources */,
 				4705F0D01AF124C90050D47A /* Model.xcdatamodeld in Sources */,
 				472632251B20191400857B22 /* MediaData.m in Sources */,
+				4775703C1B3273AD009283CB /* UIView+CaptureImage.m in Sources */,
 				4705F08D1AF109990050D47A /* WLKCase.m in Sources */,
 				4705A47E1AF48659007FD2B9 /* NSDate+Helper.m in Sources */,
 				4705F0D81AF1312F0050D47A /* WriteCaseEditViewController.m in Sources */,
@@ -1198,6 +1221,7 @@
 				4705F0811AF109770050D47A /* WLKMultiTableView.m in Sources */,
 				4705F0761AF1094C0050D47A /* SBJsonTokeniser.m in Sources */,
 				473C91231AFCA6D30069ECE4 /* ModelPlateConditionsViewController.m in Sources */,
+				477570391B32561D009283CB /* MenstruationView.m in Sources */,
 				4705F06F1AF1094C0050D47A /* SBJsonStreamParser.m in Sources */,
 				47BB7DF11B2917BF00D07934 /* PlayView.m in Sources */,
 				4705F09C1AF109CE0050D47A /* WLKObject.m in Sources */,

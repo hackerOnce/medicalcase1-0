@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol ToothViewControllerDelegate<NSObject>
+
+-(void)toothNumberSelectedResultString:(NSString*)selectedString;
+
+@end
+
 @interface ToothViewController : UIViewController
+
+@property (nonatomic,weak) id<ToothViewControllerDelegate> delegate;
 
 @end

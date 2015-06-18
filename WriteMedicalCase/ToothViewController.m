@@ -12,6 +12,8 @@
 #import "ToothView.h"
 
 #import "FHSView.h"
+#import "MenstruationView.h"
+#import "UIView+CaptureImage.h"
 
 
 @interface ToothViewController ()<UIGestureRecognizerDelegate,SelectedDentalNumberDelegate,UITextViewDelegate>
@@ -36,9 +38,22 @@
 
 @property (nonatomic) CGFloat YCenterOriginValue;
 @property (nonatomic) CGFloat YDirectionOriginValue;
+
+@property (nonatomic,strong) ToothView *toothView;
 @end
 
 @implementation ToothViewController
+- (IBAction)saveButtonClicked:(UIBarButtonItem *)sender
+{
+    
+}
+- (IBAction)cancelButonClicked:(UIBarButtonItem *)sender
+{
+    if ([self.delegate respondsToSelector:@selector(toothNumberSelectedResultString:)]) {
+        
+        [self.delegate toothNumberSelectedResultString:@""];
+    }
+}
 - (IBAction)TapClicked:(UITapGestureRecognizer *)sender
 {
     CGPoint location = [sender locationInView:sender.view];
@@ -59,7 +74,7 @@
             self.YDirectionOriginValue = self.YDirectionBottomConstraints.constant;
             
             self.YCenterConstraints.constant = (self.view.frame.size.width - 50)/2.0;
-            self.YDirectionBottomConstraints.constant = (self.view.frame.size.height - 20)/4;
+            self.YDirectionBottomConstraints.constant = (self.containerView.frame.size.height - 20);
             
             self.leftUpView.hidden = YES;
             self.rightUpVIew.hidden = YES;
@@ -85,8 +100,8 @@
             self.YCenterOriginValue = self.YCenterConstraints.constant;
             self.YDirectionOriginValue = self.YDirectionBottomConstraints.constant;
             
-            self.YCenterConstraints.constant = -(self.view.frame.size.width - 50)/2.0;
-            self.YDirectionBottomConstraints.constant = (self.view.frame.size.height - 20)/4;
+            self.YCenterConstraints.constant = -(self.containerView.frame.size.width - 50)/2.0;
+            self.YDirectionBottomConstraints.constant = (self.containerView.frame.size.height - 20);
             
             self.leftUpView.hidden = YES;
             self.rightUpVIew.hidden = YES;
@@ -190,9 +205,15 @@
     self.descriptionView.delegate = self;
     
     
+    self.preferredContentSize = CGSizeMake(630, 500);
+    
     FHSView *hfsView = [[FHSView alloc] initWithFrame:CGRectMake(100, 240, 100, 44)];
     hfsView.direction=4;
     [self.view addSubview:hfsView];
+    
+    MenstruationView *mView = [[MenstruationView alloc] initWithFrame:CGRectMake(300, 200, 250, 80)];
+    [self.view addSubview:mView];
+    
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -224,18 +245,18 @@
 #pragma mask - SelectedDentalNumberDelegate
 -(void)didSelectedDentalNumber:(NSString *)number atIndexPath:(NSIndexPath *)indexPath department:(NSString *)selectedDepartment
 {
-    ToothView *view = [[ToothView alloc] initWithFrame:CGRectMake(100, 200, 50, 44)];
-    view.number = number;
-    view.position = selectedDepartment;
-    
-   // [view layoutSubviews];
-    
-    view.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:view];
-    
+    self.toothView.number = number;
+    self.toothView.position = selectedDepartment;
     
 }
-
+-(ToothView *)toothView
+{
+    if (!_toothView) {
+        _toothView = [[ToothView alloc] initWithFrame:CGRectMake(100, 200, 50, 44)];
+        _toothView.backgroundColor = [UIColor whiteColor];
+    }
+    return _toothView;
+}
 #pragma mask - keyboard 
 -(void)addKeyBoardNotification
 {

@@ -375,6 +375,7 @@
             }
         }
         self.autoHeightTextView.text = tempString;
+     
     }
     self.rightSlideViewFlag = NO;
     [self performSegueWithIdentifier:@"customSegue" sender:nil];
