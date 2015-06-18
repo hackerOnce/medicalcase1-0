@@ -199,7 +199,6 @@
             }
         }
         self.autoHeightTextView.text = tempString;
-        
     }
     
 }

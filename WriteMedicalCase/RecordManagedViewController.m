@@ -463,11 +463,11 @@
         
     } failConection:^(NSError *error) {
         
-        if (self.refreshControl.isRefreshing) {
-            [self.refreshControl endRefreshing];
-            [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
-        }
-       // [self connectServerFailWithMessage:@"2013, 从服务器获取病人病历，服务器断开连接"];
+//        if (self.refreshControl.isRefreshing) {
+//            [self.refreshControl endRefreshing];
+//            [self.tableView setContentOffset:CGPointMake(0, 0) animated:YES];
+//        }
+        [self connectServerFailWithMessage:@"2013, 从服务器获取病人病历，服务器断开连接"];
     }];
 }
 -(void)connectServerFailWithMessage:(NSString *)message
